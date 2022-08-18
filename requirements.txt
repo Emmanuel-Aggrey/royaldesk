@@ -11,4 +11,3 @@ djcelery_email
 
 django_celery_beat
 
-# http://www.localhost/wordpress/wp-admin/
