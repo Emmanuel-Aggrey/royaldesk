@@ -22,7 +22,7 @@ The Project consist of Four (4)) Key Models
 
 # HUMAN RESOURCE MODEL
 
-EMPLOYEES DATA PRESENTED IN CONPREHENSIVE GRAPGHS (turn over rates by quarter,number of employees, employees marital status,dependants,countrys of origin etc)
+EMPLOYEES DATA PRESENTED IN CONPREHENSIVE GRAPHS (turn over rates by quarter,number of employees, employees marital status,dependants,countrys of origin etc)
 
 ![1660792535911](image/README/1660792535911.png)
 
