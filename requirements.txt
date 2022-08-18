@@ -1,17 +1,14 @@
 Django
-mysqlclient
 Pillow
 psycopg2
 pytz
 sqlparse
 djangorestframework
 
+django_celery_results
+djcelery_email
 
 
-# LOOK AT THIS
-pandas_access
-# sudo apt install mdbtools
-mdbtools
-
+django_celery_beat
 
 # http://www.localhost/wordpress/wp-admin/
