@@ -13,16 +13,16 @@ The Project consist of Four (4)) Key Models
 
 ![1660786181042](https://file+.vscode-resource.vscode-cdn.net/media/aggrey/1EF5-7DBA/HR/image/README/1660786181042.png)
 
-1. Human Resource Management System (from interview to hiring as an employee)
-3. Leave Management System
-4. Help Desk Management System
-5. Attendance
+![1660795400296](image/README/1660795400296.png)
 
+1. Human Resource Management System (from interview to hiring as an employee)
+2. Leave Management System
+3. Help Desk Management System
+4. Attendance
 
 # HUMAN RESOURCE MODEL
 
 EMPLOYEES DATA PRESENTED IN CONPREHENSIVE GRAPGHS (turn over rates by quarter,number of employees, employees marital status,dependants,countrys of origin etc)
-
 
 ![1660792535911](image/README/1660792535911.png)
 
@@ -34,12 +34,9 @@ Adding A new Applicant
 
 ![1660786706614](image/README/1660786706614.png)
 
-
 application received by celery to imporve user experience (no delay in sending mail when the use press submit)
 
-
 ![1660786834835](image/README/1660786834835.png)
-
 
 Celery Have Delivered the mail without any delay from the sender to the reciver
 
@@ -53,33 +50,27 @@ Applucation Status Under Review By HR Department
 
 ![1660787279081](image/README/1660787279081.png)
 
-
 Application Status Chaged from In Review to **SELECTED**
 
 ![1660787608456](image/README/1660787608456.png)
-
 
 Email Alert have been sent again upon selection by celery
 
 ![1660787704797](image/README/1660787704797.png)
 
-
 Applicant Checking his/her Application Offer again upon receiveing of this email
 
 ![1660787823226](image/README/1660787823226.png)
 
-
 Appicant Can Download Offer Letter Without visiting the Job Location
 
 (can not show the job application offer letter for security reasons *thanks for understanding*)
-
 
 HR Department Declining a Job Offer
 
 ![1660788277526](image/README/1660788277526.png)
 
 HR Department transferring applicant from Job Seeker to Eployee
-
 
 ![1660788374119](image/README/1660788374119.png)
 
@@ -106,7 +97,6 @@ DEPENDANTS INFOMATION
 ### FINISED ENROLMENT OF NEW APPLICANT AND EMPLOYEE ID GENERATED
 
 ![1660789286956](image/README/1660789286956.png)
-
 
 EMPLOYEE DETAIL PROFILE FOR THE HR DEPARTMENT
 
@@ -166,9 +156,9 @@ HR DEPARTMENT OR HEAD OF DEPRTMENT ACKNOWLEDGING THAT EMPLOYEE IS BACK FROM LEAV
 
 ![1660791951820](image/README/1660791951820.png)
 
-[Anviz Global | Powering a Smarter World](https://www.anviz.com/) 
+[Anviz Global | Powering a Smarter World](https://www.anviz.com/)
 
-Anviz time attendance devices data have been integrated with employees data and it detects instantly if an employee  is on leave and have clocked in, the from leave action will be fired authomatically by **django celery beat** 
+Anviz time attendance devices data have been integrated with employees data and it detects instantly if an employee  is on leave and have clocked in, the from leave action will be fired authomatically by **django celery beat**
 
 and mark the employee as FROM LEAVE
 
@@ -178,11 +168,9 @@ EMPLOYEES LEAVE HISTORY AVAILABLE FOR HR AND HODS
 
 ![1660792485511](image/README/1660792485511.png)
 
-
 ##### LEAVE DATA PRSENTED IN GRAPHS
 
 ![1660792535911](image/README/1660792535911.png)
-
 
 HELP DESK
 
@@ -199,6 +187,5 @@ ATTENDACE
 [Anviz Global | Powering a Smarter World](https://www.anviz.com/)
 
 anviz time attendace device is used to clockin by Employees but what this system does it that it takes the data from anviz database and presents it in a manner recormmened by the Human Resource Department for easy tracking of employees attandace in the company and authomatically sends monthly and quarterly attendace and reporting to The complanies head quartes view email.
-
 
 ![1660793045938](image/README/1660793045938.png)
