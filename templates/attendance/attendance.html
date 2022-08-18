@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+
+<div class="container-scroller">
+
+  <div class="container-fluid page-body-wrapper">
+    <!-- sidebar start -->
+
+    {% include "partials/sidebar.html" %}
+    <!-- side bar ends -->
+
+    <div class="main-panel">
+
+      <div class="content-wrapper">
+
+        <br>
+
+
+        <div class="row">
+
+          <div class="col grid-margin stretch-card">
+
+            <div class="card">
+
+              <div class="card-body">
+
+                <div>
+                  <div class="toolbar-item float-right btn" onclick="createPDF('EMPLOYEES')" title="print">
+                    <i class="fa fa-print" aria-hidden="true"></i>
+                  </div>
+                  <div class="toolbar-item float-right btn" onclick="createExcel()" title='save to excel'>
+                    <i class="fa fa-file" aria-hidden="true"></i>
+
+                  </div>
+                 
+
+                  <h2 class="card-title text-center">EMPLOYEES ATTENDANCE</h2>
+                </div>
+                <hr>
+                <div>
+                    <div class="col-md-12 grid-margin">
+                        <div class="card">
+                          <div class="card-body">
+                           
+                            <form id="attendance_form">
+                              {% csrf_token %}
+                              <label for="date_from">from </label>
+                               <input type="date" name="date_from" id="date_from" required>
+                               <label for="date_to">to </label>
+                              <input type="date" name="date_to" id="date_to" required>
+    
+    
+                              <label id="clear_time" for="time_from">Time </label>
+                              <!-- <small id="clear_time" class="fa fa-trash-o text-primary" style="display:none;"></small> -->
+
+                              <select name="time_from" id="time_from" class="time_from">
+                                <option value="">from</option>
+                              </select>
+
+                              <!-- <label for="time_to">to </label> -->
+                              <select name="time_to" id="time_to" class="time_to">
+                                <option value="">to</option>
+
+                              </select>
+
+                               <!-- <input type="time" name="datetime" id="datetime"> -->
+                              <button  type="submit" class ="btn btn-secondary" style="height: 40px"> submit</button>
+
+                              <input class="float-right" type="search" name="" id="attendance_search" placeholder="search">
+                       
+                           </form>
+                            <div class="table-responsive" style="background:whitesmoke"> 
+                              <p id="loadings"></p>
+                              
+                              <table class="table  table-bordered table-hover mt-4">
+                                <caption>
+                                  <div class="float-right my-3" id="total_checkin"></div>
+                                  <div class="float-left my-3" id="days"></div>
+                                </caption>
+    
+                                <thead>
+                                  <tr>
+                                    <th>Department</th>
+                                    <th>In</th>
+                                    <th style="display:none">Out</th>
+                                  </tr>
+                                </thead>
+                                <tbody id="attendance_table">
+                                 
+                                 
+                                </tbody>
+                              </table>
+                             
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  td{
+    color:rgb(116, 35, 85) !important;
+  }
+</style>
+
+<script src="{% static 'js/scripts/attendance.js' %}"></script>
+
+
+
+{% endblock content %}

@@ -1,0 +1,1212 @@
+<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>BAF BENEFICIARIES</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table>
+                              
+                                       
+                                    <table class="table table-hover styled-table table-bordered " id="all_products" width="100%" cellpadding="6" cellspacing="0" style="page-break-before: always; page-break-inside: avoid;margin-bottom: 1px">
+                                        <thead> 
+                                        </thead><colgroup><col width="64*">
+                                    
+                                        <col width="64*">
+                                    
+                                        <col width="64*">
+                                    
+                                        <col width="64*">
+                                        <col width="64*">
+                                        <col width="64*">
+                                        <col width="64*">
+                                    
+                                        <col width="64*">
+                                    
+                                        <col width="64*">
+                                    
+                                        <col width="64*">
+                                        <col width="64*">
+                                        <col width="64*">
+                                        <col width="64*">
+                                    
+                                        <col width="64*">
+                                        <col width="64*">
+                                        <col width="64*">
+                                        
+                                        </colgroup><tbody><tr>
+                                            
+                                            
+                                            <td class="" id="store_states" colspan="5" width="100%" valign="top" style="border: 0px double #808080; padding: 0.04in"><p align="center" id="">
+                                                <b class="text-center">
+                                                    </b></p><div class="bg-white lead"><b class="text-center">GENERIC NAME : </b></div><b class="text-center">
+                                                    <div class="bg-white lead">CATEGORY: CAN FOODS1 1 (9)</div>
+                                               
+                                                </b> <hr>    
+                                            </td> 
+                                            
+                                        </tr>
+                                     
+                                          
+                                       
+                                        <tr valign="top">
+                                            <td width="15%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                                #</p>
+                                            </td>
+                                            <td width="15%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                                 Name</p>
+                                            </td>
+                                            <!-- <td  class="trace"width="30%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                                            Original Quantity</p>
+                                            </td> -->
+                                            <td width="10%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0.04in"><p align="center">
+                                              Old Stock  </p>
+                                            </td>
+                                           
+                                           
+                                            <td class="trace" width="30%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0.04in"><p align="center">
+                                              Received Stock </p>
+                                            </td>
+                                            <td class="trace" width="30%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0.04in"><p align="center">
+                                              New Stock </p>
+                                            </td>
+                                            
+                                            
+                                        </tr>
+
+                                    
+                                        
+                                    </tbody><tbody id="products_all">
+                                       
+                                     
+                                        
+                                      
+                                        <tr valign="top">
+                                            <td width="15%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                                1</p>
+                                            </td>
+                                            <td width="15%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                                 Milk 22 lts</p>
+                                            </td>
+                                           
+                                            <td width="10%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0.04in" sdval="24" sdnum="1033;"><p align="center">
+                                                </p>
+                                            </td>
+                                            <td class="trace" width="10%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                              20</p>
+                                          </td>
+                                          <td class="trace" width="10%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                            20</p>
+                                        </td>
+                                           
+                                           
+                                            
+                                            <!-- <td class="trace" width="25%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0.04in" sdval="24" sdnum="1033;"><p align="center">
+                                                </p>
+                                            </td> -->
+                                        </tr>
+                                     
+                                        
+                                        
+                                      
+                                        <tr valign="top">
+                                            <td width="15%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                                2</p>
+                                            </td>
+                                            <td width="15%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                                 Tabia3</p>
+                                            </td>
+                                           
+                                            <td width="10%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0.04in" sdval="24" sdnum="1033;"><p align="center">
+                                                </p>
+                                            </td>
+                                            <td class="trace" width="10%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                              3</p>
+                                          </td>
+                                          <td class="trace" width="10%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                            3</p>
+                                        </td>
+                                           
+                                           
+                                            
+                                            <!-- <td class="trace" width="25%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0.04in" sdval="24" sdnum="1033;"><p align="center">
+                                                </p>
+                                            </td> -->
+                                        </tr>
+                                     
+                                        
+                                        
+                                      
+                                        <tr valign="top">
+                                            <td width="15%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                                3</p>
+                                            </td>
+                                            <td width="15%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                                 Tabiae</p>
+                                            </td>
+                                           
+                                            <td width="10%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0.04in" sdval="24" sdnum="1033;"><p align="center">
+                                                </p>
+                                            </td>
+                                            <td class="trace" width="10%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                              24</p>
+                                          </td>
+                                          <td class="trace" width="10%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                            24</p>
+                                        </td>
+                                           
+                                           
+                                            
+                                            <!-- <td class="trace" width="25%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0.04in" sdval="24" sdnum="1033;"><p align="center">
+                                                </p>
+                                            </td> -->
+                                        </tr>
+                                     
+                                        
+                                        
+                                      
+                                        <tr valign="top">
+                                            <td width="15%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                                4</p>
+                                            </td>
+                                            <td width="15%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                                 Milk 24 lts3</p>
+                                            </td>
+                                           
+                                            <td width="10%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0.04in" sdval="24" sdnum="1033;"><p align="center">
+                                                </p>
+                                            </td>
+                                            <td class="trace" width="10%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                              23</p>
+                                          </td>
+                                          <td class="trace" width="10%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                            23</p>
+                                        </td>
+                                           
+                                           
+                                            
+                                            <!-- <td class="trace" width="25%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0.04in" sdval="24" sdnum="1033;"><p align="center">
+                                                </p>
+                                            </td> -->
+                                        </tr>
+                                     
+                                        
+                                        
+                                      
+                                        <tr valign="top">
+                                            <td width="15%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                                5</p>
+                                            </td>
+                                            <td width="15%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                                 Milk 48 lts New</p>
+                                            </td>
+                                           
+                                            <td width="10%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0.04in" sdval="24" sdnum="1033;"><p align="center">
+                                                </p>
+                                            </td>
+                                            <td class="trace" width="10%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                              20</p>
+                                          </td>
+                                          <td class="trace" width="10%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                            20</p>
+                                        </td>
+                                           
+                                           
+                                            
+                                            <!-- <td class="trace" width="25%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0.04in" sdval="24" sdnum="1033;"><p align="center">
+                                                </p>
+                                            </td> -->
+                                        </tr>
+                                     
+                                        
+                                        
+                                      
+                                        <tr valign="top">
+                                            <td width="15%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                                6</p>
+                                            </td>
+                                            <td width="15%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                                 Tabia new</p>
+                                            </td>
+                                           
+                                            <td width="10%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0.04in" sdval="24" sdnum="1033;"><p align="center">
+                                                </p>
+                                            </td>
+                                            <td class="trace" width="10%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                              2</p>
+                                          </td>
+                                          <td class="trace" width="10%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                            2</p>
+                                        </td>
+                                           
+                                           
+                                            
+                                            <!-- <td class="trace" width="25%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0.04in" sdval="24" sdnum="1033;"><p align="center">
+                                                </p>
+                                            </td> -->
+                                        </tr>
+                                     
+                                        
+                                        
+                                      
+                                        <tr valign="top">
+                                            <td width="15%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                                7</p>
+                                            </td>
+                                            <td width="15%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                                 Milk 24 lts me</p>
+                                            </td>
+                                           
+                                            <td width="10%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0.04in" sdval="24" sdnum="1033;"><p align="center">
+                                                </p>
+                                            </td>
+                                            <td class="trace" width="10%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                              34</p>
+                                          </td>
+                                          <td class="trace" width="10%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                            34</p>
+                                        </td>
+                                           
+                                           
+                                            
+                                            <!-- <td class="trace" width="25%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0.04in" sdval="24" sdnum="1033;"><p align="center">
+                                                </p>
+                                            </td> -->
+                                        </tr>
+                                     
+                                        
+                                        
+                                      
+                                        <tr valign="top">
+                                            <td width="15%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                                8</p>
+                                            </td>
+                                            <td width="15%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                                 7 Items</p>
+                                            </td>
+                                           
+                                            <td width="10%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0.04in" sdval="24" sdnum="1033;"><p align="center">
+                                                </p>
+                                            </td>
+                                            <td class="trace" width="10%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                              22</p>
+                                          </td>
+                                          <td class="trace" width="10%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                            22</p>
+                                        </td>
+                                           
+                                           
+                                            
+                                            <!-- <td class="trace" width="25%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0.04in" sdval="24" sdnum="1033;"><p align="center">
+                                                </p>
+                                            </td> -->
+                                        </tr>
+                                     
+                                        
+                                        
+                                      
+                                        <tr valign="top">
+                                            <td width="15%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                                9</p>
+                                            </td>
+                                            <td width="15%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                                 22</p>
+                                            </td>
+                                           
+                                            <td width="10%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0.04in" sdval="24" sdnum="1033;"><p align="center">
+                                                </p>
+                                            </td>
+                                            <td class="trace" width="10%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                              22</p>
+                                          </td>
+                                          <td class="trace" width="10%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                            22</p>
+                                        </td>
+                                           
+                                           
+                                            
+                                            <!-- <td class="trace" width="25%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0.04in" sdval="24" sdnum="1033;"><p align="center">
+                                                </p>
+                                            </td> -->
+                                        </tr>
+                                     
+                                        
+                                        
+                                        
+                                            <tr><td class="" id="store_states" colspan="5" width="100%" valign="top" style="border: 0px double #808080; padding: 0.04in"><p align="center" id="">
+                                                <b class="text-center">
+                                                    </b></p><div class="bg-white lead"><b class="text-center">GENERIC NAME : </b></div><b class="text-center">
+                                                    <div class="bg-white lead">CATEGORY: CAN FOODS1 AGGREY (2)</div>
+                                               
+                                                </b> <hr>    
+                                            </td> 
+                                            
+                                        </tr>
+                                     
+                                          
+                                       
+                                        <tr valign="top">
+                                            <td width="15%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                                #</p>
+                                            </td>
+                                            <td width="15%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                                 Name</p>
+                                            </td>
+                                            <!-- <td  class="trace"width="30%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                                            Original Quantity</p>
+                                            </td> -->
+                                            <td width="10%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0.04in"><p align="center">
+                                              Old Stock  </p>
+                                            </td>
+                                           
+                                           
+                                            <td class="trace" width="30%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0.04in"><p align="center">
+                                              Received Stock </p>
+                                            </td>
+                                            <td class="trace" width="30%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0.04in"><p align="center">
+                                              New Stock </p>
+                                            </td>
+                                            
+                                            
+                                        </tr>
+
+                                    
+                                        
+                                    </tbody><tbody id="products_all">
+                                       
+                                     
+                                        
+                                      
+                                        <tr valign="top">
+                                            <td width="15%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                                1</p>
+                                            </td>
+                                            <td width="15%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                                 Tabiaw</p>
+                                            </td>
+                                           
+                                            <td width="10%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0.04in" sdval="24" sdnum="1033;"><p align="center">
+                                                </p>
+                                            </td>
+                                            <td class="trace" width="10%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                              2</p>
+                                          </td>
+                                          <td class="trace" width="10%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                            4</p>
+                                        </td>
+                                           
+                                           
+                                            
+                                            <!-- <td class="trace" width="25%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0.04in" sdval="24" sdnum="1033;"><p align="center">
+                                                </p>
+                                            </td> -->
+                                        </tr>
+                                     
+                                        
+                                        
+                                      
+                                        <tr valign="top">
+                                            <td width="15%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                                2</p>
+                                            </td>
+                                            <td width="15%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                                 Milk 24 ltsee</p>
+                                            </td>
+                                           
+                                            <td width="10%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0.04in" sdval="24" sdnum="1033;"><p align="center">
+                                                </p>
+                                            </td>
+                                            <td class="trace" width="10%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                              2</p>
+                                          </td>
+                                          <td class="trace" width="10%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                            2</p>
+                                        </td>
+                                           
+                                           
+                                            
+                                            <!-- <td class="trace" width="25%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0.04in" sdval="24" sdnum="1033;"><p align="center">
+                                                </p>
+                                            </td> -->
+                                        </tr>
+                                     
+                                        
+                                        
+                                        
+                                            <tr><td class="" id="store_states" colspan="5" width="100%" valign="top" style="border: 0px double #808080; padding: 0.04in"><p align="center" id="">
+                                                <b class="text-center">
+                                                    </b></p><div class="bg-white lead"><b class="text-center">GENERIC NAME : </b></div><b class="text-center">
+                                                    <div class="bg-white lead">CATEGORY: NEW BEVERAGE1 (15)</div>
+                                               
+                                                </b> <hr>    
+                                            </td> 
+                                            
+                                        </tr>
+                                     
+                                          
+                                       
+                                        <tr valign="top">
+                                            <td width="15%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                                #</p>
+                                            </td>
+                                            <td width="15%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                                 Name</p>
+                                            </td>
+                                            <!-- <td  class="trace"width="30%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                                            Original Quantity</p>
+                                            </td> -->
+                                            <td width="10%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0.04in"><p align="center">
+                                              Old Stock  </p>
+                                            </td>
+                                           
+                                           
+                                            <td class="trace" width="30%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0.04in"><p align="center">
+                                              Received Stock </p>
+                                            </td>
+                                            <td class="trace" width="30%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0.04in"><p align="center">
+                                              New Stock </p>
+                                            </td>
+                                            
+                                            
+                                        </tr>
+
+                                    
+                                        
+                                    </tbody><tbody id="products_all">
+                                       
+                                     
+                                        
+                                      
+                                        <tr valign="top">
+                                            <td width="15%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                                1</p>
+                                            </td>
+                                            <td width="15%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                                 Cocacola</p>
+                                            </td>
+                                           
+                                            <td width="10%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0.04in" sdval="24" sdnum="1033;"><p align="center">
+                                                </p>
+                                            </td>
+                                            <td class="trace" width="10%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                              44</p>
+                                          </td>
+                                          <td class="trace" width="10%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                            44</p>
+                                        </td>
+                                           
+                                           
+                                            
+                                            <!-- <td class="trace" width="25%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0.04in" sdval="24" sdnum="1033;"><p align="center">
+                                                </p>
+                                            </td> -->
+                                        </tr>
+                                     
+                                        
+                                        
+                                      
+                                        <tr valign="top">
+                                            <td width="15%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                                2</p>
+                                            </td>
+                                            <td width="15%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                                 Malt</p>
+                                            </td>
+                                           
+                                            <td width="10%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0.04in" sdval="24" sdnum="1033;"><p align="center">
+                                                </p>
+                                            </td>
+                                            <td class="trace" width="10%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                              22</p>
+                                          </td>
+                                          <td class="trace" width="10%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                            66</p>
+                                        </td>
+                                           
+                                           
+                                            
+                                            <!-- <td class="trace" width="25%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0.04in" sdval="24" sdnum="1033;"><p align="center">
+                                                </p>
+                                            </td> -->
+                                        </tr>
+                                     
+                                        
+                                        
+                                      
+                                        <tr valign="top">
+                                            <td width="15%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                                3</p>
+                                            </td>
+                                            <td width="15%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                                 Cocacola New</p>
+                                            </td>
+                                           
+                                            <td width="10%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0.04in" sdval="24" sdnum="1033;"><p align="center">
+                                                </p>
+                                            </td>
+                                            <td class="trace" width="10%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                              44</p>
+                                          </td>
+                                          <td class="trace" width="10%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                            44</p>
+                                        </td>
+                                           
+                                           
+                                            
+                                            <!-- <td class="trace" width="25%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0.04in" sdval="24" sdnum="1033;"><p align="center">
+                                                </p>
+                                            </td> -->
+                                        </tr>
+                                     
+                                        
+                                        
+                                      
+                                        <tr valign="top">
+                                            <td width="15%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                                4</p>
+                                            </td>
+                                            <td width="15%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                                 Malt New</p>
+                                            </td>
+                                           
+                                            <td width="10%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0.04in" sdval="24" sdnum="1033;"><p align="center">
+                                                </p>
+                                            </td>
+                                            <td class="trace" width="10%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                              44</p>
+                                          </td>
+                                          <td class="trace" width="10%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                            44</p>
+                                        </td>
+                                           
+                                           
+                                            
+                                            <!-- <td class="trace" width="25%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0.04in" sdval="24" sdnum="1033;"><p align="center">
+                                                </p>
+                                            </td> -->
+                                        </tr>
+                                     
+                                        
+                                        
+                                      
+                                        <tr valign="top">
+                                            <td width="15%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                                5</p>
+                                            </td>
+                                            <td width="15%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                                 Malt New</p>
+                                            </td>
+                                           
+                                            <td width="10%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0.04in" sdval="24" sdnum="1033;"><p align="center">
+                                                </p>
+                                            </td>
+                                            <td class="trace" width="10%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                              44</p>
+                                          </td>
+                                          <td class="trace" width="10%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                            44</p>
+                                        </td>
+                                           
+                                           
+                                            
+                                            <!-- <td class="trace" width="25%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0.04in" sdval="24" sdnum="1033;"><p align="center">
+                                                </p>
+                                            </td> -->
+                                        </tr>
+                                     
+                                        
+                                        
+                                      
+                                        <tr valign="top">
+                                            <td width="15%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                                6</p>
+                                            </td>
+                                            <td width="15%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                                 Malt New 1</p>
+                                            </td>
+                                           
+                                            <td width="10%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0.04in" sdval="24" sdnum="1033;"><p align="center">
+                                                </p>
+                                            </td>
+                                            <td class="trace" width="10%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                              44</p>
+                                          </td>
+                                          <td class="trace" width="10%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                            44</p>
+                                        </td>
+                                           
+                                           
+                                            
+                                            <!-- <td class="trace" width="25%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0.04in" sdval="24" sdnum="1033;"><p align="center">
+                                                </p>
+                                            </td> -->
+                                        </tr>
+                                     
+                                        
+                                        
+                                      
+                                        <tr valign="top">
+                                            <td width="15%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                                7</p>
+                                            </td>
+                                            <td width="15%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                                 Milk 24 lts 4</p>
+                                            </td>
+                                           
+                                            <td width="10%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0.04in" sdval="24" sdnum="1033;"><p align="center">
+                                                </p>
+                                            </td>
+                                            <td class="trace" width="10%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                              2</p>
+                                          </td>
+                                          <td class="trace" width="10%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                            2</p>
+                                        </td>
+                                           
+                                           
+                                            
+                                            <!-- <td class="trace" width="25%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0.04in" sdval="24" sdnum="1033;"><p align="center">
+                                                </p>
+                                            </td> -->
+                                        </tr>
+                                     
+                                        
+                                        
+                                      
+                                        <tr valign="top">
+                                            <td width="15%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                                8</p>
+                                            </td>
+                                            <td width="15%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                                 Milk 24 lts 4</p>
+                                            </td>
+                                           
+                                            <td width="10%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0.04in" sdval="24" sdnum="1033;"><p align="center">
+                                                </p>
+                                            </td>
+                                            <td class="trace" width="10%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                              2</p>
+                                          </td>
+                                          <td class="trace" width="10%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                            2</p>
+                                        </td>
+                                           
+                                           
+                                            
+                                            <!-- <td class="trace" width="25%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0.04in" sdval="24" sdnum="1033;"><p align="center">
+                                                </p>
+                                            </td> -->
+                                        </tr>
+                                     
+                                        
+                                        
+                                      
+                                        <tr valign="top">
+                                            <td width="15%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                                9</p>
+                                            </td>
+                                            <td width="15%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                                 Cowbell</p>
+                                            </td>
+                                           
+                                            <td width="10%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0.04in" sdval="24" sdnum="1033;"><p align="center">
+                                                </p>
+                                            </td>
+                                            <td class="trace" width="10%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                              2</p>
+                                          </td>
+                                          <td class="trace" width="10%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                            2</p>
+                                        </td>
+                                           
+                                           
+                                            
+                                            <!-- <td class="trace" width="25%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0.04in" sdval="24" sdnum="1033;"><p align="center">
+                                                </p>
+                                            </td> -->
+                                        </tr>
+                                     
+                                        
+                                        
+                                      
+                                        <tr valign="top">
+                                            <td width="15%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                                10</p>
+                                            </td>
+                                            <td width="15%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                                 Cowbell</p>
+                                            </td>
+                                           
+                                            <td width="10%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0.04in" sdval="24" sdnum="1033;"><p align="center">
+                                                </p>
+                                            </td>
+                                            <td class="trace" width="10%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                              2</p>
+                                          </td>
+                                          <td class="trace" width="10%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                            2</p>
+                                        </td>
+                                           
+                                           
+                                            
+                                            <!-- <td class="trace" width="25%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0.04in" sdval="24" sdnum="1033;"><p align="center">
+                                                </p>
+                                            </td> -->
+                                        </tr>
+                                     
+                                        
+                                        
+                                      
+                                        <tr valign="top">
+                                            <td width="15%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                                11</p>
+                                            </td>
+                                            <td width="15%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                                 Cowbell</p>
+                                            </td>
+                                           
+                                            <td width="10%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0.04in" sdval="24" sdnum="1033;"><p align="center">
+                                                </p>
+                                            </td>
+                                            <td class="trace" width="10%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                              2</p>
+                                          </td>
+                                          <td class="trace" width="10%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                            2</p>
+                                        </td>
+                                           
+                                           
+                                            
+                                            <!-- <td class="trace" width="25%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0.04in" sdval="24" sdnum="1033;"><p align="center">
+                                                </p>
+                                            </td> -->
+                                        </tr>
+                                     
+                                        
+                                        
+                                      
+                                        <tr valign="top">
+                                            <td width="15%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                                12</p>
+                                            </td>
+                                            <td width="15%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                                 Cowbell </p>
+                                            </td>
+                                           
+                                            <td width="10%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0.04in" sdval="24" sdnum="1033;"><p align="center">
+                                                </p>
+                                            </td>
+                                            <td class="trace" width="10%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                              2</p>
+                                          </td>
+                                          <td class="trace" width="10%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                            2</p>
+                                        </td>
+                                           
+                                           
+                                            
+                                            <!-- <td class="trace" width="25%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0.04in" sdval="24" sdnum="1033;"><p align="center">
+                                                </p>
+                                            </td> -->
+                                        </tr>
+                                     
+                                        
+                                        
+                                      
+                                        <tr valign="top">
+                                            <td width="15%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                                13</p>
+                                            </td>
+                                            <td width="15%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                                 Cowbell n</p>
+                                            </td>
+                                           
+                                            <td width="10%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0.04in" sdval="24" sdnum="1033;"><p align="center">
+                                                </p>
+                                            </td>
+                                            <td class="trace" width="10%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                              2</p>
+                                          </td>
+                                          <td class="trace" width="10%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                            2</p>
+                                        </td>
+                                           
+                                           
+                                            
+                                            <!-- <td class="trace" width="25%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0.04in" sdval="24" sdnum="1033;"><p align="center">
+                                                </p>
+                                            </td> -->
+                                        </tr>
+                                     
+                                        
+                                        
+                                      
+                                        <tr valign="top">
+                                            <td width="15%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                                14</p>
+                                            </td>
+                                            <td width="15%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                                 Milk 48 lts</p>
+                                            </td>
+                                           
+                                            <td width="10%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0.04in" sdval="24" sdnum="1033;"><p align="center">
+                                                </p>
+                                            </td>
+                                            <td class="trace" width="10%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                              2</p>
+                                          </td>
+                                          <td class="trace" width="10%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                            2</p>
+                                        </td>
+                                           
+                                           
+                                            
+                                            <!-- <td class="trace" width="25%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0.04in" sdval="24" sdnum="1033;"><p align="center">
+                                                </p>
+                                            </td> -->
+                                        </tr>
+                                     
+                                        
+                                        
+                                      
+                                        <tr valign="top">
+                                            <td width="15%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                                15</p>
+                                            </td>
+                                            <td width="15%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                                 Milk 48 lts</p>
+                                            </td>
+                                           
+                                            <td width="10%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0.04in" sdval="24" sdnum="1033;"><p align="center">
+                                                </p>
+                                            </td>
+                                            <td class="trace" width="10%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                              20</p>
+                                          </td>
+                                          <td class="trace" width="10%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                            20</p>
+                                        </td>
+                                           
+                                           
+                                            
+                                            <!-- <td class="trace" width="25%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0.04in" sdval="24" sdnum="1033;"><p align="center">
+                                                </p>
+                                            </td> -->
+                                        </tr>
+                                     
+                                        
+                                        
+                                        
+                                            <tr><td class="" id="store_states" colspan="5" width="100%" valign="top" style="border: 0px double #808080; padding: 0.04in"><p align="center" id="">
+                                                <b class="text-center">
+                                                    </b></p><div class="bg-white lead"><b class="text-center">GENERIC NAME : </b></div><b class="text-center">
+                                                    <div class="bg-white lead">CATEGORY: Soft (0)</div>
+                                               
+                                                </b> <hr>    
+                                            </td> 
+                                            
+                                        </tr>
+                                     
+                                          
+                                       
+                                        <tr valign="top">
+                                            <td width="15%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                                #</p>
+                                            </td>
+                                            <td width="15%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                                 Name</p>
+                                            </td>
+                                            <!-- <td  class="trace"width="30%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                                            Original Quantity</p>
+                                            </td> -->
+                                            <td width="10%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0.04in"><p align="center">
+                                              Old Stock  </p>
+                                            </td>
+                                           
+                                           
+                                            <td class="trace" width="30%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0.04in"><p align="center">
+                                              Received Stock </p>
+                                            </td>
+                                            <td class="trace" width="30%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0.04in"><p align="center">
+                                              New Stock </p>
+                                            </td>
+                                            
+                                            
+                                        </tr>
+
+                                    
+                                        
+                                    </tbody><tbody id="products_all">
+                                       
+                                     
+                                        
+                                        
+                                            <tr><td class="" id="store_states" colspan="5" width="100%" valign="top" style="border: 0px double #808080; padding: 0.04in"><p align="center" id="">
+                                                <b class="text-center">
+                                                    </b></p><div class="bg-white lead"><b class="text-center">GENERIC NAME : </b></div><b class="text-center">
+                                                    <div class="bg-white lead">CATEGORY: Soft Drinks (5)</div>
+                                               
+                                                </b> <hr>    
+                                            </td> 
+                                            
+                                        </tr>
+                                     
+                                          
+                                       
+                                        <tr valign="top">
+                                            <td width="15%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                                #</p>
+                                            </td>
+                                            <td width="15%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                                 Name</p>
+                                            </td>
+                                            <!-- <td  class="trace"width="30%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                                            Original Quantity</p>
+                                            </td> -->
+                                            <td width="10%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0.04in"><p align="center">
+                                              Old Stock  </p>
+                                            </td>
+                                           
+                                           
+                                            <td class="trace" width="30%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0.04in"><p align="center">
+                                              Received Stock </p>
+                                            </td>
+                                            <td class="trace" width="30%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0.04in"><p align="center">
+                                              New Stock </p>
+                                            </td>
+                                            
+                                            
+                                        </tr>
+
+                                    
+                                        
+                                    </tbody><tbody id="products_all">
+                                       
+                                     
+                                        
+                                      
+                                        <tr valign="top">
+                                            <td width="15%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                                1</p>
+                                            </td>
+                                            <td width="15%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                                 Tabiakk</p>
+                                            </td>
+                                           
+                                            <td width="10%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0.04in" sdval="24" sdnum="1033;"><p align="center">
+                                                </p>
+                                            </td>
+                                            <td class="trace" width="10%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                              2</p>
+                                          </td>
+                                          <td class="trace" width="10%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                            2</p>
+                                        </td>
+                                           
+                                           
+                                            
+                                            <!-- <td class="trace" width="25%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0.04in" sdval="24" sdnum="1033;"><p align="center">
+                                                </p>
+                                            </td> -->
+                                        </tr>
+                                     
+                                        
+                                        
+                                      
+                                        <tr valign="top">
+                                            <td width="15%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                                2</p>
+                                            </td>
+                                            <td width="15%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                                 Tabian</p>
+                                            </td>
+                                           
+                                            <td width="10%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0.04in" sdval="24" sdnum="1033;"><p align="center">
+                                                </p>
+                                            </td>
+                                            <td class="trace" width="10%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                              2</p>
+                                          </td>
+                                          <td class="trace" width="10%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                            2</p>
+                                        </td>
+                                           
+                                           
+                                            
+                                            <!-- <td class="trace" width="25%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0.04in" sdval="24" sdnum="1033;"><p align="center">
+                                                </p>
+                                            </td> -->
+                                        </tr>
+                                     
+                                        
+                                        
+                                      
+                                        <tr valign="top">
+                                            <td width="15%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                                3</p>
+                                            </td>
+                                            <td width="15%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                                 Tabian</p>
+                                            </td>
+                                           
+                                            <td width="10%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0.04in" sdval="24" sdnum="1033;"><p align="center">
+                                                </p>
+                                            </td>
+                                            <td class="trace" width="10%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                              2</p>
+                                          </td>
+                                          <td class="trace" width="10%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                            2</p>
+                                        </td>
+                                           
+                                           
+                                            
+                                            <!-- <td class="trace" width="25%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0.04in" sdval="24" sdnum="1033;"><p align="center">
+                                                </p>
+                                            </td> -->
+                                        </tr>
+                                     
+                                        
+                                        
+                                      
+                                        <tr valign="top">
+                                            <td width="15%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                                4</p>
+                                            </td>
+                                            <td width="15%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                                 Tabia m</p>
+                                            </td>
+                                           
+                                            <td width="10%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0.04in" sdval="24" sdnum="1033;"><p align="center">
+                                                </p>
+                                            </td>
+                                            <td class="trace" width="10%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                              2</p>
+                                          </td>
+                                          <td class="trace" width="10%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                            2</p>
+                                        </td>
+                                           
+                                           
+                                            
+                                            <!-- <td class="trace" width="25%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0.04in" sdval="24" sdnum="1033;"><p align="center">
+                                                </p>
+                                            </td> -->
+                                        </tr>
+                                     
+                                        
+                                        
+                                      
+                                        <tr valign="top">
+                                            <td width="15%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                                5</p>
+                                            </td>
+                                            <td width="15%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                                 Tilapia</p>
+                                            </td>
+                                           
+                                            <td width="10%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0.04in" sdval="24" sdnum="1033;"><p align="center">
+                                                </p>
+                                            </td>
+                                            <td class="trace" width="10%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                              6</p>
+                                          </td>
+                                          <td class="trace" width="10%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                            6</p>
+                                        </td>
+                                           
+                                           
+                                            
+                                            <!-- <td class="trace" width="25%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0.04in" sdval="24" sdnum="1033;"><p align="center">
+                                                </p>
+                                            </td> -->
+                                        </tr>
+                                     
+                                        
+                                        
+                                        
+                                            <tr><td class="" id="store_states" colspan="5" width="100%" valign="top" style="border: 0px double #808080; padding: 0.04in"><p align="center" id="">
+                                                <b class="text-center">
+                                                    </b></p><div class="bg-white lead"><b class="text-center">GENERIC NAME : </b></div><b class="text-center">
+                                                    <div class="bg-white lead">CATEGORY: Soft Drinks NEW (0)</div>
+                                               
+                                                </b> <hr>    
+                                            </td> 
+                                            
+                                        </tr>
+                                     
+                                          
+                                       
+                                        <tr valign="top">
+                                            <td width="15%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                                #</p>
+                                            </td>
+                                            <td width="15%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                                 Name</p>
+                                            </td>
+                                            <!-- <td  class="trace"width="30%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                                            Original Quantity</p>
+                                            </td> -->
+                                            <td width="10%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0.04in"><p align="center">
+                                              Old Stock  </p>
+                                            </td>
+                                           
+                                           
+                                            <td class="trace" width="30%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0.04in"><p align="center">
+                                              Received Stock </p>
+                                            </td>
+                                            <td class="trace" width="30%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0.04in"><p align="center">
+                                              New Stock </p>
+                                            </td>
+                                            
+                                            
+                                        </tr>
+
+                                    
+                                        
+                                    </tbody><tbody id="products_all">
+                                       
+                                     
+                                        
+                                        
+                                            <tr><td class="" id="store_states" colspan="5" width="100%" valign="top" style="border: 0px double #808080; padding: 0.04in"><p align="center" id="">
+                                                <b class="text-center">
+                                                    </b></p><div class="bg-white lead"><b class="text-center">GENERIC NAME : </b></div><b class="text-center">
+                                                    <div class="bg-white lead">CATEGORY: Soft Drinks new (0)</div>
+                                               
+                                                </b> <hr>    
+                                            </td> 
+                                            
+                                        </tr>
+                                     
+                                          
+                                       
+                                        <tr valign="top">
+                                            <td width="15%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                                #</p>
+                                            </td>
+                                            <td width="15%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                                 Name</p>
+                                            </td>
+                                            <!-- <td  class="trace"width="30%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in"><p align="center">
+                                                            Original Quantity</p>
+                                            </td> -->
+                                            <td width="10%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0.04in"><p align="center">
+                                              Old Stock  </p>
+                                            </td>
+                                           
+                                           
+                                            <td class="trace" width="30%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0.04in"><p align="center">
+                                              Received Stock </p>
+                                            </td>
+                                            <td class="trace" width="30%" style="border-top: none; border-bottom: 1px double #808080; border-left: 1px double #808080; border-right: 1px double #808080; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0.04in"><p align="center">
+                                              New Stock </p>
+                                            </td>
+                                            
+                                            
+                                        </tr>
+
+                                    
+                                        
+                                    </tbody><tbody id="products_all">
+                                       
+                                     
+                                        
+                                         
+                                   
+                                    </tbody></table>
+                                 
+                                </table></body></html>

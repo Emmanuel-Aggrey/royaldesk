@@ -1,0 +1,142 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    {% block title %}
+    <title>RCH-ADMIN-HR</title>
+    {% endblock title %}
+        
+
+</head>
+
+
+{% block head %}
+
+
+
+{% if user.is_authenticated %}
+{% include "partials/navbar.html" %} 
+
+{% endif %}
+
+{% endblock head %}
+{% comment %} {% include "partials/sidebar.html" %} {% endcomment %}
+
+
+
+
+<body>
+    <script src="{% static 'js/jquery-3.5.1.js' %}"></script>
+
+      <!-- plugins:css -->
+      <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+
+      <link rel="stylesheet" href="{% static 'vendors/iconfonts/mdi/css/materialdesignicons.min.css' %}">
+      <link rel="stylesheet" href="{% static 'vendors/iconfonts/ionicons/dist/css/ionicons.css' %}">
+      <link rel="stylesheet" href="{% static 'vendors/iconfonts/flag-icon-css/css/flag-icon.min.css' %}">
+      <link rel="stylesheet" href="{% static 'vendors/css/vendor.bundle.base.css' %}">
+      <link rel="stylesheet" href="{% static 'vendors/css/vendor.bundle.addons.css' %}">
+      <link rel="stylesheet" href="{% static 'css/jquery.dataTables.min.css' %}">
+      <link href="{% static 'rest_framework/css/font-awesome-4.0.3.css' %}" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/education/partials.css' %}">
+      <link rel="stylesheet" href="{% static 'css/jquery-ui.min.css' %}">
+
+      <link rel="stylesheet" type="text/css" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+      <link rel="stylesheet" href="{% static 'css/dropify.min.css' %}">
+
+
+
+
+      <!-- endinject -->
+      <!-- plugin css for this page -->
+      <!-- End plugin css for this page -->
+      <!-- inject:css -->
+      <link rel="stylesheet" href="{% static 'css/shared/style.css' %}">
+      <!-- endinject -->
+      <!-- Layout styles -->
+      <link rel="stylesheet" href="{% static 'css/style.css' %}">
+      <!-- End Layout styles -->
+      <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}" />
+      {% comment %} {% include "partials/sidebar.html" %} {% endcomment %}
+
+      {% block content %}
+
+    {% endblock content %}
+   
+
+
+    {% include "partials/footer.html" %}
+    <!-- <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0-rc"></script> -->
+
+        <!-- plugins:js -->
+
+        <!-- <script src="{% static 'vendors/js/vendor.bundle.base.js' %}"></script> -->
+
+        <script src="{% static 'vendors/js/vendor.bundle.addons.js' %}"></script> 
+        <script src="{% static 'vendors/chart.js/Chart.min.js' %}"></script>
+        <script src="{% static 'js/chartjs-plugin-datalabels.min.js' %}"></script>
+
+
+        
+        <!-- endinject -->
+        <!-- Plugin js for this page-->
+        <!-- End plugin js for this page-->
+        <!-- inject:js -->
+        <script src="{% static 'js/off-canvas.js' %}"></script>
+        <script src="{% static 'js/misc.js' %}"></script>
+        <!-- endinject -->
+        <!-- Custom js for this page-->
+        <!-- End custom js for this page-->
+        <script src="{% static 'js/scripts/partials.js' %}"></script>
+        <script src="{% static 'js/jquery-ui.js' %}"></script>
+        
+        <script src="{% static 'js/sweetalert2.all.min.js' %}"></script>
+    
+
+        <script src="{% static 'js/jquery.dataTables.min.js' %}"></script>
+
+
+        <!-- DROBIFY IMAGE -->
+        <script src="{% static 'js/dropify.min.js' %}"></script>
+
+
+        <!-- TABLE EXPORT -->
+        <script src="{% static 'js/scripts/fancyTable.js' %}"></script>
+        <script src="{% static 'js/scripts/tableManager.js' %}"></script>
+
+<script src="{% static 'js/scripts/jquery.tableToExcel.js' %}"></script>
+<script src="{% static 'js/scripts/prints_export.js' %}"></script>
+
+
+<script>
+    const fancyTable = () => {
+      $("#sampleTable").fancyTable({
+        sortColumn:3,
+         pagination: true,
+         
+  
+         perPage:10,
+         searchable:false,
+         
+         
+          // globalSearch:true,
+          // globalSearchExcludeColumns: [0,8]
+         
+        //  globalSearch:false,
+  
+       
+        onUpdate:function(){
+          // console.log({ element:this });
+        }
+      });
+    }
+  
+   
+  </script>
+
+</body>
+</html>

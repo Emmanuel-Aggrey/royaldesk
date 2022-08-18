@@ -1,0 +1,12 @@
+VIEW NAME:  V_Record
+
+SELECT Checkinout.Logid, Checkinout.Userid, Checkinout.CheckTime, Checkinout.CheckType, Checkinout.Sensorid, Checkinout.WorkType, Checkinout.AttFlag, Checkinout.Checked, Checkinout.Exported, Checkinout.OpenDoorFlag, Checkinout.temperature, Checkinout.whynoopen, Checkinout.mask, Userinfo.Name, Userinfo.Deptid, Userinfo.usercode, Userinfo.Duty, Dept.DeptName, FingerClient.Clientid, FingerClient.ClientName, FingerClient.deviceflag, Status.StatusID, Status.StatusChar, Status.StatusText
+FROM (((Checkinout LEFT JOIN Userinfo ON Checkinout.Userid = Userinfo.Userid) LEFT JOIN Dept ON Userinfo.Deptid = Dept.Deptid) LEFT JOIN FingerClient ON Checkinout.Sensorid = FingerClient.ClientNumber) LEFT JOIN Status ON Checkinout.CheckType = Status.StatusID;
+
+
+CORRCT DATABASE VIEW
+
+SELECT  Userid,Name,Deptname,StatusText,COUNT(Userid) AS Num_CheckIn ,FORMAT(CheckTime,'yyyy/M/d'),HOUR(CheckTime) AS Hour FROM V_Record  WHERE FORMAT(CheckTime,'yyyy/M/d') = FORMAT('2022-06-25','yyyy/M/d') GROUP BY Name,Deptname,StatusText,Userid , FORMAT(CheckTime,'yyyy/M/d'),HOUR(CheckTime)
+ORDER BY Userid
+
+

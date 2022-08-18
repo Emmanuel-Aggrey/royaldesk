@@ -1,0 +1,17 @@
+Django
+mysqlclient
+Pillow
+psycopg2
+pytz
+sqlparse
+djangorestframework
+
+
+
+# LOOK AT THIS
+pandas_access
+# sudo apt install mdbtools
+mdbtools
+
+
+# http://www.localhost/wordpress/wp-admin/

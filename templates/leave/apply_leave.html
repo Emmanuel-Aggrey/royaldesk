@@ -1,0 +1,295 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>APPLY-LEAVE</title>
+
+    <script src="{% static 'js/jquery-3.5.1.js' %}"></script>
+    <script src="{% static 'js/sweetalert2.all.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/jquery-ui.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'css/jquery-ui.css' %}">
+
+    <!-- <script src="{% static 'js/jquery.dataTables.min.js' %}"></script> -->
+    
+    <link rel="stylesheet" type="text/css" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/education/partials.css' %}">
+    <!-- <link rel="stylesheet" href="{% static 'css/jquery.dataTables.min.css' %}"> -->
+    <!-- <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}" /> -->
+
+
+</head>
+
+<body>
+    <div class="container px-1 py-5 mx-auto">
+        <div class="row d-flex justify-content-center">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-12 text-center">
+                <div class="card px-0 pb-0 mt-3 mb-3">
+                    <h3 id="heading">Leave Application Form</h3>
+                    <!-- <p>leave application form</p> -->
+                        <button type="button" id="my_leave" class="btn btn-outline-primary " style="position: absolute;right:20px;top: 15px;">NEW LEAVE</button>
+                    
+                    
+
+                    <br />
+                
+
+                    <hr class="bg-primary">
+                    <h4 id="user_name"></h4>
+                     <!-- APPLY FOR LEAVE START -->
+                    <div id="apply_leave" style="display: none">
+                    <form class="form-card" id="leave_form" enctype="multipart/form-data" method="POST">
+
+                        {% csrf_token %}
+                        <!-- FIRST ROW -->
+                        <div class="row justify-content-between text-left">
+                            <div class="form-grousp col-sm-3 flex-column d-flex"> <label
+                                    class="form-control-label px-3">Date From<span class="text-danger">
+                                        *</span></label> <input required type="date" id="start" name="start">
+                            </div>
+                            <div class="form-group col-sm-3 flex-column d-flex"> <label class="form-control-label px-3">
+                                    Date To<span class="text-danger">
+                                        *</span></label> <input type="date" id="end" required name="end">
+                            </div>
+                            <div class="form-group col-sm-3 flex-column d-flex"> <label
+                                    class="form-control-label px-3">phone
+                                    <span class="text-danger">
+                                        *</span></label> <input type="number" id="phone" name="phone"
+                                    placeholder="Phone While on leave">
+                            </div>
+                            <div class="form-group col-sm-3 flex-column d-flex">  <label class="form-control-label px-3">
+                                    Leave Type<span class="text-danger">
+                                        *</span></label> <Select required id="policy" name="policy" class="form-control">
+                                            <option value="">select</option>
+                                        </Select>
+                            </div>
+
+                        </div>
+
+                        <!-- FIRST ROW END -->
+                        <!-- SECOND ROW START-->
+                        <div class="row justify-content-between text-left">
+                            <div class="form-group col-sm-3 flex-column d-flex"> <label
+                                    class="form-control-label px-2">Reason<span class="text-danger">
+                                        *</span></label> <input type="text" id="reason" name="reason"
+                                    placeholder="(optional)">
+                            </div>
+                            <div class="form-group col-sm-3 flex-column d-flex"> <label
+                                    class="form-control-label px-3">email<span class="text-danger">
+                                        *</span></label> <input type="email" id="email" name="email"
+                                    placeholder="email whle on leave (optional)">
+                            </div>
+                            <div class="form-group col-sm-3 flex-column d-flex" title="upload supporting document">
+                                <label class="form-control-label px-3">Document<span class="text-danger">
+                                    </span></label> <input type="file" id="file" name="file">
+                            </div>
+                            <div class="form-group col-sm-3 flex-column d-flex"> <label
+                                    class="form-control-label px-3">Handle Over To<span class="text-danger">
+                                        *</span></label> <select required name="handle_over_to" id="handle_over_to" class="form-control">
+                                            <option value="">select</option>
+                                        </select>
+                            </div>
+
+                        </div>
+                      
+                        <hr class="bg-primary">
+
+
+                        <small class="text-danger text-center">NB: APPLYING FOR DAYS MORE THAN THE COMPANIES POLICY MAY HAVE YOUR APPLICATION REJECTED</small>
+                        <p> click  <em class="text-danger leave" onclick="verify_leave(this)" style="cursor: pointer;">here</em> to verify before you proceed</p>
+
+                        <p id="days"></p>
+
+                        <button type="submit" class="btn btn-primary  submit-btn"
+                            style="width: 100%;">Submit</button>
+
+                    </form>
+                        <!-- APPLY FOR LEAVE END -->
+
+                    </div>
+                    <!-- EDIT LEAVE START -->
+
+                        <div id="edit_leave" style="display: none">
+                            <form class="form-card" id="edit_leave_form" enctype="multipart/form-data" method="POST">
+        
+                                {% csrf_token %}
+                                <!-- FIRST ROW -->
+                                <div class="row justify-content-between text-left">
+                                    <div class="form-grousp col-sm-3 flex-column d-flex"> <label
+                                            class="form-control-label px-3">Date From<span class="text-danger">
+                                                *</span></label> <input required type="date" id="start_edit" name="start">
+                                    </div>
+                                    <div class="form-group col-sm-3 flex-column d-flex"> <label class="form-control-label px-3">
+                                            Date To<span class="text-danger">
+                                                *</span></label> <input type="date" id="end_edit" required name="end">
+                                    </div>
+                                    <div class="form-group col-sm-3 flex-column d-flex"> <label
+                                            class="form-control-label px-3">phone
+                                            <span class="text-danger">
+                                                *</span></label> <input type="number" id="phone_edit" name="phone"
+                                            placeholder="Phone While on leave">
+                                    </div>
+                                    <div class="form-group col-sm-3 flex-column d-flex">  <label class="form-control-label px-3">
+                                            Select Leave Type<span class="text-danger">
+                                                *</span></label> <Select required id="policy_edit" name="policy" class="form-control">
+                                                    <!-- <option value="">select</option> -->
+                                                </Select>
+                                    </div>
+        
+                                </div>
+        
+                                <!-- FIRST ROW END -->
+                                <!-- SECOND ROW START-->
+                                <div class="row justify-content-between text-left">
+                                    <div class="form-group col-sm-3 flex-column d-flex"> <label
+                                            class="form-control-label px-2">Reason<span class="text-danger">
+                                                *</span></label> <input type="text" id="reason_edit" name="reason"
+                                            placeholder="(optional)">
+                                    </div>
+                                    <div class="form-group col-sm-3 flex-column d-flex"> <label
+                                            class="form-control-label px-3">Status<span class="text-danger">
+                                                *</span></label> <input type="text" id="status" name="status">
+                                    </div>
+                                    <div class="form-group col-sm-3 flex-column d-flex">
+                                        <label class="form-control-label px-3">Document<span class="text-danger">
+                                            </span></label> <input title="upload supporting document" type="file" id="file_edit" name="file"> <a title="download file" id="file_url" href="#">file</a>
+                                    </div>
+                                    <div class="form-group col-sm-3 flex-column d-flex"> <label
+                                            class="form-control-label px-3">Handle Over To<span class="text-danger">
+                                                *</span></label> <select required name="handle_over_to" id="handle_over_to_edit" class="form-control">
+                                                    <option value="">select</option>
+                                                </select>
+                                    </div>
+        
+                                </div>
+                              
+                                <hr class="bg-primary">
+                                <p class="">APPROVE LEAVE</p>
+                                <!-- THIRED ROW START -->
+                                <div class="row justify-content-between text-left">
+                                    <div class="form-group col-sm-3 flex-column d-flex"> <label class="collegue_approve_edit"
+                                            class="form-control-label px-2">Collegue<span class="text-danger">
+                                                </span> <input type="checkbox" id="collegue_approve_edit" name="collegue_approve">
+                                            </label>
+                                    </div>
+                                    <div class="form-group col-sm-3 flex-column d-flex"> <label
+                                            class="form-control-label px-3">Line Manger<span class="text-danger">
+                                                </span></label> <input type="checkbox" id="line_manager_edit" name="line_manager">
+                                    </div>
+                                    <div class="form-group col-sm-3 flex-column d-flex">
+                                        <label class="form-control-label px-3">HR<span class="text-danger">
+                                            </span></label> <input type="checkbox"  id="hr__edit" name="hr_manager">
+                                    </div>
+                                    <div class="form-group col-sm-3 flex-column d-flex on_leave">
+                                        <label class="form-control-label px-3">From Leave<span class="text-danger">
+                                            </span></label> <input type="checkbox"  id="on_leave" name="on_leave">
+                                    </div>
+                                    
+        
+                                </div>
+
+                                <!-- THIRED ROW END -->
+                                        <hr class="bg-primary">
+        
+                                <small class="text-danger text-center" id="nb_text">NB: APPLYING FOR DAYS MORE THAN THE COMPANIES POLICY MAY HAVE YOUR APPLICATION REJECTED</small>
+                                <p> click  <em class="text-danger leave" onclick="verify_leave(this)" style="cursor: pointer;">here</em> to verify before you proceed</p>
+                                <p id="days_edit"></p>
+        
+                                <button type="submit" class="btn btn-primary  submit-btn" id="submit_btn_edit"
+                                    style="width: 100%;">Submit</button>
+        
+                            </form>
+                                
+                </div>
+                <!-- EDIT FOR LEAVE END -->
+
+
+   <!-- table start -->
+   <div>
+    <select class="" name="" id="emp_filter" style="position:absolute;left:20px;">
+        <option value="all">ALL</option>
+        <option value="approvals">MY APPROVALS</option>
+        <option value="on_leave">ON LEAVE</option>
+    </select>
+        <input type="search" class=""  id="leave_search" placeholder="Search..." autocomplete="off.." style="position:absolute;right:20px;">
+                <br><br><hr>
+        <div class="table-responsive-sm table-responsive-md">
+        <table id="leave_table" class="table table-striped table-bordered table-hover">
+            
+            <thead>
+                <tr>
+                    <th>Department</th>
+
+                    <th>Name</th>
+                    <th>Policy</th>
+                    <th>Phone</th>
+                    <th>Start</th>
+                    <th>End</th>
+                    <th><abbr class="initialism" title="No of Days">Days</abbr></th>
+                    <!-- <th>Reason</th> -->
+                    <th><abbr class="initialism" title="handle over to">H O T</abbr></th>
+                    <th>Document</th>
+                    <th><abbr class="initialism" title="collegue approve">CApp</abbr></th>
+                    <th>HOD</th>
+                    <th>HR</th>
+                    <th>Status</th>
+                </tr>
+            </thead> 
+            <tbody id="table_body">
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+
+
+<!-- table start -->
+
+   <!-- SUMMARY LEAVE TABLE START -->
+   <div class="table-responsive" style="display: none">
+    <table class="table table-striped table-bordered table-hover" id="leave_summary_table">
+        <thead>
+          <tr>
+            <th>Policy</th>
+            <th>Applied Year</th>
+            <th>Policy Days</th>
+            <th>Days Applied For</th>
+            <th>Outstanding</th>
+            <th>Num Of Application</th>
+          </tr>
+        </thead>
+        <tbody id="leave_summary_body">
+         
+         
+        </tbody>
+      </table>
+   </div>
+   
+
+  <!-- SUMMARY LEAVE TABLE END -->
+
+                </div>
+             
+            </div>
+            
+        </div>
+        
+    </div>
+
+
+
+    <script src="{% static 'js/scripts/partials/apply_leave.js' %}"></script>
+
+
+
+</body>
+
+</html>

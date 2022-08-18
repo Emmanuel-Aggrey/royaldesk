@@ -1,0 +1,155 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<script src="{% static 'js/scripts/employees.js' %}"></script>
+
+
+<div class="container-scroller">
+
+  <div class="container-fluid page-body-wrapper">
+    <!-- sidebar start -->
+
+    {% include "partials/sidebar.html" %}
+    <!-- side bar ends -->
+
+    <div class="main-panel">
+
+      <div class="content-wrapper">
+
+        <br>
+
+
+        <div class="row">
+
+          <div class="col grid-margin stretch-card">
+
+            <div class="card">
+
+              <div class="card-body">
+
+                <div>
+                  <div class="toolbar-item float-right btn" onclick="createPDF('EMPLOYEES')" title="print">
+                    <i class="fa fa-print" aria-hidden="true"></i>
+                  </div>
+                  <div class="toolbar-item float-right btn" onclick="createExcel()" title='save to excel'>
+                    <i class="fa fa-file" aria-hidden="true"></i>
+
+                  </div>
+                  <!-- <a class="btn btn-primary toolbar-item float-right btn" id="add_employee" href="/register-staff">New
+                    Employee</a> -->
+
+                  <h2 class="card-title text-center">EMPLOYEES</h2>
+                </div>
+                <hr>
+                <div>
+                  <select name="filter_emp" id="filter_emp" >
+                    <option value="1">Active</option>
+                    <option value="2">Resigned</option>
+
+                    <option value="3">Sacked</option>
+                    <option value="4">With Beneficiary</option>
+                    <option value="5">Without Beneficiary</option>
+
+                  </select>
+                  <a class="btn btn-primary toolbar-item float-right mx-3 pulse" id="add_employee" href="/register-staff" title="Register New Employee" style="height: 43px;">New
+                    Employee</a>
+                  <input class="float-right" type="search" name="" id="emp_search" placeholder="search">
+                </div>
+                <div class="table-responsive">
+
+                  <form>
+                    {% csrf_token %}
+                    <div id="tab">
+                      <table class="table table-stretched sampleTable" id="sampleTable">
+                        <thead>
+                          <tr>
+                            <th>Profile</th>
+                            <th>EMP ID</th>
+                            <th>Name</th>
+                            <th>Department</th>
+                            <th>Phone</th>
+                            <th>Email</th>
+                            <th>Address</th>
+                            <th>Date Employed</th>
+                            <th>View</th>
+                          </tr>
+                        </thead>
+                        <tbody id="employees_table">
+                          <!-- <tr>
+                               <td>
+                                 <p class="mb-1 text-dark font-weight-medium">NFLX</p><small class="font-weight-medium">Netflix, Inc.</small>
+                               </td>
+                               <td class="font-weight-medium">$250.00</td>
+                               <td class="text-success font-weight-medium">+12.64</td>
+                             </tr> -->
+
+
+                        </tbody>
+                      </table>
+                    </div>
+                  </form>
+                </div>
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+<div class="leave_table" style="display: none">
+  <!-- DETAIL LEAVE TABLE START -->
+  <div class="table-responsive-sm">
+    <table id="leave_table" class="table table-striped table-bordered table-hover">
+        
+        <thead>
+            <tr>
+               
+                <th>Policy</th>
+                <th>Start</th>
+                <th>End</th>
+                <th><abbr class="initialism" title="No of Days">Days</abbr></th>
+                <th>Reason</th>
+                <th><abbr class="initialism" title="handle over to">H O T</abbr></th>
+                <th>Document</th>
+                <th><abbr class="initialism" title="collegue approve">CApp</abbr></th>
+                <th>HOD</th>
+                <th>HR</th>
+                <th>Status</th>
+            </tr>
+        </thead> 
+        <tbody id="leave_table_body">
+          
+
+        </tbody>
+    </table>
+</div>
+<!-- DETAIL LEAVE TABLE END-->
+
+    <!-- SUMMARY LEAVE TABLE START -->
+    <table class="table table-striped table-bordered table-hover" id="leave_summary_table">
+      <thead>
+        <tr>
+          <th>Policy</th>
+          <th>Applied Year</th>
+          <th>Policy Days</th>
+          <th>Days Applied For</th>
+          <th>Outstanding</th>
+          <th>Num Of Application</th>
+        </tr>
+      </thead>
+      <tbody id="leave_summary_body">
+       
+       
+      </tbody>
+    </table>
+
+    <!-- SUMMARY LEAVE TABLE END -->
+</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+{% endblock content %}

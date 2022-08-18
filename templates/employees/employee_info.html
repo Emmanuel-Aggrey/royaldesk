@@ -1,0 +1,315 @@
+
+
+
+
+{% load static %}
+
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title></title>
+<!-- <script src="/cdn-cgi/apps/head/i-lAwau9_PGB_kvkxfaHap92AMs.js"></script> -->
+<link rel="stylesheet" href="{% static 'css/employee_info.css' %}">
+<script src="{% static 'js/jquery-3.5.1.js' %}"></script>
+
+<script src="{% static 'js/scripts/employee.js' %}"></script>
+<script src="{% static 'js/qrcode.min.js' %}"></script>
+</head>
+<!-- <script src="/cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js" data-cf-settings="ec18832bc4a79e61abeaeea0-|49"></script> -->
+<!-- <body onLoad="window.print()"> -->
+<page size="A4">
+    <div>
+
+
+<header>
+<h1>EMPLOYEE DETAILS</h1>
+
+</div>
+</header>
+<article>
+<table cellpadding="0" cellspacing="0" class="meta borderless">
+<tr class="noborder">
+<td colspan="2" nowrap="nowrap"><div align="center"><img src="\static\images\logo\Rock-City-Logo.png" width="90%" /></div>
+
+</td>
+<td nowrap="nowrap"><div id="qrcode"></div></td>
+</tr>
+<tr>
+<th  nowrap="nowrap">ID :</th>
+<td id="employee_id"></td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<th nowrap="nowrap">SNNIT:</th>
+<td id="snnit_number"></td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<th nowrap="nowrap">NIA</th>
+<td id="nia_number"></td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<th nowrap="nowrap">Status</th>
+<td  id="status"></td>
+<td>&nbsp;</td>
+</tr>
+</table>
+<table class="photo">
+<tr>
+<!-- <td>PHOTO ON NATIONAL ID</td> -->
+<!-- <td align="center" nowrap="nowrap">UPLOADED PHOTO</td> -->
+</tr>
+<tr>
+<!-- <td><div align="right"><img src="/static/images/faces/face17.jpg" width="111" height="151" alt=""></div></td> -->
+<td><div align="right"><img id="photo" border="0" style="display:block;visibility:visible;" width="auto" height="151" />
+</div>
+<div style="text-align:center;align-items: center;margin-top:9%">
+    <a id="cv" href="#" target="_blank" rel="noopener noreferrer"></a>
+
+</div>
+</td>
+
+</tr>
+</table>
+<table class="address">
+<tbody>
+<tr>
+<td><div class="grphead"><strong>PERSONAL INFORMATION</strong></div></td>
+</tr>
+</tbody>
+</table>
+<table class="nationalid">
+<tbody>
+<tr>
+<th width="20%"><strong>EMPLOYEE FULL NAME :</strong></th>
+<td width="80%" id="full_name"></td>
+</tr>
+</tbody>
+</table>
+<table class="inventory">
+<thead>
+</thead>
+<tbody>
+<tr>
+<th>Surname:</th>
+<td id="last_name"></td>
+<th>Other Names :</th>
+<td id="other_name"></td>
+</tr>
+<tr>
+<th>Date of Birth:</th>
+<td id="dob"></td>
+<th>Sex</th>
+<td id='sex'> </td>
+</tr>
+<tr>
+
+<th>Contact Tel No.(s):</th>
+<td id="contact_number">+233246394796</td>
+<th>Date Employed:</th>
+<td id="date_employed">2-12-1995</td>
+</tr>
+<tr>
+<th>Marital Status: </th>
+<td id="is_merried">Single</td>
+<th>Country :</th>
+<td id="country">Ghana</td>
+</tr>
+<tr>
+ <th>Place Of Birth:</th>
+ <td id="place_of_birth">Male</td>
+<th>Email Address :</th>
+<td style="text-transform: none !important;"><a id="p_email"></a></td>
+</tr>
+</tbody>
+</table>
+<table class="address">
+<tbody>
+<tr>
+<th>Nationality :</th>
+<td id="nationality"></td>
+</tr>
+</tbody>
+</table>
+<table class="digital">
+<tbody>
+<tr>
+<th>Language(s) :</th>
+<td id="languages">:</td>
+<th>Age:</th>
+<td id="age"></td>
+</tr>
+</tbody>
+</table>
+<table class="address">
+<tbody>
+<tr>
+<td><div class="grphead"><strong>EMERGENCY / GUARDIAN INFORMATION </strong></div></td>
+</tr>
+</tbody>
+</table>
+<table class="address">
+<tbody>
+<tr>
+ <th>Name :</th>
+<td id='emergency_name'></td>
+</tr>
+</tbody>
+</table>
+<table class="digital">
+<tbody>
+<tr>
+<th>Address:</th>
+<td><a  id='emergency_address'></a></td>
+<th>Phone No</th>
+<td id='emergency_phone'></td>
+</tr>
+</tbody>
+</table>
+<table class="address">
+<tbody>
+<tr>
+<td><div class="grphead"><strong>NEXT OF KIN INFORMATION</strong></div></td>
+</tr>
+</tbody>
+</table>
+<table class="inventory">
+<tbody>
+<tr>
+<th>Name of Next of Kin:</th>
+<td id="next_of_kin_name"></td>
+
+<th>Kin's Contact No.:</th>
+<td id="next_of_kin_phone"></td>
+</tr>
+<tr>
+<th>Relationship:</th>
+<td id="next_of_kin_relationship"></td>
+<th>Address:</th>
+<td id="next_of_kin_address"></td>
+
+<!-- <td>&nbsp;</td>
+<td>&nbsp;</td> -->
+</tr>
+</tbody>
+</table>
+<table class="address">
+    <tbody>
+    <tr>
+    <td><div class="grphead"><strong>BANK / SALARY INFORMATION</strong></div></td>
+    </tr>
+    </tbody>
+    </table>
+    <table class="inventory">
+        <tbody>
+        <tr>
+        <th>Bank Name:</th>
+        <td id="bank_name"></td>
+        
+        <th>Bank Branch:</th>
+        <td id="bank_branch"></td>
+        </tr>
+        <tr>
+        <th>Account Number:</th>
+        <td id="bank_ac"></td>
+        <th>Net Month Salary:</th>
+        <td id="salary"></td>
+        
+        <!-- <td>&nbsp;</td>
+        <td>&nbsp;</td> -->
+        </tr>
+        </tbody>
+        </table>
+
+<table class="address">
+<tbody>
+<tr>
+<td><div class="grphead"><strong>DEPENDANT(S) INFORMATION</strong></div></td>
+<table class="inventory">
+    <tbody id="dependencies">
+   <!-- dependeants info from js -->
+
+    </tbody>
+    </table>
+
+</tr>
+</tbody>
+</table>
+
+
+<table class="address">
+<tbody>
+<tr>
+<td><div class="grphead"><strong>EDUCATION INFORMATION</strong></div></td>
+</tr>
+</tbody>
+</table>
+<table class="inventory">
+    <tbody id="education">
+   
+    </tbody>
+    </table>
+
+    <table class="address">
+        <tbody>
+        <tr>
+        <td><div class="grphead"><strong>PROFFESIONAL MEMBERSHIP</strong></div></td>
+        </tr>
+        </tbody>
+        </table>
+        <table class="inventory">
+           
+            <tbody id="prof_membership">
+            
+                <!-- PROFFESIONAL MEMBERSHIP -->
+            </tbody>
+            </table>
+
+
+    <table class="address">
+        <tbody>
+        <tr>
+        <td><div class="grphead"><strong>PREVIOUS EMPLOYMENT</strong></div></td>
+        </tr>
+        </tbody>
+        </table>
+        <table class="inventory">
+            <tbody id="prev_employment">
+           <!-- PREVIOUS EMPLOYMENT -->
+            
+            </tbody>
+            </table>
+
+
+
+</article>
+<aside>
+<h1>&nbsp;</h1>
+</aside>
+</page>
+
+<script src="{% static 'vendors/chart.js/Chart.min.js' %}"></script>
+
+<style>
+    td{
+        text-transform: uppercase;
+    }
+</style>
+
+
+<!-- <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script></body> -->
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

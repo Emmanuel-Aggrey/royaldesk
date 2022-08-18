@@ -1,0 +1,319 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+{% block title %}
+<title>RCH-HELPDESK</title>
+{% endblock title %}
+
+<link rel="stylesheet" href="{% static 'css/education/partials.css' %}">
+
+<link rel="stylesheet" href="{% static 'css/dropify.min.css' %}">
+
+<body>
+    
+    <div class="container px-1 py-5 mx-auto">
+        <div id="loading" style="display: none"></div>
+
+        <div class="row d-flex justify-content-center">
+            
+            <div class="col-xl-12 col-lg-12 col-md-12 col-12 text-center">
+                
+                <div class="card px-0">
+                    <h3 id="heading">WELCOME TO HELP DESK
+                        <button type="button" id="new_report" class="btn btn-outline-primary heading text-white" style="position: absolute;right:20px;top: 20px;background:#6B42B1">NEW TICKET</button>
+                    
+                    </h3>
+
+                    
+            
+                    <!-- <hr class="bg-primary"> -->
+                    <h4 id="user_name"></h4>
+                     <!-- APPLY FOR LEAVE START -->
+                    <div id="new_report_table" style="display: none">
+                    <form class="form-card" id="issue_form" enctype="multipart/form-data" method="POST">
+
+                        {% csrf_token %}
+                        <!-- FIRST ROW -->
+                        <div class="row justify-content-between text-left">
+                            <div class="form-grousp col-sm-4 flex-column d-flex"> <label
+                                    class="form-control-label px-3">Department<span class="text-danger">
+                                        *</span></label> <Select required id="department" name="department" required class="form-control">
+                                            <option value="">select</option>
+                                        </Select>
+                            </div>
+                            <div class="form-grousp col-sm-4 flex-column d-flex"> <label
+                                class="form-control-label px-3">Issue<span class="text-danger">
+                                    *</span></label> <select name="issue" id="issue" class="form-control" required></select>
+                        </div>
+                        <div class="form-grousp col-sm-4 flex-column d-flex"> <label
+                            class="form-control-label px-3">Priority<span class="text-danger">
+                                *</span></label> <Select required id="priority" name="priority" required class="form-control">
+                                    <option value="critical">CRITICAL</option>
+                                    <option value="normal">NORMAL</option>
+
+                                </Select>
+                    </div>
+                           
+
+                        </div>
+
+                        <!-- FIRST ROW END -->
+                        <!-- SECOND ROW START-->
+                        <div class="row justify-content-between text-left">
+                            <div class="form-group col-sm-4 flex-column d-flex">  
+                                <label for="" class="form-control-label px-3">Message</label>
+                                <textarea class="form-control" name="subject" id="subject" rows="10" cols="30" required></textarea>
+
+                        </div>
+                             
+                            
+                            <div class="form-group col-sm-4 flex-column d-flex file-area"> <label
+                                class="form-control-label px-3"></label> <input type="file" name="image" id="image"
+                                    class="dropify" data-height="200" data-max-file-size="2M" data-allowed-file-extensions="jpg jpeg png gif">
+                               
+                        </div>
+                        <div class="form-group col-sm-4 flex-column d-flex">
+                            <!-- <div class="form-group ">
+                              <label for="" class="form-control-label px-3">Description</label>
+                              <textarea class="form-control" name="description" id="description" rows="10" cols="30" required></textarea>
+                            </div> -->
+                        </div>
+
+                        </div>
+                      
+                        <!-- <hr class="bg-primary"> -->
+
+
+                        <p id="days"></p>
+
+                        <button type="submit" class="btn btn-primary  submit-btn"
+                            style="width: 100%;">Submit</button>
+
+                    </form>
+                        <!-- APPLY FOR LEAVE END -->
+
+                    </div>
+                    <!-- EDIT LEAVE START -->
+
+                        <div id="edit_help_desk" style="display: none">
+                            <!-- <div class="float-right" >
+                                <ul>
+                                    <li>come through come throughcome throughcome through</li>
+                                    <li>come through</li>
+                                    <li>come through</li>
+                                    <li>come throughcome throughcome through come through </li>
+                                    <li>come through</li>
+                                    <li>come through</li>
+    
+                                </ul>
+                            </div> -->
+                            <form class="form-card" id="issue_form_edit" enctype="multipart/form-data" method="POST">
+
+                                {% csrf_token %}
+                                <!-- FIRST ROW -->
+                                <div class="row justify-content-between text-left">
+                                    <div class="form-grousp col-sm-4 flex-column d-flex"> <label
+                                            class="form-control-label px-3">Department<span class="text-danger">
+                                                *</span></label> <Select required id="department_edit" name="department" class="form-control">
+                                                </Select>
+                                    </div>
+                                    <div class="form-grousp col-sm-4 flex-column d-flex"> <label
+                                        class="form-control-label px-3">Issue<span class="text-danger">
+                                            *</span></label> <select name="issue" id="issue_edit" class="form-control"></select>
+                                </div>
+                                <div class="form-grousp col-sm-4 flex-column d-flex"> <label
+                                    class="form-control-label px-3">Priority<span class="text-danger">
+                                        *</span></label> <Select required id="priority_edit" name="priority" class="form-control">
+                                           
+                                            <!-- <option value="normal">1</option> -->
+        
+                                        </Select>
+                            </div>
+                                   
+        
+                                </div>
+        
+                                <!-- FIRST ROW END -->
+                                <!-- SECOND ROW START-->
+                                <div class="row justify-content-between text-left">
+                                    <div class="form-group col-sm-4 flex-column d-flex">  
+                                        <label for="" class="form-control-label px-3">Subject</label>
+                                        <textarea class="form-control" name="subject" id="subject_edit" rows="10" cols="30"></textarea>
+        
+                                </div>
+                                   
+                                    <div class="form-group col-sm-4 flex-column d-flex">
+                                         <label class="form-control-label px-3"></label> <input type="file" name="image" id="image_edit"  
+                                            class="dropify" data-height="200" data-max-file-size="2M" data-allowed-file-extensions="jpg jpeg png gif">
+
+
+                                            <a href="#" title="download" class="form-control" target="_blank" rel="noopener noreferrer" id="file_url"></a>
+                                </div>
+                                   
+                                     <div class="form-group col-sm-4 flex-column d-flex">
+                                        <!-- <div class="form-group ">
+                                          <label for="" class="form-control-label px-3">Description</label>
+                                          <textarea class="form-control" name="description" id="description_edit" rows="10" cols="30"></textarea>
+                                        </div> -->
+                                    </div>
+        
+                                </div>
+
+
+                                <!-- THIRED ROW START -->
+                                <div class="row justify-content-between text-left">
+                                    <div class="form-group col-sm-4 flex-column d-flex">  
+                                        <label for="" class="form-control-label px-3 switch" id="ticket_status">CLOSE TICKET
+                                        <input type="checkbox" name="status" id="status_id" class="form-control">
+                                        <span class="slider round"></span>
+
+                                    </label>
+                                </div>
+                                  
+                               
+                                <div class="form-group col-sm-4 flex-column d-flex"> <label
+                                    class="form-control-label px-3">Assign To
+                                    <span class="text-danger">
+                                        *</span></label> <select name="assiend_to" id="assiend_to"></select>
+                            </div>
+                                   
+                                <div class="form-group col-sm-4 flex-column d-flex"> <label
+                                    class="form-control-label px-3 pb-3">
+                                   </label> <button type="button" class="btn btn-primary pulse" id="btn_comment">Comments 
+                                    <span class="badge badge-info mx-3" id="comments_count"></span>
+
+                                   </button>
+                            </div>
+                                   
+        
+                                </div>
+
+                                <!-- THIRD ROW END -->
+                              
+                                <!-- <hr class="bg-primary"> -->
+        
+        
+                                <p id="days"></p>
+        
+                                <button type="submit" class="btn btn-primary  submit-btn" id="submit_ticket_edit"
+                                    style="width: 100%;">Submit</button>
+
+        
+                            </form>
+
+                            
+                                
+                </div>
+
+                <div id="commentss" style="display: none">
+                    <form id="">
+                        {% csrf_token %}
+                    <div id="comments" class="chatboard">
+                       
+
+                    </div>
+                    <div>
+
+                        <div class="flexContainer">
+                            <input  onkeydown="ticket_input_valid()" onfocus="ticket_input_valid()" type="text" class="inputField" id='comment_text' name='comment' required>
+                            <button  id="submit_comment" class="btn btn-primary"type="submit">send</button>
+                        </div>
+
+
+                        <!-- <input id="comment_text" name="comment" type="text"> <button type="submit" id="submit_comment">send</button> -->
+                    </div>
+                </form>
+                </div>
+                <!-- EDIT FOR LEAVE END -->
+
+
+   <!-- table start -->
+   <div>
+    <div class="card">
+    <select class="" name="" id="ticket_filter" style="position:absolute;left:20px;">
+        <option value="all">ALL</option>
+        <option value="resolved">RESOLVED</option>
+        <option value="assiend">ASSIGEND</option>
+        <option value="pending">PENDING</option>
+
+    </select>
+
+    <form>
+       <label for="date_from">Start </label>
+        <input type="date" name="date_from" id="date_from">
+       
+        <label for="date_to">End </label>
+       <input type="date" name="date_to" id="date_to">
+       <input type="search" name="" id="leave_search" placeholder="Search..." style="position:absolute;right:20px;">
+
+    </form>
+</div>
+<div class="tabel_div">
+        <table id="leave_table" class="table table-striped">
+            
+            <thead>
+                <tr>
+                    <th>Reported TO</th>
+                    <th>Time Date</th>
+                    <th>Subject</th>
+                    <!-- <th>Description</th> -->
+                    <th>Issue</th>
+                    <th>File</th>
+                    <th>Priority</th>
+                    <th>Status</th>
+                    
+                </tr>
+            </thead> 
+            <tbody id="table_body">
+
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th>Reported TO</th>
+                    <th>Time Date</th>
+                    <th>Subject</th>
+                    <!-- <th>Description</th> -->
+                    <th>Issue</th>
+                    <th>File</th>
+                    <th>Priority</th>
+                    <th>Status</th>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>
+
+
+<!-- table start -->
+
+                </div>
+             
+            </div>
+            
+        </div>
+        
+    </div>
+
+<p id="user_id" style="display: none;">{{request.user.id}}</p>
+<p id="ticket_id" style="display: none;"></p>
+
+<!-- <script src="{% static 'js/dropify.min.js' %}"></script> -->
+
+<script src="{% static 'js/scripts/partials/helpdesk.js' %}"></script>
+<script src="{% static 'js/scripts/partials.js' %}"></script>
+
+<style>
+   
+  
+  
+</style>
+
+<script>
+  
+</script>
+
+</body>
+
+
+{% endblock content %}

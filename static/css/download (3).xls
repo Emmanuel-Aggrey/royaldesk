@@ -1,0 +1,68 @@
+<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>RCH</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table>
+    
+                                <thead>
+                                  <tr>
+                                    <th>Department</th>
+                                    <th>In</th>
+                                    <th style="display:none">Out</th>
+                                  </tr>
+                                </thead>
+                                <tbody id="attendance_table">
+                                 
+                                 
+                                
+                <tr>
+                    <td class="font-weight-medium">Accounts</td>
+                    <td class="font-weight-medium">12</td>
+                    <td class="font-weight-medium" style="display:none">11</td>
+           
+                    </tr>
+                <tr>
+                    <td class="font-weight-medium">F&amp;B</td>
+                    <td class="font-weight-medium">23</td>
+                    <td class="font-weight-medium" style="display:none">25</td>
+           
+                    </tr>
+                <tr>
+                    <td class="font-weight-medium">House Keeping</td>
+                    <td class="font-weight-medium">40</td>
+                    <td class="font-weight-medium" style="display:none">36</td>
+           
+                    </tr>
+                <tr>
+                    <td class="font-weight-medium">Human Resource</td>
+                    <td class="font-weight-medium">2</td>
+                    <td class="font-weight-medium" style="display:none">2</td>
+           
+                    </tr>
+                <tr>
+                    <td class="font-weight-medium">IT</td>
+                    <td class="font-weight-medium">13</td>
+                    <td class="font-weight-medium" style="display:none">9</td>
+           
+                    </tr>
+                <tr>
+                    <td class="font-weight-medium">Maintenance</td>
+                    <td class="font-weight-medium">8</td>
+                    <td class="font-weight-medium" style="display:none">8</td>
+           
+                    </tr>
+                <tr>
+                    <td class="font-weight-medium">Sales &amp; Front Office</td>
+                    <td class="font-weight-medium">9</td>
+                    <td class="font-weight-medium" style="display:none">11</td>
+           
+                    </tr>
+                <tr>
+                    <td class="font-weight-medium">Security</td>
+                    <td class="font-weight-medium">26</td>
+                    <td class="font-weight-medium" style="display:none">22</td>
+           
+                    </tr>
+                <tr>
+                    <td class="font-weight-medium">Transport</td>
+                    <td class="font-weight-medium">2</td>
+                    <td class="font-weight-medium" style="display:none">3</td>
+           
+                    </tr></tbody>
+                              </table></body></html>
