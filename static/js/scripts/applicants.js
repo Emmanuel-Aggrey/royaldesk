@@ -244,7 +244,7 @@ const get_applicant = (applicant_id) => {
       $("#comment_edit").val(data.comment);
       $("#date_edit").val(data.resuming_date);
       $("#address_edit").val(data.address);
-      $("#salary_edit").val(data.salary);
+      $("#salary_edit").val(data.applicant_salary);
 
       status_ = data.status.toUpperCase();
 

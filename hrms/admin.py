@@ -131,10 +131,11 @@ admin.site.register(Employee, EmployeeAdmin)
 class LeaveAdmin(admin.ModelAdmin):
     # fields = ['employee','status','policy','handler_over_to']
     list_display = ['employee', 'status', 'policy', 'handle_over_to',
-                    'from_leave', 'hr_manager', 'leave_days', 'start', 'end']
+                    'from_leave','collegue_approve', 'line_manager','hr_manager', 'leave_days', 'start', 'end']
     list_filter = ['status', 'policy', 'from_leave']
-    list_editable = ['policy', 'status',
+    list_editable = ['policy', 'status','collegue_approve','line_manager',
                      'from_leave', 'hr_manager', 'start', 'end']
+    list_filter =['collegue_approve','line_manager','hr_manager','start','end','status']
     # exclude =['on_leave',]
     search_fields = ['employee__first_name', 'employee__last_name']
 

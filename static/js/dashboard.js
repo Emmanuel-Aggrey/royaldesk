@@ -245,15 +245,16 @@ const emp_on_leave = () => {
       })
 
 
-      // console.log(data)
+      console.log(data)
       desig.forEach(element => {
         console.log(element)
         $("#emp_on_leave").append(`
         
         <tr>
                             <td>
-                              <p class="mb-1 text-dark font-weight-medium">${element.leave_employees__employee__first_name} ${element.leave_employees__employee__last_name}</p></td>
-                            <td class="font-weight-medium">${element.leave_employees__end}</td>
+                              <p class="mb-1 text-dark font-weight-medium">${element.leave_employees__employee__first_name} ${element.leave_employees__employee__last_name}</p>
+                              <p class="mt-3 text-muted">Reporting Date : ${element.leave_employees__end}</p>
+                              </td>
                             <td class="text-primary font-weight-medium">
                               <div onclick="backfromleave(${element.leave_employees__pk})" class="btn btn-primary" title="back from leave"> 
                               <i class="fa fa-pencil" aria-hidden="true"></i>
@@ -297,12 +298,16 @@ const emp_on_leave = () => {
         desig.forEach(element => {
         
           // console.log(element)
+          // <td class="font-weight-medium">${element.leave_employees__end}</td>
           $("#emp_on_leave").append(`
           
           <tr>
                               <td>
-                                <p class="mb-1 text-dark font-weight-medium">${element.leave_employees__employee__first_name} ${element.leave_employees__employee__last_name}</p></td>
-                              <td class="font-weight-medium">${element.leave_employees__end}</td>
+                                <p class="mb-1 text-dark font-weight-medium">${element.leave_employees__employee__first_name} ${element.leave_employees__employee__last_name}</p>
+                                <p class="mt-3 text-muted">Reporting Date : ${element.leave_employees__end}</p>
+
+                              </td>
+                            
                               <td class="text-primary font-weight-medium" class="on_leave">
                                 <div  onclick="backfromleave(${element.leave_employees__pk})" class="btn btn-primary on_leave" title="back from leave"> 
                                 <i class="fa fa-pencil on_leave" aria-hidden="true"></i>

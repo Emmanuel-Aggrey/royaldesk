@@ -90,8 +90,9 @@ def hr_reports(request, data_value=None):
     emp_on_leave = qs.filter(leave_employees__from_leave=False).values('leave_employees__employee__employee_id','leave_employees__from_leave', 'leave_employees__hr_manager', 'leave_employees__line_manager',
                                                                        'leave_employees__employee__first_name', 'leave_employees__employee__last_name', 'leave_employees__pk', 'leave_employees__end')
 
+
     emp_from_leave_recent = qs.filter(leave_employees__from_leave=True).values(
-        'leave_employees__employee__first_name', 'leave_employees__employee__last_name', 'leave_employees__end')[:5]
+        'leave_employees__employee__first_name', 'leave_employees__employee__last_name', 'leave_employees__end').reverse()[:5]
 
     employment_rate = qs.values(
         'date_employed__year').annotate(employee_count=Count('date_employed'))

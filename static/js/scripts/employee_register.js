@@ -321,7 +321,7 @@ const set_applicant = () => {
         $('#p_phone').val(applicant.phone)
         $('#date_employed').val(applicant.resuming_date)
         $("#res_address").val(applicant.address)
-        $("#salary").val(applicant.salary)
+        $("#salary").val(applicant.applicant_salary)
 
         $("#department").append(
             '<option value="' +

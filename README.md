@@ -104,6 +104,10 @@ EMPLOYEE DETAIL PROFILE FOR THE HR DEPARTMENT
 
 # LEAVE MANAGEMENT
 
+#### LEAVE POLICY SETUP
+
+![1660870776558](image/README/1660870776558.png)
+
 Employee Applying for leave
 
 employees can apply for leave(holidays) from the comfort of their homes using their generated ID Number
@@ -189,3 +193,12 @@ ATTENDACE
 anviz time attendace device is used to clockin by Employees but what this system does it that it takes the data from anviz database and presents it in a manner recormmened by the Human Resource Department for easy tracking of employees attandace in the company and authomatically sends monthly and quarterly attendace and reporting to The complanies head quartes view email.
 
 ![1660793045938](image/README/1660793045938.png)
+
+# DEPARTMENT AND DESIGNATION SETUP
+
+![1660870653157](image/README/1660870653157.png)
+
+
+# MONITORING REAL TIME MESSAGES (tasks) with Flower
+
+![1660871709996](image/README/1660871709996.png)![1660871709996](image/README/1660871709996.png)

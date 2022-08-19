@@ -14,15 +14,15 @@ class ApplicantSerializer(serializers.ModelSerializer):
         fields = [
             'id', 'applicant_id', 'first_name', 'last_name', 'other_name', 'email', 'phone',
             'resuming_date', 'full_name', 'department', 'department_id', 'designation', 'designation_id',
-            'status', 'cv_exists', 'comment', 'address', 'salary',
+            'status', 'cv_exists', 'comment', 'address', 'applicant_salary',
         ]
 
 
 class AcceptanceSerializer(serializers.ModelSerializer):
     department = serializers.CharField(source='department.name')
     designation = serializers.CharField(source='designation.name')
-    net_month_salary = serializers.CharField(
-        source='applicant_salary')
+    # net_month_salary = serializers.CharField(
+    #     source='applicant_salary')
 
     snnit_amount = serializers.CharField(source='designation.snnit_amount')
 
@@ -42,7 +42,7 @@ class AcceptanceSerializer(serializers.ModelSerializer):
         fields = [
             'applicant_id', 'first_name', 'last_name', 'other_name', 'full_name', 'address',
             'email', 'phone', 'resuming_date', 'full_name', 'department',
-            'designation', 'status', 'net_month_salary', 'snnit_amount', 'snnit_amount_company',
+            'designation', 'status', 'applicant_salary', 'snnit_amount', 'snnit_amount_company',
             'provedent_amont', 'provedent_amont_company', 'reports_to',
 
         ]

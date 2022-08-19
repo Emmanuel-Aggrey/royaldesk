@@ -1,4 +1,1 @@
-,employee__first_name,employee__last_name,employee__department__name,employee__designation__name,policy__name,start,end,leavedays,employee__emergency_phone
-0,Emmanuel IT HEAD,Teye,Information Technology,Technician,Maternity Leave,2022-08-14,2022-08-17,3,0222
-1,Emmanuel,Nartey,Mentanance,Plumber,Sick Leave,2022-08-16,2022-08-17,1,0222
-2,Emmanuel IT HEAD,Teye,Information Technology,Technician,Maternity Leave,2022-08-16,2022-08-17,1,0222
+""

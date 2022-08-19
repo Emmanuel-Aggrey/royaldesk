@@ -13,11 +13,11 @@ app = Celery('HRMSPROJECT')
 app.config_from_object('django.conf:settings', namespace='CELERY')
 
 app.conf.beat_schedule = {
-    # 'add-every-30-seconds-employee_on_leave': {
-    #     'task': 'hrms.tasks.employee_on_leave',
-    #     'schedule': 30.0,
-    #     # 'args': (16, 16)
-    # },
+    'add-every-30-seconds-employee_on_leave': {
+        'task': 'hrms.tasks.employee_on_leave',
+        'schedule': 30.0,
+        # 'args': (16, 16)
+    },
 }
 # app.conf.timezone = 'UTC'
 
