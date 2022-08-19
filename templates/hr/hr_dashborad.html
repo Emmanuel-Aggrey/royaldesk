@@ -381,7 +381,8 @@
                 <div class="card">
                   <div class="card-body">
                     <h4 class="card-title mb-0">HEADS OF DEPARTMENT</h4>
-                    <hr class="bg-primary">
+                    <hr>
+                    <!-- <hr class="bg-primary"> -->
                     <div class="d-flex mt-3 py-2 border-bottom">
                       <!-- <img class="img-sm rounded-circle" src="{% static 'images/faces/face3.jpg' %}" alt="profile image"> -->
                       <div class="wrapper ml-2" id="department_heads">
@@ -396,10 +397,13 @@
           </div>
         </div>
         <div class="row">
+          <h5 class="mb-3 font-weight-semibold text-primary">Leave Management</h5>
+
           <div class="col-md-4 grid-margin stretch-card">
-            <div class="card">
+            <div class="card" style="background-color:rgb(241, 241, 241)">
               <div class="card-body">
                 <h4 class="card-title mb-0">EMPLOYEES FROM LEAVE (RESENT)</h4>
+                <hr>
                 <div class="d-flex py-2 border-bottom">
                   <div class="wrapper" id="emp_from_leave">
 
@@ -413,12 +417,11 @@
             </div>
           </div>
           <div class="col-md-4 grid-margin stretch-card">
-            <div class="card">
+            <div class="card" style="background-color:rgb(241, 241, 241)">
               <div class="card-body">
-                <div class="d-flex justify-content-between pb-3">
-                  <h4 class="card-title mb-0">EMP EXCEEDED LEAVE</h4>
-                  <!-- <p class="mb-0 text-muted">20 finished, 5 remaining</p> -->
-                </div>
+                <h4 class="card-title mb-0">EMP EXCEEDED LEAVE</h4>
+                <hr>
+               
                 <ul class="timeline" id="emp_exceed_leave">
                   <!-- <li class="timeline-item"> -->
                   <!-- <p class="timeline-content"><a href="#">Ben Tossell</a> assign you a task</p> -->
@@ -430,7 +433,7 @@
             </div>
           </div>
           <div class="col-md-4 grid-margin stretch-card">
-            <div class="card">
+            <div class="card" style="background-color:rgb(241, 241, 241)">
               <div class="card-body">
                 <h4 class="card-title mb-0">LEAVE APPLICATIONS</h4>
                 <hr>
@@ -524,7 +527,8 @@
       <!-- content-wrapper ends -->
       <script src="{% static 'js/scripts/attendance.js' %}"></script>
 
-      <script src="{% static 'js/dashboard.js' %}"></script>
+      <script src="{% static 'js/scripts/hr_dashboard/script.js' %}"></script>
+      <!-- <script src="{% static 'js/dashboard.js' %}"></script> -->
 
 
 

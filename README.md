@@ -192,12 +192,17 @@ ATTENDACE
 
 anviz time attendace device is used to clockin by Employees but what this system does it that it takes the data from anviz database and presents it in a manner recormmened by the Human Resource Department for easy tracking of employees attandace in the company and authomatically sends monthly and quarterly attendace and reporting to The complanies head quartes view email.
 
+
+
 ![1660793045938](image/README/1660793045938.png)
+
+### FILTERING FOR EMPLOYEES ATTENDANCE BASED ON DATE AND TIME
+
+![1660927638705](image/README/1660927638705.png)
 
 # DEPARTMENT AND DESIGNATION SETUP
 
 ![1660870653157](image/README/1660870653157.png)
-
 
 # MONITORING REAL TIME MESSAGES (tasks) with Flower
 
