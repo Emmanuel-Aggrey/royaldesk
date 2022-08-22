@@ -9,9 +9,37 @@ Latest technogies are used to build this project
 3. Celery as the channel for communication
 4. Celery Beat as the message or task scheduler
 
+# LOGIN PAGE
+
+![1661188269722](image/README/1661188269722.png)
+
 The Project consist of Four (4)) Key Models
 
-![1660786181042](https://file+.vscode-resource.vscode-cdn.net/media/aggrey/1EF5-7DBA/HR/image/README/1660786181042.png)
+
+# RESETING PASSWORD
+
+![1661188335829](image/README/1661188335829.png)
+
+# RESSETING PASSWORD
+
+![1661188561789](image/README/1661188561789.png)
+
+## PASSWORD RESET
+
+![1661188863940](image/README/1661188863940.png)
+
+
+## SETTING A NEW PASSEWORD
+
+![1661188941389](image/README/1661188941389.png)
+
+
+![1661189195572](image/README/1661189195572.png)
+
+
+## PASSWORD RESET DONE. LOGGING IN
+
+![1661189240949](image/README/1661189240949.png)
 
 ![1660795400296](image/README/1660795400296.png)
 
@@ -191,8 +219,6 @@ ATTENDACE
 [Anviz Global | Powering a Smarter World](https://www.anviz.com/)
 
 anviz time attendace device is used to clockin by Employees but what this system does it that it takes the data from anviz database and presents it in a manner recormmened by the Human Resource Department for easy tracking of employees attandace in the company and authomatically sends monthly and quarterly attendace and reporting to The complanies head quartes view email.
-
-
 
 ![1660793045938](image/README/1660793045938.png)
 

@@ -29,17 +29,39 @@ def apply_for_leave_email(employee, start, end, diff, policy, handle_over_to, de
 def employee_on_leave():
     tomorrow = datetime.now().date() + timedelta(days=1)
     leave = Leave.objects.select_related('employee').filter(end=tomorrow,from_leave=False)
-    data = leave.values('employee__first_name', 'employee__last_name', 'employee__department__name','employee__department__email',
-                 'employee__designation__name')
+    data = leave.values('employee__first_name', 'employee__last_name', 'employee__department__name','employee__designation__name','employee__department__email')
 
     department_email = [data[i]['employee__department__email'] for i in range(len(data))]
 
-    employees = []
-    for i in range(len(data)):
-        employee = data[i]['employee__first_name'] + ' ' + data[i]['employee__last_name']+ ' : ' + data[i]['employee__department__name']+ ' ' + data[i]['employee__designation__name']
+    department_email = list(set(department_email))
 
-        #add employee to list
-        employees.append(employee)
+    print(department_email)
+
+
+
+
+    # create an html table with data
+    df = pd.DataFrame(data)
+    df.drop(['employee__department__email'], axis = 1, inplace = True) 
+
+    df.columns = ['First Name', 'Last Name', 'Department', 'Designation']
+    html_table = df.to_html(index=False)
+    html_table = html_table.replace('border="1"', 'border="1"')
+    html_table = html_table.replace('style="border: 1px solid;"', 'style="align-items: center;"')
+
+
+
+
+
+    # df.to_html(classes='table table-striped text-center', justify='center')
+
+    # print(html_table)
+
+
+
+
+      
+
 
 
 
@@ -49,16 +71,16 @@ def employee_on_leave():
 
     subject = 'Employees On Leave'
     subject_ = subject.upper()
-    html_content = 'List of employees who are to report to work Tomorrow, Their Leave Will end On The {},  <p style="font-size: 10px">{}</p> , Thank you <br><hr> <br> <footer><b>POWERD BY <a href="http://192.168.43.212:8000/"> ROYALDESK </a> RCH</b> </footer>'.format(
-        tomorrow,employees)
+    html_content = 'List of employees whom are to return from Leave tomorrow  On The {}  <br> <br> {} <br> <b>Thank you</b>  <br><hr> <br> <footer><b>POWERD BY <a href="http://192.168.43.212:8000/"> ROYALDESK </a> RCH</b> </footer>'.format(
+        tomorrow,html_table)
 
-    print(html_content)
+    # print(html_content)
     
 
     msg = EmailMultiAlternatives(
         subject_, html_content, email_from, ['aggrey.en@live.com'])
     msg.attach_alternative(html_content, "text/html")
-    msg.send()
+    # msg.send()
 
 
 

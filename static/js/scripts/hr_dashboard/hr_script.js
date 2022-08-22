@@ -171,7 +171,8 @@ $(document).ready(function () {
 
       clockins()
       // LOAD CHARTS
-    
+   
+
 
       employment_rate()
 

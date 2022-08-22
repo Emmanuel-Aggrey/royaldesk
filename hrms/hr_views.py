@@ -289,7 +289,8 @@ def clockins(request):
     if sql_server.server_not_connected:
         print('server not connected')
         # return Response()
-        return Response()
+        return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
 
         # cursor =sql_server.connection.cursor()
     else:
