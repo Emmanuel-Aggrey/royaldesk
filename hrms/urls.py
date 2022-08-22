@@ -58,6 +58,8 @@ urlpatterns = [
     path('attendance/', hr_views.attendance,name='attendance'),
 
     path('time-attendance/',hr_views.time_attendance,name='time_attendance'),
+    path('get-department/<str:department>/',hr_views.get_department,name='get_department'),
+    path('clockins/',hr_views.clockins,name='clockins'),
 
 
 

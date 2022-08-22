@@ -28,11 +28,43 @@ def apply_for_leave_email(employee, start, end, diff, policy, handle_over_to, de
 @shared_task
 def employee_on_leave():
     tomorrow = datetime.now().date() + timedelta(days=1)
-    leave = Leave.objects.filter(end=tomorrow).select_related('employee')
-    data = leave.values('employee__first_name', 'employee__last_name', 'employee__department__name',
-                 'employee__designation__name', 'policy__name', 'start', 'end', 'leavedays', 'employee__emergency_phone')
-    df = pd.DataFrame(data)
+    leave = Leave.objects.select_related('employee').filter(end=tomorrow,from_leave=False)
+    data = leave.values('employee__first_name', 'employee__last_name', 'employee__department__name','employee__department__email',
+                 'employee__designation__name')
 
-    df.to_csv('employee_on_leave.csv')
+    department_email = [data[i]['employee__department__email'] for i in range(len(data))]
+
+    employees = []
+    for i in range(len(data)):
+        employee = data[i]['employee__first_name'] + ' ' + data[i]['employee__last_name']+ ' : ' + data[i]['employee__department__name']+ ' ' + data[i]['employee__designation__name']
+
+        #add employee to list
+        employees.append(employee)
+
+
+
+    email_from = settings.EMAIL_HOST_USER
+    tomorrow = tomorrow.strftime("%B %d, %Y")
+
+
+    subject = 'Employees On Leave'
+    subject_ = subject.upper()
+    html_content = 'List of employees who are to report to work Tomorrow, Their Leave Will end On The {},  <p style="font-size: 10px">{}</p> , Thank you <br><hr> <br> <footer><b>POWERD BY <a href="http://192.168.43.212:8000/"> ROYALDESK </a> RCH</b> </footer>'.format(
+        tomorrow,employees)
+
+    print(html_content)
+    
+
+    msg = EmailMultiAlternatives(
+        subject_, html_content, email_from, ['aggrey.en@live.com'])
+    msg.attach_alternative(html_content, "text/html")
+    msg.send()
+
+
+
+    
+    # df = pd.DataFrame(data)
+
+    # df.to_csv('employee_on_leave.csv')
 
 

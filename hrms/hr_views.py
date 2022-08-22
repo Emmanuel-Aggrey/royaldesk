@@ -9,7 +9,7 @@ from HRMSPROJECT.custome_decorators import group_required
 from rest_framework import generics, status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-
+from datetime import datetime
 from .models import (Department, Dependant, Designation, Education, Employee,
                      Leave, LeavePolicy, PreviousEployment,
                      ProfessionalMembership)
@@ -206,30 +206,39 @@ def time_attendance(request):
     endTime = data.get('time_to')
 
     # GET YESTERDAYS DATE IF NO DATE FROM AND TO IS PROVIDED
-    sql = "SELECT DISTINCT [DeptName] AS Department, 'In' as [StatusText In], Count(case StatusText when 'In' then 1 end) as Count_In, 'Out' as [Status_out],Count(case StatusText when 'Out' then 1 end) as Count_Out FROM [dbo].[V_Record] WHERE [StatusText] in ('In', 'Out') AND CAST(CheckTime AS DATE) ='{}'  GROUP BY [DeptName] ORDER BY [DeptName]".format(yesterday)
-
+    sql = "SELECT  [DeptName] AS Department, 'In' as [StatusText In], Count(case StatusText when 'In' then 1 end) as Count_In, 'Out' as [Status_out],Count(case StatusText when 'Out' then 1 end) as Count_Out FROM [dbo].[V_Record] WHERE [StatusText] in ('In', 'Out') AND CAST(CheckTime AS DATE) ='{}' AND DeptName IS NOT NULL GROUP BY [DeptName] ORDER BY [DeptName]".format(yesterday)
+    # print(sql)
 
     if date_to and endTime:
         date_from = f'{date_from} {startTime}:00'
         date_to = f'{date_to} {endTime}:00'
-        print(date_from, date_to)
 
+        request.session['date_from'] = date_from
+        request.session['date_to'] = date_to
+        request.session['DATETIME'] ="DATETIME"
+       
+        print(date_from, date_to)
+# 
         # print(date_from, date_to, startTime, endTime)
         
-        sql = "SELECT DISTINCT [DeptName] AS Department, 'In' as [StatusText In], Count(case StatusText when 'In' then 1 end) as Count_In, 'Out' as [Status_out],Count(case StatusText when 'Out' then 1 end) as Count_Out FROM [dbo].[V_Record] WHERE [StatusText] in ('In', 'Out') AND CAST(CheckTime AS DATETIME) BETWEEN '{}' AND '{}' GROUP BY [DeptName] ORDER BY [DeptName]".format(
+        sql = "SELECT  [DeptName] AS Department, 'In' as [StatusText In], Count(case StatusText when 'In' then 1 end) as Count_In, 'Out' as [Status_out],Count(case StatusText when 'Out' then 1 end) as Count_Out FROM [dbo].[V_Record] WHERE [StatusText] in ('In', 'Out') AND CAST(CheckTime AS DATETIME) BETWEEN '{}' AND '{}' AND DeptName IS NOT NULL GROUP BY [DeptName] ORDER BY [DeptName]".format(
             date_from, date_to)
         
 
     elif date_to:
+        request.session['date_from'] = date_from 
+        request.session['date_to'] = date_to 
+        request.session['DATETIME'] ="DATE"
         # print(date_from, date_to)
     
 
-        sql = "SELECT DISTINCT [DeptName] AS Department, 'In' as [StatusText In], Count(case StatusText when 'In' then 1 end) as Count_In, 'Out' as [Status_out],Count(case StatusText when 'Out' then 1 end) as Count_Out FROM [dbo].[V_Record] WHERE [StatusText] in ('In', 'Out') AND CAST(CheckTime AS DATE) BETWEEN '{}' AND '{}'  GROUP BY [DeptName] ORDER BY [DeptName]".format(date_from, date_to)
+        sql = "SELECT  [DeptName] AS Department, 'In' as [StatusText In], Count(case StatusText when 'In' then 1 end) as Count_In, 'Out' as [Status_out],Count(case StatusText when 'Out' then 1 end) as Count_Out FROM [dbo].[V_Record] WHERE [StatusText] in ('In', 'Out') AND CAST(CheckTime AS DATE) BETWEEN '{}' AND '{}' AND DeptName IS NOT NULL  GROUP BY [DeptName] ORDER BY [DeptName]".format(date_from, date_to)
 
     
     
 
     if sql_server.server_not_connected:
+        print('server not connected')
         # return Response()
         return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
@@ -242,3 +251,84 @@ def time_attendance(request):
 
         return Response(result)
 
+
+@api_view(['GET'])
+def get_department(request, department):
+    date_from = request.session.get('date_from')
+    date_to = request.session.get('date_to')
+    DATETIME = request.session.get('DATETIME')
+
+
+    sql = "SELECT  [Name] , 'In' as [StatusText In], Count(case StatusText when 'In' then 1 end) as Count_In, 'Out' as [Status_out],Count(case StatusText when 'Out' then 1 end) as Count_Out FROM [dbo].[V_Record] WHERE [StatusText] in ('In', 'Out') AND CAST(CheckTime AS {}) BETWEEN '{}' AND '{}' AND [DeptName]='{}' GROUP BY [Name] ORDER BY [Name]".format(
+            DATETIME,date_from, date_to,department)
+
+    cursor = sql_server.cursor.execute(sql)
+    rows = cursor.fetchall()
+    columns = [column[0] for column in cursor.description]
+    result = [dict(zip(columns, row)) for row in rows]
+
+
+
+    print(sql)
+    # print(date_from, date_to)
+    # print(result)
+    return Response(result)
+
+
+@api_view(['GET'])
+def clockins(request):
+
+    today = datetime.now()
+
+    today_ = today.strftime('%Y-%m-%d')
+    yesterday = today - timedelta(days=1)
+    yesterday = yesterday.strftime('%Y-%m-%d')
+    week = today- timedelta(days=7)
+    week = week.strftime('%Y-%m-%d')    
+
+    if sql_server.server_not_connected:
+        print('server not connected')
+        # return Response()
+        return Response()
+
+        # cursor =sql_server.connection.cursor()
+    else:
+        sql_today = "SELECT  [StatusText] ,  Count(case StatusText when 'In' then 1 end) as Count_In, Count(case StatusText when 'Out' then 1 end) as Count_Out FROM [dbo].[V_Record] WHERE [StatusText] in ('In', 'Out') AND CAST(CheckTime AS DATE) ='{}' AND DeptName IS NOT NULL GROUP BY [StatusText] ORDER BY [StatusText]".format(today_)
+        sql_yesterday = "SELECT  [StatusText] ,  Count(case StatusText when 'In' then 1 end) as Count_In, Count(case StatusText when 'Out' then 1 end) as Count_Out FROM [dbo].[V_Record] WHERE [StatusText] in ('In', 'Out') AND CAST(CheckTime AS DATE) ='{}' AND DeptName IS NOT NULL GROUP BY [StatusText] ORDER BY [StatusText]".format(yesterday)
+        sql_week = "SELECT  [StatusText] ,  Count(case StatusText when 'In' then 1 end) as Count_In, Count(case StatusText when 'Out' then 1 end) as Count_Out FROM [dbo].[V_Record] WHERE [StatusText] in ('In', 'Out') AND CAST(CheckTime AS DATE) BETWEEN '{}' AND '{}' AND DeptName IS NOT NULL GROUP BY [StatusText] ORDER BY [StatusText]".format(week,today_)
+        sql_department_yesterday = "SELECT  [DeptName] AS Department,  Count(case StatusText when 'In' then 1 end) as Count_In, Count(case StatusText when 'Out' then 1 end) as Count_Out FROM [dbo].[V_Record] WHERE [StatusText] in ('In', 'Out') AND CAST(CheckTime AS DATE) = '{}' AND DeptName IS NOT NULL GROUP BY [DeptName] ORDER BY [DeptName]".format(yesterday)
+
+
+        cursor = sql_server.cursor.execute(sql_today)
+        rows = cursor.fetchall()
+        columns = [column[0] for column in cursor.description]
+        result_today = [dict(zip(columns, row)) for row in rows]
+
+        cursor = sql_server.cursor.execute(sql_yesterday)
+        rows = cursor.fetchall()
+        columns = [column[0] for column in cursor.description]
+        result_yesterday = [dict(zip(columns, row)) for row in rows]
+
+        cursor = sql_server.cursor.execute(sql_week)
+        rows = cursor.fetchall()
+        columns = [column[0] for column in cursor.description]
+        result_week = [dict(zip(columns, row)) for row in rows]
+
+
+
+        cursor = sql_server.cursor.execute(sql_department_yesterday)
+        rows = cursor.fetchall()
+        columns = [column[0] for column in cursor.description]
+        result_department_yesterday = [dict(zip(columns, row)) for row in rows]
+
+        data = {
+            'sql_today':result_today,
+            'sql_yesterday':result_yesterday,
+            'sql_week': result_week,
+            'result_department_yesterday': result_department_yesterday,
+
+        }
+       
+        return Response(data)
+
+     

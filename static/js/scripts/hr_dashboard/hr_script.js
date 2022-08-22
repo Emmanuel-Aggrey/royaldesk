@@ -22,16 +22,21 @@ const year_leave = {};
 var country_name = []
 var country_count = []
 
+var result_department_week_Count_In = []
+var result_department_week_name = []
+var result_department_week_Count_Out = []
+
 
 
 $(document).ready(function () {
 
-  
+ 
   $.ajax({
     url: '/hr-reports/',
     type: 'GET',
     success: function (data) {
 
+    
 
       $("#gender_male").text(`Male: ${data.gender.male}`)
       $("#gender_female").text(`Female: ${data.gender.female}`)
@@ -164,19 +169,20 @@ $(document).ready(function () {
 
       emp_from_leave_recent()
 
-
-
-
+      clockins()
       // LOAD CHARTS
-      loadChart()
+    
 
       employment_rate()
+
+    
     },
     error: function (xhr, textStatus, errorThrown) {
 
     },
   });
 
+ 
 
 })
 
@@ -245,7 +251,7 @@ const emp_on_leave = () => {
       })
 
 
-      console.log(data)
+      // console.log(data)
       desig.forEach(element => {
         console.log(element)
         $("#emp_on_leave").append(`
@@ -407,6 +413,39 @@ function line_manager_approve(yes) {
 }
 
 
+ 
+
+// GET ATTENDANCE COUNT 
+const clockins = () => {
+  $.ajax({
+    url: '/clockins/',
+    type: 'GET',
+    success: function (data) {
+     
+      $("#today_data").text(data.sql_today[0].Count_In)
+      $("#Yesterday_data").text(data.sql_yesterday[0].Count_In)
+      $("#Week_data").text(data.sql_week[0].Count_In)
+
+   
+
+      data.result_department_yesterday.forEach(element => {
+        // console.log(element.Department)
+        result_department_week_name.push(element.Department)
+        result_department_week_Count_In.push(element.Count_In)
+        result_department_week_Count_Out.push(element.Count_Out)
+      });
+    },
+
+    complete: function () {
+      loadChart()
+    },
+    
+    error: function (xhr, textStatus, errorThrown) {
+      console.log(xhr, textStatus, errorThrown)
+    }
+
+  })
+}
 
 
 
@@ -943,18 +982,20 @@ const loadChart = function () {
         options: areaOptions
       });
     }
-    if ($('#week_attendance').length) {
-      var currentYear = new Date().getFullYear();
-      var salesChartCanvas = $("#week_attendance").get(0).getContext("2d");
- 
-      var data_1_1 = [22,23,46,23,68,24,67]
+    if ($('#yesterday_attendance').length)  {
+      // var currentYear = new Date().getFullYear();
+      var salesChartCanvas = $("#yesterday_attendance").get(0).getContext("2d");
+      department_name = result_department_week_name.map(string => string.slice(0, 5));
+
+      var data_1_1 = result_department_week_Count_In;
+
 
       var areaData = {
-        labels: ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],
+        labels: department_name,
 
         datasets: [{
           
-          label: 'Week Attendance', 
+          label: 'Yesterday Attendance', 
           data: data_1_1,
           borderWidth: 0,
           pointRadius: 7,
@@ -1058,6 +1099,8 @@ const loadChart = function () {
 
 
     if ($("#realtime-statistics").length) {
+      department_name = result_department_week_name.map(string => string.slice(0, 3));
+
       var realtimeChartCanvas = $("#realtime-statistics").get(0).getContext("2d");
       var realtimeChart = new Chart(realtimeChartCanvas, {
 
@@ -1072,21 +1115,22 @@ const loadChart = function () {
         type: 'bar',
 
         data: {
-          labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+          labels: department_name,
           datasets: [{
 
-            label: 'Profit',
-            data: [330, 380, 230, 400, 309, 530, 340],
+            label: 'Clock In',
+            data: result_department_week_Count_In,
             backgroundColor: "#0f5bff",
             borderColor: '#0f5bff',
             borderWidth: 0
             
           },
           
+
           
           {
-            label: 'Target',
-            data: [600, 600, 600, 600, 600, 600, 600],
+            label: 'Clock Out',
+            data: result_department_week_Count_Out,
             backgroundColor: '#e5e9f2',
             borderColor: '#e5e9f2',
             borderWidth: 0

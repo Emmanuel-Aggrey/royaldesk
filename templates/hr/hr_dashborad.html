@@ -166,12 +166,12 @@
                 <div class="card">
                   <div class="card-body pb-0">
                     <div class="d-flex justify-content-between">
-                      <h4 class="card-title mb-0">Attendance One Week</h4>
+                      <!-- <h4 class="card-title mb-0">Attendance One </h4> -->
                       <!-- <p class="font-weight-semibold mb-0">-2.87%</p> -->
                     </div>
                     <!-- <h3 class="font-weight-medium">147.7K</h3> -->
                   </div>
-                  <canvas class="mt-n3" height="90" id="week_attendance"></canvas>
+                  <canvas class="mt-n3" height="90" id="yesterday_attendance"></canvas>
                 </div>
               </div>
               <div class="col-md-12 grid-margin">
@@ -249,6 +249,30 @@
                         </table>
                       </div>
                     </div>
+                      <!-- department settings start-->
+                      <div style="display:none" id="department_model">
+                        <table class="table  table-bordered table-hover mt-4">
+                          <caption>
+                            <div class="float-right my-3" id="total_checkin"></div>
+                            <div class="float-left my-3" id="days"></div>
+                            
+                          </caption>
+
+                          <thead>
+                            <tr>
+                              <th>Name</th>
+                              <th>In</th>
+                              <th style="display:none">Out</th>
+                            </tr>
+                          </thead>
+                          <tbody id="department_body">
+                           
+                          
+                           
+                          </tbody>
+                        </table>
+                        <!-- department settings end-->
+                      </div>
                   </div>
                 </div>
               </div>
@@ -311,14 +335,14 @@
                     <div class="row">
                       <div class="col-5 col-md-5">
                         <div class="wrapper border-bottom mb-2 pb-2">
-                          <h4 class="font-weight-semibold mb-0">150</h4>
+                          <h4 class="font-weight-semibold mb-0" id="Week_data"></h4>
                           <div class="d-flex align-items-center">
-                            <p class="mb-0">Today</p>
+                            <p class="mb-0">This Week</p>
                             <div class="dot-indicator bg-secondary ml-auto"></div>
                           </div>
                         </div>
                         <div class="wrapper">
-                          <h4 class="font-weight-semibold mb-0">120</h4>
+                          <h4 class="font-weight-semibold mb-0" id="Yesterday_data"></h4>
                           <div class="d-flex align-items-center">
                             <p class="mb-0">Yesterday</p>
                             <div class="dot-indicator bg-primary ml-auto"></div>
@@ -337,10 +361,10 @@
                           <div class="icon-holder bg-primary text-white py-1 px-3 rounded mr-2">
                             <i class="icon ion-logo-buffer icon-sm"></i>
                           </div>
-                          <h2 class="font-weight-semibold mb-0">3,605</h2>
+                          <h2 class="font-weight-semibold mb-0" id="today_data"></h2>
                         </div>
-                        <p>Number OF Clock-In Now</p>
-                        <p><span class="font-weight-medium">20.51%</span> average</p>
+                        <p class="font-weight-medium text-danger">CLOCK IN's TODAY</p>
+                        <!-- <p><span class="font-weight-medium">20.51%</span> average</p> -->
                       </div>
                       <div class="col-6">
                         <div class="mt-n3 ml-auto" id="dashboard-guage-chart"></div>
@@ -527,7 +551,7 @@
       <!-- content-wrapper ends -->
       <script src="{% static 'js/scripts/attendance.js' %}"></script>
 
-      <script src="{% static 'js/scripts/hr_dashboard/script.js' %}"></script>
+      <script src="{% static 'js/scripts/hr_dashboard/hr_script.js' %}"></script>
       <!-- <script src="{% static 'js/dashboard.js' %}"></script> -->
 
 

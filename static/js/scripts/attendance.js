@@ -30,11 +30,13 @@ const attendance_data = (data) => {
     data.forEach(function (element) {
         $("#attendance_table").append(`
         <tr>
-            <td class="font-weight-medium">${element.Department}</td>
+            
+            <td class="font-weight-medium text-info" title='view employees' id="${element.Department}" onclick=getDepartment(this)>${element.Department}</td>
             <td class="font-weight-medium">${element.Count_In}</td>
             <td class="font-weight-medium" style="display:none">${element.Count_Out}</td>
    
-            `)
+        </tr>
+        `)
 
     })
 
@@ -99,6 +101,47 @@ $("#attendance_form").on("submit", function (event) {
         })
 })
 
+
+const getDepartment = (value) => {
+    department = value.id
+    $.ajax ({
+        url: `/get-department/${department}/`,
+        type: 'GET',
+        success: function (response) {
+            console.log(response)
+
+            $("#department_body").empty();
+            response.forEach(function (element) {
+                $("#department_body").append(`
+                <tr>
+                    
+                    <td class="font-weight-medium text-info" id="${element.Name}" onclick=getDepartment(this)>${element.Name}</td>
+                    <td class="font-weight-medium">${element.Count_In}</td>
+                    <td class="font-weight-medium" style="display:none">${element.Count_Out}</td>
+   
+                </tr>
+                `)
+
+            })
+           
+        }
+    })
+
+        $('#department_model').dialog({
+          height: 500,
+          width: 500,
+          title: department,
+          buttons: [
+            {
+              text: "close",
+              click: function () {
+                $(this).dialog("close");
+              }
+            }
+          ]
+        });
+    
+}
 
 $('#time_from, #time_to').change(function () {
     // console.log(this.value)

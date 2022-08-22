@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WHATSAPP NUMBER SHORTCUT</title>
+</head>
+<body>
+    
+   <div class="container">
+    <h2>ENTER WHATSPP NUMBER WITHOUT SAVING TO CONTACT</h2>
+
+    <form method="GET">
+     <input type="number" required id="number" placeholder="enter whatsapp number">
+        
+         <button  onclick="openClick()" id="submit" type="submit">search number</button>
+    </form>
+   </div>
+</body>
+<script>
+    function openClick(event){
+        // event.preventDefault();
+        phone_number = document.getElementById('number')
+        if (phone_number.value.charAt(0) == '+') {
+            phone_number = phone_number.value
+            window.open('https://wa.me/'+ phone_number)
+            // alert(phone_number)
+        }
+        else{
+            phone_number = phone_number.value.slice(1)
+            phone_number= '+233'+phone_number
+            // alert(phone_number)
+            window.open('https://wa.me/'+ phone_number)
+            
+        }
+        
+    }
+          
+
+</script>
+
+<style>
+
+    .container{
+        text-align: center;    }
+    h2{
+       
+        /* font-size: large; */
+        color: rgb(80, 118, 190);
+        font-weight: bolder;
+    }
+   
+   #number{
+    height: 30px;
+    margin: 20px;
+    width: 200px;
+   }
+  
+   #submit{
+       background-color:#4CAF50;
+       color:white;
+       margin: 5px;
+       width: 200px;
+       height: 30px;
+       font-weight: bolder;
+       font-size:large;
+   }
+</style>
+</html>

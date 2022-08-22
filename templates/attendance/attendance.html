@@ -71,7 +71,7 @@
                               <input class="float-right" type="search" name="" id="attendance_search" placeholder="search">
                        
                            </form>
-                            <div class="table-responsive" style="background:whitesmoke"> 
+                            <div class="table-responsive my-4" style="background:whitesmoke"> 
                               <p id="loadings"></p>
                               
                               <table class="table  table-bordered table-hover mt-4">
@@ -94,6 +94,30 @@
                               </table>
                              
                             </div>
+
+                            <!-- department settings start-->
+                            <div style="display:none" id="department_model">
+                            <table class="table  table-bordered table-hover mt-4">
+                              <caption>
+                                <div class="float-right my-3" id="total_checkin"></div>
+                                <div class="float-left my-3" id="days"></div>
+                              </caption>
+  
+                              <thead>
+                                <tr>
+                                  <th>Name</th>
+                                  <th>In</th>
+                                  <th style="display:none">Out</th>
+                                </tr>
+                              </thead>
+                              <tbody id="department_body">
+                               
+                              
+                               
+                              </tbody>
+                            </table>
+                            <!-- department settings end-->
+                          </div>
                           </div>
                         </div>
                       </div>

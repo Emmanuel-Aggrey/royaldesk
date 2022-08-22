@@ -106,11 +106,13 @@ WSGI_APPLICATION = 'HRMSPROJECT.wsgi.application'
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'hrms',
+#         'NAME': 'student',
 #         'HOST':'127.0.0.1',
 #         'USER':'root',
 #         'PASSWORD':'',
 #         'PORT':'3306',    }
+
+
 # }
 
 DATABASES = {
@@ -119,6 +121,11 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
+
+
+
+
+
 
 
 AUTH_USER_MODEL = 'helpdesk.User'
@@ -207,7 +214,7 @@ EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 # SETTING UP CELERY
 # CELERY_BROKER_URL = 'redis://localhost:6379/0'
 CELERY_BROKER_URL = 'amqp://localhost'
-CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+# CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_TIMEZONE ='UTC'
