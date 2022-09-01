@@ -1,6 +1,5 @@
 Django
 Pillow
-psycopg2
 pytz
 sqlparse
 djangorestframework

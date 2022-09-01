@@ -29,6 +29,7 @@
             
                     <!-- <hr class="bg-primary"> -->
                     <h4 id="user_name"></h4>
+                    
                      <!-- APPLY FOR LEAVE START -->
                     <div id="new_report_table" style="display: none">
                     <form class="form-card" id="issue_form" enctype="multipart/form-data" method="POST">
@@ -165,8 +166,7 @@
                                 <div class="row justify-content-between text-left">
                                     <div class="form-group col-sm-4 flex-column d-flex">  
                                         <label for="" class="form-control-label px-3 switch" id="ticket_status">CLOSE TICKET
-                                        <input type="checkbox" name="status" id="status_id" class="form-control">
-                                        <span class="slider round"></span>
+                                        <input type="checkbox" name="status" id="status_id">
 
                                     </label>
                                 </div>
@@ -231,7 +231,7 @@
    <!-- table start -->
    <div>
     <div class="card">
-    <select class="" name="" id="ticket_filter" style="position:absolute;left:20px;">
+    <select class="" name="" id="ticket_filter">
         <option value="all">ALL</option>
         <option value="resolved">RESOLVED</option>
         <option value="assiend">ASSIGEND</option>
@@ -245,11 +245,12 @@
        
         <label for="date_to">End </label>
        <input type="date" name="date_to" id="date_to">
-       <input type="search" name="" id="leave_search" placeholder="Search..." style="position:absolute;right:20px;">
+       <input type="search" name="" id="leave_search" placeholder="Search...">
 
     </form>
 </div>
-<div class="tabel_div">
+
+<div class="tabel_div table-responsive-sm table-responsive-md">
         <table id="leave_table" class="table table-striped">
             
             <thead>
@@ -259,8 +260,8 @@
                     <th>Subject</th>
                     <!-- <th>Description</th> -->
                     <th>Issue</th>
-                    <th>File</th>
-                    <th>Priority</th>
+                    <!-- <th>File</th> -->
+                    <!-- <th>Priority</th> -->
                     <th>Status</th>
                     
                 </tr>
@@ -268,18 +269,7 @@
             <tbody id="table_body">
 
             </tbody>
-            <tfoot>
-                <tr>
-                    <th>Reported TO</th>
-                    <th>Time Date</th>
-                    <th>Subject</th>
-                    <!-- <th>Description</th> -->
-                    <th>Issue</th>
-                    <th>File</th>
-                    <th>Priority</th>
-                    <th>Status</th>
-                </tr>
-            </tfoot>
+            
         </table>
     </div>
 </div>
@@ -304,15 +294,23 @@
 <script src="{% static 'js/scripts/partials.js' %}"></script>
 
 <style>
-   
-  
-  
+    /* At the top level of your code */
+@media screen and (min-width: 900px) {
+  #ticket_filter {
+    /* padding: 1rem 3rem; */
+    position:absolute;left:20px;
+  }
+}
+
+
+    /* At the top level of your code */
+    @media screen and (min-width: 900px) {
+  #leave_search {
+    /* padding: 1rem 3rem; */
+    position:absolute;right:20px;
+  }
+}
 </style>
-
-<script>
-  
-</script>
-
 </body>
 
 

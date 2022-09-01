@@ -10,8 +10,10 @@ kill -9 port
 
 
 START CELERY
-celery -A  HRMSPROJECT celery -l INFO
+celery -A  HRMSPROJECT worker -l INFO
 
+
+START CELERY BEAT
 celery -A  HRMSPROJECT beat -l INFO
 
 

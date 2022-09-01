@@ -129,6 +129,7 @@ def hr_reports(request, data_value=None):
         'leave_this_year': leave_this_year,
         'leave_applications': leave_applications,
         'emp_exceed_leave': emp_exceed_leave,
+        
         'emp_on_leave': emp_on_leave,
         'emp_from_leave_recent': emp_from_leave_recent,
         'employment_rate': employment_rate,
@@ -269,12 +270,12 @@ def get_department(request, department):
 
 
 
-    print(sql)
+    # print(sql)
     # print(date_from, date_to)
     # print(result)
     return Response(result)
 
-
+@group_required(['HR','FO'])
 @api_view(['GET'])
 def clockins(request):
 
@@ -332,4 +333,27 @@ def clockins(request):
        
         return Response(data)
 
+
+@api_view(['POST'])
+def update_anviz_user(request):
+#     UPDATE [anviz].[dbo].[Userinfo]
+# SET Picture = 
+#     (SELECT  BulkColumn FROM OPENROWSET(BULK  N'C:\783be074781f55bbe26bdefa33f9b1fc.jpg', SINGLE_BLOB) AS x)
+# WHERE Userid =184
+    # image =  request.data.get('image')
+
+    if request.method == 'POST':
+        anviz_user = request.data.get('anviz_user')
+        image= request.FILES.get('image')
+
+
+        print(anviz_user,image)
+
+        sql = "UPDATE [anviz].[dbo].[Userinfo] SET Picture =(SELECT  BulkColumn FROM OPENROWSET(BULK  N'{}', SINGLE_BLOB) AS Picture) WHERE Userid ='{}'".format(image,anviz_user)
+
+        cursor = sql_server.cursor.execute(sql)
+
+        # print(cursor)
+
+        return Response(anviz_user)
      

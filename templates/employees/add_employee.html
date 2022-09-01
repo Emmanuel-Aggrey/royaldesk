@@ -11,434 +11,458 @@
 
 <script src="{% static 'js/scripts/partials.js' %}"></script>
 
-  
 
 
 
-  <div class="container px-1 py-5 mx-auto">
-    <div class="row d-flex justify-content-center">
-      <div class="col-xl-12 col-lg-12 col-md-12 col-12 text-center">
-        <div class="card px-0 pb-0 mt-3 mb-3">
-          <h3 id="heading">USER REGISTRATION</h3>
-          <p class="text-muted">Fill all form field to go to next step forms marked <span
-            class="text-danger">*</span> are compulsory</p>
-          <fieldset id="msform">
-            <!-- progressbar -->
-            <ul id="progressbar">
-              <li class="active" id="p_detail">
-                <strong>Personal Information</strong>
-              </li>
-              <li id="dependants"><strong>Dependant(s)</strong></li>
-              <li id="education"><strong>Education(s)</strong></li>
-              <li id="p_membership"><strong>Professional Membership(s)</strong></li>
-              <li id="p_Employee"><strong>Previous Employment(s)</strong></li>
-            </ul>
-            <div class="progress">
-              <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuemin="0"
-                aria-valuemax="100"></div>
-            </div>
-            <br />
-            <!-- fieldsets -->
-            <!-- STEP ONE START -->
-            <div class="text-center btn btn-outline-info pulse my-3" id='cancel_transfer' style="display: none">cancel transfer</div>
 
-              
-              <form class="form-card" id="add_employee" enctype="multipart/form-data">
+<div class="container px-1 py-5 mx-auto">
+  <div class="row d-flex justify-content-center">
+    <div class="col-xl-12 col-lg-12 col-md-12 col-12 text-center">
+      <div class="card px-0 pb-0 mt-3 mb-3">
+        <h3 id="heading">USER REGISTRATION</h3>
+        <p class="text-muted">Fill all form field to go to next step forms marked <span class="text-danger">*</span> are
+          compulsory</p>
+        <fieldset id="msform">
+          <!-- progressbar -->
+          <ul id="progressbar">
+            <li class="active" id="p_detail">
+              <strong>Personal Information</strong>
+            </li>
+            <li id="dependants"><strong>Dependant(s)</strong></li>
+            <li id="education"><strong>Education(s)</strong></li>
+            <li id="p_membership"><strong>Professional Membership(s)</strong></li>
+            <li id="p_Employee"><strong>Previous Employment(s)</strong></li>
+          </ul>
+          <div class="progress">
+            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuemin="0"
+              aria-valuemax="100"></div>
+          </div>
+          <br />
+          <!-- fieldsets -->
+          <!-- STEP ONE START -->
+          <div class="text-center btn btn-outline-info pulse my-3" id='cancel_transfer' style="display: none">cancel
+            transfer</div>
 
-                   {% csrf_token %} 
-              <!-- FIRST ROW --> 
-              <input type="hidden" name="applicant" id="applicant">
-              <div class="row justify-content-between text-left">
-                <div class="form-group col-sm-3 flex-column d-flex"> <label class="form-control-label px-3">Title<span
-                      class="text-danger">*</span></label> <select name="title" id="title" required class="form-control">
-                        <option value="mr">MR</option>
-                        <option value="mrs">MRS</option>
-                        <option value="miss">MISS</option>
-                        <option value="doc">DOCTOR</option>
-                        <option value="prof">PROFESSOR</option>
-                        <option value="hon">HONARABLER</option>
-                        <option value="sir">SIR</option>
-                      </select>
-                </div>
-                <div class="form-group col-sm-3 flex-column d-flex"> <label class="form-control-label px-3">First
-                    Name<span class="text-danger">
-                      *</span></label> <input type="text" id="fname" name="fname" required placeholder="Enter your last name">
-                </div>
-                <div class="form-group col-sm-3 flex-column d-flex"> <label class="form-control-label px-3">Last
-                    Name<span class="text-danger">
-                      *</span></label> <input type="text" id="lname" name="lname" required placeholder="Enter your last name">
-                </div>
-                <div class="form-group col-sm-3 flex-column d-flex"> <label class="form-control-label px-3">Other
-                    Name<span class="text-danger">
-                      </span></label> <input type="text" id="oname" name="oname" placeholder="Enter your last name">
-                </div>
 
+          <form class="form-card" id="add_employee" enctype="multipart/form-data">
+
+            {% csrf_token %}
+            <!-- FIRST ROW -->
+            <input type="hidden" name="applicant" id="applicant">
+            <div class="row justify-content-between text-left">
+              <div class="form-group col-sm-3 flex-column d-flex"> <label class="form-control-label px-3">Title<span
+                    class="text-danger">*</span></label> <select name="title" id="title" required class="form-control">
+                  <option value="mr">MR</option>
+                  <option value="mrs">MRS</option>
+                  <option value="miss">MISS</option>
+                  <option value="doc">DOCTOR</option>
+                  <option value="prof">PROFESSOR</option>
+                  <option value="hon">HONARABLER</option>
+                  <option value="sir">SIR</option>
+                </select>
+              </div>
+              <div class="form-group col-sm-3 flex-column d-flex"> <label class="form-control-label px-3">First
+                  Name<span class="text-danger">
+                    *</span></label> <input type="text" id="fname" name="fname" required
+                  placeholder="Enter your last name">
+              </div>
+              <div class="form-group col-sm-3 flex-column d-flex"> <label class="form-control-label px-3">Last
+                  Name<span class="text-danger">
+                    *</span></label> <input type="text" id="lname" name="lname" required
+                  placeholder="Enter your last name">
+              </div>
+              <div class="form-group col-sm-3 flex-column d-flex"> <label class="form-control-label px-3">Other
+                  Name<span class="text-danger">
+                  </span></label> <input type="text" id="oname" name="oname" placeholder="Enter your last name">
               </div>
 
-              <!-- FIRST ROW END -->
-              <!-- SECOND ROW START-->
-              <div class="row justify-content-between text-left">
-                <div class="form-group col-sm-3 flex-column d-flex"> <label class="form-control-label px-2">SEX<span
-                      class="text-danger">
-                      *</span></label> <select name="sex" id="sex" required>
-                        <option value="male">MALE</option>
-                        <option value="female">FEMALE</option>
-                      </select>
-                </div>
-                <div class="form-group col-sm-3 flex-column d-flex"> <label class="form-control-label px-3">Email<span
-                      class="text-danger">
-                      </span></label> <input type="email" id="email" name="email" placeholder="Enter your last name">
-                </div>
-                <div class="form-group col-sm-3 flex-column d-flex"> 
-                  <!-- <label class="form-control-label px-3">Profile<span
+            </div>
+
+            <!-- FIRST ROW END -->
+            <!-- SECOND ROW START-->
+            <div class="row justify-content-between text-left">
+              <div class="form-group col-sm-3 flex-column d-flex"> <label class="form-control-label px-2">SEX<span
+                    class="text-danger">
+                    *</span></label> <select name="sex" id="sex" required>
+                  <option value="male">MALE</option>
+                  <option value="female">FEMALE</option>
+                </select>
+              </div>
+              <div class="form-group col-sm-3 flex-column d-flex"> <label class="form-control-label px-3">Email<span
+                    class="text-danger">
+                  </span></label> <input type="email" id="email" name="email" placeholder="Enter your last name">
+              </div>
+              <div class="form-group col-sm-3 flex-column d-flex">
+                <!-- <label class="form-control-label px-3">Profile<span
                       class="text-danger">
                       </span></label>  -->
-                      
-                      <!-- <input type="file" id="profile" name="profile" placeholder="profile image"> -->
-                      <label for="profile">Profile
-                      <input type="file" name="profile" id="profile"
-                                    class="dropify" data-height="50" data-max-file-size="2M" data-allowed-file-extensions="jpg jpeg png gif">
-                                  </label>
-                </div>
-                <div class="form-group col-sm-3 flex-column d-flex"> <label class="form-control-label px-3">Phone<span
-                      class="text-danger">
-                      *</span></label> <input type="text" id="p_phone" required name="p_phone" placeholder="Enter your Phone Number">
-                </div>
 
+                <!-- <input type="file" id="profile" name="profile" placeholder="profile image"> -->
+                <label for="profile">Profile
+                  <input type="file" name="profile" id="profile" class="dropify" data-height="50"
+                    data-max-file-size="2M" data-allowed-file-extensions="jpg jpeg png gif">
+                </label>
               </div>
-              <!-- SECOND ROW END -->
-              <!-- 3RD ROW START -->
-              <div class="row justify-content-between text-left">
-                <div class="form-group col-sm-3 flex-column d-flex"> <label class="form-control-label px-3">Ghana Card<span class="text-danger">
-                    </span></label> <input type="text" id="nia" name="nia" value="" placeholder="NIA NUMBER">
+              <div class="form-group col-sm-3 flex-column d-flex"> <label class="form-control-label px-3">Phone<span
+                    class="text-danger">
+                    *</span></label> <input type="text" id="p_phone" required name="p_phone"
+                  placeholder="Enter your Phone Number">
               </div>
-                <div class="form-group col-sm-3 flex-column d-flex"> <label class="form-control-label px-3">Emergency
-                    Name<span class="text-danger">
-                      *</span></label> <input type="text" id="emergency_name" name="emergency_name" required placeholder="">
-                </div>
-                <div class="form-group col-sm-3 flex-column d-flex"> <label class="form-control-label px-3">Emergency
-                    Phone<span class="text-danger">
-                      *</span></label> <input type="text"  required id="emergency_phone" name="emergency_phone" placeholder="">
-                </div>
-                <div class="form-group col-sm-3 flex-column d-flex"> <label class="form-control-label px-3">Emergency
-                  Address<span class="text-danger">
-                    *</span></label> <input type="text" id="emergency_address" required name="emergency_address" placeholder="">
-              </div>
-              </div>
-              <!-- 3RD ROW END-->
-              <hr class="bg-primary">
-              <!-- 4TH ROW START -->
-              <div class="row justify-content-between text-left">
-                <div class="form-group col-sm-3 flex-column d-flex"> <label class="form-control-label px-2">DOB<span
-                      class="text-danger">
-                      *</span></label> <input type="date" id="dob" name="dob" required placeholder="Enter your Date of Birth">
-                </div>
-                <div class="form-group col-sm-3 flex-column d-flex"> <label class="form-control-label px-3">Date
-                    Employed<span class="text-danger">
-                      *</span></label> <input type="date" id="date_employed" required name="date_employed"
-                    placeholder="Enter your last name"> </div>
-                <div class="form-group col-sm-3 flex-column d-flex"> <label class="form-control-label px-3">Residential
-                    Address<span class="text-danger">
-                      *</span></label> <input type="text" id="res_address" required  name="res_address" placeholder="Residential Address">
-                </div>
-                <div class="form-group col-sm-3 flex-column d-flex"> <label class="form-control-label px-3">Place Of
-                    Birth<span class="text-danger">
-                      *</span></label> <input type="text" id="place_of_birth" required name="place_of_birth"
-                    placeholder="Enter Main Language Spoken"> </div>
 
-              </div>
-              <!-- 4TH ROW END -->
-              <!-- 5TH ROW START -->
-              <hr class="bg-primary">
-              <div class="row justify-content-between text-left">
-                <div class="form-group col-sm-3 flex-column d-flex">  <label class="form-control-label px-2"> Marital
-                    Status<span class="text-danger">
-                      *</span></label> <select name="is_merried" id="is_merried" required>
-                        <option value="0">NO</option>
-
-                        <option value="1">YES</option>
-                      </select> </div>
-                <div class="form-group col-sm-3 flex-column d-flex"> <label
-                    class="form-control-label px-3">Nationality<span class="text-danger">
-                      *</span></label> <input type="text" id="nationality" required name="nationality" placeholder=""></div>
-
-                <div class="form-group col-sm-3 flex-column d-flex"> <label
-                    class="form-control-label px-3">Language(s)<span class="text-danger">
-                      *</span></label> <input type="text" id="languages" required name="languages" placeholder=""></div>
-                <div class="form-group col-sm-3 flex-column d-flex"> <label class="form-control-label px-3">Country<span
-                      class="text-danger">
-                      *</span></label> <input type="text" id="country" name="country" required placeholder=""></div>
-
-              </div>
-              <hr class="bg-primary">
-              <!-- 5TH ROW END -->
-              <!-- 8TH ROW START -->
-              <div class="row justify-content-between text-left">
-                <div class="form-group col-sm-3 flex-column d-flex"> <label
-                    class="form-control-label px-3">Department<span class="text-danger">
-                      *</span></label> <select name="department" id="department" required>
-                      </select>
-                </div>
-                <div class="form-group col-sm-3 flex-column d-flex"> <label
-                    class="form-control-label px-3">Designation<span class="text-danger">
-                      *</span></label> <select name="designation" id="designation" required>
-                        
-                      </select>
-                </div>
-                <div class="form-group col-sm-3 flex-column d-flex"> <label
-                  class="form-control-label px-3">HOD<span class="text-danger">
-                    *</span></label> <select name="hod" id="hod" required>
-                      <option value="0">NO</option>
-                      <option value="1">YES</option>
-                    </select>
-              </div>
-              <div class="form-group col-sm-3 flex-column d-flex"> <label class="form-control-label px-3"> Net Month Salary<span class="text-danger">
-                  </span></label> <input type="text" id="salary" name="salary" placeholder="">
             </div>
+            <!-- SECOND ROW END -->
+            <!-- 3RD ROW START -->
+            <div class="row justify-content-between text-left">
+              <div class="form-group col-sm-3 flex-column d-flex"> <label class="form-control-label px-3">Ghana
+                  Card<span class="text-danger">
+                  </span></label> <input type="text" id="nia" name="nia" value="" placeholder="NIA NUMBER">
+              </div>
+              <div class="form-group col-sm-3 flex-column d-flex"> <label class="form-control-label px-3">Emergency
+                  Name<span class="text-danger">
+                    *</span></label> <input type="text" id="emergency_name" name="emergency_name" required
+                  placeholder="">
+              </div>
+              <div class="form-group col-sm-3 flex-column d-flex"> <label class="form-control-label px-3">Emergency
+                  Phone<span class="text-danger">
+                    *</span></label> <input type="text" required id="emergency_phone" name="emergency_phone"
+                  placeholder="">
+              </div>
+              <div class="form-group col-sm-3 flex-column d-flex"> <label class="form-control-label px-3">Emergency
+                  Address<span class="text-danger">
+                    *</span></label> <input type="text" id="emergency_address" required name="emergency_address"
+                  placeholder="">
+              </div>
+            </div>
+            <!-- 3RD ROW END-->
+            <hr class="bg-primary">
+            <!-- 4TH ROW START -->
+            <div class="row justify-content-between text-left">
+              <div class="form-group col-sm-3 flex-column d-flex"> <label class="form-control-label px-2">DOB<span
+                    class="text-danger">
+                    *</span></label> <input type="date" id="dob" name="dob" required
+                  placeholder="Enter your Date of Birth">
+              </div>
+              <div class="form-group col-sm-3 flex-column d-flex"> <label class="form-control-label px-3">Date
+                  Employed<span class="text-danger">
+                    *</span></label> <input type="date" id="date_employed" required name="date_employed"
+                  placeholder="Enter your last name"> </div>
+              <div class="form-group col-sm-3 flex-column d-flex"> <label class="form-control-label px-3">Residential
+                  Address<span class="text-danger">
+                    *</span></label> <input type="text" id="res_address" required name="res_address"
+                  placeholder="Residential Address">
+              </div>
+              <div class="form-group col-sm-3 flex-column d-flex"> <label class="form-control-label px-3">Place Of
+                  Birth<span class="text-danger">
+                    *</span></label> <input type="text" id="place_of_birth" required name="place_of_birth"
+                  placeholder="Enter Main Language Spoken"> </div>
+
+            </div>
+            <!-- 4TH ROW END -->
+            <!-- 5TH ROW START -->
+            <hr class="bg-primary">
+            <div class="row justify-content-between text-left">
+              <div class="form-group col-sm-3 flex-column d-flex"> <label class="form-control-label px-2"> Marital
+                  Status<span class="text-danger">
+                    *</span></label> <select name="is_merried" id="is_merried" required>
+                  <option value="0">NO</option>
+
+                  <option value="1">YES</option>
+                </select> </div>
+              <div class="form-group col-sm-3 flex-column d-flex"> <label
+                  class="form-control-label px-3">Nationality<span class="text-danger">
+                    *</span></label> <input type="text" id="nationality" required name="nationality" placeholder="">
+              </div>
+
+              <div class="form-group col-sm-3 flex-column d-flex"> <label
+                  class="form-control-label px-3">Language(s)<span class="text-danger">
+                    *</span></label> <input type="text" id="languages" required name="languages" placeholder=""></div>
+              <div class="form-group col-sm-3 flex-column d-flex"> <label class="form-control-label px-3">Country<span
+                    class="text-danger">
+                    *</span></label> <input type="text" id="country" name="country" required placeholder=""></div>
+
+            </div>
+            <hr class="bg-primary">
+            <!-- 5TH ROW END -->
+            <!-- 8TH ROW START -->
+            <div class="row justify-content-between text-left">
+              <div class="form-group col-sm-3 flex-column d-flex"> <label
+                  class="form-control-label px-3">Department<span class="text-danger">
+                    *</span></label> <select name="department" id="department" required>
+                </select>
+              </div>
+              <div class="form-group col-sm-3 flex-column d-flex"> <label
+                  class="form-control-label px-3">Designation<span class="text-danger">
+                    *</span></label> <select name="designation" id="designation" required>
+
+                </select>
+              </div>
+              <div class="form-group col-sm-3 flex-column d-flex"> <label class="form-control-label px-3">HOD<span
+                    class="text-danger">
+                    *</span></label> <select name="hod" id="hod" required>
+                  <option value="0">NO</option>
+                  <option value="1">YES</option>
+                </select>
+              </div>
+              <div class="form-group col-sm-3 flex-column d-flex"> <label class="form-control-label px-3"> Net Month
+                  Salary<span class="text-danger">
+                  </span></label> <input type="number" id="salary" name="salary" placeholder="">
+              </div>
+            </div>
+            <hr class="bg-primary">
+            <!-- 8TH ROW END -->
+            <!-- 6TH ROW START -->
+            <div class="row justify-content-between text-left">
+              <div class="form-group col-sm-3 flex-column d-flex"> <label class="form-control-label px-3">SNNIT
+                  Number<span class="text-danger">
+                  </span></label> <input type="text" id="snnit_number" name="snnit_number" placeholder="">
+              </div>
+              <div class="form-group col-sm-3 flex-column d-flex"> <label class="form-control-label px-3">Bank
+                  Name<span class="text-danger">
+                  </span></label> <input type="text" id="bank_name" name="bank_name" placeholder="">
+              </div>
+              <div class="form-group col-sm-3 flex-column d-flex"> <label class="form-control-label px-3">Bank
+                  Branch<span class="text-danger">
+                  </span></label> <input type="text" id="bank_branch" name="bank_branch" placeholder="">
+              </div>
+              <div class="form-group col-sm-3 flex-column d-flex"> <label class="form-control-label px-3">Account
+                  No.<span class="text-danger">
+                  </span></label> <input type="text" id="bank_ac" name="bank_ac" placeholder="">
+              </div>
+            </div>
+            <!-- 6TH ROW END -->
+
+
+            <!-- 7th ROW START -->
+            <!-- <label for="" class="float-left"> NEXT OF KIN</label> -->
+            <div class="row justify-content-between text-left">
+              <!-- <label for="">NETX OF KIN</label> -->
+              <div class="form-group col-sm-3 flex-column d-flex"> <label class="form-control-label px-3"><abbr
+                    title="next of kin">NFK</abbr> Name<span class="text-danger">
+                  </span></label> <input type="text" id="next_of_kin_name" name="next_of_kin_name" placeholder="">
+              </div>
+              <div class="form-group col-sm-3 flex-column d-flex"> <label class="form-control-label px-3"><abbr
+                    title="next of kin">NFK</abbr> Phone<span class="text-danger">
+                  </span></label> <input type="text" id="next_of_kin_phone" name="next_of_kin_phone" placeholder="">
+              </div>
+              <div class="form-group col-sm-3 flex-column d-flex"> <label class="form-control-label px-3"><abbr
+                    title="next of kin">NFK</abbr>
+                  Address<span class="text-danger">
+                  </span></label> <input type="text" id="next_of_kin_address" name="next_of_kin_address" placeholder="">
+              </div>
+              <div class="form-group col-sm-3 flex-column d-flex"> <label class="form-control-label px-3"><abbr
+                    title="next of kin">NFK</abbr>
+                  Relationship<span class="text-danger">
+                  </span></label> <input type="text" id="next_of_kin_relationship" name="next_of_kin_relationship"
+                  placeholder="">
+              </div>
+
+
+            </div>
+            <div class="row justify-content-between text-left">
+              <div class="form-group col-sm-6 flex-column d-flex" title="employee can use helpdesk"> <label
+                  class="form-control-label px-3">Helpdesk User<span class="text-danger">
+                  </span></label> <select name="helpdesk_user" id="helpdesk_user">
+                  <option value="0">NO</option>
+                  <option value="1">YES</option>
+                </select>
               </div>
               <hr class="bg-primary">
-              <!-- 8TH ROW END -->
-              <!-- 6TH ROW START -->
-              <div class="row justify-content-between text-left">
-                <div class="form-group col-sm-3 flex-column d-flex"> <label class="form-control-label px-3">SNNIT
-                    Number<span class="text-danger">
-                      </span></label> <input type="text" id="snnit_number" name="snnit_number" placeholder="">
-                </div>
-                <div class="form-group col-sm-3 flex-column d-flex"> <label class="form-control-label px-3">Bank
-                    Name<span class="text-danger">
-                      </span></label> <input type="text" id="bank_name" name="bank_name" placeholder="">
-                </div>
-                <div class="form-group col-sm-3 flex-column d-flex"> <label class="form-control-label px-3">Bank
-                    Branch<span class="text-danger">
-                      </span></label> <input type="text" id="bank_branch" name="bank_branch" placeholder="">
-                </div>
-                <div class="form-group col-sm-3 flex-column d-flex"> <label class="form-control-label px-3">Account
-                    No.<span class="text-danger">
-                      </span></label> <input type="text" id="bank_ac" name="bank_ac" placeholder="">
-                </div>
+
+            </div>
+
+            <!-- 7TH ROW END -->
+
+            <!-- NEXT AND PREVIOUS BUTTONS START -->
+            <input type="button" name="next" class="next action-button" id="add_employee_next" style="display: snone"
+              value="Next" />
+
+            <button type="submit" class="btn btn-primary action-button submit-btn" style="width: 100%;">Submit</button>
+
+
+          </form>
+          <!-- STEP ONE END -->
+          <!-- NEXT AND PREVIOUS BUTTONS END -->
+          <!-- STEP TWO START -->
+
+          <form class="form-card" id="emp_dependant" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="row justify-content-between text-left">
+
+              <div class="form-group col-sm-3 flex-column d-flex">
+                <label class="form-control-label px-3">Employee ID<span class="text-danger"> </span></label>
+                <input type="text" id="employee_id" name="employee_id" placeholder="" />
               </div>
-              <!-- 6TH ROW END -->
+              <div class="form-group col-sm-3 flex-column d-flex">
+                <label class="form-control-label px-3">Gender<span class="text-danger"> *</span></label>
+                <select name="gender" id="gender" required>
+                  <option value="male">MALE</option>
 
-
-              <!-- 7th ROW START -->
-              <!-- <label for="" class="float-left"> NEXT OF KIN</label> -->
-              <div class="row justify-content-between text-left">
-                <!-- <label for="">NETX OF KIN</label> -->
-                <div class="form-group col-sm-3 flex-column d-flex"> <label class="form-control-label px-3"><abbr
-                      title="next of kin">NFK</abbr> Name<span class="text-danger">
-                      </span></label> <input type="text" id="next_of_kin_name" name="next_of_kin_name" placeholder="">
-                </div>
-                <div class="form-group col-sm-3 flex-column d-flex"> <label class="form-control-label px-3"><abbr
-                      title="next of kin">NFK</abbr> Phone<span class="text-danger">
-                      </span></label> <input type="text" id="next_of_kin_phone" name="next_of_kin_phone"
-                    placeholder="">
-                </div>
-                <div class="form-group col-sm-3 flex-column d-flex"> <label class="form-control-label px-3"><abbr
-                      title="next of kin">NFK</abbr>
-                    Address<span class="text-danger">
-                      </span></label> <input type="text" id="next_of_kin_address" name="next_of_kin_address"
-                    placeholder="">
-                </div>
-                <div class="form-group col-sm-3 flex-column d-flex"> <label class="form-control-label px-3"><abbr
-                      title="next of kin">NFK</abbr>
-                    Relationship<span class="text-danger">
-                      </span></label> <input type="text" id="next_of_kin_relationship" name="next_of_kin_relationship"
-                    placeholder="">
-                </div>
-
-
+                  <option value="female">FEMALE</option>
+                </select>
               </div>
-              <hr class="bg-primary">
+              <div class="form-group col-sm-3 flex-column d-flex">
+                <label class="form-control-label px-3">First Name<span class="text-danger"> *</span></label>
+                <input type="text" id="first_name" name="first_name" required placeholder="" />
+              </div>
 
-              <!-- 7TH ROW END -->
+              <div class="form-group col-sm-3 flex-column d-flex">
+                <label class="form-control-label px-3">Last Name<span class="text-danger"> *</span></label>
+                <input type="text" value="" id="last_name" name="last_name" required placeholder="" />
+              </div>
+            </div>
 
-              <!-- NEXT AND PREVIOUS BUTTONS START -->
-              <input type="button" name="next" class="next action-button" id="add_employee_next" style="display: snone" value="Next"/>
+            <!-- FIRST ROW END -->
+            <!-- SECOND ROW -->
+            <div class="row justify-content-between text-left">
+              <div class="form-group col-sm-3 flex-column d-flex">
+                <label class="form-control-label px-2">Other Name<span class="text-danger"> </span></label>
+                <input type="text" id="other_name" name="other_name" placeholder="" />
+              </div>
+              <div class="form-group col-sm-3 flex-column d-flex">
+                <label class="form-control-label px-3">Phone<span class="text-danger"> </span></label>
+                <input type="text" id="mobile" name="mobile" placeholder="" />
+              </div>
+              <div class="form-group col-sm-3 flex-column d-flex">
+                <label class="form-control-label px-3">Address<span class="text-danger"> *</span></label>
+                <input type="text" id="address" name="address" required placeholder="" />
+              </div>
+              <div class="form-group col-sm-3 flex-column d-flex">
+                <label class="form-control-label px-3">Date of Birth<span class="text-danger"> *</span></label>
+                <input type="date" id="dob" required name="dob" placeholder="" />
+              </div>
+            </div>
+            <!-- SECOND ROW END -->
+            <hr class="bg-primary" />
 
-                <button type="submit"  class="btn btn-primary action-button submit-btn" style="width: 100%;">Submit</button>
+            <input type="button" name="next" class="next action-button" value="Next" />
+            <button type="submit" class="btn btn-primary action-button submit-btn">Submit</button>
 
-      
-            </form>
-            <!-- STEP ONE END -->
-            <!-- NEXT AND PREVIOUS BUTTONS END -->
-            <!-- STEP TWO START -->
-            
-              <form class="form-card" id="emp_dependant" enctype="multipart/form-data">
-                {% csrf_token %}
-                <div class="row justify-content-between text-left">
-                 
-                  <div class="form-group col-sm-3 flex-column d-flex">
-                    <label class="form-control-label px-3">Employee ID<span class="text-danger"> </span></label>
-                    <input type="text" id="employee_id" name="employee_id" placeholder="" />
-                  </div>
-                  <div class="form-group col-sm-3 flex-column d-flex">
-                    <label class="form-control-label px-3">Gender<span class="text-danger"> *</span></label>
-                    <select name="gender" id="gender" required>
-                      <option value="male">MALE</option>
+            <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
 
-                      <option value="female">FEMALE</option>
-                    </select>
-                  </div>
-                  <div class="form-group col-sm-3 flex-column d-flex">
-                    <label class="form-control-label px-3">First Name<span class="text-danger"> *</span></label>
-                    <input type="text" id="first_name" name="first_name" required placeholder="" />
-                  </div>
-
-                  <div class="form-group col-sm-3 flex-column d-flex">
-                    <label class="form-control-label px-3">Last Name<span class="text-danger"> *</span></label>
-                    <input type="text" value="" id="last_name" name="last_name" required placeholder="" />
-                  </div>
-                </div>
-
-                <!-- FIRST ROW END -->
-                <!-- SECOND ROW -->
-                <div class="row justify-content-between text-left">
-                  <div class="form-group col-sm-3 flex-column d-flex">
-                    <label class="form-control-label px-2">Other Name<span class="text-danger"> </span></label>
-                    <input type="text" id="other_name" name="other_name" placeholder="" />
-                  </div>
-                  <div class="form-group col-sm-3 flex-column d-flex">
-                    <label class="form-control-label px-3">Phone<span class="text-danger"> </span></label>
-                    <input type="text" id="mobile" name="mobile" placeholder="" />
-                  </div>
-                  <div class="form-group col-sm-3 flex-column d-flex">
-                    <label class="form-control-label px-3">Address<span class="text-danger"> *</span></label>
-                    <input type="text" id="address" name="address" required placeholder="" />
-                  </div>
-                  <div class="form-group col-sm-3 flex-column d-flex">
-                    <label class="form-control-label px-3">Date of Birth<span class="text-danger"> *</span></label>
-                    <input type="date" id="dob" required  name="dob" placeholder="" />
-                  </div>
-                </div>
-                <!-- SECOND ROW END -->
-                <hr class="bg-primary" />
-
-                <input type="button" name="next" class="next action-button" value="Next" />
-                <button type="submit"  class="btn btn-primary action-button submit-btn">Submit</button>
-
-                <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
-
-              </form>
-              <!-- STEP TWO END -->
-              <!-- STEP THREE START -->
-              <form class="form-card" id="emp_education">
-                {% csrf_token %}
-                <!-- FIRST ROW -->
-                <hr class="bg-primary" />
-                <div class="row justify-content-between text-left">
+          </form>
+          <!-- STEP TWO END -->
+          <!-- STEP THREE START -->
+          <form class="form-card" id="emp_education">
+            {% csrf_token %}
+            <!-- FIRST ROW -->
+            <hr class="bg-primary" />
+            <div class="row justify-content-between text-left">
 
 
-                  <div class="form-group col-sm-6 flex-column d-flex">
-                    <label class="form-control-label px-3">School Name<span class="text-danger"> *</span></label>
-                    <input type="text" id="school_name" required name="school_name" placeholder="" />
-                  </div>
+              <div class="form-group col-sm-6 flex-column d-flex">
+                <label class="form-control-label px-3">School Name<span class="text-danger"> *</span></label>
+                <input type="text" id="school_name" required name="school_name" placeholder="" />
+              </div>
 
-                  <div class="form-group col-sm-6 flex-column d-flex">
-                    <label class="form-control-label px-3">Course Name<span class="text-danger"> *</span></label>
-                    <input type="text" value="" id="course" required name="course" placeholder="" />
-                  </div>
-                </div>
+              <div class="form-group col-sm-6 flex-column d-flex">
+                <label class="form-control-label px-3">Course Name<span class="text-danger"> *</span></label>
+                <input type="text" value="" id="course" required name="course" placeholder="" />
+              </div>
+            </div>
 
-                <!-- FIRST ROW END -->
-                <!-- SECOND ROW -->
-                <div class="row justify-content-between text-left">
-
-
-                  <div class="form-group col-sm-6 flex-column d-flex">
-                    <label class="form-control-label px-3">Certificate<span class="text-danger"> </span></label>
-                    <input type="text" id="certificate" name="certificate" placeholder="" />
-                  </div>
-
-                  <div class="form-group col-sm-6 flex-column d-flex">
-                    <label class="form-control-label px-3">Date Completed<span class="text-danger"> *</span></label>
-                    <input type="date" value="" id="date_completed" required  name="date_completed" placeholder="" />
-                  </div>
-                </div>
-                <!-- SECOND ROW END -->
-                <hr class="bg-primary" />
-
-                <input type="button" name="next" class="next action-button" value="Next" />
-                <button type="submit"  class="btn btn-primary action-button submit-btn mx-3">Submit</button>
-
-                <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
-
-              </form>
-              <!-- STEP THREE END -->
-              <!-- STEP FOUR START -->
-              <form class="form-card" id="emp_membership">
-                {% csrf_token %}
-                <!-- FIRST ROW -->
-                <hr class="bg-primary" />
-                <div class="row justify-content-between text-left">
+            <!-- FIRST ROW END -->
+            <!-- SECOND ROW -->
+            <div class="row justify-content-between text-left">
 
 
-                  <div class="form-group col-sm-6 flex-column d-flex">
-                    <label class="form-control-label px-3">Company<span class="text-danger"> *</span></label>
-                    <input type="text" id="name" name="name" placeholder="company or organisation" />
-                  </div>
+              <div class="form-group col-sm-6 flex-column d-flex">
+                <label class="form-control-label px-3">Certificate<span class="text-danger"> </span></label>
+                <input type="text" id="certificate" name="certificate" placeholder="" />
+              </div>
 
-                  <!-- <div class="form-group col-sm-6 flex-column d-flex">
+              <div class="form-group col-sm-6 flex-column d-flex">
+                <label class="form-control-label px-3">Date Completed<span class="text-danger"> *</span></label>
+                <input type="date" value="" id="date_completed" required name="date_completed" placeholder="" />
+              </div>
+            </div>
+            <!-- SECOND ROW END -->
+            <hr class="bg-primary" />
+
+            <input type="button" name="next" class="next action-button" value="Next" />
+            <button type="submit" class="btn btn-primary action-button submit-btn mx-3">Submit</button>
+
+            <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
+
+          </form>
+          <!-- STEP THREE END -->
+          <!-- STEP FOUR START -->
+          <form class="form-card" id="emp_membership">
+            {% csrf_token %}
+            <!-- FIRST ROW -->
+            <hr class="bg-primary" />
+            <div class="row justify-content-between text-left">
+
+
+              <div class="form-group col-sm-6 flex-column d-flex">
+                <label class="form-control-label px-3">Company<span class="text-danger"> *</span></label>
+                <input type="text" id="name" name="name" placeholder="company or organisation" />
+              </div>
+
+              <!-- <div class="form-group col-sm-6 flex-column d-flex">
                     <label class="form-control-label px-3">Date End<span class="text-danger"> *</span></label>
                     <input type="date" value="" id="date" required name="date" placeholder="" />
                   </div> -->
-                </div>
+            </div>
 
-                <!-- FIRST ROW END -->
+            <!-- FIRST ROW END -->
 
-                <hr class="bg-primary" />
+            <hr class="bg-primary" />
 
-                <input type="button" name="next" class="next action-button" value="Next" />
-                <button type="submit"  class="btn btn-primary action-button submit-btn mx-3" id="empsubmit-btn">Submit</button>
+            <input type="button" name="next" class="next action-button" value="Next" />
+            <button type="submit" class="btn btn-primary action-button submit-btn mx-3"
+              id="empsubmit-btn">Submit</button>
 
-                <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
+            <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
 
-              </form>
-              <!-- STEP FOUR END -->
-              <!-- STEP FIVE START -->
-              <form class="form-card" id="emp_employment">
-                {% csrf_token %}
-                <!-- FIRST ROW -->
-                <hr class="bg-primary" />
-                <div class="row justify-content-between text-left">
+          </form>
+          <!-- STEP FOUR END -->
+          <!-- STEP FIVE START -->
+          <form class="form-card" id="emp_employment">
+            {% csrf_token %}
+            <!-- FIRST ROW -->
+            <hr class="bg-primary" />
+            <div class="row justify-content-between text-left">
 
-                  <div class="form-group col-sm-4 flex-column d-flex">
-                    <label class="form-control-label px-3">Job Title<span class="text-danger"> *</span></label>
-                    <input type="text" id="job_title" name="job_title" required placeholder="" />
-                  </div>
-                  <div class="form-group col-sm-4 flex-column d-flex">
-                    <label class="form-control-label px-3">Company<span class="text-danger"> *</span></label>
-                    <input type="text" id="company" name="company" required  placeholder="" />
-                  </div>
+              <div class="form-group col-sm-4 flex-column d-flex">
+                <label class="form-control-label px-3">Job Title<span class="text-danger"> *</span></label>
+                <input type="text" id="job_title" name="job_title" required placeholder="" />
+              </div>
+              <div class="form-group col-sm-4 flex-column d-flex">
+                <label class="form-control-label px-3">Company<span class="text-danger"> *</span></label>
+                <input type="text" id="company" name="company" required placeholder="" />
+              </div>
 
-                  <div class="form-group col-sm-4 flex-column d-flex">
-                    <label class="form-control-label px-3">Date Completed<span class="text-danger"> *</span></label>
-                    <input type="date" value="" id="date_completed" required name="date_completed" placeholder="" />
-                  </div>
-                 
-                </div>
+              <div class="form-group col-sm-4 flex-column d-flex">
+                <label class="form-control-label px-3">Date Completed<span class="text-danger"> *</span></label>
+                <input type="date" value="" id="date_completed" required name="date_completed" placeholder="" />
+              </div>
 
-                <p class="text-danger text-center"> By clicking on <b>Finish</b> means you have agreed that the information you have provided is true and correct</p>
+            </div>
 
-                <!-- FIRST ROW END -->
-            
-                <hr class="bg-primary" />
-                <input type="button" name="next" class="next action-button submit-btn" onclick="reg_finished()" value="Finish" />
+            <p class="text-danger text-center"> By clicking on <b>Finish</b> means you have agreed that the information
+              you have provided is true and correct</p>
 
-                <button type="submit"  class="btn btn-primary action-button submit-btn mx-3">Submit</button>
+            <!-- FIRST ROW END -->
 
-                <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
+            <hr class="bg-primary" />
+            <input type="button" name="next" class="next action-button submit-btn" onclick="reg_finished()"
+              value="Finish" />
 
-              </form>
-              <!-- STEP FIVE END -->
-          </fieldset>
-        </div>
+            <button type="submit" class="btn btn-primary action-button submit-btn mx-3">Submit</button>
+
+            <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
+
+          </form>
+          <!-- STEP FIVE END -->
+        </fieldset>
       </div>
     </div>
   </div>
+</div>
 
 
-  
-  <script src="{% static 'js/scripts/employee_register.js' %}"></script> 
+
+<script src="{% static 'js/scripts/employee_register.js' %}"></script>
 
 
 

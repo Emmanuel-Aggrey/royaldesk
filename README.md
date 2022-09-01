@@ -1,45 +1,42 @@
 # ROYAL DESK
 
-Built with django, DJango Rest  Framework And Jquary As the Front End
-
 Latest technogies are used to build this project
 
 1. Django And Django RestFramework
 2. RabbitMQ As the Message Broker
 3. Celery as the channel for communication
-4. Celery Beat as the message or task scheduler
+4. Celery Beat as the task scheduler
+5. Jquary
+6. Bootstrap,CSS for styling
 
-# LOGIN PAGE
+### LOGIN PAGE
 
 ![1661188269722](image/README/1661188269722.png)
 
 The Project consist of Four (4)) Key Models
 
-
-# RESETING PASSWORD
+### RESETING PASSWORD
 
 ![1661188335829](image/README/1661188335829.png)
 
-# RESSETING PASSWORD
+### RESSETING PASSWORD
 
 ![1661188561789](image/README/1661188561789.png)
 
-## PASSWORD RESET
+### PASSWORD RESET
 
 ![1661188863940](image/README/1661188863940.png)
 
-
-## SETTING A NEW PASSEWORD
+### SETTING A NEW PASSEWORD
 
 ![1661188941389](image/README/1661188941389.png)
 
-
 ![1661189195572](image/README/1661189195572.png)
 
-
-## PASSWORD RESET DONE. LOGGING IN
+### PASSWORD RESET DONE. LOGGING IN
 
 ![1661189240949](image/README/1661189240949.png)
+
 
 ![1660795400296](image/README/1660795400296.png)
 
@@ -61,6 +58,8 @@ EMPLOYEES DATA PRESENTED IN CONPREHENSIVE GRAPHS (turn over rates by quarter,num
 Adding A new Applicant
 
 ![1660786706614](image/README/1660786706614.png)
+
+### CELERY RECEIVED THE TASK AND PROCESSED IT
 
 application received by celery to imporve user experience (no delay in sending mail when the use press submit)
 
@@ -98,7 +97,7 @@ HR Department Declining a Job Offer
 
 ![1660788277526](image/README/1660788277526.png)
 
-HR Department transferring applicant from Job Seeker to Eployee
+### HR Department transferring applicant from Job Seeker to Eployee
 
 ![1660788374119](image/README/1660788374119.png)
 

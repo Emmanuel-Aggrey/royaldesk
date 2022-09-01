@@ -60,6 +60,8 @@ INSTALLED_APPS = [
      'django_celery_results',
      'djcelery_email',
      'django_celery_beat',
+    'django_extensions',
+
 
 
 ]
@@ -226,7 +228,7 @@ CELERY_CACHE_BACKEND = 'django-cache'
 CELERY_CACHE_BACKEND = 'default'
 
 
-# django setting.
+# CACHE setting.
 CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.db.DatabaseCache',

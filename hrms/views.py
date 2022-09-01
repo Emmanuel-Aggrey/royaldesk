@@ -19,19 +19,23 @@ from rest_framework import generics, status
 from rest_framework.decorators import api_view
 from rest_framework.parsers import FileUploadParser
 from rest_framework.response import Response
+from django.contrib.auth.models import Group
 
 from . import tasks
 from .models import (Department, Dependant, Designation, Education, Employee,
                      Leave, LeavePolicy, PreviousEployment,
                      ProfessionalMembership)
+from helpdesk.models import User
+
 from .serializers import (EmployeeSerializer, GetEmployeeSerializer,
                           LeaveSerializer)
+
 
 
 def date_value(value):
     return value if value else None
 
-
+# @group_required('HR', 'Manager')
 @api_view(['GET', 'POST'])
 def employees(request):
 
@@ -48,6 +52,7 @@ def employees(request):
         first_name = data.get('fname')
         last_name = data.get('lname')
         date_employed = data.get('date_employed')
+        helpdesk_user = bool(int(data.get('helpdesk_user')))
 
         # CREATTING EMPLOYEE ID
         date = datetime.strptime(date_employed, '%Y-%m-%d')
@@ -93,7 +98,20 @@ def employees(request):
 
         # print(date_value(data.get('applicant')))
 
-        e = Employee.objects.get_or_create(**employees)
+        # e = Employee.objects.get_or_create(**employees)
+
+        # CREATE HELPDESK USER 
+        user = User(password='changeme', username=employees.get('employee_id'), first_name=employees.get('first_name'), last_name=employees.get(
+            'last_name'),is_head=employees.get('is_head'), email=employees.get('email'), department_id=employees.get('department_id'), designation_id=employees.get('designation_id'), profile=employees.get('profile'))
+        
+        # GET DEPARTMENT INITIALS eg FRONT OFFICE to FO
+        department = ''.join([x[0].upper() for x in user.department.name.split(' ')])
+
+        # GET DEPARTMENT FROM GROUP AND SAVE TO USER GROUP
+        group = Group.objects.filter(name=department).last()
+        if helpdesk_user:
+            user.save()
+            user.groups.add(group)
 
         return Response({'data': emp_id},
                         status=status.HTTP_201_CREATED)
@@ -258,13 +276,14 @@ def apply_leave(request, employee_id):
         employee_id=employee_id) | Q(email=employee_id))
 
     handle_over_to = list(Employee.objects.values(
-        'pk', 'first_name', 'last_name').filter(department=employee.department,status='active').exclude(employee_id=employee_id))
+        'pk', 'first_name', 'last_name').filter(department=employee.department, status='active').exclude(employee_id=employee_id))
 
     # print(handle_over_to.query)
 
     leave_policies = list(LeavePolicy.objects.values('pk', 'name', 'days'))
 
-    on_leave = employee.leave_employees.filter(from_leave=False,employee__employee_id=employee_id).exists()
+    on_leave = employee.leave_employees.filter(
+        from_leave=False, employee__employee_id=employee_id).exists()
 
     if request.method == 'GET':
         leave_data = {
@@ -443,7 +462,7 @@ def getleave(request, pk):
 
     policies = LeavePolicy.objects.values('pk', 'name', 'days')
     collegues = Employee.objects.filter(
-        department=leave.employee.department,status='active').values('pk', 'first_name', 'last_name').exclude(employee_id=leave.employee.employee_id)
+        department=leave.employee.department, status='active').values('pk', 'first_name', 'last_name').exclude(employee_id=leave.employee.employee_id)
 
     # user = leave.employee.my_group
 

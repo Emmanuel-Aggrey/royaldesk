@@ -94,29 +94,27 @@ const helpdesk_table = () => {
         var sec = today.getSeconds();
         var time = hr + "-" + min + "-" + sec;
 
-        table += ``
-          + `<td >` + element.department + `</td>`
-          + `<td >` + `${data} : ${time}` + `</td>`
-          + `<td >` + element.subject + `</td>`
-          // + `<td style="width:10%;">` + element.description + `</td>`
-          + `<td >` + element.issue + `</td>`
-          + `<td >` + `<a target="_blank" rel="noopener noreferrer" title="download file" href="${fileExist(element.image)}">${fileName(element.image)}</a>` + `</td>`
-          + `<td >` + element.priority + `</td>`
-          + `<td class="text-uppercase">` + element.status + `</td>`
-          // + `<td >` + ` ${approve(element.hr_manager)}` + `</td>`
-          // + `<td >` + element.status + `</td>`
+        $("#table_body").append(`
+        <tr>
+        <td>${element.department}</td>
+        <td>${data} : ${time}</td>
+        <td>${element.subject}</td>
+        <td>${element.issue}</td>
+        <td>${element.status}</td>
+        <td class="edit_product  btn btn-light btn-outline-info"  title="edit items" onclick="getData(${element.id})" ><i class="fa fa-edit  mx-4"  style="cursor:pointer;"  aria-hidden="true"></i></td>
 
-          + `<td class="edit_product  btn btn-light btn-outline-info"  title="edit items" onclick="getData(${element.id})" >` + `<i class="fa fa-edit  mx-4"  style="cursor:pointer;"  aria-hidden="true"></i>` + `</td>`
-
+        
+        </tr>
+        `)
 
 
-        table += "</tr>";
 
       }); //END OF TABLE
 
       // FILTER RESPONSE DATA
 
       $("#ticket_filter").change(function () {
+        $("#table_body").empty();
         depart = $("#ticket_filter").val()
         // console.log(depart)
 
@@ -148,23 +146,18 @@ const helpdesk_table = () => {
           var sec = today.getSeconds();
           var time = hr + "-" + min + "-" + sec;
 
-          table += ``
-            + `<td >` + element.department + `</td>`
-            + `<td >` + `${data} : ${time}` + `</td>`
-            + `<td>` + `<div class="a">${element.subject}</div>` + `</td>`
-            // + `<td >` + element.description + `</td>`
-            + `<td >` + element.issue + `</td>`
-            + `<td >` + `<a  target="_blank" rel="noopener noreferrer" title="download file" href="${fileExist(element.image)}" >${fileName(element.image)}</a>` + `</td>`
-            + `<td >` + element.priority + `</td>`
-            + `<td class="text-uppercase">` + element.status + `</td>`
-            // + `<td >` + ` ${approve(element.hr_manager)}` + `</td>`
-            // + `<td >` + element.status + `</td>`
-
-            + `<td class="edit_product  btn btn-light btn-outline-info"  title="edit items" onclick="getData(${element.id})" >` + `<i class="fa fa-edit  mx-4"  style="cursor:pointer;"  aria-hidden="true"></i>` + `</td>`
-
-
-
-          table += "</tr>";
+          $("#table_body").append(`
+          <tr>
+          <td>${element.department}</td>
+          <td>${data} ${time}</td>
+          <td>${element.subject}</td>
+          <td>${element.issue}</td>
+          <td>${element.status}</td>
+          <td class="edit_product  btn btn-light btn-outline-info"  title="edit items" onclick="getData(${element.id})" ><i class="fa fa-edit  mx-4"  style="cursor:pointer;"  aria-hidden="true"></i></td>
+  
+          
+          </tr>
+          `)
 
 
 
@@ -173,17 +166,17 @@ const helpdesk_table = () => {
 
         }); //END OF TABLE
 
-        document.getElementById("table_body").innerHTML = table;
+        // document.getElementById("table_body").innerHTML = table;
 
-        table = document.getElementById("leave_table");
+        // table = document.getElementById("leave_table");
 
 
 
       })//END OF FILTER
 
-      document.getElementById("table_body").innerHTML = table;
+      // document.getElementById("table_body").innerHTML = table;
 
-      table = document.getElementById("leave_table");
+      // table = document.getElementById("leave_table");
 
     }
 
@@ -254,7 +247,7 @@ $("#date_to").change(function () {
             // + `<td >` + element.description + `</td>`
             + `<td >` + element.issue + `</td>`
             + `<td >` + `<a  target="_blank" rel="noopener noreferrer" title="download file" href="${fileExist(element.image)}">${fileName(element.image)}</a>` + `</td>`
-            + `<td >` + element.priority + `</td>`
+
             + `<td class="text-uppercase">` + element.status + `</td>`
             // + `<td >` + ` ${approve(element.hr_manager)}` + `</td>`
             // + `<td >` + element.status + `</td>`
@@ -373,8 +366,8 @@ const edit_helpdesk_table = (ticket_number) => {
   $("#edit_help_desk").dialog({
 
     title: `REVIEW TICKET ${ticket_number}`,
-    height: 580,
-    width: 1100,
+    height: 'auto',
+    width: 'auto',
     buttons: [
       {
         text: "close",
@@ -384,7 +377,7 @@ const edit_helpdesk_table = (ticket_number) => {
       }
     ]
   })
-  
+
 
   // check if checkbox is ticked
   is_resolved()
@@ -392,8 +385,8 @@ const edit_helpdesk_table = (ticket_number) => {
 
 $("#btn_comment").click(function () {
   $("#commentss").dialog({
-    width: 800,
-    height: 500,
+    width: 'auto',
+    height: 'auto',
     title: 'Commnets',
 
     buttons: [
@@ -414,14 +407,17 @@ $("#btn_comment").click(function () {
 
 function is_resolved() {
   status_id = document.getElementById('status_id').checked
-  console.log(status_id)
+  // console.log(status_id)
   if (status_id) {
+
+    return $("#submit_ticket_edit").attr('disabled', 'disabled').text('TICKET RESOLVED').addClass('pulse');
+
     //  $('#ticket_status').text('TICKET RESOLVED').css( "color", "red" ).addClass('pulse');
-    $("#submit_ticket_edit").attr('disabled', 'disabled').text('TICKET RESOLVED').addClass('pulse');
     //  show_alert(6000,"success",'Ticket Closed')
   }
   else {
-    $("#submit_ticket_edit").removeAttr('disabled')
+
+    return $("#submit_ticket_edit").removeAttr('disabled')
 
   }
 }
@@ -465,8 +461,8 @@ $("#new_report").click(function (e) {
   $("#new_report_table").dialog({
 
     title: 'ISSUE NEW REPORT',
-    height: 500,
-    width: 1000,
+    height: 'auto',
+    width: 'auto',
     buttons: [
       {
         text: "close",
@@ -534,7 +530,9 @@ $("#issue_form").on("submit", function (event) {
       // console.log(data);
       Swal.fire("TICKET SENT SUCCESSFULLY");
 
-      // $("#leave_form")[0].reset()
+      $("#issue_form")[0].reset()
+      $("#table_body").empty();
+
       helpdesk_table()
       // $('#apply_leave').dialog( "close" );
       $(".ui-dialog-titlebar-close").click();
@@ -572,6 +570,7 @@ $("#issue_form_edit").on("submit", function (event) {
     csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(),
 
     success: function (data) {
+      $("#table_body").empty();
       // console.log(data);
       Swal.fire("TICKET UPDATED SUCCESSFULLY");
 

@@ -31,7 +31,7 @@
         <div class="row d-flex justify-content-center">
             <div class="col-xl-12 col-lg-12 col-md-12 col-12 text-center">
                 <div class="card px-0 pb-0 mt-3 mb-3">
-                    <h3 id="heading">Leave Application Form</h3>
+                    <!-- <h3 id="heading">Leave Application Form</h3> -->
                     <!-- <p>leave application form</p> -->
                         <button type="button" id="my_leave" class="btn btn-outline-primary " style="position: absolute;right:20px;top: 15px;">NEW LEAVE</button>
                     
@@ -41,7 +41,8 @@
                 
 
                     <hr class="bg-primary">
-                    <h4 id="user_name"></h4>
+                    <h3 id="heading">Leave Application Form</h3>
+
                      <!-- APPLY FOR LEAVE START -->
                     <div id="apply_leave" style="display: none">
                     <form class="form-card" id="leave_form" enctype="multipart/form-data" method="POST">
@@ -211,15 +212,22 @@
 
 
    <!-- table start -->
+   <!-- style="position:absolute;left:20px;" -->
    <div>
-    <select class="" name="" id="emp_filter" style="position:absolute;left:20px;">
-        <option value="all">ALL</option>
+    <div>
+    <select class="" name="" id="leave_filter">
+        <!-- <option value="all">ALL</option>
         <option value="approvals">MY APPROVALS</option>
-        <option value="on_leave">ON LEAVE</option>
+        <option value="on_leave">ON LEAVE</option> -->
     </select>
-        <input type="search" class=""  id="leave_search" placeholder="Search..." autocomplete="off.." style="position:absolute;right:20px;">
+        <input type="search" class=""  id="leave_search" placeholder="Search...">
+    </div>
                 <br><br><hr>
         <div class="table-responsive-sm table-responsive-md">
+            <!-- <h5>Apply for Leave</h5> -->
+            <h4 id="user_name"></h4>
+
+
         <table id="leave_table" class="table table-striped table-bordered table-hover">
             
             <thead>
@@ -234,7 +242,7 @@
                     <th><abbr class="initialism" title="No of Days">Days</abbr></th>
                     <!-- <th>Reason</th> -->
                     <th><abbr class="initialism" title="handle over to">H O T</abbr></th>
-                    <th>Document</th>
+                    <!-- <th>Document</th> -->
                     <th><abbr class="initialism" title="collegue approve">CApp</abbr></th>
                     <th>HOD</th>
                     <th>HR</th>
@@ -288,8 +296,27 @@
 
     <script src="{% static 'js/scripts/partials/apply_leave.js' %}"></script>
 
+    
+<style>
+    /* At the top level of your code */
+@media screen and (min-width: 900px) {
+  #leave_filter {
+    /* padding: 1rem 3rem; */
+    position:absolute;left:20px;
+  }
+}
 
 
+ @media screen and (min-width: 900px) {
+  #leave_search {
+    /* padding: 1rem 3rem; */
+    position:absolute;right:20px;
+  }
+}
+
+
+
+</style>
 </body>
 
 </html>

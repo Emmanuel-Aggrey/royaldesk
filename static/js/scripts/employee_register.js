@@ -39,7 +39,7 @@ $('#add_employee').on('submit', function (ev) {
             // console.log(data)
             show_alert(5000, "success", data.data + ' SAVED')
             sessionStorage.removeItem('applicant')
-            $("#add_employee")[0].reset()
+            // $("#add_employee")[0].reset()
 
             $("#department").empty()
             load_designation()
@@ -272,9 +272,9 @@ const designation = () => {
                     '">' +
                     desig[key].name +
                     "</option>"
-                    
+
                 );
-               
+
             }
 
             $("#designation").change(function () {
@@ -282,17 +282,17 @@ const designation = () => {
                 let depart = $("#designation").val()
                 let salary = desig.filter(function (item) {
 
-                    return  item.pk== depart
-                })        
+                    return item.pk == depart
+                })
                 // net_month_salary
 
                 salary.forEach(function (item) {
-                    
+
                     $("#salary").val(item.net_month_salary)
                 })
-        
+
             })
-           
+
             // applicant = JSON.parse(sessionStorage.getItem('applicant'))
 
 

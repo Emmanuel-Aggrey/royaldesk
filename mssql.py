@@ -4,8 +4,8 @@ conn = pyodbc.connect(
             "DRIVER={ODBC Driver 17 for SQL Server};" + "SERVER=APP-SERVER-RCH;"
             "DATABASE=anviz;"
             "UID=rch-sql-server;"
-            "PWD=3marymoney500%;")
-
+            "PWD=3marymoney500%@;")
+            # 3marymoney500%
 cursor = conn.cursor()
 
 

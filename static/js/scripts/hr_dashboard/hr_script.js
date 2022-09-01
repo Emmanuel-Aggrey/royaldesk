@@ -222,6 +222,8 @@ const emp_exceed_leave = () => {
     type: 'GET',
   success: function (data) {
 
+    $("#count_exceed_leave").text(data.length).attr('title','exceed leave')
+
     data.forEach(function (element) {
       const full_name = `${element.leave_employees__employee__first_name} ${element.leave_employees__employee__last_name}`
     $('#emp_exceed_leave').append(`
@@ -244,6 +246,7 @@ const emp_on_leave = () => {
     url: '/hr-reports/emp_on_leave/',
     type: 'GET',
     success: function (data) {
+      $("#count_on_leave").text(data.length).attr('title','on leave')
       let desig = {}
 
       desig = data.filter(function (item) {
@@ -254,7 +257,7 @@ const emp_on_leave = () => {
 
       // console.log(data)
       desig.forEach(element => {
-        console.log(element)
+        // console.log(element)
         $("#emp_on_leave").append(`
         
         <tr>
@@ -422,12 +425,15 @@ const clockins = () => {
     url: '/clockins/',
     type: 'GET',
     success: function (data) {
-     
-      $("#today_data").text(data.sql_today[0].Count_In)
+      console.log(data.sql_today)
+      if (data.sql_today) {
+        $("#today_data").text(data.sql_today[0].Count_In)
+      }
+      else{
+        $("#clockin_text").text('No Data For Today')
+      }
       $("#Yesterday_data").text(data.sql_yesterday[0].Count_In)
       $("#Week_data").text(data.sql_week[0].Count_In)
-
-   
 
       data.result_department_yesterday.forEach(element => {
         // console.log(element.Department)
@@ -1106,6 +1112,7 @@ const loadChart = function () {
       var realtimeChart = new Chart(realtimeChartCanvas, {
 
         options: {
+          
           plugins: {
             // Change options for ALL labels of THIS CHART
             datalabels: {
@@ -1117,6 +1124,7 @@ const loadChart = function () {
 
         data: {
           labels: department_name,
+          
           datasets: [{
 
             label: 'Clock In',
@@ -1134,12 +1142,12 @@ const loadChart = function () {
             data: result_department_week_Count_Out,
             backgroundColor: '#e5e9f2',
             borderColor: '#e5e9f2',
-            borderWidth: 0
+            borderWidth: 1
           }
           ]
         },
         options: {
-          
+
           responsive: true,
           maintainAspectRatio: true,
           layout: {
@@ -1173,7 +1181,7 @@ const loadChart = function () {
             }]
           },
           legend: {
-            display: false
+            display: true
           },
           elements: {
             point: {

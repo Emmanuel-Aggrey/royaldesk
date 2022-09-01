@@ -45,7 +45,8 @@ class User(AbstractUser):
     
 def hash_password(sender, instance,created,**kwargs):
     if  created:
-        
+        print('password ',instance.password)
+
         instance.password  =make_password(instance.password)
         instance.save()
 

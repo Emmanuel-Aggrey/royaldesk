@@ -2,7 +2,7 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.utils.decorators import method_decorator
 from django.contrib.auth import REDIRECT_FIELD_NAME
 from django.http import Http404
-
+from django.contrib.auth.hashers import check_password
 
 def not_in_site(user):
     try:
@@ -119,3 +119,24 @@ def check_user_able_to_see_page(*groups):
         return wrapper
 
     return decorator
+
+
+# check if user is using default password
+
+
+def default_passeord(function=None, redirect_field_name=REDIRECT_FIELD_NAME, login_url='password_change'):
+    '''
+    Decorator for views that checks that the logged in user is using the default password,
+    redirects to change  password page if necessary.
+    '''
+    
+    actual_decorator = user_passes_test(
+    lambda user: not check_password('changeme',user.password),
+    login_url=login_url,
+    redirect_field_name=redirect_field_name
+    )
+        
+    if function:
+        return actual_decorator(function)
+    return actual_decorator
+

@@ -10,8 +10,13 @@ from .models import User,Helpdesk, Issue,Ticket_Comment
 from .serializers import HelpdeskSerializer
 from . import tasks
 from django.conf import settings
+from django.contrib.auth.hashers import make_password
 
 # Create your views here.
+
+
+
+
 
 @api_view(['GET'])
 
@@ -206,17 +211,9 @@ def get_issue_data(request,pk):
         help_desk.handle_over_to_id  = data.get('assiend_to')
 
 
-
-
         help_desk.save()
 
-        # print()
-
-       
-
-
-
-
+        
         # print('help_desk',help_desk.status)
         if help_desk.status == 'resolved':
             department_email = help_desk.department.email
