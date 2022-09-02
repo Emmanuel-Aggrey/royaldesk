@@ -16,13 +16,31 @@ def apply_for_leave_email(employee, start, end, diff, policy, handle_over_to, de
 
     subject = 'New Leave For {}'.format(employee)
     subject_ = subject.upper()
-    html_content = '{} Have Applied  For {} from {} to {} making {} day(s) handled over to {}, Please <a href="http://192.168.43.212:8000/apply-leave/">Click Here</a> to approve Thank you <br><hr> <br> <footer><b>POWERD BY <a href="http://192.168.43.212:8000/"> ROYALDESK </a> RCH</b> </footer>'.format(
+    html_content = '{} Have Applied  For {} from {} to {} making {} day(s) handled over to {}, Please <a href="http://192.168.43.212:8000/apply-leave/">Click Here</a> to approve Thank you <br><hr> <br> <footer><b>POWERD BY <a href="http://192.168.43.212:8000/"> ROYALDESK </a> RCH IT</b> </footer>'.format(
         employee, policy, start, end, diff, handle_over_to)
 
     msg = EmailMultiAlternatives(
         subject_, html_content, email_from, ['aggrey.en@live.com'])
     msg.attach_alternative(html_content, "text/html")
     msg.send()
+
+
+@shared_task
+def send_email_new_helpdesk_employee(employee,email,password):
+
+    email_from = settings.EMAIL_HOST_USER
+
+    subject = 'Dear {}'.format(employee)
+    subject_ = subject.upper()
+    html_content = 'Welcome to Rock City Help Desk, Your Uername is <b>{}</b> ,And password is <b>{}</b>, Please <a href="http://192.168.43.212:8000/">Click Here</a> to login to use Help Desk. <p>you will be redirected to change the default password to your own password </p>  Thank you.  <br><hr> <br> <footer><b>POWERD BY <a href="http://192.168.43.212:8000/"> ROYALDESK </a> RCH IT</b> </footer>'.format(
+        employee, password)
+
+    msg = EmailMultiAlternatives(
+        subject_, html_content, email_from, [email])
+    msg.attach_alternative(html_content, "text/html")
+
+    print(html_content)
+    # msg.send()
 
 
 @shared_task
@@ -71,7 +89,7 @@ def employee_on_leave():
 
     subject = 'Employees On Leave'
     subject_ = subject.upper()
-    html_content = 'List of employees whom are to return from Leave tomorrow  On The {}  <br> <br> {} <br> <b>Thank you</b>  <br><hr> <br> <footer><b>POWERD BY <a href="http://192.168.43.212:8000/"> ROYALDESK </a> RCH</b> </footer>'.format(
+    html_content = 'List of employees whom are to return from Leave tomorrow  On The {}  <br> <br> {} <br> <b>Thank you</b>  <br><hr> <br> <footer><b>POWERD BY <a href="http://192.168.43.212:8000/"> ROYALDESK </a> RCH IT</b> </footer>'.format(
         tomorrow,html_table)
 
     # print(html_content)

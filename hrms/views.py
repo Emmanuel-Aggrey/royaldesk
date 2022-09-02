@@ -98,7 +98,7 @@ def employees(request):
 
         # print(date_value(data.get('applicant')))
 
-        # e = Employee.objects.get_or_create(**employees)
+        e = Employee.objects.get_or_create(**employees)
 
         # CREATE HELPDESK USER 
         user = User(password='changeme', username=employees.get('employee_id'), first_name=employees.get('first_name'), last_name=employees.get(
@@ -109,9 +109,17 @@ def employees(request):
 
         # GET DEPARTMENT FROM GROUP AND SAVE TO USER GROUP
         group = Group.objects.filter(name=department).last()
-        if helpdesk_user:
+        if user and helpdesk_user:
             user.save()
             user.groups.add(group)
+
+        #SEND USERNAME AND PASSEORD  TO THE NEW EMPLOYEE VIA EMAIL
+        if user and employees.get('email') and helpdesk_user:
+            employee = user.full_name
+            employee_email = employees.get('email')
+            employee_password = 'changeme'
+            tasks.send_email_new_helpdesk_employee(employee, employee_email, employee_password)
+
 
         return Response({'data': emp_id},
                         status=status.HTTP_201_CREATED)
