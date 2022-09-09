@@ -216,6 +216,7 @@ EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 # SETTING UP CELERY
 # CELERY_BROKER_URL = 'redis://localhost:6379/0'
 CELERY_BROKER_URL = 'amqp://localhost'
+CELERY_RESULT_BACKEND = 'amqp://localhost'
 # CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
@@ -240,6 +241,8 @@ CACHES = {
 
 # CELERY BEAT SETTINGS
 CELERYBEAT_SCHEDULE = 'django_celery_beat.schedulers:DatabaseScheduler'
+
+
 
 
 

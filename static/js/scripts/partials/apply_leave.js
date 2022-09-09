@@ -1,37 +1,104 @@
+
+
+
 $(document).ready(function () {
   // var today = new Date();
   leave_filter()
 
-  let today = new Date().toISOString().slice(0, 10);
 
-  $("#start").change(function () {
-    var start = new Date($("#start").val());
-    toda = new Date(today);
 
-    if (start < toda) {
-      Swal.fire("PAST DATE NOT ALLOWED",);
-      $("#start").val("");
-
-    }
-  });
-
-  $("#end").change(function () {
-    var start = new Date($("#start").val());
-    var end = new Date($("#end").val());
-
-    if (start < end) {
-      var days = (end - start) / 1000 / 60 / 60 / 24;
-      $("#days").text('NO OF DAYS APPLIED FOR ' + days);
-    } else {
-      Swal.fire("END DATE MUST BE IN THE FUTURE");
-
-      //   $("#start").val("");
-      $("#end").val("");
-      $("#days").text("");
-    }
-  }); //end change function
 }); //end ready
 
+
+
+
+const date_setup = (start,end,days) => {
+
+
+  $(`#${start}`).datepicker({
+    beforeShowDay: $.datepicker.noWeekends,
+ 
+    dateFormat: 'yy-mm-dd',
+    minDate: new Date(),
+    title:'From',
+    todayBtn: true,
+    // forceParse:true,
+    clearBtn:true,
+
+  }).on("change",function(){
+    var selected = $(this).val();
+    var next_day = new Date(selected)
+    next_day.setDate(next_day.getDate()+1)
+    // console.log(new Date(selected))
+    // console.log('selected',selected,'next_day',next_day)
+
+    $(`#${end}`).datepicker().val('');
+  
+    $(`#${end}`).datepicker("destroy");
+
+    $(`#${end}`).datepicker({
+      minDate:next_day,//new Date(selected),
+      dateFormat: 'yy-mm-dd',
+      title:'To',
+      clearBtn:true,
+      beforeShowDay: $.datepicker.noWeekends,
+      onSelect: function(dateText, inst) { $(`#${days}`).text('No. of days applied for: '+dateDifference(new Date(selected),new Date(dateText)))}
+    }).on("change",function(){
+
+      // $($("#days").text('No. of days applied for '+((new Date(dateText) - new Date(selected)) / 1000 / 60 / 60 / 24)))
+      // selected1 = $('#end').val()
+      
+      // var days = (new Date(selected) - new Date(selected1)) / 1000 / 60 / 60 / 24;
+ 
+
+      // var date = $(this).datepicker("getDate");
+      // console.log(dateDifference(new Date(selected1),$(this).datepicker("getDate")))
+      // console.log('selected')
+    
+    });
+})
+}
+
+
+
+// Expects start date to be before end date
+// start and end are Date objects
+function dateDifference(start, end) {
+
+  // Copy date objects so don't modify originals
+  var s = new Date(+start);
+  var e = new Date(+end);
+
+  // console.log(s,e)
+  
+  // Set time to midday to avoid dalight saving and browser quirks
+  s.setHours(12,0,0,0);
+  e.setHours(12,0,0,0);
+  
+  // Get the difference in whole days
+  var totalDays = Math.round((e - s) / 8.64e7);
+  
+  // Get the difference in whole weeks
+  var wholeWeeks = totalDays / 7 | 0;
+  
+  // Estimate business days as number of whole weeks * 5
+  var days = wholeWeeks * 5;
+
+  // If not even number of weeks, calc remaining weekend days
+  if (totalDays % 7) {
+    s.setDate(s.getDate() + wholeWeeks * 7);
+    
+    while (s < e) {
+      s.setDate(s.getDate() + 1);
+
+      // If day isn't a Sunday or Saturday, add to business days
+      if (s.getDay() != 0 && s.getDay() != 6) {
+        ++days;
+      }
+    }
+  }
+  return days;
+}
 
 
 $(document).ready(function () {
@@ -59,7 +126,7 @@ $(document).ready(function () {
     $("#phone").val(data.data.phone);
     // LOOP EMPLOYEES
     data.data.handle_over_to.forEach((element) => {
-      //   console.log(element.pk,element.first_name, element.last_name)
+        // console.log(element.pk,element.first_name, element.last_name)
       $("#handle_over_to")
         .append(
           '<option value="' +
@@ -267,7 +334,7 @@ const leave_table = () => {
       })
 
       desig.forEach(element => {
-        days = `${(new Date(element.end) - new Date(element.start)) / 1000 / 60 / 60 / 24}`
+        // days = `${(new Date(element.end) - new Date(element.start)) / 1000 / 60 / 60 / 24}`
 
         $("#table_body").append(`
         
@@ -278,7 +345,7 @@ const leave_table = () => {
           <td>${emergencyPhone(element.phone)}</td>
           <td>${element.start}</td>
           <td>${element.end}</td>
-          <td>${days}</td>
+          <td>${element.leavedays}</td>
           <td>${element.handle_over_to}</td>
           <td>${approve(element.collegue_approve)}</td>
           <td>${approve(element.line_manager)}</td>
@@ -331,7 +398,7 @@ const leave_table = () => {
         }
 
         desig.forEach(element => {
-          days = `${(new Date(element.end) - new Date(element.start)) / 1000 / 60 / 60 / 24}`
+          // days = `${(new Date(element.end) - new Date(element.start)) / 1000 / 60 / 60 / 24}`
           // console.log("days".days)
 
 
@@ -344,7 +411,7 @@ const leave_table = () => {
             <td>${emergencyPhone(element.phone)}</td>
             <td>${element.start}</td>
             <td>${element.end}</td>
-            <td>${days}</td>
+            <td>${element.leavedays}</td>
             <td>${element.handle_over_to}</td>
             <td>${approve(element.collegue_approve)}</td>
             <td>${approve(element.line_manager)}</td>
@@ -471,6 +538,8 @@ const user_group = (username, on_leave) => {
 
 function get_employee(leave_id) {
 
+
+  date_setup('start_edit','end_edit','days_edit');
   // console.log(leave_id)
   sessionStorage.setItem('leave_id', leave_id)
 
@@ -494,11 +563,12 @@ function get_employee(leave_id) {
       $(".leave").attr('id', response.employee_id)
 
 
-      leave_days = response.leave_days
+      leave_days = response.leavedays
       // INITIALISE FIELDS
       $("#start_edit").val(response.start_date)
       $("#end_edit").val(response.end_date)
       $("#phone_edit").val(response.phone)
+      $("#days_edit").text('No. of days applied for: '+response.leave_days)
 
       // $("#handle_over_to_edit").removeAttr("class")
 
@@ -544,7 +614,7 @@ function get_employee(leave_id) {
 
       $("#edit_leave").dialog({
 
-        title: `NO OF DAYS APPLIED FOR ${leave_days}`,
+        title: "EDIT LEAVE APPLICATION",
         height: 'auto',
         width: 'auto',
         draggable: true,
@@ -623,9 +693,8 @@ const verify_leave = (employee) => {
 
 $("#my_leave").click(function (e) {
 
-  table = $("#leave_table").find('tr').length - 2
-  // var table = document.getElementById("leave_table").rows.length-2;
-  // console.log(table);
+  date_setup('start','end','days')
+
   $("#apply_leave").dialog({
 
     title: 'APPLY NEW LEAVE',

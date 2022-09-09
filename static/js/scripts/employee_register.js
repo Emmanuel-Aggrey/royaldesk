@@ -67,7 +67,7 @@ $('#emp_dependant').on('submit', function (ev) {
 
     emp_id = sessionStorage.getItem('emp_id');
     url = `/add-dependants/${emp_id}/`
-    console.log(url)
+    // console.log(this)
 
     $.ajax({
         url: url,
@@ -82,9 +82,16 @@ $('#emp_dependant').on('submit', function (ev) {
 
         success: function (data) {
             // console.log(data.data);
+
+            if (sessionStorage.getItem('save_another_btn') !== null) {
+                $("#dependant_next_btn").click()
+                sessionStorage.removeItem('save_another_btn')
+            } 
+                
+
             if (data.data === 'success') {
                 show_alert(6000, "info", 'SAVED: ADD MORE: PRESS NEXT TO CONTINUE')
-                $("#gender, #first_name, #last_name, #other_name, #mobile, #address, #dob").val('')
+                // $("#gender, #first_name, #last_name, #other_name, #mobile, #address, #dob").val('')
 
             }
             else if (data.data === 'error') {
@@ -101,6 +108,20 @@ $('#emp_dependant').on('submit', function (ev) {
 
     });
 })
+
+
+function save_continue_btn(clicked) {
+    console.log(clicked)
+    sessionStorage.setItem('save_another_btn', clicked);
+ 
+} 
+
+// sessionStorage.setItem('save_another_btn', clicked);
+
+// sessionStorage.getItem('save_another_btn')
+// if (sessionStorage.getItem('save_another_btn') !== null) {
+
+// } 
 
 
 
@@ -124,7 +145,14 @@ $('#emp_education').on('submit', function (ev) {
 
 
         success: function (data) {
-            console.log(data.data);
+            // console.log(data.data);
+
+            if (sessionStorage.getItem('save_another_btn') !== null) {
+                $("#education_next_btn").click()
+                sessionStorage.removeItem('save_another_btn')
+            } 
+
+
             if (data.data === 'success') {
                 show_alert(6000, "info", 'SAVED: ADD MORE: PRESS NEXT TO CONTINUE')
                 $("#emp_education")[0].reset()
@@ -165,7 +193,12 @@ $('#emp_membership').on('submit', function (ev) {
 
 
         success: function (data) {
-            console.log(data.data);
+            // console.log(data.data);
+
+            if (sessionStorage.getItem('save_another_btn') !== null) {
+                $("#membership_next_btn").click()
+                sessionStorage.removeItem('save_another_btn')
+            } 
 
             if (data.data === 'success') {
                 show_alert(6000, "info", 'SAVED: ADD MORE: PRESS NEXT TO CONTINUE')

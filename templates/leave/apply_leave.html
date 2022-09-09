@@ -12,6 +12,7 @@
     <script src="{% static 'js/sweetalert2.all.min.js' %}"></script>
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
     <script src="{% static 'js/jquery-ui.js' %}"></script>
+    <script src="{% static 'js/datepicker.min.js' %}"></script>
     <link rel="stylesheet" href="{% static 'css/jquery-ui.css' %}">
 
     <!-- <script src="{% static 'js/jquery.dataTables.min.js' %}"></script> -->
@@ -20,7 +21,8 @@
 
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />
     <link rel="stylesheet" href="{% static 'css/education/partials.css' %}">
-    <!-- <link rel="stylesheet" href="{% static 'css/jquery.dataTables.min.css' %}"> -->
+    
+    <link rel="stylesheet" href="{% static 'css/datepicker.min.css' %}">
     <!-- <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}" /> -->
 
 
@@ -48,15 +50,16 @@
                     <form class="form-card" id="leave_form" enctype="multipart/form-data" method="POST">
 
                         {% csrf_token %}
+
                         <!-- FIRST ROW -->
                         <div class="row justify-content-between text-left">
                             <div class="form-grousp col-sm-3 flex-column d-flex"> <label
                                     class="form-control-label px-3">Date From<span class="text-danger">
-                                        *</span></label> <input required type="date" id="start" name="start">
+                                        *</span></label> <input required type="text" id="start" name="start" autocomplete="off" placeholder="yyyy-mm-dd" readonly="readonly" >
                             </div>
                             <div class="form-group col-sm-3 flex-column d-flex"> <label class="form-control-label px-3">
                                     Date To<span class="text-danger">
-                                        *</span></label> <input type="date" id="end" required name="end">
+                                        *</span></label> <input type="text" id="end" required name="end" autocomplete="off" placeholder="yyyy-mm-dd" readonly="readonly" >
                             </div>
                             <div class="form-group col-sm-3 flex-column d-flex"> <label
                                     class="form-control-label px-3">phone
@@ -77,13 +80,11 @@
                         <!-- SECOND ROW START-->
                         <div class="row justify-content-between text-left">
                             <div class="form-group col-sm-3 flex-column d-flex"> <label
-                                    class="form-control-label px-2">Reason<span class="text-danger">
-                                        *</span></label> <input type="text" id="reason" name="reason"
+                                    class="form-control-label px-2">Reason</label> <input type="text" id="reason" name="reason"
                                     placeholder="(optional)">
                             </div>
                             <div class="form-group col-sm-3 flex-column d-flex"> <label
-                                    class="form-control-label px-3">email<span class="text-danger">
-                                        *</span></label> <input type="email" id="email" name="email"
+                                    class="form-control-label px-3">email</label> <input type="email" id="email" name="email"
                                     placeholder="email whle on leave (optional)">
                             </div>
                             <div class="form-group col-sm-3 flex-column d-flex" title="upload supporting document">
@@ -92,7 +93,7 @@
                             </div>
                             <div class="form-group col-sm-3 flex-column d-flex"> <label
                                     class="form-control-label px-3">Handle Over To<span class="text-danger">
-                                        *</span></label> <select required name="handle_over_to" id="handle_over_to" class="form-control">
+                                        *</span></label> <select required  name="handle_over_to" id="handle_over_to" required class="form-control">
                                             <option value="">select</option>
                                         </select>
                             </div>
@@ -105,7 +106,7 @@
                         <small class="text-danger text-center">NB: APPLYING FOR DAYS MORE THAN THE COMPANIES POLICY MAY HAVE YOUR APPLICATION REJECTED</small>
                         <p> click  <em class="text-danger leave" onclick="verify_leave(this)" style="cursor: pointer;">here</em> to verify before you proceed</p>
 
-                        <p id="days"></p>
+                        <h6 id="days"></h6>
 
                         <button type="submit" class="btn btn-primary  submit-btn"
                             style="width: 100%;">Submit</button>
@@ -124,11 +125,11 @@
                                 <div class="row justify-content-between text-left">
                                     <div class="form-grousp col-sm-3 flex-column d-flex"> <label
                                             class="form-control-label px-3">Date From<span class="text-danger">
-                                                *</span></label> <input required type="date" id="start_edit" name="start">
+                                                *</span></label> <input required type="text" id="start_edit" name="start"  autocomplete="off" placeholder="yyyy-mm-dd" required readonly="readonly" >
                                     </div>
                                     <div class="form-group col-sm-3 flex-column d-flex"> <label class="form-control-label px-3">
                                             Date To<span class="text-danger">
-                                                *</span></label> <input type="date" id="end_edit" required name="end">
+                                                *</span></label> <input type="text" id="end_edit" required name="end" autocomplete="off" placeholder="yyyy-mm-dd" required readonly="readonly" >
                                     </div>
                                     <div class="form-group col-sm-3 flex-column d-flex"> <label
                                             class="form-control-label px-3">phone
@@ -149,8 +150,8 @@
                                 <!-- SECOND ROW START-->
                                 <div class="row justify-content-between text-left">
                                     <div class="form-group col-sm-3 flex-column d-flex"> <label
-                                            class="form-control-label px-2">Reason<span class="text-danger">
-                                                *</span></label> <input type="text" id="reason_edit" name="reason"
+                                            class="form-control-label px-2">Reason
+                                                </label> <input type="text" id="reason_edit" name="reason"
                                             placeholder="(optional)">
                                     </div>
                                     <div class="form-group col-sm-3 flex-column d-flex"> <label

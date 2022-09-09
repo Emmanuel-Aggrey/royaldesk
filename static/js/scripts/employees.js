@@ -8,7 +8,7 @@ $(document).ready(function () {
 
       let employees = {}
       employees = response.data.filter(function (item) {
-        return item.status == 'active'
+        return item.status == 'active' 
       })
 
       employees.forEach(function (element) {
@@ -29,12 +29,14 @@ $(document).ready(function () {
                                 <td class="font-weight-medium">${element.date_employed}</td>
 
                                 <td class="text-primary font-weight-medium" class="">
-                                  <div id="${element.emp_uiid}" onclick="get_employee(this)" class="btn btn-primary btn-outline-info text-light" title="view employee info"> 
-                                  <i class="fa fa-eye " aria-hidden="true"></i>
-                                  </div>
-                                  <div  id="${element.employee_id}" onclick="get_employee_leave(this)" class="btn btn-info btn-outline-primary text-light" title="view leave history"> 
+                                <div class="btn btn-info  text-light" title="employee details"> 
+                                <a class="text-light" href="/employee-data/${element.emp_uiid}/" target="_blank" rel="noopener noreferrer">view</a>
+                               </div>
+                                  <div  id="${element.employee_id}" onclick="get_employee_leave(this)" class="btn btn-info btn-outline-primary text-light" title="leave history"> 
                                   <i class="fa fa-eye-slash" aria-hidden="true"></i>
                                   </div>
+
+                                  
                                 </td>
                                
   
@@ -44,40 +46,17 @@ $(document).ready(function () {
 
       search_leave_table()
       //  fancyTable()
-
-      $("#filter_emp").change(function () {
-        val = $(this).val()
-        $('#employees_table').empty();
-
-        if (val == 1) {
-          // alert("active")
+      // employees = {}
+        $("#filter_emp").change(function(){
+          val = $(this).val()
+          $('#employees_table').empty();
+          // alert(val)
+          console.log(val)
           employees = response.data.filter(function (item) {
-            return item.status === 'active';
+            return item.status === val || item.with_beneficiary ==val || item.is_merried===val;
           })
 
-        }
-        if (val == 2) {
-          employees = response.data.filter(function (item) {
-            return item.status === 'resigned';
-          })
-          // alert("resigned")
-        }
-        if (val == 3) {
-          employees = response.data.filter(function (item) {
-            return item.status === 'sacked';
-          })
-        }
-        if (val == 4) {
-          employees = response.data.filter(function (item) {
-            return item.with_beneficiary === true;
-          })
-        }
-        if (val == 5) {
-          employees = response.data.filter(function (item) {
-            return item.with_beneficiary === false;
-          })
-        }
-
+          console.log(employees)
         employees.forEach(element => {
           $("#employees_table").append(`
                 
@@ -95,13 +74,15 @@ $(document).ready(function () {
                                     <td class="font-weight-medium">${element.date_employed}</td>
     
                                     <td class="text-primary font-weight-medium" class="">
-                                      <div  id="${element.emp_uiid}" onclick="get_employee(this)" class="btn btn-primary btn-outline-info text-light" title="view employee info"> 
-                                      <i class="fa fa-eye " aria-hidden="true"></i>
-                                      </div>
+                                    <div class="btn btn-info  text-light" title="employee details"> 
+                                    <a class="text-light" href="/employee-data/${element.emp_uiid}/" target="_blank" rel="noopener noreferrer">view</a>
+                                   </div>
 
-                                      <div  id="${element.employee_id}" onclick="get_employee_leave(this)" class="btn btn-info btn-outline-primary text-light" title="view leave history"> 
+                                      <div  id="${element.employee_id}" onclick="get_employee_leave(this)" class="btn btn-info btn-outline-primary text-light" title="leave history"> 
                                       <i class="fa fa-eye " aria-hidden="true"></i>
                                       </div>
+                                     
+                                      
                                     </td>
                                    
       
@@ -121,18 +102,6 @@ $(document).ready(function () {
 
 
 
-// RESIRECT TO EMPLOYEE DETAIL PAGE
-const get_employee = (employee) => {
-  emp_id = employee.id
-  // console.log('emp_id',emp_id)
-  url = `/employee-info/${emp_id}/`;
-  // console.log(url,id);
-
-  sessionStorage.setItem("employee", emp_id)
-  // location.href =url
-  window.open(url, "_blank");
-
-}
 
 const get_employee_leave = (employee) => {
   employee = employee.id

@@ -21,10 +21,12 @@ GENDER = (('male', 'MALE'), ('female', 'FEMALE'))
 TITLE = (('mr', 'MR'), ('mrs', 'MRS'), ('doc', 'DOCTOR'), ('prof',
          'PROFESSOR'), ('miss', 'MISS'), ('sir', 'SIR'), ('hon', 'HONARABLE'))
 EMPLOYEE_STATUS = (('active', 'ACTIVE'), ('sacked',
-                   'SACKED'), ('resigned', 'RESIGNED'))
+                   'SACKED'), ('resign', 'RESIGN'))
+
 STATUS = (('approved', 'APPROVED'), ('unapproved',
           'UNAPPROVED'), ('pending', 'PENDING'))
 
+MARRITAL_STATUS = (('married','MARRIED'),('not_married','NOT MARRIED'),('divorced','Divorced'),('widow','WIDOW'),('widower','WIDOWER'),)
 
 class BaseModel(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
@@ -142,7 +144,7 @@ class Employee(BaseModel, models.Model):
     country = models.CharField(max_length=200, null=True, blank=True)
     gender = models.CharField(choices=GENDER, max_length=10)
     snnit_number = models.CharField(max_length=15, null=True, blank=True)
-    is_merried = models.BooleanField(default=False)
+    is_merried = models.CharField('marital_status', max_length=20, null=True, blank=True,choices=MARRITAL_STATUS)
     department = models.ForeignKey(
         Department, on_delete=models.SET_NULL, null=True)
     designation = models.ForeignKey(
@@ -167,7 +169,7 @@ class Employee(BaseModel, models.Model):
         'applicant.Applicant', on_delete=models.SET_NULL, null=True, blank=True, related_name='applicant')
 
     def __str__(self):
-        return f'{self.first_name} {self.last_name} : {self.employee_id}'
+        return self.full_name 
 
     def get_absolute_url(self):
         return reverse("hrms:employee")
@@ -183,9 +185,10 @@ class Employee(BaseModel, models.Model):
 
     @property
     def my_group(self):
-        group = self.departart_heads.values_list('name', flat=True)
-        group = [group for group in group]
-        return ''.join(group)
+        pass
+        # group = self.departart_heads.values_list('name', flat=True)
+        # group = [group for group in group]
+        # return ''.join(group)
 
     @property
     def profile_exists(self):
@@ -251,6 +254,13 @@ class Dependant(models.Model):
     mobile = models.CharField(max_length=15, null=True, blank=True)
     address = models.TextField(max_length=100, null=True, blank=True)
     # image = models.ImageField(null=True, blank=True)
+
+    @property
+    def full_name(self):
+        if self.first_name and self.last_name and self.other_name:
+            return f'{self.first_name} {self.last_name} {self.other_name}'
+        else:
+            return f'{self.first_name} {self.last_name}'
 
     def __str__(self):
         return f'{self.first_name} {self.last_name}'
@@ -328,13 +338,13 @@ class Leave(BaseModel, models.Model):
     reason = models.TextField(null=True, blank=True)
     file = models.FileField(null=True, blank=True, upload_to='media/%Y-%m-%d')
     handle_over_to = models.ForeignKey(
-        Employee, on_delete=models.CASCADE, null=True, related_name='handler_over_to')
+        Employee, on_delete=models.CASCADE, null=True, related_name='handler_over_to',default=4)
     collegue_approve = models.BooleanField(default=False)
     line_manager = models.BooleanField(default=False)
     hr_manager = models.BooleanField(default=False)
     on_leave = models.BooleanField(default=False)
     from_leave = models.BooleanField(default=False)
-    leavedays = models.IntegerField(default=0,editable=True) #using this because sqlite doesn't support calculations with datesfieds
+    leavedays = models.IntegerField(default=0,editable=True) #using this because sqlite doesn't support calculations with datefieds
 
     #get the difference between start and end date 
 
@@ -342,10 +352,10 @@ class Leave(BaseModel, models.Model):
     def __str__(self):
         return self.employee.full_name
 
-    @property
-    def leave_days(self):
+    # @property
+    # def leave_days(self):
 
-        return (self.end - self.start).days 
+    #     return self.leavedays
 
        
 
@@ -360,22 +370,11 @@ class Leave(BaseModel, models.Model):
         # unique_together = ('employee', 'updated_at')
 
 
-# check datatype for end and start date
-def check_date_type(start, end):
-    if not isinstance(start, str):
-        start = start.strftime('%Y-%m-%d')
-        end = end.strftime('%Y-%m-%d')
-        return partials.days_difference(end,start)
-    else:
-        return partials.days_difference(end,start)
 
-# CREATE DEFAULT USER IF FOR EMPLOYEE
 def update_leave_status(sender, instance, **kwargs):
 
-    # start = instance.start.strftime('%Y-%m-%d')
-    # end = instance.end.strftime('%Y-%m-%d')
     
-    instance.leavedays =check_date_type(instance.end,instance.start)  #save the leave days
+    instance.leavedays =partials.days_difference_weekdays(instance.start,instance.end)  #save the leave days
 
     if instance.line_manager == True and instance.hr_manager == True:
         instance.status = 'approved'

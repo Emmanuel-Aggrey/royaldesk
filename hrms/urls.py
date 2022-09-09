@@ -20,6 +20,7 @@ urlpatterns = [
     # REGISTER EMPLOYEE
     path('employees/', views.employees,name='employees'),
     path('employee/<str:emp_uiid>/',views.employee),
+    path('employee-data/<str:emp_uiid>/',views.employee_data,name='employee_data'),
     # path('employee-info/',login_required(TemplateView(template_name="employees/employee_info.html")),name='employee_info'),
     path('employee-info/<str:emp_uiid>/',  TemplateView.as_view(template_name="employees/employee_info.html"),name='employee_info'),
 

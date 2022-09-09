@@ -153,7 +153,8 @@ p {
 }
 
 #msform .action-button {
-  width: 100px;
+  width: 200px;
+  height: 40px;
   background: #673ab7;
   font-weight: bold;
   color: white;
@@ -172,7 +173,8 @@ p {
 
 #msform .action-button-previous {
   width: 100px;
-  background: #616161;
+  height: 40px;
+  background: #673ab7;
   font-weight: bold;
   color: white;
   border: 0 none;

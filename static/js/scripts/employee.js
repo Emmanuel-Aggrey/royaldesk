@@ -142,7 +142,7 @@ $(document).ready(function(){
   id = sessionStorage.getItem('employee')
   // console.log('code',page)
   var qrcode = new QRCode(document.getElementById("qrcode"), {
-    text: `http://192.168.43.212:8001/employee-info/${id}`,
+    text: `http://192.168.43.212:8001/employee-info/${id}/`,
     width: 90,
     height: 90,
     colorDark : "#000000",
@@ -155,6 +155,7 @@ $(document).ready(function(){
 
   employee = current_location.replace('http://192.168.43.212:8001/employee-info/','')
 
+  console.log('employee',employee)
 
   $.ajax({
       url:`/employee/${employee}`,
@@ -275,6 +276,8 @@ $(document).ready(function(){
         window.print()
       }
     })
+
+
 })
 
 

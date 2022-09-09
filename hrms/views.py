@@ -15,13 +15,13 @@ from django.utils import timezone
 from django.views.generic import (CreateView, DeleteView, DetailView, FormView,
                                   ListView, TemplateView, UpdateView, View)
 from HRMSPROJECT.custome_decorators import group_required
-from rest_framework import generics, status
+from rest_framework import generics, status,viewsets
 from rest_framework.decorators import api_view
 from rest_framework.parsers import FileUploadParser
 from rest_framework.response import Response
 from django.contrib.auth.models import Group
 
-from . import tasks
+from .import tasks
 from .models import (Department, Dependant, Designation, Education, Employee,
                      Leave, LeavePolicy, PreviousEployment,
                      ProfessionalMembership)
@@ -115,10 +115,11 @@ def employees(request):
 
         #SEND USERNAME AND PASSEORD  TO THE NEW EMPLOYEE VIA EMAIL
         if user and employees.get('email') and helpdesk_user:
+            employee_id = employees.get('employee_id')
             employee = user.full_name
             employee_email = employees.get('email')
             employee_password = 'changeme'
-            tasks.send_email_new_helpdesk_employee(employee, employee_email, employee_password)
+            tasks.send_email_new_helpdesk_employee(employee,employee_id, employee_email, employee_password)
 
 
         return Response({'data': emp_id},
@@ -128,12 +129,16 @@ def employees(request):
         # return Response(serializer.errors,
         #                 status=status.HTTP_400_BAD_REQUEST)
 
-# GET EMPLOYEE DETAIL
 
 
 @group_required('HR', 'Manager')
 @api_view(['GET'])
 def employee(request, emp_uiid):
+    '''
+    GET EMPLOYEE DETAIL API
+
+    '''
+    
     if request.method == 'GET':
         employee = get_object_or_404(
             Employee.objects.select_related('designation'), emp_uiid=emp_uiid)
@@ -156,6 +161,33 @@ def employee(request, emp_uiid):
         return Response(data)
 
         # return Response(serializer.data,dependants)
+
+
+def employee_data(request,emp_uiid):
+    '''
+    GET EMPLOYEE DETAIL
+
+    '''
+
+    employee = get_object_or_404(
+            Employee.objects.select_related('designation'), emp_uiid=emp_uiid)
+        
+    dependants = employee.beneficiarys.values()
+    educations = employee.educations.values()
+    memberships = employee.memberships.values()
+    employments = employee.employments.values()
+    serializer = GetEmployeeSerializer(employee)
+
+    context = {
+            'employee': serializer.data,
+            'dependants': dependants,
+            'educations': educations,
+            'memberships': memberships,
+            'employments': employments,
+    }
+
+
+    return render(request,'employees/employee_data.html',context)
 
 
 @api_view(['POST', 'GET'])
@@ -333,15 +365,12 @@ def apply_leave(request, employee_id):
         handle_over_to = leave.handle_over_to.full_name
         department_email = leave.employee.department.email
         on_leave = leave.from_leave
+        leave_days = leave.leavedays
 
-        # DIFFENCE BETWEEN TWO DATE1 AND TWO DATE2
-        date1 = datetime.strptime(start, '%Y-%m-%d')
-        date2 = datetime.strptime(end, '%Y-%m-%d')
-        diff = date2 - date1
-        diff = diff.days
 
+        #SEND EMAIL TO HOD AND HR 
         tasks.apply_for_leave_email(
-            employee, start, end, diff, policy, handle_over_to, department_email)
+            employee, start, end, leave_days, policy, handle_over_to, department_email)
 
         return Response({'data': str(leave_data), 'on_leave': on_leave})
 
@@ -482,7 +511,7 @@ def getleave(request, pk):
         'start_date': leave.start,
         'email': leave.employee.email,
         'end_date': leave.end,
-        'leave_days': leave.leave_days,
+        'leave_days': leave.leavedays,
         'status': leave.status,
         'phone': leave.phone,
         'policy': leave.policy.name,

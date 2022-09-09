@@ -6,15 +6,19 @@ from .models import (Dependant, Education, Employee, Leave,
                      ProfessionalMembership)
 
 
+
+
+
 class EmployeeSerializer(serializers.ModelSerializer):
     # profile_exists = serializers.CharField('profile_exists')
     # designation_name = serializers.CharField(source='designation')
     department = serializers.CharField(source='department.name')
 
+
     class Meta:
         model = Employee
         # fields = '__all__'
-        fields = ['pk', 'employee_id', 'is_head','full_name', 'emp_uiid', 'status', 'date_employed',
+        fields = ['pk', 'employee_id', 'is_head','full_name', 'emp_uiid', 'status','is_merried', 'date_employed',
                   'mobile', 'email', 'address', 'profile_exists', 'with_beneficiary', 'department']
 
 
@@ -54,7 +58,7 @@ class LeaveSerializer(serializers.ModelSerializer):
             'employee_id', 'group', 'policy', 'policy_id', 'created_at',
             'start', 'end', 'status', 'phone', 'reason', 'file',
             'collegue_approve', 'line_manager', 'hr_manager', 'from_leave', 'employee',
-            'employee__name', 'department', 'employee_id','leave_days'
+            'employee__name', 'department', 'employee_id','leavedays'
 
         ]
         # fields = '__all__'

@@ -164,9 +164,13 @@
               <div class="form-group col-sm-3 flex-column d-flex"> <label class="form-control-label px-2"> Marital
                   Status<span class="text-danger">
                     *</span></label> <select name="is_merried" id="is_merried" required>
-                  <option value="0">NO</option>
+                  <option value="married">MARRIED</option>
 
-                  <option value="1">YES</option>
+                  <option value="not_married">NOT MARRIED</option>
+                  <option value="Divorced">DIVORCED</option>
+                  <option value="widow">WIDOW</option>
+
+                  <option value="widower">WIDOWER</option>
                 </select> </div>
               <div class="form-group col-sm-3 flex-column d-flex"> <label
                   class="form-control-label px-3">Nationality<span class="text-danger">
@@ -334,8 +338,10 @@
             <!-- SECOND ROW END -->
             <hr class="bg-primary" />
 
-            <input type="button" name="next" class="next action-button" value="Next" />
-            <button type="submit" class="btn btn-primary action-button submit-btn">Submit</button>
+            <input type="button" name="next" class="next action-button d-none" id="dependant_next_btn" style="width: 100px" value="Next" />
+            <button type="submit" class="btn btn-primary action-button submit-btn" onClick="save_continue_btn(this.id)" id="save-continue-btn">Save and continue</button>
+
+            <button type="submit" class="btn btn-primary action-button submit-btn">Save and add another</button>
 
             <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
 
@@ -378,8 +384,15 @@
             <!-- SECOND ROW END -->
             <hr class="bg-primary" />
 
-            <input type="button" name="next" class="next action-button" value="Next" />
-            <button type="submit" class="btn btn-primary action-button submit-btn mx-3">Submit</button>
+            <!-- <input type="button" name="next" class="next action-button" value="Next" /> -->
+            <!-- <button type="submit" class="btn btn-primary action-button submit-btn mx-3">Submit</button> -->
+
+            <!-- <input type="button" name="previous" class="previous action-button-previous" value="Previous" /> -->
+
+            <input type="button" name="next" class="next action-button d-none" id="education_next_btn" style="width: 100px" value="Next" />
+            <button type="submit" class="btn btn-primary action-button submit-btn" onClick="save_continue_btn(this.id)" id="save-continue-btn">Save and continue</button>
+
+            <button type="submit" class="btn btn-primary action-button submit-btn">Save and add another</button>
 
             <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
 
@@ -408,9 +421,16 @@
 
             <hr class="bg-primary" />
 
-            <input type="button" name="next" class="next action-button" value="Next" />
+            <!-- <input type="button" name="next" class="next action-button" value="Next" />
             <button type="submit" class="btn btn-primary action-button submit-btn mx-3"
               id="empsubmit-btn">Submit</button>
+
+            <input type="button" name="previous" class="previous action-button-previous" value="Previous" /> -->
+
+            <input type="button" name="next" class="next action-button d-none" id="membership_next_btn" style="width: 100px" value="Next" />
+            <button type="submit" class="btn btn-primary action-button submit-btn" onClick="save_continue_btn(this.id)" id="save-continue-btn">Save and continue</button>
+
+            <button type="submit" class="btn btn-primary action-button submit-btn">Save and add another</button>
 
             <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
 
@@ -445,10 +465,19 @@
             <!-- FIRST ROW END -->
 
             <hr class="bg-primary" />
-            <input type="button" name="next" class="next action-button submit-btn" onclick="reg_finished()"
-              value="Finish" />
+            <!-- <input type="button" name="next" class="next action-button submit-btn" onclick="reg_finished()"
+              value="Finish" /> -->
 
-            <button type="submit" class="btn btn-primary action-button submit-btn mx-3">Submit</button>
+            <!-- <button type="submit" class="btn btn-primary action-button submit-btn mx-3">Submit</button> -->
+
+            <!-- <input type="button" name="previous" class="previous action-button-previous" value="Previous" /> -->
+
+            <!-- <input type="button" name="next" class="next action-button" id="membership_next_btn" style="width: 100px" value="Next" /> -->
+            <!-- <button type="button" class="btn btn-primary action-button submit-btn" onClick="reg_finished()" id="save-continue-btn">Finish</button> -->
+            <input type="button" name="next" class="next action-button submit-btn" onclick="reg_finished()"
+            value="Finish" /> 
+
+            <button type="submit" class="btn btn-primary action-button submit-btn">Save and add another</button>
 
             <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
 

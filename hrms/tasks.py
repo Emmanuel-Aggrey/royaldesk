@@ -26,14 +26,14 @@ def apply_for_leave_email(employee, start, end, diff, policy, handle_over_to, de
 
 
 @shared_task
-def send_email_new_helpdesk_employee(employee,email,password):
+def send_email_new_helpdesk_employee(employee,employee_id,email,password):
 
     email_from = settings.EMAIL_HOST_USER
 
     subject = 'Dear {}'.format(employee)
     subject_ = subject.upper()
-    html_content = 'Welcome to Rock City Help Desk, Your Uername is <b>{}</b> ,And password is <b>{}</b>, Please <a href="http://192.168.43.212:8000/">Click Here</a> to login to use Help Desk. <p>you will be redirected to change the default password to your own password </p>  Thank you.  <br><hr> <br> <footer><b>POWERD BY <a href="http://192.168.43.212:8000/"> ROYALDESK </a> RCH IT</b> </footer>'.format(
-        employee, password)
+    html_content = 'Welcome to Rock City Help Desk, Your Employee ID  is <b>{}</b> ,And your password is <b>{}</b>, Please <a href="http://192.168.43.212:8000/">Click Here</a> to login to use Help Desk. <p>you will be redirected to change the default password to your own password </p>  Thank you.  <br><hr> <br> <footer><b>POWERD BY <a href="http://192.168.43.212:8000/"> ROYALDESK </a> RCH IT</b> </footer>'.format(
+        employee_id, password)
 
     msg = EmailMultiAlternatives(
         subject_, html_content, email_from, [email])
@@ -47,64 +47,58 @@ def send_email_new_helpdesk_employee(employee,email,password):
 def employee_on_leave():
     tomorrow = datetime.now().date() + timedelta(days=1)
     leave = Leave.objects.select_related('employee').filter(end=tomorrow,from_leave=False)
-    data = leave.values('employee__first_name', 'employee__last_name', 'employee__department__name','employee__designation__name','employee__department__email')
+    if leave:
+        data = leave.values('employee__first_name', 'employee__last_name', 'employee__department__name','employee__designation__name','employee__department__email')
 
-    department_email = [data[i]['employee__department__email'] for i in range(len(data))]
+        department_email = [data[i]['employee__department__email'] for i in range(len(data))]
 
-    department_email = list(set(department_email))
+        department_email = list(set(department_email))
 
-    print(department_email)
-
-
-
-
-    # create an html table with data
-    df = pd.DataFrame(data)
-    df.drop(['employee__department__email'], axis = 1, inplace = True) 
-
-    df.columns = ['First Name', 'Last Name', 'Department', 'Designation']
-    html_table = df.to_html(index=False)
-    html_table = html_table.replace('border="1"', 'border="1"')
-    html_table = html_table.replace('style="border: 1px solid;"', 'style="align-items: center;"')
+        print(department_email)
 
 
 
 
+        # create an html table with data
+        df = pd.DataFrame(data)
+        print(df)
+        df.drop(['employee__department__email'], axis = 1, inplace = True) 
 
-    # df.to_html(classes='table table-striped text-center', justify='center')
-
-    # print(html_table)
-
-
-
-
-      
-
-
+        df.columns = ['First Name', 'Last Name', 'Department', 'Designation']
+        html_table = df.to_html(index=False)
+        html_table = html_table.replace('border="1"', 'border="1"')
+        html_table = html_table.replace('style="border: 1px solid;"', 'style="align-items: center;"')
 
 
-    email_from = settings.EMAIL_HOST_USER
-    tomorrow = tomorrow.strftime("%B %d, %Y")
+        # df.to_html(classes='table table-striped text-center', justify='center')
+
+        # print(html_table)
 
 
-    subject = 'Employees On Leave'
-    subject_ = subject.upper()
-    html_content = 'List of employees whom are to return from Leave tomorrow  On The {}  <br> <br> {} <br> <b>Thank you</b>  <br><hr> <br> <footer><b>POWERD BY <a href="http://192.168.43.212:8000/"> ROYALDESK </a> RCH IT</b> </footer>'.format(
+
+
+        email_from = settings.EMAIL_HOST_USER
+        tomorrow = tomorrow.strftime("%B %d, %Y")
+
+
+        subject = 'Employees On Leave'
+        subject_ = subject.upper()
+        html_content = 'List of employees whom are to return from Leave tomorrow  On The {}  <br> <br> {} <br> <b>Thank you</b>  <br><hr> <br> <footer><b>POWERD BY <a href="http://192.168.43.212:8000/"> ROYALDESK </a> RCH IT</b> </footer>'.format(
         tomorrow,html_table)
 
-    # print(html_content)
+        # print(html_content)
     
 
-    msg = EmailMultiAlternatives(
+        msg = EmailMultiAlternatives(
         subject_, html_content, email_from, ['aggrey.en@live.com'])
-    msg.attach_alternative(html_content, "text/html")
-    # msg.send()
+        msg.attach_alternative(html_content, "text/html")
+        # msg.send()
 
 
 
     
-    # df = pd.DataFrame(data)
+        # df = pd.DataFrame(data)
 
-    # df.to_csv('employee_on_leave.csv')
+        # df.to_csv('employee_on_leave.csv')
 
 
