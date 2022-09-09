@@ -22,7 +22,7 @@ def apply_for_leave_email(employee, start, end, diff, policy, department_email):
 
     subject = 'New Leave For {}'.format(employee)
     subject_ = subject.upper()
-    html_content = '{} Have Applied  For {} from {} to {} making {} day(s) , Please <a href="http://192.168.1.18/apply-leave-start/">Click Here</a> to approve Thank you <p>Best Regards,</p>The Royal Desk Team.</p> <br><hr> <br> <footer><b>POWERD BY <a href="http://192.168.1.18/"> ROYALDESK </a> RCH IT</b> </footer>'.format(
+    html_content = 'Dear Sir/Madam <br> \n {} Have Applied  For {} from {} to {} making {} day(s) , Please <a href="http://192.168.1.18/apply-leave-start/">Click Here</a> to approve Thank you <p>Best Regards,</p>The Royal Desk Team.</p> <br><hr> <br> <footer><b>POWERD BY <a href="http://192.168.1.18/"> ROYALDESK </a> RCH IT</b> </footer>'.format(
         employee, policy, start, end, diff)
 
 
@@ -44,8 +44,9 @@ def apply_for_leave_email(employee, start, end, diff, policy, department_email):
 
 @shared_task
 def applied_leave_reminder(employee, start, end, diff, policy, leave_id,department_email):
-    leave = Leave.objects.filter(pk=leave_id,supervisor=False,line_manager=False).exists()
+    leave = Leave.objects.filter(pk=leave_id,supervisor=False,line_manager=False,hr_manager=False).exists()
     if leave:
+        log_to_file('reminder')
         subject = 'Leave Reminder For {}'.format(employee)
         subject_ = subject.upper()
         html_content = '{} Have Applied  For {} from {} to {} making {} day(s) , Please <a href="http://192.168.1.18/apply-leave-start/">Click Here</a> to approve Thank you <p>Best Regards,</p>The Royal Desk Team.</p> <br><hr> <br> <footer><b>POWERD BY <a href="http://192.168.1.18/"> ROYALDESK </a> RCH IT</b> </footer>'.format(
@@ -67,6 +68,7 @@ def applied_leave_reminder(employee, start, end, diff, policy, leave_id,departme
 
     leave = Leave.objects.filter(pk=leave_id,supervisor=True,line_manager=True,hr_manager=False).exists()
     if leave:
+        log_to_file('to hr')
         subject = 'New Leave For {}'.format(employee)
         subject_ = subject.upper()
         html_content = '{} Have Applied  For {} from {} to {} making {} day(s) , Please <a href="http://192.168.1.18/apply-leave-start/">Click Here</a> to approve Thank you <p>Best Regards,</p>The Royal Desk Team.</p> <br><hr> <br> <footer><b>POWERD BY <a href="http://192.168.1.18/"> ROYALDESK </a> RCH IT</b> </footer>'.format(
@@ -291,10 +293,10 @@ def create_anviz_employee(*args):
 
 
 @shared_task
-def log_to_file():
+def log_to_file(name):
     today = datetime.now().strftime('%d %B %Y, %I:%M:%S %p')
     with open('./logs.log', 'a') as f:
-        f.write(f'{today}\n')
+        f.write(f'{today} {name} \n')
 
 
 @shared_task

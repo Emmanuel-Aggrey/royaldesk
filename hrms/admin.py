@@ -82,6 +82,7 @@ class PreviousEploymentInline(admin.TabularInline):
 
 class DocumentInline(admin.TabularInline):
     model = Documente
+    extra = 1
 
 class EmployeeExitInline(admin.TabularInline):
     model = EmployeeExit

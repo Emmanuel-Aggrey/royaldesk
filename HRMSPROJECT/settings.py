@@ -193,7 +193,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 
 
-FORCE_SERVE_STATIC = True
+# FORCE_SERVE_STATIC = True
 
 STATIC_ROOT =  os.path.join(BASE_DIR, 'staticfile')
 STATIC_URL = '/static/'
@@ -204,9 +204,10 @@ STATICFILES_DIRS = [
 
 
 # '/media/' #This is just for url i.e https://l.me/media/l.jpg
-MEDIA_URL = config('MEDIA_URL')
+MEDIA_URL = '/media/'
 # os.path.join(BASE_DIR, 'media') #This is the folder the image will be uploaded
-MEDIA_ROOT = config('MEDIA_ROOT')
+MEDIA_ROOT  =  os.path.join(BASE_DIR, 'media')
+
 
 CKEDITOR_UPLOAD_PATH = "uploads/"
 
@@ -222,12 +223,12 @@ LOGOUT_REDIRECT_URL = 'login'
 
 # LOGIN_URL = 'login'
 
-# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 # CELERY_EMAIL_BACKEND =  'djcelery_email.backends.CeleryEmailBackend'
 
-EMAIL_BACKEND = 'djcelery_email.backends.CeleryEmailBackend'
+# EMAIL_BACKEND = 'djcelery_email.backends.CeleryEmailBackend'
 CELERY_EMAIL_CHUNK_SIZE = 1
 DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL')
 EMAIL_HOST = config('EMAIL_HOST')
