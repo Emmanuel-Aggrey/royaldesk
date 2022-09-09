@@ -118,11 +118,14 @@ def employement_status(request):
     status = request.GET.get('status')
 
     employment_rate = Employee.employees.select_related('department').values(
-        'department__name', 'first_name', 'last_name', 'other_name', 'date_employed','date_departure')
+        'department__name', 'first_name','status', 'last_name', 'other_name', 'date_employed','date_departure')
 
-    print('department here', department, year, status)
+  
 
-    if department == 'all':
+    if status == 'not_active' and department == 'all':
+        employment_rate = employment_rate.filter(Q(date_employed__year=year)&~Q(status='active'))
+
+    elif department == 'all':
 
         employment_rate = employment_rate.filter(
             date_employed__year=year, status=status)

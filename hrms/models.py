@@ -284,7 +284,7 @@ def disbale_enable_login_user(sender, instance, **kwargs):
         user.save()
 
 
-pre_save.connect(disbale_enable_login_user, sender=Employee)
+#pre_save.connect(disbale_enable_login_user, sender=Employee)
 
 
 class EmployeeExit(BaseModel, models.Model):

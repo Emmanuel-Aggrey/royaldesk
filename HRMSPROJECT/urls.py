@@ -8,14 +8,15 @@ from django.views.generic import TemplateView
 from django.contrib.auth.decorators import login_required
 from .custome_decorators import default_passeord,applicant_user
 from rest_framework import permissions
+from decouple import config
 
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 schema_view = get_schema_view(
    openapi.Info(
-      title="Tourists API Endpoint",
+      title="Royal Desk API Endpoint",
       default_version='v1',
-      description="A Test Exam for Backend Developer Role",
+      description="HR MANAGEMENT SYSTEM",
       license=openapi.License(name="BSD License"),
    ),
    public=True,
@@ -47,7 +48,7 @@ if settings.DEBUG:
     urlpatterns += static(
         settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 elif getattr(settings, 'FORCE_SERVE_STATIC', False):
-    settings.DEBUG = True
+    settings.DEBUG =  config('DEBUG', default=False, cast=bool)
     urlpatterns += static(
         settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
    # urlpatterns += static(

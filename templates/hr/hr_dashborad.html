@@ -83,7 +83,7 @@
                       <div class="wrapper">
                         <h3 class="mb-0 font-weight-semibold">Leave Status</h3>
                         <h5 class="mb-0 font-weight-medium text-primary" id="on_leave">On Leave:</h5>
-                        <p class="mb-0 text-muted" onclick="scroolDown()" id="applied_leave">Applied Leave: </p>
+                        <p class="mb-0 text-muted" style="cursor:progress" onclick="scroolDown()" id="applied_leave">Applied Leave: </p>
                       </div>
                       <div class="wrapper my-auto ml-auto ml-lg-4">
                         <!-- <canvas height="50" width="100" id="stats-line-graph-4"></canvas> -->
@@ -129,6 +129,8 @@
                         <!-- <small class="ml-2 text-gray d-none d-lg-block"><b>89.5%</b> of 20,000 Total</small> -->
                       </div>
                     </div>
+
+                    
                     <div class="wrapper">
                       <h5 class="mb-0 text-monospace">Turn Over <small class="btn-sm text-primary" id="turn_over_rate_btn"
                           style="cursor:pointer">FILTER</small></h5>
@@ -228,6 +230,7 @@
                       <option value="resigned">RESIGNED</option>
                       <option value="dismised">DISMISED</option>
                       <option value="redundancy">REDUNDANCY</option>
+                      <option value="not_active">NOT ACTIVE</option>
                     </select>
                     <button type="submit">Run</button>
                   </form>
@@ -249,6 +252,7 @@
                           <th>#</th>
                           <th>NAME</th>
                           <th>DEPARTMENT</th>
+                          <th>STATUS</th>
                           <th>Date Employed</th>
                           <th>Date Exited</th>
                         </tr>

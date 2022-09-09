@@ -3,21 +3,24 @@ import json
 from datetime import datetime
 
 from decouple import config
+from django.contrib.auth.models import Group
 from django.db.models import Q
 from django.shortcuts import get_object_or_404, render
 from rest_framework import generics, status
-from rest_framework.views import APIView
-
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from django.contrib.auth.models import Group
+from rest_framework.views import APIView
+
 from helpdesk.models import User
 from hrms.models import Department, Designation, Employee
 from HRMSPROJECT.custome_decorators import group_required
 
 from . import tasks
-from .models import Applicant, OfferLetter,ApplicantOfferLeter
-from .serializers import AcceptanceSerializer, ApplicantSerializer, ApplicantOfferLetterSerializer
+from .models import Applicant, ApplicantOfferLeter, OfferLetter
+from .serializers import (AcceptanceSerializer, ApplicantOfferLetterSerializer,
+                          ApplicantSerializer)
+
+default_password = config('DEFAULT_PASSWORD', default='changeme')
 
 # Create your views here.
 
@@ -45,13 +48,12 @@ def applicants(request):
     if request.method == 'POST':
         serializer = ApplicantSerializer(data=request.data)
         if serializer.is_valid():
-          
 
             applicant = serializer.save()
             print(serializer.data)
 
             applicantid = "<b>{}</b>".format(applicant.applicant_id)
-            candidatename = applicant.full_name
+            candidatename = "{}, <br>".format(applicant.full_name)
             job = applicant.position
             salary = '<b>{}</b>'.format(applicant.applicant_salary)
             applicant_email = applicant.email
@@ -67,9 +69,9 @@ def applicants(request):
 
             subject = f'Your interview with {company} for {job}'
 
-            note = '<p>Please note: Do not reply to this email. This email is sent from an unattended mailbox. Replies will not be read</p>'
+            note = '<p>Please note: Do not reply to this email. This email is sent from an unattended mailbox. Replies will not be read</p>.'
 
-            
+
             if applicant_email:
                 message = applicant.comment.format(candidatename=candidatename, company=company, link=link,
                                                    applicantid=applicantid, hrname=hrname, hrposition=hrposition, hremail=hremail)
@@ -83,19 +85,14 @@ def applicants(request):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
-default_password = config('DEFAULT_PASSWORD', default='changeme')
-
 # FOR APPLCANTS VIEW
-
 
 @api_view(['GET', 'POST'])
 def update_applicant(request, applicant_id):
     applicant = get_object_or_404(Applicant, Q(
         applicant_id=applicant_id) | Q(phone=applicant_id))
-    
-    # print('applicant_id',applicant_id)
 
-        
+    # print('applicant_id',applicant_id)
 
     if request.method == 'GET':
         serializer = ApplicantSerializer(applicant)
@@ -112,7 +109,7 @@ def update_applicant(request, applicant_id):
             applicant = serializer.save()
 
             applicantid = "<b>{}</b>".format(applicant.applicant_id)
-            candidatename = applicant.full_name
+            candidatename = "{}, <br>".format(applicant.full_name)
             job = applicant.position
             salary = '<b>{}</b>'.format(applicant.applicant_salary)
             startdate = "<b>{}</b>".format(applicant.resuming_date)
@@ -121,6 +118,16 @@ def update_applicant(request, applicant_id):
             hrposition = '{} {}.<br>'.format(
                 request.user.department.name, request.user.designation.name)
             hremail = '{}.<br>'.format(request.user.department.email)
+            
+            style= "max-width: 100%; height: auto;display: block;margin-left: auto;margin-right: auto;width: 50%;"
+
+            image = "<img style='{}' src={}> <br>".format(style,
+                    'https://saadbashar.com/wp-content/uploads/2021/10/Screenshot-2021-10-17-at-11.44.45-PM.png')
+
+            style = "font: bold 100% sans-serif; letter-spacing: 0.5em;color:white;background-color:black;text-align:center"
+            image_text = "<p style='{}'>FOLLOW THIS GUID TO COMPLETE YOUR REGISTRATION</p>".format(style)
+
+         
 
             link = config('SITE_ADDRESS',
                           default='http://192.168.1.18/applicant')
@@ -129,8 +136,6 @@ def update_applicant(request, applicant_id):
 
             note = '<p>Please note: Do not reply to this email. This email is sent from an unattended mailbox. Replies will not be read</p>'
 
-            # designation = applicant.designation.name
-            # department = applicant.department.name
             subject = f'Your interview with {company} for {job}'
 
             # print(applicant.status)
@@ -141,7 +146,10 @@ def update_applicant(request, applicant_id):
                                                    salary=salary, startdate=startdate, hrname=hrname,
                                                    hremail=hremail, hrposition=hrposition, link=link, company=company)
 
-                message = f'{message} {note}'
+               
+
+                message = f'{message} {note} {image_text} {image}'
+
                 tasks.send_applicant_email.delay(
                     applicant_email, subject, message)
 
@@ -171,6 +179,7 @@ def update_applicant(request, applicant_id):
                     user.groups.add(group)
 
             if applicant.status == 'not selected' and applicant.email:
+               
 
                 link = '<a href={}>here</a>'.format(
                     'https://www.linkedin.com/company/rock-city-hotel-ltd/jobs/')
@@ -205,26 +214,28 @@ def upload_offer_letter(request, applicant_id):
 
         return Response({'offer_letters': f'{offer_letters}'})
 
+
 class ApplicantOfferLetterView(APIView):
     def post(self, request, applicant_id, *args, **kwargs):
         applicant = get_object_or_404(Applicant, applicant_id=applicant_id)
-        serializer = ApplicantOfferLetterSerializer(instance=applicant, data=request.data)
+        serializer = ApplicantOfferLetterSerializer(
+            instance=applicant, data=request.data)
         offer_letter = []
         if serializer.is_valid():
             files = serializer.validated_data['offer_letter']
-           
+
             for files in files:
-                letters = ApplicantOfferLeter.objects.create(appliant=applicant, offer_letter=files)
+                letters = ApplicantOfferLeter.objects.create(
+                    appliant=applicant, offer_letter=files)
                 offer_letter.append(letters.offer_letter.url)
-                         
+
             data = {
-                'files':offer_letter
+                'files': offer_letter
             }
-            return Response(data=data,status=status.HTTP_201_CREATED)
+            return Response(data=data, status=status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-            
-  
+
 
 # OFFER LETTER  DJANGO TEMPLATE
 def acceptance_view(request, applicant_id):
@@ -240,9 +251,9 @@ def acceptance_view(request, applicant_id):
     resuming_date = applicant.resuming_date.strftime('%d %B, %Y')
 
     offerletter = letter.content.format(
-        updated_at, applicant.full_name, applicant.address,\
+        updated_at, applicant.full_name, applicant.address,
         applicant.first_name, applicant.position, applicant.salary,
-        resuming_date,report_to)
+        resuming_date, report_to)
 
     context = {
         # 'applicant': applicant,

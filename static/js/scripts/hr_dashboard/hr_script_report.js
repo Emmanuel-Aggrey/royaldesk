@@ -169,6 +169,7 @@ $("#employement_status_action_form").on("submit", function (e) {
         <tr>     <td class="text-capitalize">${count}</td>
                  <td class="text-capitalize">${name}</td>
                  <td class="text-capitalize">${element.department__name}</td>
+                 <td class="text-capitalize">${element.status}</td>
                  <td class="text-uppercase">${date_employed}</td>
                   <td class="text-uppercase">${date_departure}</td>
         </tr>
@@ -630,7 +631,9 @@ const date_settings = () => {
     // yearRange: '1960:',
     // minDate:'-70Y',
     changeMonth: true,
+    
     changeYear: true,
+    constrainInput: true,
     // showWeek: true,
 
   }).on("change", function () {

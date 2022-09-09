@@ -175,6 +175,14 @@
           <a href="{% url 'login'  %}" class="dropdown-item">Sign In<i class="dropdown-item-icon ti-power-off"></i></a>
 
           {% endif %}
+
+          
+          {% if request.user.is_superuser  %}
+          <a href="/docs" class="dropdown-item">REST API<i class="dropdown-item-icon ti-help-alt"></i></a>
+
+          {% endif %}
+            
+          
             
         </div>
       </li>
