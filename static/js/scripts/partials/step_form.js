@@ -8,6 +8,7 @@ $(document).ready(function () {
     setProgressBar(current);
 
     $(".next").click(function () {
+
       current_fs = $(this).parent();
       next_fs = $(this).parent().next();
 
@@ -16,6 +17,7 @@ $(document).ready(function () {
 
       //show the next fieldset
       next_fs.show();
+      
       //hide the current fieldset with style
       current_fs.animate(
         { opacity: 0 },

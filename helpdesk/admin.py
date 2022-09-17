@@ -1,9 +1,35 @@
 from django.contrib import admin
 from .models import User,Helpdesk,Issue,Department,Ticket_Comment
+from django.http import HttpResponse
+import csv
+
 # Register your models here.
 
 
-admin.site.register(User)
+
+def export_users(modeladmin, request, queryset):
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="users.csv"'
+    writer = csv.writer(response)
+    rows = ['First Name', 'Last Name', 'Department', 'Designation','Head']
+    writer.writerow(rows)
+    users = queryset.values_list('first_name', 'last_name', 'department__name', 'designation__name', 'is_head',)
+    for users in users:
+        writer.writerow(users)
+    return response
+
+
+export_users.short_description = 'Export to csv'
+
+# admin.site.register(User)
+@admin.register(User)
+class UserAdmin(admin.ModelAdmin):
+    list_display = ['first_name','last_name','department','designation','is_head',]
+    list_editable = ['is_head']
+    list_filter = ['is_head', 'department', 'designation']
+    actions = [export_users]
+
+
 
 
 class CommentInline(admin.TabularInline):

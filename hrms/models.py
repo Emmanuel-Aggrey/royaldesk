@@ -169,7 +169,7 @@ class Employee(BaseModel, models.Model):
         'applicant.Applicant', on_delete=models.SET_NULL, null=True, blank=True, related_name='applicant')
 
     def __str__(self):
-        return self.full_name 
+        return f'{self.first_name} {self.last_name}' 
 
     def get_absolute_url(self):
         return reverse("hrms:employee")
@@ -209,6 +209,17 @@ class Employee(BaseModel, models.Model):
             return True
         else:
             return False
+
+    # quick fix make it work later
+    # @property
+    # def department(self):
+    #     if self.applicant.department.department.name:
+
+    #         return self.applicant.department.department.name
+
+    #     else:
+
+    #         return self.department.name
 
     class Meta:
         unique_together = ('employee_id', 'mobile')
@@ -284,8 +295,8 @@ class Education(BaseModel, models.Model):
         return f'{self.employee} {self.school_name}'
 
     class Meta:
-        pass
-        # unique_together = ('school_name', 'course')
+        # pass
+        unique_together = ('school_name', 'course','employee')
 
 
 class ProfessionalMembership(BaseModel, models.Model):
@@ -312,7 +323,8 @@ class PreviousEployment(BaseModel, models.Model):
         return f'{self.company} {self.job_title}'
 
     class Meta:
-        unique_together = ('company', 'job_title')
+        pass
+        unique_together = ('job_title', 'employee')
 
 
 class LeavePolicy(BaseModel, models.Model):

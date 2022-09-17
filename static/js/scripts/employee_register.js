@@ -39,7 +39,7 @@ $('#add_employee').on('submit', function (ev) {
             // console.log(data)
             show_alert(5000, "success", data.data + ' SAVED')
             sessionStorage.removeItem('applicant')
-            // $("#add_employee")[0].reset()
+            $("#add_employee")[0].reset()
 
             $("#department").empty()
             load_designation()
@@ -91,7 +91,7 @@ $('#emp_dependant').on('submit', function (ev) {
 
             if (data.data === 'success') {
                 show_alert(6000, "info", 'SAVED: ADD MORE: PRESS NEXT TO CONTINUE')
-                // $("#gender, #first_name, #last_name, #other_name, #mobile, #address, #dob").val('')
+                $("#gender, #first_name, #last_name, #other_name, #mobile, #address, #dob").val('')
 
             }
             else if (data.data === 'error') {
@@ -263,7 +263,7 @@ const reg_finished = () => {
     emp_id = sessionStorage.getItem('emp_id');
 
     Swal.fire(
-        'YOUR UNIQUE ID',
+        'EMPLOYEE  ID',
         `${emp_id}`,
         'info'
     )
@@ -299,6 +299,9 @@ const designation = () => {
                 return item.department == depart
             })
             for (const key in desig) {
+                // console.log(desig[key][1])
+                // $("#salary").val(desig[key].net_month_salary)
+
                 $("#designation").append(
                     '<option class="option" value="' +
                     desig[key].pk +
@@ -307,6 +310,7 @@ const designation = () => {
                     "</option>"
 
                 );
+
 
             }
 

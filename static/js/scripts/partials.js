@@ -6,9 +6,13 @@ $(document).ready(function () {
 
     setProgressBar(current);
 
+    $("#current").text(`step ${current} of 5`)
+
     $(".next").click(function () {
       current_fs = $(this).parent();
       next_fs = $(this).parent().next();
+
+      $("#current").text(`step ${current+1} of 5`)
 
       //Add Class Active
       $("#progressbar li").eq($("form").index(next_fs)).addClass("active");
@@ -38,6 +42,9 @@ $(document).ready(function () {
     $(".previous").click(function () {
       current_fs = $(this).parent();
       previous_fs = $(this).parent().prev();
+
+      $("#current").text(`step ${current-1} of 5`)
+
 
       //Remove class active
       $("#progressbar li")

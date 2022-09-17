@@ -43,6 +43,7 @@ def employees(request):
 
         employees = Employee.objects.exclude(id=4)
         serializer = EmployeeSerializer(employees, many=True)
+        # print(serializer.data)
         return Response({'data': serializer.data})
 
     elif request.method == 'POST':

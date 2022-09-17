@@ -33,7 +33,7 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=False,cast=bool)
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['*','9ccf-154-160-6-247.eu.ngrok.io/','9ccf-154-160-6-247.eu.ngrok.io']
 
 
 # Application definition
@@ -247,4 +247,7 @@ CELERYBEAT_SCHEDULE = 'django_celery_beat.schedulers:DatabaseScheduler'
 
 
 
+
+
+CSRF_TRUSTED_ORIGINS = ['https://a524-154-160-6-247.eu.ngrok.io/','https://a524-154-160-6-247.eu.ngrok.io']
 
