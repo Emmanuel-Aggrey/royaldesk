@@ -131,7 +131,6 @@ def employees(request):
         #                 status=status.HTTP_400_BAD_REQUEST)
 
 
-
 @group_required('HR', 'Manager')
 @api_view(['GET'])
 def employee(request, emp_uiid):

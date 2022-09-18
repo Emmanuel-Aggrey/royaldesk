@@ -299,9 +299,7 @@ const designation = () => {
                 return item.department == depart
             })
             for (const key in desig) {
-                // console.log(desig[key][1])
-                // $("#salary").val(desig[key].net_month_salary)
-
+               
                 $("#designation").append(
                     '<option class="option" value="' +
                     desig[key].pk +
@@ -310,6 +308,7 @@ const designation = () => {
                     "</option>"
 
                 );
+                $("#salary").val(Object.entries(desig)[0][1].net_month_salary)
 
 
             }
