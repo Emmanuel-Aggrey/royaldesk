@@ -75,7 +75,7 @@
                             <th>Email</th>
                             <th>Address</th>
                             <th>Date Employed</th>
-                            <th>View</th>
+                            <!-- <th>View</th> -->
                           </tr>
                         </thead>
                         <tbody id="employees_table">
@@ -100,6 +100,12 @@
           </div>
         </div>
 <div class="leave_table" style="display: none">
+
+
+  <div class="card"> 
+
+  </div>
+
   <!-- DETAIL LEAVE TABLE START -->
   <div class="table-responsive-sm">
     <table id="leave_table" class="table table-striped table-bordered table-hover">
@@ -147,13 +153,177 @@
     </table>
 
     <!-- SUMMARY LEAVE TABLE END -->
+
+    <!-- model view start-->
+
+      
+  <div id="d_model">
+    <button type="button" id="emp_reocord" title="employee details" class="btn btn-info btn-lg">Emp Record</button>
+    <button type="button" id="emp_document" title="employee documents" class="btn btn-success btn-lg ">Emp Document(s)<span id="emp_document_badge" class="mx-1 badge badge-danger"></span> </button>
+
+    <button type="button" id="employee_status" title="employee status change" class="btn btn-danger btn-lg">Exit Process <span id="" class="badge badge-primary"></span> </button>
+
+<button type="submit" id="leave_detail" title="employee  leave details" class="btn btn-primary btn-lg">Leave Detail <span id="leave_detail_badge" class="badge badge-danger"></span> </button>
+<button type="button" id="leave_summary" title="employee leave summary" class="btn btn-danger btn-lg">Leave Summary <span id="leave_summary_badge" class="badge badge-primary"></span> </button>
+
+<!-- <button type="button" class="btn btn-primary btn-lg">Danger</button> -->
+
+<!-- <input type="text" hiddenw id="emp_id"> -->
 </div>
+    <!-- model view end -->
+
+    <!-- document view start -->
+
+
+    <div class="container" id="doc_container">
+      <div class="row">
+        <!-- row-cols-10 -->
+        <div class="col">
+          <form id="file_form" autocomplete="off">
+            {% csrf_token %}
+
+            <div class="form-group">
+              <div class="input-group">
+                  <input type="text" id='filename' name="filename" class="form-control" placeholder="create new file" required >
+                  <span> <button class="btn btn-block text-info btn-outline-primary">save</button></span>
+
+               </div>
+          </div>
+
+ 
+        </form>
+        
+          <ul id="filenames" class="list-unstyled ">
+           
+          </ul>
+        </div>
+        <div class="col">
+          <button class="btn btn-block text-info btn-outline-primary text-uppercase" id="create_document">New Document</button>
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Date</th>
+              </tr>
+            </thead>
+            <tbody id="document_table_body">
+              
+              
+              
+            </tbody>
+          </table>
+        </div>
+   
       </div>
+    </div>
+
+
+    <!-- document model start-->
+    <div>
+      <div class="container" id="file_container">
+        <div class="row">
+          <div class="col">
+            <form id="new_file_form" enctype="multipart/form-data">
+              {% csrf_token %}
+            <div class="form-group">
+           
+              <label for="description">Description</label>
+
+              <input id="description" 
+               class="form-control-file" type="text" name="description" required>
+            </div>
+
+            <div class="form-group">
+              <label for="date">Date</label>
+              <input id="date"
+               class="form-control-file" type="date" name="date" required>
+            </div>
+
+            <div class="form-group">
+              <label for="document">Document</label>
+              <input id="document"
+               class="form-control-file" type="file" name="document" required>
+            </div>
+            <input type="text" value="" name="document_id" id="document_id" hidden>
+            <button type="submit" class="btn btn-primary btn-block">Submit</button>
+
+          </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+
+    <!-- document model end -->
+
+
+
+
+    <!-- empoyee status start -->
+
+
+    <div>
+      <div class="container" id="employee_status_view">
+        <div class="row">
+          <div class="col">
+            <form id="employee_exit_status_form">
+              {% csrf_token %}
+            <div class="form-group">
+           
+              <select name="employee_status" required>
+                <option>Select Employee Status</option>
+                <option value="active">ACTIVE</option>
+                <option value="sacked">SACKED</option>
+                <option value="resign">RESIGN</option>
+
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="date">Date</label>
+              <input 
+               class="form-control-file" type="date" name="date_exited" required>
+            </div>
+
+            <div class="form-group">
+
+             <select name="exit_check">
+              <option value="0">Select Completed Conditions</option>
+              <option value="1">YES</option>
+              <option value="0">NO</option>
+
+             </select>
+            </div>
+            <!-- <input type="hidden" name="employee" readonly id="employee"> -->
+           
+            <button type="submit" class="btn btn-primary btn-block">Submit</button>
+
+          </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- employee status end -->
+     </div>
+
+
+    <!-- document view end -->
+
+
+    
     </div>
   </div>
 </div>
 
 
+<style>
 
+#active {
+  color:red;
+
+}
+</style>
 
 {% endblock content %}

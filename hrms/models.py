@@ -122,6 +122,8 @@ class DepartmentHeads(models.Model):
 class Employee(BaseModel, models.Model):
     status = models.CharField(
         max_length=10, choices=EMPLOYEE_STATUS, default='active', blank=True)
+    exit_check = models.BooleanField(default=False,help_text='checks to see if the employee exit checks are successful')
+    date_exited = models.DateField(null=True,blank=True,help_text='shows the date when the employee exited from the company')
     employee_id = models.CharField(
         max_length=200, blank=True, unique=True, help_text='system generated (leave blank)')
     profile = models.ImageField(null=True, blank=True)
@@ -209,6 +211,8 @@ class Employee(BaseModel, models.Model):
             return True
         else:
             return False
+   
+   
 
     # quick fix make it work later
     # @property
@@ -403,3 +407,26 @@ def update_leave_status(sender, instance, **kwargs):
 
 
 pre_save.connect(update_leave_status, sender=Leave)
+
+
+class File(BaseModel):
+    name = models.CharField(max_length=200,unique=True)
+    
+    def __str__(self):
+        return self.name
+
+
+class Documente(BaseModel):
+    employee = models.ForeignKey(Employee, on_delete=models.CASCADE,null=True,related_name='employee_documents')
+    description =models.CharField(max_length=200,blank=True)
+    filename = models.ForeignKey(File, on_delete=models.CASCADE,related_name='filenames')
+    date = models.DateField(null=True, blank=True,default=timezone.now)
+    file = models.FileField(upload_to='documents/%Y-%m-%d',null=True)
+
+
+
+    # def __str__(self):
+    #     return f'{self.filename.name} {self.description}'
+
+    
+

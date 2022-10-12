@@ -148,6 +148,32 @@
 <table class="address">
 <tbody>
 <tr>
+    {% if employee.date_exited %}
+        
+   
+    <td style="background-color: brown"><div class="grphead text-info" style="color: white"><strong class="">EXIT INFORMATION </strong></div></td>
+</tr>
+</tbody>
+</table>
+<table class="address">
+<tbody>
+
+</tbody>
+</table>
+<table class="digital">
+<tbody>
+<tr>
+<th>Date:</th>
+<td style="color: brown">{{employee.date_exited}}</td>
+<th>Checks Done</th>
+<td style="color: brown">{{employee.exit_check|yesno:"YES,NO"}}</td>
+</tr>
+</tbody>
+</table>
+{% endif %}
+<table class="address">
+<tbody>
+<tr>
 <td><div class="grphead"><strong>EMERGENCY / GUARDIAN INFORMATION </strong></div></td>
 </tr>
 </tbody>

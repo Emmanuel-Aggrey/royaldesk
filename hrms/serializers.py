@@ -3,7 +3,7 @@ from dataclasses import fields
 from rest_framework import serializers
 
 from .models import (Dependant, Education, Employee, Leave,
-                     ProfessionalMembership)
+                     ProfessionalMembership,Documente)
 
 
 
@@ -36,8 +36,20 @@ class GetEmployeeSerializer(serializers.ModelSerializer):
                    'snnit_number','is_merried', 'designation', 'bank_branch', 'bank_name', 'bank_ac', 
                    'salary', 'emergency_name','emergency_phone', 'emergency_address', 'next_of_kin_name', 
                    'next_of_kin_phone', 'next_of_kin_address', 'next_of_kin_relationship', 'my_group',
-                   'applicant_cv_exists'
+                   'applicant_cv_exists','exit_check','date_exited',
                   ]
+
+
+
+class DocumentSerializer(serializers.ModelSerializer):
+    category = serializers.CharField(source='filename')
+    category_id = serializers.CharField(source='filename.pk')
+
+
+    class Meta:
+        model = Documente
+        fields = ['pk','category_id','category','description','file','date']
+
 
 
 class LeaveSerializer(serializers.ModelSerializer):

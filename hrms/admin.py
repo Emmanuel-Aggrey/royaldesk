@@ -6,13 +6,13 @@ from django.http import HttpResponse
 
 from .models import (Department, Dependant,
                      Designation, Education, Employee, Leave, LeavePolicy,
-                     PreviousEployment, ProfessionalMembership,Contribution)
+                     PreviousEployment, ProfessionalMembership,Contribution,Documente,File)
 
 admin.site.site_header = "ROCK CITY HOTEL"  # Add this
 admin.site.site_title = "ROCK CITY HOTEL"
 
 
-admin.site.register([LeavePolicy])
+admin.site.register([LeavePolicy,File])
 
 @admin.register(Contribution)
 class ContributionAdmin(admin.ModelAdmin):
@@ -60,6 +60,12 @@ class PreviousEploymentInline(admin.TabularInline):
     model = PreviousEployment
 
 
+class DocumentInline(admin.TabularInline):
+    model = Documente
+
+
+
+
 # export model to csv
 def export_employees(modeladmin, request, queryset):
     response = HttpResponse(content_type='text/csv')
@@ -83,7 +89,7 @@ class EmployeeAdmin(admin.ModelAdmin):
                     'designation', 'mobile', 'email', 'date_employed', 'address', 'emergency_name', 'emergency_phone',]
     search_fields = ['first_name', 'last_name',
                      'other_name', 'mobile', 'employee_id',]
-    list_filter = ['is_head','department', 'designation', 'status', 'is_merried','date_employed']
+    list_filter = ['is_head','department', 'designation', 'status', 'is_merried','date_employed','exit_check','date_exited']
     list_editable = ['status', 'is_merried','is_head' ]
     exclude = ['age', ]
     actions = [export_employees]
@@ -94,7 +100,7 @@ class EmployeeAdmin(admin.ModelAdmin):
         }),
 
         ('WORK RELATED INFOMATION', {
-            'fields': ('status','department', 'designation','is_head', 'date_employed','salary',)
+            'fields': ('status','department', 'designation','is_head', 'date_employed','salary','exit_check','date_exited')
         }),
 
          ('COUNTRY / REGION INFOMATION', {
@@ -122,6 +128,7 @@ class EmployeeAdmin(admin.ModelAdmin):
         EducationInline,
         ProfessionalMembershipInline,
         PreviousEploymentInline,
+        DocumentInline,
     ]
 
 

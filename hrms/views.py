@@ -24,11 +24,11 @@ from django.contrib.auth.models import Group
 from .import tasks
 from .models import (Department, Dependant, Designation, Education, Employee,
                      Leave, LeavePolicy, PreviousEployment,
-                     ProfessionalMembership)
+                     ProfessionalMembership,Documente,File)
 from helpdesk.models import User
 
 from .serializers import (EmployeeSerializer, GetEmployeeSerializer,
-                          LeaveSerializer)
+                          LeaveSerializer,DocumentSerializer)
 
 
 
@@ -43,7 +43,7 @@ def employees(request):
 
         employees = Employee.objects.exclude(id=4)
         serializer = EmployeeSerializer(employees, many=True)
-        # print(serializer.data)
+        
         return Response({'data': serializer.data})
 
     elif request.method == 'POST':
@@ -306,6 +306,91 @@ def add_emploment(request, employee_id):
         return Response({'data': 'success'})
 
 
+
+@api_view(['POST', 'GET'])
+def filename(request):
+    if request.method == 'GET':
+        filenames =   File.objects.values('name','pk')
+
+        return Response({'data': filenames},status=status.HTTP_200_OK)
+
+    if request.method == 'POST':
+        name = File.objects.create(name=request.POST.get('filename'))
+    
+        return Response(data=name.name,status=status.HTTP_201_CREATED)
+
+
+
+# DOCUMENT MANAGEMENT
+@api_view(['GET', 'POST'])
+def add_document(request,employee_id):
+    if request.method == 'GET':
+
+        document = Documente.objects.filter(employee__employee_id=employee_id)
+        serializer = DocumentSerializer(document, many=True)
+
+        
+        data ={
+            'document': serializer.data,
+        }
+        return Response(data,status=200)
+    
+    if request.method == 'POST':
+        employee = get_object_or_404(Employee, employee_id=employee_id)
+
+        file = request.FILES.get('document')
+        description = request.data.get('description')
+        date = request.data.get('date')
+        filename = request.data.get('document_id')
+
+        
+       
+        document = Documente.objects.create(employee=employee, description=description, date=date,file=file,filename_id=filename)
+
+        serializer = DocumentSerializer(document)
+        
+
+        return Response(serializer.data)
+
+
+
+# EMPLOYEE EXIT ENDPOINT
+@api_view(['POST'])
+def exit_employee(request, employee_id):
+    employee = Employee.objects.get(employee_id=employee_id)
+    employee_status = request.data.get('employee_status')
+    date_exited = request.data.get('date_exited')
+    exit_check = request.data.get('exit_check',False)
+
+    employee.status = employee_status
+    employee.date_exited = date_exited
+    employee.exit_check = exit_check
+
+    employee.save()
+
+
+    if employee:
+        data = {
+            'status': employee.status,
+            'employee_id':employee_id
+        }
+        return Response(data=data,status=status.HTTP_202_ACCEPTED)
+    else:
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+
+    return Response(status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['POST'])
+def delate_document(request,employee_id,pk):
+    document = get_object_or_404(Documente,employee__employee_id=employee_id,pk=pk)
+    document.delete()
+    
+
+    return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+
+
 # APPLY FOR LEAVE
 
 @api_view(['POST', 'GET'])
@@ -485,10 +570,22 @@ def employee_leave(request, employee_id):
                                                                 num_application=Count('policy__name')).\
         order_by('-start__year', 'policy__days')
 
+    document_count = Documente.objects.filter(employee__employee_id=employee_id).count()
+
+    print(document_count)
+
     data = {
         'employees': serializer.data,
-        'leave_per_year': leave_per_year
+        'leave_per_year': leave_per_year,
+        'document_count':document_count,
     }
+
+    # print(leave.values('employee__employee_documents'))
+   
+
+
+
+
 
     return Response(data)
 

@@ -23,6 +23,14 @@ urlpatterns = [
     path('employee-data/<str:emp_uiid>/',views.employee_data,name='employee_data'),
     # path('employee-info/',login_required(TemplateView(template_name="employees/employee_info.html")),name='employee_info'),
     path('employee-info/<str:emp_uiid>/',  TemplateView.as_view(template_name="employees/employee_info.html"),name='employee_info'),
+    #check if employee exit conditions are met
+    path('exit_employee/<str:employee_id>/', views.exit_employee), 
+
+
+    # EMPLOYEE DOCUMENT
+    path('filename/',views.filename,name='filename'),
+    path('add-document/<str:employee_id>/', views.add_document,name='add_document'),
+    path('delate-document/<str:employee_id>/<int:pk>/', views.delate_document,name='delate_document'),
 
     path('add-dependants/<str:employee_id>/', views.add_dependants,name='add_dependants'),
     path('add-education/<str:employee_id>/',views.add_education,name='add_education'),
