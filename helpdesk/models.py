@@ -36,6 +36,10 @@ class User(AbstractUser):
             return self.profile.url
         return '/static/images/faces-clipart/default_emp_profile.png/'
 
+
+    def get_absolute_url(self):
+        return reverse("hrms:employee")
+
  
 
 
@@ -48,6 +52,8 @@ def hash_password(sender, instance,created,**kwargs):
         print('password ',instance.password)
 
         instance.password  =make_password(instance.password)
+        print('password ',instance.password)
+
         instance.save()
 
 post_save.connect(hash_password, sender=User)

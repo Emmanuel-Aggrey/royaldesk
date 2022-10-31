@@ -40,7 +40,7 @@ class BaseModel(models.Model):
 class Department(BaseModel, models.Model):
     name = models.CharField(max_length=70, null=False, blank=False)
     email = models.EmailField(null=True, blank=True)
-    # description = models.TextField(max_length=1000,null=True,blank=True)
+    shortname = models.CharField(max_length=5, null=True, blank=True)
 
     def __str__(self):
         return self.name
@@ -351,7 +351,7 @@ class Leave(BaseModel, models.Model):
                              blank=True, help_text="phone while on leave")
     policy = models.ForeignKey(
         LeavePolicy, on_delete=models.CASCADE, help_text="Leave Policy")
-    reason = models.TextField(null=True, blank=True)
+    resuming_date = models.DateField(null=True, blank=True)
     file = models.FileField(null=True, blank=True, upload_to='media/%Y-%m-%d')
     handle_over_to = models.ForeignKey(
         Employee, on_delete=models.CASCADE, null=True, related_name='handler_over_to',default=4)

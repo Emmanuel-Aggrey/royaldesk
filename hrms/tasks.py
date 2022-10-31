@@ -1,12 +1,14 @@
 
 # from demoapp.models import Widget
+from datetime import datetime, timedelta
 
+import pandas as pd
 from celery import shared_task
 from django.conf import settings
+from django.core import management
 from django.core.mail import EmailMultiAlternatives, send_mail, send_mass_mail
+
 from hrms.models import Leave
-from datetime import datetime, timedelta
-import pandas as pd
 
 
 @shared_task
@@ -40,7 +42,7 @@ def send_email_new_helpdesk_employee(employee,employee_id,email,password):
     msg.attach_alternative(html_content, "text/html")
 
     print(html_content)
-    # msg.send()
+    msg.send()
 
 
 @shared_task
@@ -92,7 +94,7 @@ def employee_on_leave():
         msg = EmailMultiAlternatives(
         subject_, html_content, email_from, ['aggrey.en@live.com'])
         msg.attach_alternative(html_content, "text/html")
-        # msg.send()
+        msg.send()
 
 
 
@@ -102,3 +104,9 @@ def employee_on_leave():
         # df.to_csv('employee_on_leave.csv')
 
 
+
+
+@shared_task
+def backupdjangodb():
+    management.call_command('dbbackup')
+    management.call_command('mediabackup')

@@ -1,6 +1,8 @@
 import os
 
 from celery import Celery
+from celery import shared_task
+
 from celery.schedules import crontab
 
 # Set the default Django settings module for the 'celery' program.
@@ -20,6 +22,15 @@ app.conf.beat_schedule = {
 
         # 'args': (16, 16)
     },
+
+    'backup-database-media-files': {
+        'task': 'hrms.tasks.backupdjangodb',
+        # 'schedule': 30.0,
+        # 'schedule': crontab(hour=2, minute=0),
+
+        # 'args': (16, 16)
+    },
+
 }
 # app.conf.timezone = 'UTC'
 
@@ -28,10 +39,6 @@ app.autodiscover_tasks()
 
 
 
-# @app.task
-# def add(x, y):
-#     z = x + y
-#     print(z)
 
 @app.task(bind=True)
 def debug_task(self):

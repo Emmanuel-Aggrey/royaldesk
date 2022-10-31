@@ -12,7 +12,7 @@ $(document).ready(function () {
 
 
 
-const date_setup = (start,end,days) => {
+const date_setup = (start,end,resuming_date,days) => {
 
 
   $(`#${start}`).datepicker({
@@ -42,9 +42,37 @@ const date_setup = (start,end,days) => {
       title:'To',
       clearBtn:true,
       beforeShowDay: $.datepicker.noWeekends,
-      onSelect: function(dateText, inst) { $(`#${days}`).text('No. of days applied for: '+dateDifference(new Date(selected),new Date(dateText)))}
-    }).on("change",function(){
+      onSelect: function(dateText, inst) { $(`#${days}`).text('No. of days applied for: '+dateDifference(new Date(selected),new Date(dateText)
+      
+      )),
+    resuming = $(this).val();
+    var next_day = new Date(resuming)
+    next_day.setDate(next_day.getDate()+1)
+    console.log(next_day)
+    $(`#${resuming_date}`).datepicker().val('');
 
+    $(`#${resuming_date}`).datepicker("destroy");
+
+
+      $(`#${resuming_date}`).datepicker({
+        beforeShowDay: $.datepicker.noWeekends,
+        dateFormat: 'yy-mm-dd',
+        minDate: next_day,
+        title:'Resumption Date',
+        todayBtn:false,
+        // forceParse:true,
+        clearBtn:true,
+    
+      })
+      // $('#resuming_date').datepicker().val(next_day.getVarDate);
+      
+    }
+    }).on("change",function(
+      // resuming_date
+      // ('#resuming_date').datepicker().val('')
+    ){
+      
+   
       // $($("#days").text('No. of days applied for '+((new Date(dateText) - new Date(selected)) / 1000 / 60 / 60 / 24)))
       // selected1 = $('#end').val()
       
@@ -539,7 +567,7 @@ const user_group = (username, on_leave) => {
 function get_employee(leave_id) {
 
 
-  date_setup('start_edit','end_edit','days_edit');
+  date_setup('start_edit','end_edit','resuming_date_edit','days_edit');
   // console.log(leave_id)
   sessionStorage.setItem('leave_id', leave_id)
 
@@ -575,7 +603,7 @@ function get_employee(leave_id) {
       // $("#handle_over_to_edit").addClass(handle_over)
 
       $("#handle_over_to_edit").val(handle_over_to)
-      $("#reason_edit").val(response.reason)
+      $("#resuming_date_edit").val(response.resuming_date)
       $("#status").val(response.status)
       $('#collegue_approve_edit').prop('checked', response.collegue_approve)
       $('#line_manager_edit').prop('checked', response.line_manager)
@@ -693,7 +721,7 @@ const verify_leave = (employee) => {
 
 $("#my_leave").click(function (e) {
 
-  date_setup('start','end','days')
+  date_setup('start','end','resuming_date','days')
 
   $("#apply_leave").dialog({
 

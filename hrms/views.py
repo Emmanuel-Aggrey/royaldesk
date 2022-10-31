@@ -15,7 +15,7 @@ from django.utils import timezone
 from django.views.generic import (CreateView, DeleteView, DetailView, FormView,
                                   ListView, TemplateView, UpdateView, View)
 from HRMSPROJECT.custome_decorators import group_required
-from rest_framework import generics, status,viewsets
+from rest_framework import generics, status, viewsets
 from rest_framework.decorators import api_view
 from rest_framework.parsers import FileUploadParser
 from rest_framework.response import Response
@@ -24,18 +24,19 @@ from django.contrib.auth.models import Group
 from .import tasks
 from .models import (Department, Dependant, Designation, Education, Employee,
                      Leave, LeavePolicy, PreviousEployment,
-                     ProfessionalMembership,Documente,File)
+                     ProfessionalMembership, Documente, File)
 from helpdesk.models import User
 
 from .serializers import (EmployeeSerializer, GetEmployeeSerializer,
-                          LeaveSerializer,DocumentSerializer)
-
+                          LeaveSerializer, DocumentSerializer)
 
 
 def date_value(value):
     return value if value else None
 
 # @group_required('HR', 'Manager')
+
+
 @api_view(['GET', 'POST'])
 def employees(request):
 
@@ -43,7 +44,7 @@ def employees(request):
 
         employees = Employee.objects.exclude(id=4)
         serializer = EmployeeSerializer(employees, many=True)
-        
+
         return Response({'data': serializer.data})
 
     elif request.method == 'POST':
@@ -99,29 +100,42 @@ def employees(request):
 
         # print(date_value(data.get('applicant')))
 
-        e = Employee.objects.get_or_create(**employees)
+        employee = Employee.objects.create(**employees)
 
-        # CREATE HELPDESK USER 
-        user = User(password='changeme', username=employees.get('employee_id'), first_name=employees.get('first_name'), last_name=employees.get(
-            'last_name'),is_head=employees.get('is_head'), email=employees.get('email'), department_id=employees.get('department_id'), designation_id=employees.get('designation_id'), profile=employees.get('profile'))
-        
+        # CREATE HELPDESK USER
+        # user = User(password='changeme', username=employees.get('employee_id'), first_name=employees.get('first_name'), last_name=employees.get(
+        #     'last_name'),is_head=employees.get('is_head'), email=employees.get('email'), department_id=employees.get('department_id'), designation_id=employees.get('designation_id'), profile=employees.get('profile'))
+
+        user = User(password='changeme', username=employee.employee_id, first_name=employee.first_name, last_name=employee.last_name, is_head=employee.is_head,
+                    email=employee.email, department_id=employee.department_id, designation_id=employee.designation_id, profile=employee.profile)
+
         # GET DEPARTMENT INITIALS eg FRONT OFFICE to FO
-        department = ''.join([x[0].upper() for x in user.department.name.split(' ')])
+        # ''.join([x[0].upper() for x in user.department.name.split(' ')])
 
-        # GET DEPARTMENT FROM GROUP AND SAVE TO USER GROUP
+        
+        # GET DEPARTMENT SHORTNAME    
+        department = employee.department.shortname
+
+       
+        # CREATE HELPDESK USER AND ADD TO GROUP
         group = Group.objects.filter(name=department).last()
-        if user and helpdesk_user:
+        if user and helpdesk_user and group:
             user.save()
             user.groups.add(group)
+          
 
-        #SEND USERNAME AND PASSEORD  TO THE NEW EMPLOYEE VIA EMAIL
-        if user and employees.get('email') and helpdesk_user:
-            employee_id = employees.get('employee_id')
+         # CREATE HELPDESK USER
+        if user and helpdesk_user:
+            user.save()
+
+        # SEND USERNAME AND PASSEORD  TO THE NEW EMPLOYEE VIA EMAIL
+        if user and user.email and helpdesk_user:
+            employee_id = user.username
             employee = user.full_name
-            employee_email = employees.get('email')
+            employee_email = user.email
             employee_password = 'changeme'
-            tasks.send_email_new_helpdesk_employee(employee,employee_id, employee_email, employee_password)
-
+            tasks.send_email_new_helpdesk_employee(
+                employee, employee_id, employee_email, employee_password)
 
         return Response({'data': emp_id},
                         status=status.HTTP_201_CREATED)
@@ -138,7 +152,7 @@ def employee(request, emp_uiid):
     GET EMPLOYEE DETAIL API
 
     '''
-    
+
     if request.method == 'GET':
         employee = get_object_or_404(
             Employee.objects.select_related('designation'), emp_uiid=emp_uiid)
@@ -163,15 +177,15 @@ def employee(request, emp_uiid):
         # return Response(serializer.data,dependants)
 
 
-def employee_data(request,emp_uiid):
+def employee_data(request, emp_uiid):
     '''
     GET EMPLOYEE DETAIL
 
     '''
 
     employee = get_object_or_404(
-            Employee.objects.select_related('designation'), emp_uiid=emp_uiid)
-        
+        Employee.objects.select_related('designation'), emp_uiid=emp_uiid)
+
     dependants = employee.beneficiarys.values()
     educations = employee.educations.values()
     memberships = employee.memberships.values()
@@ -179,15 +193,14 @@ def employee_data(request,emp_uiid):
     serializer = GetEmployeeSerializer(employee)
 
     context = {
-            'employee': serializer.data,
-            'dependants': dependants,
-            'educations': educations,
-            'memberships': memberships,
-            'employments': employments,
+        'employee': serializer.data,
+        'dependants': dependants,
+        'educations': educations,
+        'memberships': memberships,
+        'employments': employments,
     }
 
-
-    return render(request,'employees/employee_data.html',context)
+    return render(request, 'employees/employee_data.html', context)
 
 
 @api_view(['POST', 'GET'])
@@ -306,35 +319,32 @@ def add_emploment(request, employee_id):
         return Response({'data': 'success'})
 
 
-
 @api_view(['POST', 'GET'])
 def filename(request):
     if request.method == 'GET':
-        filenames =   File.objects.values('name','pk')
+        filenames = File.objects.values('name', 'pk')
 
-        return Response({'data': filenames},status=status.HTTP_200_OK)
+        return Response({'data': filenames}, status=status.HTTP_200_OK)
 
     if request.method == 'POST':
         name = File.objects.create(name=request.POST.get('filename'))
-    
-        return Response(data=name.name,status=status.HTTP_201_CREATED)
 
+        return Response(data=name.name, status=status.HTTP_201_CREATED)
 
 
 # DOCUMENT MANAGEMENT
 @api_view(['GET', 'POST'])
-def add_document(request,employee_id):
+def add_document(request, employee_id):
     if request.method == 'GET':
 
         document = Documente.objects.filter(employee__employee_id=employee_id)
         serializer = DocumentSerializer(document, many=True)
 
-        
-        data ={
+        data = {
             'document': serializer.data,
         }
-        return Response(data,status=200)
-    
+        return Response(data, status=200)
+
     if request.method == 'POST':
         employee = get_object_or_404(Employee, employee_id=employee_id)
 
@@ -343,15 +353,12 @@ def add_document(request,employee_id):
         date = request.data.get('date')
         filename = request.data.get('document_id')
 
-        
-       
-        document = Documente.objects.create(employee=employee, description=description, date=date,file=file,filename_id=filename)
+        document = Documente.objects.create(
+            employee=employee, description=description, date=date, file=file, filename_id=filename)
 
         serializer = DocumentSerializer(document)
-        
 
         return Response(serializer.data)
-
 
 
 # EMPLOYEE EXIT ENDPOINT
@@ -360,7 +367,7 @@ def exit_employee(request, employee_id):
     employee = Employee.objects.get(employee_id=employee_id)
     employee_status = request.data.get('employee_status')
     date_exited = request.data.get('date_exited')
-    exit_check = request.data.get('exit_check',False)
+    exit_check = request.data.get('exit_check', False)
 
     employee.status = employee_status
     employee.date_exited = date_exited
@@ -368,27 +375,25 @@ def exit_employee(request, employee_id):
 
     employee.save()
 
-
     if employee:
         data = {
             'status': employee.status,
-            'employee_id':employee_id
+            'employee_id': employee_id
         }
-        return Response(data=data,status=status.HTTP_202_ACCEPTED)
+        return Response(data=data, status=status.HTTP_202_ACCEPTED)
     else:
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
     return Response(status=status.HTTP_400_BAD_REQUEST)
 
+
 @api_view(['POST'])
-def delate_document(request,employee_id,pk):
-    document = get_object_or_404(Documente,employee__employee_id=employee_id,pk=pk)
+def delate_document(request, employee_id, pk):
+    document = get_object_or_404(
+        Documente, employee__employee_id=employee_id, pk=pk)
     document.delete()
-    
 
     return Response(status=status.HTTP_204_NO_CONTENT)
-
-
 
 
 # APPLY FOR LEAVE
@@ -433,7 +438,7 @@ def apply_leave(request, employee_id):
             "end": data.get('end'),
             "phone": data.get('phone'),
             "policy_id": data.get('policy'),
-            "reason": data.get('reason'),
+            "resuming_date": data.get('resuming_date'),
             "file": file,
             "handle_over_to_id": data.get('handle_over_to'),
 
@@ -452,8 +457,7 @@ def apply_leave(request, employee_id):
         on_leave = leave.from_leave
         leave_days = leave.leavedays
 
-
-        #SEND EMAIL TO HOD AND HR 
+        # SEND EMAIL TO HOD AND HR
         tasks.apply_for_leave_email(
             employee, start, end, leave_days, policy, handle_over_to, department_email)
 
@@ -499,7 +503,7 @@ def update_leave(request, leave_id):
     leave.end = data.get('end')
     leave.phone = data.get('phone')
     leave.policy_id = data.get('policy')
-    leave.reason = data.get('reason')
+    leave.resuming_date = data.get('resuming_date')
     leave.status = data.get('status')
     leave.file = file_exists(old_file, new_file)
     leave.handle_over_to_id = data.get('handle_over_to')
@@ -570,22 +574,18 @@ def employee_leave(request, employee_id):
                                                                 num_application=Count('policy__name')).\
         order_by('-start__year', 'policy__days')
 
-    document_count = Documente.objects.filter(employee__employee_id=employee_id).count()
+    document_count = Documente.objects.filter(
+        employee__employee_id=employee_id).count()
 
     print(document_count)
 
     data = {
         'employees': serializer.data,
         'leave_per_year': leave_per_year,
-        'document_count':document_count,
+        'document_count': document_count,
     }
 
     # print(leave.values('employee__employee_documents'))
-   
-
-
-
-
 
     return Response(data)
 
@@ -612,7 +612,7 @@ def getleave(request, pk):
         'status': leave.status,
         'phone': leave.phone,
         'policy': leave.policy.name,
-        'reason': leave.reason,
+        'resuming_date': leave.resuming_date,
         'file': leave.file_exists,
         'collegue_approve': leave.collegue_approve,
         'line_manager': leave.line_manager,

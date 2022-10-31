@@ -34,7 +34,7 @@ class DesignationInline(admin.TabularInline):
 
 
 class DepartmentAdmin(admin.ModelAdmin):
-    list_display = ['name','email']
+    list_display = ['name','shortname','email']
     search_fields = ['name']
     inlines = [
         DesignationInline,

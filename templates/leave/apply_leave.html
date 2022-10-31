@@ -1,4 +1,6 @@
 {% load static %}
+{% include 'partials/nav.html' %}
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -80,8 +82,7 @@
                         <!-- SECOND ROW START-->
                         <div class="row justify-content-between text-left">
                             <div class="form-group col-sm-3 flex-column d-flex"> <label
-                                    class="form-control-label px-2">Reason</label> <input type="text" id="reason" name="reason"
-                                    placeholder="(optional)">
+                                    class="form-control-label px-2">Resumption Date</label> <input type="text" id="resuming_date" name="resuming_date" placeholder="yyyy-mm-dd" required readonly="readonly" >
                             </div>
                             <div class="form-group col-sm-3 flex-column d-flex"> <label
                                     class="form-control-label px-3">email</label> <input type="email" id="email" name="email"
@@ -103,8 +104,13 @@
                         <hr class="bg-primary">
 
 
-                        <small class="text-danger text-center">NB: APPLYING FOR DAYS MORE THAN THE COMPANIES POLICY MAY HAVE YOUR APPLICATION REJECTED</small>
+                       
+                        <small class="text-danger text-center">NB: Applying  for days more then the companies policy may have you application rejected</small> <br>
                         <p> click  <em class="text-danger leave" onclick="verify_leave(this)" style="cursor: pointer;">here</em> to verify before you proceed</p>
+
+                        <small class="text-danger text-center">NB: I will ensure the resturn of <u>ALL</u> Company property in my possession before proceeding on leave</small>
+                       
+
 
                         <h6 id="days"></h6>
 
@@ -125,11 +131,11 @@
                                 <div class="row justify-content-between text-left">
                                     <div class="form-grousp col-sm-3 flex-column d-flex"> <label
                                             class="form-control-label px-3">Date From<span class="text-danger">
-                                                *</span></label> <input required type="text" id="start_edit" name="start"  autocomplete="off" placeholder="yyyy-mm-dd" required readonly="readonly" >
+                                                *</span></label> <input required type="text" id="start_edit" name="start"  autocomplete="off" placeholder="yyyy-mm-dd"  readonly="readonly" >
                                     </div>
                                     <div class="form-group col-sm-3 flex-column d-flex"> <label class="form-control-label px-3">
                                             Date To<span class="text-danger">
-                                                *</span></label> <input type="text" id="end_edit" required name="end" autocomplete="off" placeholder="yyyy-mm-dd" required readonly="readonly" >
+                                                *</span></label> <input type="text" id="end_edit" required name="end" autocomplete="off" placeholder="yyyy-mm-dd"  readonly="readonly" >
                                     </div>
                                     <div class="form-group col-sm-3 flex-column d-flex"> <label
                                             class="form-control-label px-3">phone
@@ -150,9 +156,8 @@
                                 <!-- SECOND ROW START-->
                                 <div class="row justify-content-between text-left">
                                     <div class="form-group col-sm-3 flex-column d-flex"> <label
-                                            class="form-control-label px-2">Reason
-                                                </label> <input type="text" id="reason_edit" name="reason"
-                                            placeholder="(optional)">
+                                            class="form-control-label px-2">Resumption Date
+                                                </label> <input type="text" id="resuming_date_edit" name="resuming_date" placeholder="yyyy-mm-dd" required readonly="readonly">
                                     </div>
                                     <div class="form-group col-sm-3 flex-column d-flex"> <label
                                             class="form-control-label px-3">Status<span class="text-danger">
@@ -241,7 +246,7 @@
                     <th>Start</th>
                     <th>End</th>
                     <th><abbr class="initialism" title="No of Days">Days</abbr></th>
-                    <!-- <th>Reason</th> -->
+                    <!-- <th>resuming_date</th> -->
                     <th><abbr class="initialism" title="handle over to">H O T</abbr></th>
                     <!-- <th>Document</th> -->
                     <th><abbr class="initialism" title="collegue approve">CApp</abbr></th>

@@ -1,0 +1,6 @@
+docker rmi -f $(docker images -a -q)
+docker system prune -a --volumes
+
+communicate with posgress via docker
+
+pg_ctl -D /var/lib/postgresql/data -l logfile start

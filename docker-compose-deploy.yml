@@ -1,0 +1,110 @@
+version: '3.7'
+
+services:
+  app:
+    build:
+      context: .
+    volumes:
+      - static_data:/vol/web
+    environment:
+      - SECRET_KEY=samplesecret123
+      - ALLOWED_HOSTS=127.0.0.1,localhost
+    restart: always
+    depends_on:
+      - pgdb
+      - redis
+      
+
+
+  proxy:
+    build:
+      context: ./proxy
+    volumes:
+      - static_data:/vol/static
+    ports:
+      - "8080:8080"
+    depends_on:
+      - app
+    restart: unless-stopped
+
+  redis:
+    image: redis:alpine
+    container_name: redis
+    environment:
+      - CELERY_BROKER=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
+    restart: always
+    # depends_on:
+    #   - pgdb
+
+  celery:
+    build:
+      context: .
+    command: celery -A app worker -l info
+    volumes:
+      - job_data:/vol/celery
+    container_name: celery
+    restart: always
+    depends_on:
+      - redis
+      - app
+
+  celery-beat:
+    build:
+      context: .
+    command: celery -A app beat -l info
+    volumes:
+      - job_data:/vol/celery_beat
+    container_name: celery-beat
+    restart: unless-stopped
+    depends_on:
+      - celery
+
+  pgdb:
+    image: postgres
+    container_name: pgdb
+
+    
+    environment:
+        - POSTGRES_DB=test
+        - POSTGRES_USER=postgres
+        - POSTGRES_PASSWORD=changeme
+        # - "POSTGRES_HOST_AUTH_METHOD=trust"
+        # - "PGDATA= /data/postgres"
+    volumes:
+      - pgdata:/vol/postgresql/data/
+
+   
+    restart: unless-stopped
+
+
+  
+  pgadmin:
+    container_name: pgadmin
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
+      PGADMIN_CONFIG_SERVER_MODE: 'True'
+    volumes:
+       - pgadmin:/vol/pgadmin/data
+
+    ports:
+      - "5050:80"
+ 
+    restart: unless-stopped
+    depends_on:
+      - pgdb
+
+
+
+
+
+volumes:
+  static_data:
+  job_data:
+  pgdata:
+  pgadmin:
+
+# volumes:
+#   job_data:

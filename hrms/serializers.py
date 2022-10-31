@@ -69,7 +69,7 @@ class LeaveSerializer(serializers.ModelSerializer):
         fields = [
             'id', 'handle_over_to', 'handle_over_to_pk',
             'employee_id', 'group', 'policy', 'policy_id', 'created_at',
-            'start', 'end', 'status', 'phone', 'reason', 'file',
+            'start', 'end', 'status', 'phone', 'resuming_date', 'file',
             'collegue_approve', 'line_manager', 'hr_manager', 'from_leave', 'employee',
             'employee__name', 'department', 'employee_id','leavedays'
 

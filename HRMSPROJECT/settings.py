@@ -12,8 +12,11 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 
 import os
 import pyodbc 
-
+from datetime import datetime
 from decouple import config
+from django.core import management
+from django.conf import settings
+from django_cron import CronJobBase, Schedule
 
 # import django_heroku
 # import dj_database_url
@@ -61,6 +64,7 @@ INSTALLED_APPS = [
      'djcelery_email',
      'django_celery_beat',
     'django_extensions',
+    'dbbackup',
 
 
 
@@ -105,24 +109,30 @@ WSGI_APPLICATION = 'HRMSPROJECT.wsgi.application'
 
 #Development
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'student',
-#         'HOST':'127.0.0.1',
-#         'USER':'root',
-#         'PASSWORD':'',
-#         'PORT':'3306',    }
 
 
-# }
+
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': config('POSTGRES_DB'),
+        'USER': config('POSTGRES_USER'),
+        'PASSWORD': config('POSTGRES_PASSWORD'),
+        'HOST': config('POSTGRESS_HOST'),
+        'PORT': config('POSTGRESS_PORT'),
     }
 }
+
+
+
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     }
+# }
 
 
 
@@ -251,3 +261,18 @@ CELERYBEAT_SCHEDULE = 'django_celery_beat.schedulers:DatabaseScheduler'
 
 CSRF_TRUSTED_ORIGINS = ['https://a524-154-160-6-247.eu.ngrok.io/','https://a524-154-160-6-247.eu.ngrok.io']
 
+
+today = datetime.now().date().strftime('%Y-%m-%d')
+DBBACKUP_STORAGE = 'django.core.files.storage.FileSystemStorage'
+DBBACKUP_STORAGE_OPTIONS = {'location': f'./backup/{today}/'}
+
+
+
+
+# class Backup(CronJobBase):
+#     RUN_AT_TIMES = ['6:00', '18:00']
+#     schedule = Schedule(run_at_times=RUN_AT_TIMES)
+#     code = 'my_app.Backup'
+
+#     def do(self):
+#         management.call_command('dbbackup')
