@@ -92,11 +92,12 @@
                                 <label class="form-control-label px-3">Document<span class="text-danger">
                                     </span></label> <input type="file" id="file" name="file">
                             </div>
-                            <div class="form-group col-sm-3 flex-column d-flex"> <label
+                            <div class="form-group col-sm-3 flex-column d-flex">
+                                 <!-- <label
                                     class="form-control-label px-3">Handle Over To<span class="text-danger">
                                         *</span></label> <select required  name="handle_over_to" id="handle_over_to" required class="form-control">
                                             <option value="">select</option>
-                                        </select>
+                                        </select> -->
                             </div>
 
                         </div>
@@ -167,22 +168,24 @@
                                         <label class="form-control-label px-3">Document<span class="text-danger">
                                             </span></label> <input title="upload supporting document" type="file" id="file_edit" name="file"> <a title="download file" id="file_url" href="#">file</a>
                                     </div>
-                                    <div class="form-group col-sm-3 flex-column d-flex"> <label
+                                    <div class="form-group col-sm-3 flex-column d-flex"> 
+                                        <!-- <label
                                             class="form-control-label px-3">Handle Over To<span class="text-danger">
                                                 *</span></label> <select required name="handle_over_to" id="handle_over_to_edit" class="form-control">
                                                     <option value="">select</option>
-                                                </select>
+                                                </select> -->
                                     </div>
         
                                 </div>
                               
-                                <hr class="bg-primary">
-                                <p class="">APPROVE LEAVE</p>
+                                <h5 class="my-4">APPROVE LEAVE</h5>
+                                <hr class="bg-dark">
+
                                 <!-- THIRED ROW START -->
                                 <div class="row justify-content-between text-left">
-                                    <div class="form-group col-sm-3 flex-column d-flex"> <label class="collegue_approve_edit"
-                                            class="form-control-label px-2">Collegue<span class="text-danger">
-                                                </span> <input type="checkbox" id="collegue_approve_edit" name="collegue_approve">
+                                    <div class="form-group col-sm-3 flex-column d-flex"> <label class="supervisor_edit"
+                                            class="form-control-label px-2">Supervisor<span class="text-danger">
+                                                </span> <input type="checkbox" id="supervisor_edit" name="supervisor">
                                             </label>
                                     </div>
                                     <div class="form-group col-sm-3 flex-column d-flex"> <label
@@ -202,7 +205,7 @@
                                 </div>
 
                                 <!-- THIRED ROW END -->
-                                        <hr class="bg-primary">
+                                        <hr class="bg-dark">
         
                                 <small class="text-danger text-center" id="nb_text">NB: APPLYING FOR DAYS MORE THAN THE COMPANIES POLICY MAY HAVE YOUR APPLICATION REJECTED</small>
                                 <p> click  <em class="text-danger leave" onclick="verify_leave(this)" style="cursor: pointer;">here</em> to verify before you proceed</p>
@@ -247,9 +250,9 @@
                     <th>End</th>
                     <th><abbr class="initialism" title="No of Days">Days</abbr></th>
                     <!-- <th>resuming_date</th> -->
-                    <th><abbr class="initialism" title="handle over to">H O T</abbr></th>
+                    <!-- <th><abbr class="initialism" title="handle over to">H O T</abbr></th> -->
                     <!-- <th>Document</th> -->
-                    <th><abbr class="initialism" title="collegue approve">CApp</abbr></th>
+                    <th><abbr class="initialism" title="supervisor approve">SUP</abbr></th>
                     <th>HOD</th>
                     <th>HR</th>
                     <th>Status</th>

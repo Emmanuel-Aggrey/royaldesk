@@ -353,10 +353,10 @@ class Leave(BaseModel, models.Model):
         LeavePolicy, on_delete=models.CASCADE, help_text="Leave Policy")
     resuming_date = models.DateField(null=True, blank=True)
     file = models.FileField(null=True, blank=True, upload_to='media/%Y-%m-%d')
-    handle_over_to = models.ForeignKey(
-        Employee, on_delete=models.CASCADE, null=True, related_name='handler_over_to',default=4)
-    collegue_approve = models.BooleanField(default=False)
-    line_manager = models.BooleanField(default=False)
+    # handle_over_to = models.ForeignKey(
+    #     Employee, on_delete=models.CASCADE, null=True, related_name='handler_over_to',default=4)
+    supervisor = models.BooleanField('supervisor',default=False)
+    line_manager = models.BooleanField('hod',default=False)
     hr_manager = models.BooleanField(default=False)
     on_leave = models.BooleanField(default=False)
     from_leave = models.BooleanField(default=False)

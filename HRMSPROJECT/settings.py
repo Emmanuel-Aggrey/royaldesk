@@ -16,7 +16,6 @@ from datetime import datetime
 from decouple import config
 from django.core import management
 from django.conf import settings
-from django_cron import CronJobBase, Schedule
 
 # import django_heroku
 # import dj_database_url
@@ -113,26 +112,26 @@ WSGI_APPLICATION = 'HRMSPROJECT.wsgi.application'
 
 
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': config('POSTGRES_DB'),
-        'USER': config('POSTGRES_USER'),
-        'PASSWORD': config('POSTGRES_PASSWORD'),
-        'HOST': config('POSTGRESS_HOST'),
-        'PORT': config('POSTGRESS_PORT'),
-    }
-}
-
-
-
-
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': config('POSTGRES_DB'),
+#         'USER': config('POSTGRES_USER'),
+#         'PASSWORD': config('POSTGRES_PASSWORD'),
+#         'HOST': config('POSTGRESS_HOST'),
+#         'PORT': config('POSTGRESS_PORT'),
 #     }
 # }
+
+
+
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
+}
 
 
 
@@ -200,8 +199,8 @@ STATICFILES_DIRS = [
 
 
 
-MEDIA_URL = '/media/' #This is just for url i.e https://l.me/media/l.jpg
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media') #This is the folder the image will be uploaded
+MEDIA_URL = config('MEDIA_URL') #'/media/' #This is just for url i.e https://l.me/media/l.jpg
+MEDIA_ROOT =config('MEDIA_ROOT') #os.path.join(BASE_DIR, 'media') #This is the folder the image will be uploaded
 
 # django_heroku.settings(locals())
 
@@ -259,20 +258,15 @@ CELERYBEAT_SCHEDULE = 'django_celery_beat.schedulers:DatabaseScheduler'
 
 
 
-CSRF_TRUSTED_ORIGINS = ['https://a524-154-160-6-247.eu.ngrok.io/','https://a524-154-160-6-247.eu.ngrok.io']
+CSRF_TRUSTED_ORIGINS = [config('CSRF_TRUSTED_ORIGINS')]
 
 
 today = datetime.now().date().strftime('%Y-%m-%d')
 DBBACKUP_STORAGE = 'django.core.files.storage.FileSystemStorage'
-DBBACKUP_STORAGE_OPTIONS = {'location': f'./backup/{today}/'}
+# DBBACKUP_STORAGE_OPTIONS = {'location': f'./backup/{today}/'}
+
+DBBACKUP_STORAGE_OPTIONS = {'location': config('DBBACKUP_LOCATION')}
 
 
 
 
-# class Backup(CronJobBase):
-#     RUN_AT_TIMES = ['6:00', '18:00']
-#     schedule = Schedule(run_at_times=RUN_AT_TIMES)
-#     code = 'my_app.Backup'
-
-#     def do(self):
-#         management.call_command('dbbackup')

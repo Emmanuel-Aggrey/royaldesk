@@ -405,8 +405,8 @@ def apply_leave(request, employee_id):
     employee = get_object_or_404(Employee, ~Q(id=4) & Q(status='active') & Q(
         employee_id=employee_id) | Q(email=employee_id))
 
-    handle_over_to = list(Employee.objects.values(
-        'pk', 'first_name', 'last_name').filter(department=employee.department, status='active').exclude(employee_id=employee_id))
+    # handle_over_to = list(Employee.objects.values(
+    #     'pk', 'first_name', 'last_name').filter(department=employee.department, status='active').exclude(employee_id=employee_id))
 
     # print(handle_over_to.query)
 
@@ -421,7 +421,7 @@ def apply_leave(request, employee_id):
             'employee_id': employee.employee_id,
             'phone': employee.mobile,
             'email': employee.email,
-            'handle_over_to': handle_over_to,
+            # 'handle_over_to': handle_over_to,
             'leave_policies': leave_policies,
             'on_leave': on_leave,
         }
@@ -440,7 +440,7 @@ def apply_leave(request, employee_id):
             "policy_id": data.get('policy'),
             "resuming_date": data.get('resuming_date'),
             "file": file,
-            "handle_over_to_id": data.get('handle_over_to'),
+            # "handle_over_to_id": data.get('handle_over_to'),
 
         }
 
@@ -452,7 +452,7 @@ def apply_leave(request, employee_id):
         start = leave.start
         end = leave.end
         policy = leave.policy.name
-        handle_over_to = leave.handle_over_to.full_name
+        handle_over_to = '',#leave.handle_over_to.full_name
         department_email = leave.employee.department.email
         on_leave = leave.from_leave
         leave_days = leave.leavedays
@@ -491,9 +491,9 @@ def update_leave(request, leave_id):
 
     # print(data.get('on_leave'))
 
-    # print('collegue_approve ', data.get('collegue_approve'))
+    # print('supervisor ', data.get('supervisor'))
 
-    collegue_approve = bool_values(data.get('collegue_approve'))
+    supervisor = bool_values(data.get('supervisor'))
     line_manager = bool_values(data.get('line_manager'))
     hr_manager = bool_values(data.get('hr_manager'))
     from_leave = bool_values(data.get('on_leave'))
@@ -506,8 +506,8 @@ def update_leave(request, leave_id):
     leave.resuming_date = data.get('resuming_date')
     leave.status = data.get('status')
     leave.file = file_exists(old_file, new_file)
-    leave.handle_over_to_id = data.get('handle_over_to')
-    leave.collegue_approve = collegue_approve
+    # leave.handle_over_to_id = data.get('handle_over_to')
+    leave.supervisor = supervisor
     leave.hr_manager = hr_manager
     leave.line_manager = line_manager
     leave.from_leave = from_leave
@@ -542,9 +542,9 @@ def leaves(request, employee_id):
     elif employee.is_head:
         leave = leave.filter(employee__department=employee.department)
 
-    else:
-        leave = leave.filter(Q(employee__employee_id=employee_id) | Q(
-            handle_over_to__employee_id=employee_id))
+    # else:
+    #     leave = leave.filter(Q(employee__employee_id=employee_id) | Q(
+    #         handle_over_to__employee_id=employee_id))
 
     serializer = LeaveSerializer(leave, many=True)
 
@@ -604,7 +604,7 @@ def getleave(request, pk):
 
     data = {
         'name': leave.employee.full_name,
-        'handle_over_to': leave.handle_over_to.full_name,
+        # 'handle_over_to': leave.handle_over_to.full_name,
         'start_date': leave.start,
         'email': leave.employee.email,
         'end_date': leave.end,
@@ -614,7 +614,7 @@ def getleave(request, pk):
         'policy': leave.policy.name,
         'resuming_date': leave.resuming_date,
         'file': leave.file_exists,
-        'collegue_approve': leave.collegue_approve,
+        'supervisor': leave.supervisor,
         'line_manager': leave.line_manager,
         'hr_manager': leave.hr_manager,
         'on_leave': leave.from_leave,

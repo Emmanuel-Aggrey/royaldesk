@@ -48,7 +48,7 @@ const date_setup = (start,end,resuming_date,days) => {
     resuming = $(this).val();
     var next_day = new Date(resuming)
     next_day.setDate(next_day.getDate()+1)
-    console.log(next_day)
+    // console.log(next_day)
     $(`#${resuming_date}`).datepicker().val('');
 
     $(`#${resuming_date}`).datepicker("destroy");
@@ -64,7 +64,10 @@ const date_setup = (start,end,resuming_date,days) => {
         clearBtn:true,
     
       })
-      // $('#resuming_date').datepicker().val(next_day.getVarDate);
+      var todayDate = new Date(next_day).toISOString().slice(0, 10);
+      // console.log(todayDate)
+
+      // $('#resuming_date').datepicker().val(todayDate);
       
     }
     }).on("change",function(
@@ -153,18 +156,18 @@ $(document).ready(function () {
     $("#email").val(data.data.email);
     $("#phone").val(data.data.phone);
     // LOOP EMPLOYEES
-    data.data.handle_over_to.forEach((element) => {
-        // console.log(element.pk,element.first_name, element.last_name)
-      $("#handle_over_to")
-        .append(
-          '<option value="' +
-          element.pk +
-          '">' +
-          `${element.first_name} ${element.last_name}` +
-          "</option>"
-        )
-        .css("height", "50");
-    });
+    // data.data.handle_over_to.forEach((element) => {
+    //     // console.log(element.pk,element.first_name, element.last_name)
+    //   $("#handle_over_to")
+    //     .append(
+    //       '<option value="' +
+    //       element.pk +
+    //       '">' +
+    //       `${element.first_name} ${element.last_name}` +
+    //       "</option>"
+    //     )
+    //     .css("height", "50");
+    // });
 
     // LOOP LEAVE POLICY
     data.data.leave_policies.forEach((element) => {
@@ -374,8 +377,7 @@ const leave_table = () => {
           <td>${element.start}</td>
           <td>${element.end}</td>
           <td>${element.leavedays}</td>
-          <td>${element.handle_over_to}</td>
-          <td>${approve(element.collegue_approve)}</td>
+          <td>${approve(element.supervisor)}</td>
           <td>${approve(element.line_manager)}</td>
           <td>${approve(element.hr_manager)}</td>
           <td class="text-uppercase leave_status ${leave_status(element.status, element.from_leave)}"> ${element.status}</td>
@@ -440,8 +442,7 @@ const leave_table = () => {
             <td>${element.start}</td>
             <td>${element.end}</td>
             <td>${element.leavedays}</td>
-            <td>${element.handle_over_to}</td>
-            <td>${approve(element.collegue_approve)}</td>
+            <td>${approve(element.supervisor)}</td>
             <td>${approve(element.line_manager)}</td>
             <td>${approve(element.hr_manager)}</td>
             <td class="text-uppercase leave_status ${leave_status(element.status, element.from_leave)}"> ${element.status}</td>
@@ -505,22 +506,22 @@ function emp_on_leave(on_leave) {
 
 
 // CHECK IF USER HAVE RIGHT TO GRANT LEAVE
-const user_group = (username, on_leave) => {
-  user_name = $('#user_name').text()
+const user_group = (on_leave) => {
+  // user_name = $('#user_name').text()
 
   const hr = document.getElementById("hr__edit").classList.contains("HR")
   const hod = document.getElementById("line_manager_edit").classList.contains("HOD")
 
-  user_name = user_name.toLowerCase()
-  if (user_name === username) {
-    // console.log(user_name===username)
-    $(".collegue_approve_edit").fadeIn()
-  }
-  else {
-    $(".collegue_approve_edit").fadeOut()
+  // user_name = user_name.toLowerCase()
+  // if (user_name === username) {
+  //   // console.log(user_name===username)
+  //   $(".supervisor_edit").fadeIn()
+  // }
+  // else {
+  //   $(".supervisor_edit").fadeOut()
 
 
-  }
+  // }
 
   if (hr && hod) {
     // console.log("HR USER")
@@ -579,13 +580,14 @@ function get_employee(leave_id) {
       // console.log(response)
 
 
-      $("#policy_edit, #handle_over_to_edit").empty();
+      $("#policy_edit").empty();
       policy = response.policy
-      handle_over_to = response.handle_over_to
+      // handle_over_to = response.handle_over_to
 
 
 
-      user_group(handle_over_to.toLowerCase(), response.on_leave)
+      // user_group(handle_over_to.toLowerCase(), response.on_leave)
+      user_group(response.on_leave)
 
 
       $(".leave").attr('id', response.employee_id)
@@ -602,10 +604,10 @@ function get_employee(leave_id) {
 
       // $("#handle_over_to_edit").addClass(handle_over)
 
-      $("#handle_over_to_edit").val(handle_over_to)
+      // $("#handle_over_to_edit").val(handle_over_to)
       $("#resuming_date_edit").val(response.resuming_date)
       $("#status").val(response.status)
-      $('#collegue_approve_edit').prop('checked', response.collegue_approve)
+      $('#supervisor_edit').prop('checked', response.supervisor)
       $('#line_manager_edit').prop('checked', response.line_manager)
       $('#hr__edit').prop('checked', response.hr_manager)
       $('#on_leave').prop('checked', response.on_leave)
@@ -625,16 +627,16 @@ function get_employee(leave_id) {
       // $("#policy_edit option[value='2']").attr("selected",true)
       $(`#policy_edit option:contains('${policy}')`).prop("selected", true)
 
-      response.collegues.forEach(element => {
-        $("#handle_over_to_edit").append(
-          `
-         <option value="${element.pk}">${element.first_name} ${element.last_name} </option> 
-          `
-        )
+      // response.collegues.forEach(element => {
+      //   $("#handle_over_to_edit").append(
+      //     `
+      //    <option value="${element.pk}">${element.first_name} ${element.last_name} </option> 
+      //     `
+      //   )
 
-      });
+      // });
 
-      $(`#handle_over_to_edit option:contains('${handle_over_to}')`).prop("selected", true)
+      // $(`#handle_over_to_edit option:contains('${handle_over_to}')`).prop("selected", true)
       // console.log(handle_over_to)
 
       // height: 680,

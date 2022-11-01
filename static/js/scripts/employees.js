@@ -157,7 +157,7 @@ const get_employee = (employee) => {
     
                 <td><a title="download file" href="${fileExist(element.file)}">${file(element.file)}</a></td>
                
-                <td>${value(element.collegue_approve)}</td>
+                <td>${value(element.supervisor)}</td>
                 <td>${value(element.line_manager)}</td>
                 <td>${value(element.hr_manager)}</td>
                 <td class="text-uppercase">${element.status}</td>

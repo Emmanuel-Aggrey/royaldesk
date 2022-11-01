@@ -1362,7 +1362,6 @@ const get_employee_leave = (employee) => {
       
                   <td><a title="download file" href="${fileExist(element.file)}">${file(element.file)}</a></td>
                  
-                  <td>${value_(element.collegue_approve)}</td>
                   <td>${value_(element.line_manager)}</td>
                   <td>${value_(element.hr_manager)}</td>
                   <td class="text-uppercase">${element.status}</td>
