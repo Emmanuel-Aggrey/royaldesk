@@ -64,7 +64,7 @@
                   <form>
                     {% csrf_token %}
                     <div id="tab">
-                      <table class="table table-stretched sampleTable" id="sampleTable">
+                      <table class="table table-stretched" id="sampleTable">
                         <thead>
                           <tr>
                             <th>Profile</th>
@@ -117,10 +117,8 @@
                 <th>Start</th>
                 <th>End</th>
                 <th><abbr class="initialism" title="No of Days">Days</abbr></th>
-                <th>Reason</th>
-                <th><abbr class="initialism" title="handle over to">H O T</abbr></th>
                 <th>Document</th>
-                <th><abbr class="initialism" title="collegue approve">CApp</abbr></th>
+                <th><abbr class="initialism" title="supervisor approve">SUP</abbr></th>
                 <th>HOD</th>
                 <th>HR</th>
                 <th>Status</th>
@@ -144,6 +142,8 @@
           <th>Days Applied For</th>
           <th>Outstanding</th>
           <th>Num Of Application</th>
+          <th>Resuming Date</th>
+
         </tr>
       </thead>
       <tbody id="leave_summary_body">

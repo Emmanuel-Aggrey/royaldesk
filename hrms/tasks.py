@@ -12,14 +12,14 @@ from hrms.models import Leave
 
 
 @shared_task
-def apply_for_leave_email(employee, start, end, diff, policy, handle_over_to, department_email):
+def apply_for_leave_email(employee, start, end, diff, policy, department_email):
 
     email_from = settings.EMAIL_HOST_USER
 
     subject = 'New Leave For {}'.format(employee)
     subject_ = subject.upper()
-    html_content = '{} Have Applied  For {} from {} to {} making {} day(s) handled over to {}, Please <a href="https://a524-154-160-6-247.eu.ngrok.io/apply-leave/">Click Here</a> to approve Thank you <br><hr> <br> <footer><b>POWERD BY <a href="https://a524-154-160-6-247.eu.ngrok.io:8000/"> ROYALDESK </a> RCH IT</b> </footer>'.format(
-        employee, policy, start, end, diff, handle_over_to)
+    html_content = '{} Have Applied  For {} from {} to {} making {} day(s) , Please <a href="https://a524-154-160-6-247.eu.ngrok.io/apply-leave/">Click Here</a> to approve Thank you <br><hr> <br> <footer><b>POWERD BY <a href="https://a524-154-160-6-247.eu.ngrok.io:8000/"> ROYALDESK </a> RCH IT</b> </footer>'.format(
+        employee, policy, start, end, diff)
 
     msg = EmailMultiAlternatives(
         subject_, html_content, email_from, ['aggrey.en@live.com'])
@@ -47,8 +47,8 @@ def send_email_new_helpdesk_employee(employee,employee_id,email,password):
 
 @shared_task
 def employee_on_leave():
-    tomorrow = datetime.now().date() + timedelta(days=1)
-    leave = Leave.objects.select_related('employee').filter(end=tomorrow,from_leave=False)
+    today = datetime.now().date() #+ timedelta(days=1)
+    leave = Leave.objects.select_related('employee').filter(resuming_date=today,from_leave=False)
     if leave:
         data = leave.values('employee__first_name', 'employee__last_name', 'employee__department__name','employee__designation__name','employee__department__email')
 
@@ -56,7 +56,7 @@ def employee_on_leave():
 
         department_email = list(set(department_email))
 
-        print(department_email)
+        # print(department_email)
 
 
 

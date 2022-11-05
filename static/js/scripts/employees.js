@@ -151,9 +151,7 @@ const get_employee = (employee) => {
                 <td>${element.start}</td>
                 <td>${element.end}</td>
                 <td>${element.leavedays}</td>
-                <td>${element.reason}</td>
     
-                <td>${element.handle_over_to}</td>
     
                 <td><a title="download file" href="${fileExist(element.file)}">${file(element.file)}</a></td>
                
@@ -193,6 +191,7 @@ const get_employee = (employee) => {
 
 
           data.leave_per_year.forEach(element => {
+            // console.log(element)
             $("#leave_summary_body").append(`
             <tr>
             <td>${element.policy__name}</td>
@@ -201,6 +200,7 @@ const get_employee = (employee) => {
             <td>${element.total_spent}</td>
             <td>${element.out_standing}</td>
             <td>${element.num_application}</td>
+            <td>${element.resuming_date}</td>
           </tr>
             `)
 

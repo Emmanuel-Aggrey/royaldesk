@@ -1350,18 +1350,18 @@ const get_employee_leave = (employee) => {
           if (result.isConfirmed) {
             // Swal.fire('Saved!', '', 'success')
             data.employees.forEach(element => {
+              console.log(element)
               $('#leave_table_body').append(`
               <tr>
                   <td>${element.policy}</td>
                   <td>${element.start}</td>
                   <td>${element.end}</td>
-                  <td>${element.leave_days}</td>
-                  <td>${element.reason}</td>
+                  <td>${element.leavedays}</td>
       
-                  <td>${element.handle_over_to}</td>
       
                   <td><a title="download file" href="${fileExist(element.file)}">${file(element.file)}</a></td>
                  
+                  <td>${value_(element.supervisor)}</td>
                   <td>${value_(element.line_manager)}</td>
                   <td>${value_(element.hr_manager)}</td>
                   <td class="text-uppercase">${element.status}</td>
@@ -1370,7 +1370,7 @@ const get_employee_leave = (employee) => {
             });
     
             // model here
-            leave_model('#leave_table',employee,1100,700)
+            leave_model('#leave_table',employee)
 
           } else if (result.isDenied) {
 
@@ -1383,12 +1383,14 @@ const get_employee_leave = (employee) => {
               <td>${element.total_spent}</td>
               <td>${element.out_standing}</td>
               <td>${element.num_application}</td>
+              <td>${element.resuming_date}</td>
+
             </tr>
               `)
 
             })
 
-            leave_model('#leave_summary_table',employee,750,500)
+            leave_model('#leave_summary_table',employee)
 
             // Swal.fire('Changes are not saved', '', 'info')
           }
@@ -1412,12 +1414,12 @@ const get_employee_leave = (employee) => {
 
 
 
-const leave_model = (leave_table,employee,width,height)=>{
+const leave_model = (leave_table,employee)=>{
   $(leave_table).dialog({
     
     title: `${employee} LEAVE HISTORY`,
-    height: height,
-    width: width,
+    height: 'auto',
+    width: 'auto',
     draggable: true,
     buttons: [
       {

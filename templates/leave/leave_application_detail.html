@@ -1,0 +1,251 @@
+
+
+
+{% load static %}
+
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title></title>
+<!-- <script src="/cdn-cgi/apps/head/i-lAwau9_PGB_kvkxfaHap92AMs.js"></script> -->
+<link rel="stylesheet" href="{% static 'css/employee_info.css' %}">
+<script src="{% static 'js/jquery-3.5.1.js' %}"></script>
+
+<script src="{% static 'js/qrcode.min.js' %}"></script>
+</head>
+<!-- <script src="/cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js" data-cf-settings="ec18832bc4a79e61abeaeea0-|49"></script> -->
+{% comment %} onLoad="window.print()" {% endcomment %}
+<body>
+
+<page size="A4">
+   
+       
+        <div>
+            <div align="left" style="margin-bottom:-12%;"><img src="\static\images\logo\Rock-City-Logo.png" width="20%"/></div>
+
+            <div align="right" style="margin-bottom:1%" id="qrcode"></div>
+
+        </div>
+<header><h1>LEAVE APPLICATION FORM</h1></header>
+<article>
+    
+<table cellpadding="0" cellspacing="0" class="meta borderless">
+<tr class="noborder">
+
+</td>
+</tr>
+<tr>
+
+
+<table class="address">
+<tbody>
+<tr>
+<td><div class="grphead"><strong>PERSONAL DETAILS</strong></div></td>
+</tr>
+</tbody>
+</table>
+<table class="nationalid">
+<tbody>
+<tr>
+<th width="20%"><strong>EMPLOYEE FULL NAME :</strong></th>
+<td width="80%" id="full_name">{{employee.title}}{{employee.full_name}}</td>
+</tr>
+</tbody>
+</table>
+
+<table class="address">
+<tbody>
+<tr>
+</tr>
+</tbody>
+</table>
+<table class="digital">
+<tbody>
+<tr>
+<th>Department:</th>
+<td id="languages">:{{employee.languages}}</td>
+<th>Position Title:</th>
+<td id="age">{{employee.age}}</td>
+<th>Date Employed:</th>
+<td id="age">{{employee.age}}</td>
+</tr>
+</tbody>
+</table>
+<table class="address">
+<tbody>
+<table class="address">
+    <tbody>
+    <tr>
+    </tr>
+    </tbody>
+    </table>
+    <table class="digital">
+    <tbody>
+    <tr>
+    <th>Leave Requested:</th>
+    <td id="languages">:{{employee.languages}}</td>
+    <th>Phone:</th>
+    <td id="age">{{employee.age}}</td>
+ 
+    </tr>
+    </tbody>
+    </table>
+
+<table class="digital">
+<tbody>
+<tr>
+<th>Proposed Start Date:</th>
+<td>{{employee.emergency_address}}</td>
+<th>Proposed End Date:</th>
+<td id='emergency_phone'>{{employee.emergency_phone}}</td>
+</tr>
+</tbody>
+</table>
+<table class="address">
+<tbody>
+<tr>
+<td><div class="grphead"><strong>LEAVE INFORMATION</strong></div></td>
+</tr>
+</tbody>
+</table>
+<table class="inventory">
+<tbody>
+<tr>
+<th>No. Days Entitled To:</th>
+<td id="next_of_kin_name">{{employee.next_of_kin_name}}</td>
+
+<th>Last Time On Leave:</th>
+<td id="next_of_kin_phone">{{employee.next_of_kin_phone}}</td>
+</tr>
+<tr>
+<th>Available Leave Days:</th>
+<td id="next_of_kin_relationship">{{employee.next_of_kin_relationship}}</td>
+<th>No Days Requested:</th>
+<td id="next_of_kin_address">{{employee.next_of_kin_address}}</td>
+</tr>
+<tr>
+    <th>Outstanding Leave Days:</th>
+<td id="next_of_kin_address">{{employee.next_of_kin_address}}</td>
+<th>Date Applied:</th>
+<td id="next_of_kin_address">{{employee.next_of_kin_address}}</td>
+</tr>
+</tbody>
+</table>
+
+<table class="address">
+    
+<tbody>
+<tr>
+<td><div class="grphead"><strong>APPROVALS</strong></div></td>
+<table class="inventorys text-center">
+    <thead>
+        <th>Immidiate Supervisor</th>
+        <th>Name</th>
+        <th>Date</th>
+    
+    </thead>
+
+    <tbody id="dependencies">
+        <tr class="text-center">
+            
+            <td>Approved</td>
+            <td class="text-center">Aggrey</td>
+            <td class="text-center">34/24/2022</td>
+            
+        </tr>
+
+    </tbody>
+    
+    </table>
+
+    <table class="inventorys text-center">
+        <thead>
+            <th>Head Of Department</th>
+            <th>Name</th>
+            <th>Date</th>
+        
+        </thead>
+    
+        <tbody id="dependencies">
+            <tr class="text-center">
+                
+                <td>Approved</td>
+                <td class="text-center">Aggrey</td>
+                <td class="text-center">34/24/2022</td>
+                
+            </tr>
+    
+        </tbody>
+        
+        </table>
+        <table class="inventorys text-center">
+            <thead>
+                <th>Human Resource Department</th>
+                <th>Name</th>
+                <th>Date</th>
+            
+            </thead>
+        
+            <tbody id="dependencies">
+                <tr class="text-center">
+                    
+                    <td>Approved</td>
+                    <td class="text-center">Aggrey</td>
+                    <td class="text-center">34/24/2022</td>
+                    
+                </tr>
+        
+            </tbody>
+            
+            </table>
+</tr>
+</tbody>
+</table>
+</article>
+<aside>
+<h1>&nbsp;</h1>
+</aside>
+<p class="text-center" style="text-align: center"><b>NB:Please remember to print a copy of this letter before proceeding on leave</b></p>
+</page>
+
+<script>
+    $(document).ready(function(){
+ 
+  var qrcode = new QRCode(document.getElementById("qrcode"), {
+    text: location.href,
+    width: 90,
+    height: 90,
+    colorDark : "#000000",
+    colorLight : "#ffffff",
+    correctLevel : QRCode.CorrectLevel.H,
+
+  });
+})
+</script>
+
+<style>
+    td{
+        text-transform: uppercase;
+        /* text-align: center; */
+        align-items: center;
+    }
+</style>
+
+
+<!-- <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script></body> -->
+    
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

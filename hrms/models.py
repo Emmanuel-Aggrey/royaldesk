@@ -351,7 +351,7 @@ class Leave(BaseModel, models.Model):
                              blank=True, help_text="phone while on leave")
     policy = models.ForeignKey(
         LeavePolicy, on_delete=models.CASCADE, help_text="Leave Policy")
-    resuming_date = models.DateField(null=True, blank=True)
+    resuming_date = models.DateField(null=True, blank=False)
     file = models.FileField(null=True, blank=True, upload_to='media/%Y-%m-%d')
     # handle_over_to = models.ForeignKey(
     #     Employee, on_delete=models.CASCADE, null=True, related_name='handler_over_to',default=4)
@@ -383,7 +383,7 @@ class Leave(BaseModel, models.Model):
 
     class Meta:
         ordering = ['-updated_at']
-        # unique_together = ('employee', 'updated_at')
+        unique_together = ('employee', 'start')
 
 
 

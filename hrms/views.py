@@ -459,7 +459,7 @@ def apply_leave(request, employee_id):
 
         # SEND EMAIL TO HOD AND HR
         tasks.apply_for_leave_email(
-            employee, start, end, leave_days, policy, handle_over_to, department_email)
+            employee, start, end, leave_days, policy, department_email)
 
         return Response({'data': str(leave_data), 'on_leave': on_leave})
 
@@ -497,7 +497,6 @@ def update_leave(request, leave_id):
     line_manager = bool_values(data.get('line_manager'))
     hr_manager = bool_values(data.get('hr_manager'))
     from_leave = bool_values(data.get('on_leave'))
-
     leave.employee = leave.employee
     leave.start = data.get('start')
     leave.end = data.get('end')
@@ -531,8 +530,9 @@ def leaves(request, employee_id):
 
     leave = Leave.objects.select_related(
         'employee').filter(employee__status='active')
-
-    if employee.department.name == 'Human Resource':
+    
+    department = ['HR','MNG']
+    if employee.department.shortname in department:
 
         # if any(x in ['GM', 'HR'] for x in group):
 
@@ -542,15 +542,14 @@ def leaves(request, employee_id):
     elif employee.is_head:
         leave = leave.filter(employee__department=employee.department)
 
-    # else:
-    #     leave = leave.filter(Q(employee__employee_id=employee_id) | Q(
-    #         handle_over_to__employee_id=employee_id))
+    else:
+        leave = leave.filter(employee__employee_id=employee_id)
 
     serializer = LeaveSerializer(leave, many=True)
 
     user_group = {
         # 'name': group,
-        'hr': employee.department.name == 'Human Resource',
+        'hr': employee.department.shortname in department,
         'hod': employee.is_head
     }
     # print(user_group)
@@ -627,6 +626,11 @@ def getleave(request, pk):
     }
 
     return Response(data)
+
+
+def leave_application_detail(request):
+
+    return render(request, 'leave/leave_application_detail.html')
 
 
 @api_view(['GET'])

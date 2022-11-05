@@ -15,7 +15,9 @@ urlpatterns = [
     path('apply-leave-start/', TemplateView.as_view(template_name="leave/apply_leave_start.html")),
     path('apply-leave/', TemplateView.as_view(template_name="leave/apply_leave.html")),
     path('employee-leave/<str:employee_id>/',views.employee_leave),
+    path('leave_application_detail/',views.leave_application_detail,name="leave_application_detail"),
 
+    # path('leave_application_detail/<str:employee_id>/<int:pk>/',views.leave_application_detail,name="leave_application_detail"),
 
     # REGISTER EMPLOYEE
     path('employees/', views.employees,name='employees'),
