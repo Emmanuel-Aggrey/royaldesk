@@ -38,9 +38,11 @@
                       <!-- department settings start-->
                       <div class="table-responsive" style="display:none" id="image_model">
                         <form id="anviz_form">
+                          {% csrf_token %}
                           <label for="profile">Profile</label>
                             <input type="file" name="profile" id="profile" class="dropify" data-height="100" 
-                              data-max-file-size="2M" data-allowed-file-extensions="jpg jpeg">
+                              data-max-file-size="2M" data-allowed-file-extensions="jpg jpeg png">
+                              <input type="number" value="" id="employee_anviz_number" hidden name="employee">
                               <button  type="submit" class="btn btn-primary text-light btn-lg btn-block mt-4">Submit</button>
 
                         </form>
@@ -79,9 +81,10 @@
       },
 
       success: function (data) {
-        console.log(data)
+        // console.log(data)
         image_model(data.employee)
-        
+
+        $('#employee_anviz_number').val(employee)
 
         // $( ".selector" ).dialog( "option", "width", 500 );
       },

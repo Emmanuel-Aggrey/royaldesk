@@ -12,9 +12,11 @@ from PIL import Image
 import os
 from rest_framework.response import Response
 from datetime import datetime
+from decouple import config
 from .models import (Department, Dependant, Designation, Education, Employee,
                      Leave, LeavePolicy, PreviousEployment,
                      ProfessionalMembership)
+    
 
 
 @group_required('HR', 'Manager')
@@ -325,7 +327,7 @@ def clockins(request):
         return Response(data)
 
 
-@api_view(['POST','GET'])
+@api_view(['GET', 'POST'])
 def update_anviz_user(request):
 
 
@@ -338,6 +340,8 @@ def update_anviz_user(request):
         # cursor = sql_server.cursor.execute(sql)
         # rows = cursor.fetchone()
         # print(rows)
+        sql_output = 'rows'
+        request.session['anviz_employee'] = sql_output
 
       
 
@@ -350,40 +354,38 @@ def update_anviz_user(request):
  
 
     if request.method == 'POST':
-        anviz_user = request.data.get('anviz_user')
-        profile = request.FILES.get('image')
+        anviz_user = request.data.get('employee')
+        profile = request.FILES.get('profile')
+
+        print(profile,anviz_user)
 
 
-
-        image_path = '/run/user/1000/gvfs/smb-share:server=rcsagesvr,share=users/Public/Profiles'  
+        image_root = config('IMAGE_ROOT')  
      
         img=  Image.open(profile)
         size = 128, 128
         #img.thumbnail(size)
-        image = img.save(f"{image_path}//{profile}")
-
-        old_path = f'{image_path}//{profile}'
-        new_location = "/run/user/1000/gvfs/smb-share:server=ad1-rch,share=groups/APP-BACKUP/Profiles"
+        img.convert('RGB')
+        image =img.convert('RGB').save(f"{image_root}//{profile}",'JPEG')
+        # img.save(f"{image_root}//{profile}")
+        old_path = f'{image_root}//{profile}'
+        new_location = config('NEW_LOACION')
         
+        employee = request.session.get('anviz_employee')
         new_path = f'{new_location}//{anviz_user}.jpg'
 
-        os.rename(old_path, new_path)
+            
 
-        img.show(new_path)
-
-
-        
-
-        #print(anviz_user, new_path)
-        
-
-        sql = "UPDATE [anviz].[dbo].[Userinfo] SET Picture =(SELECT  BulkColumn FROM OPENROWSET(BULK  N'C:/Users/Public/Profiles/{}', 											 SINGLE_BLOB) AS Picture) WHERE Userid ='{}'".format(profile,anviz_user)
+        # sql = "UPDATE [anviz].[dbo].[Userinfo] SET Picture =(SELECT  BulkColumn FROM OPENROWSET(BULK  N'C:/Users/Public/Profiles/{}'.format(profile) 											 SINGLE_BLOB) AS Picture) WHERE Userid ='{}'".format(profile,anviz_user)
         			
 
         #cursor = sql_server.cursor.execute(sql)
         #cursor.commit()
         #sql_server.connection.close()
         #sql_server.pyodbc.pooling=False
+        os.rename(old_path, new_path)
+        img.show(new_path)
+
         #print(cursor)
 
         return Response(anviz_user)
