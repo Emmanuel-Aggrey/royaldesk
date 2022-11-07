@@ -196,7 +196,7 @@ class Employee(BaseModel, models.Model):
     def profile_exists(self):
         if self.profile:
             return self.profile.url
-        return '/static/images/faces-clipart/default_emp_profile.png/'
+        return '/static/js/pngtree.jpg'
 
     @property
     def applicant_cv_exists(self):
