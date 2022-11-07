@@ -11,7 +11,7 @@ $(document).ready(function () {
 
     cancel_transfer()
 
-    employee_date('dob','date_employed')
+    employee_date('dob','date_employed','date_completed')
 
     //EMPLOYEE ID ON DESIGNATION TAB
     $('#employee_id').val(sessionStorage.getItem('emp_id')).attr('disabled', 'disabled')
