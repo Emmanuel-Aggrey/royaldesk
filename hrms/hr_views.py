@@ -362,11 +362,11 @@ def update_anviz_user(request):
 
         image_root = config('IMAGE_ROOT')  
      
-        img=  Image.open(profile)
+        img=  Image.open(profile).convert('RGB')
         size = 128, 128
         #img.thumbnail(size)
-        img.convert('RGB')
-        image =img.convert('RGB').save(f"{image_root}//{profile}",'JPEG')
+        # img.convert('RGB')
+        image =img.save(f"{image_root}//{profile}")
         # img.save(f"{image_root}//{profile}")
         old_path = f'{image_root}//{profile}'
         new_location = config('NEW_LOACION')
@@ -384,7 +384,7 @@ def update_anviz_user(request):
         #sql_server.connection.close()
         #sql_server.pyodbc.pooling=False
         os.rename(old_path, new_path)
-        img.show(new_path)
+        # img.show(new_path)
 
         #print(cursor)
 

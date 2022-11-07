@@ -23,7 +23,11 @@
             <div class="card my-5">
 
               <h2 class="card-title text-center">EMPLOYEES ATTENDANCE</h2>
-
+            
+                {% if not conntected_to_server %}
+                <p class="text-danger">not connected to server</p>
+                
+                {% endif %}
 
                       <form id="anviz_employee_form">
                         <input type="number" name="anviz_user" id="anviz_user" placeholder="enter anviz id">
@@ -82,11 +86,24 @@
 
       success: function (data) {
         // console.log(data)
-        image_model(data.employee)
+        if(data.employee==23){
+          $('#employee_anviz_number').val(employee)
+          Swal.fire({
+            title:'Nice Loading',
+            icon:'success',
+            timer:2000,
+          }).then(()=>{
+            image_model(data.employee)
 
-        $('#employee_anviz_number').val(employee)
+          })
+          
 
-        // $( ".selector" ).dialog( "option", "width", 500 );
+        }
+        else{
+          Swal.fire("EMPLOYEE NOT FOUND");
+
+        }
+
       },
       error: function (jqXHR, textStatus, errorThrown) {
         alert(jqXHR, textStatus, errorThrown,)
