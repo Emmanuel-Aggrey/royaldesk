@@ -239,23 +239,23 @@ const search_leave_table = () => {
 
 
 
-$("#anviz_form").on('submit', function (e) {
-    e.preventDefault();
-    $.ajax({
-        url: "/update-anviz-user/",
-        type: "POST",
-        data: new FormData(this),
-        enctype: 'multipart/form-data',
-        processData: false,
-        contentType: false,
-        cache: false,
-        csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+// $("#anviz_form").on('submit', function (e) {
+//     e.preventDefault();
+//     $.ajax({
+//         url: "/update-anviz-user/",
+//         type: "POST",
+//         data: new FormData(this),
+//         enctype: 'multipart/form-data',
+//         processData: false,
+//         contentType: false,
+//         cache: false,
+//         csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
 
-        success: function (data) {
-            console.log(data)
-        },
-        error: function (jqXHR, textStatus, errorThrown){
-            alert(jqXHR,textStatus,errorThrown,)
-        }
-    })
-})
+//         success: function (data) {
+//             console.log(data)
+//         },
+//         error: function (jqXHR, textStatus, errorThrown){
+//             alert(jqXHR,textStatus,errorThrown,)
+//         }
+//     })
+// })

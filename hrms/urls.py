@@ -71,6 +71,7 @@ urlpatterns = [
     path('time-attendance/',hr_views.time_attendance,name='time_attendance'),
     path('get-department/<str:department>/',hr_views.get_department,name='get_department'),
     path('clockins/',hr_views.clockins,name='clockins'),
+    path('upload-anviz-user-profile/', TemplateView.as_view(template_name="attendance/update_anviz_user.html")),
     path('update-anviz-user/',hr_views.update_anviz_user),
 
 

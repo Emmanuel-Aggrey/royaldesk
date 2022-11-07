@@ -62,7 +62,7 @@ INSTALLED_APPS = [
      'django_celery_results',
      'djcelery_email',
      'django_celery_beat',
-    'django_extensions',
+  
     'dbbackup',
 
 
@@ -95,6 +95,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'hrms.context_preporsessor.sql_server_is_connected'
+
             ],
         },
     },

@@ -8,6 +8,8 @@ from HRMSPROJECT import sql_server
 from HRMSPROJECT.custome_decorators import group_required
 from rest_framework import generics, status
 from rest_framework.decorators import api_view
+from PIL import Image
+import os
 from rest_framework.response import Response
 from datetime import datetime
 from .models import (Department, Dependant, Designation, Education, Employee,
@@ -280,7 +282,7 @@ def clockins(request):
     week = week.strftime('%Y-%m-%d')
 
     if sql_server.server_not_connected:
-        print('server not connected')
+        # print('server not connected')
         # return Response()
         return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
@@ -323,20 +325,29 @@ def clockins(request):
         return Response(data)
 
 
-@api_view(['POST'])
+@api_view(['POST','GET'])
 def update_anviz_user(request):
-    #     UPDATE [anviz].[dbo].[Userinfo]
-    # SET Picture =
-    #     (SELECT  BulkColumn FROM OPENROWSET(BULK  N'C:\783be074781f55bbe26bdefa33f9b1fc.jpg', SINGLE_BLOB) AS x)
-    # WHERE Userid =184
-    # image =  request.data.get('image')
 
-    from PIL import Image
-    import os
 
-    image_path = "../profile"
+    if request.method == 'GET':
 
-    # os.mkdir(image_path)
+        employee= request.GET.get('employee')
+        # sql = "SELECT  [DeptName] AS Department, 'Name' as [Employee] FROM [dbo].[V_Record] WHERE [Userid] ='{}'".format(username)
+        sql= "SELECT  [DeptName] AS Department, 'Name' as [Employee] FROM [dbo].[V_Record] WHERE [Userid] = '{}'".format(employee)
+
+        # cursor = sql_server.cursor.execute(sql)
+        # rows = cursor.fetchone()
+        # print(rows)
+
+      
+
+        # print(g)
+        data = {
+            'employee':employee
+        }
+        return Response(data)
+
+ 
 
     if request.method == 'POST':
         anviz_user = request.data.get('anviz_user')
@@ -344,15 +355,17 @@ def update_anviz_user(request):
 
 
 
-        image_path = "/media/aggrey/1EF5-7DBA/HR/profile"
+        image_path = '/run/user/1000/gvfs/smb-share:server=rcsagesvr,share=users/Public/Profiles'  
      
         img=  Image.open(profile)
         size = 128, 128
-        img.thumbnail(size)
-        image = img.save(f"{image_path}/{profile}")
+        #img.thumbnail(size)
+        image = img.save(f"{image_path}//{profile}")
 
-        old_path = f'{image_path}/{profile}'
-        new_path = f'{image_path}/{anviz_user}.jpg'
+        old_path = f'{image_path}//{profile}'
+        new_location = "/run/user/1000/gvfs/smb-share:server=ad1-rch,share=groups/APP-BACKUP/Profiles"
+        
+        new_path = f'{new_location}//{anviz_user}.jpg'
 
         os.rename(old_path, new_path)
 
@@ -361,16 +374,16 @@ def update_anviz_user(request):
 
         
 
+        #print(anviz_user, new_path)
+        
 
+        sql = "UPDATE [anviz].[dbo].[Userinfo] SET Picture =(SELECT  BulkColumn FROM OPENROWSET(BULK  N'C:/Users/Public/Profiles/{}', 											 SINGLE_BLOB) AS Picture) WHERE Userid ='{}'".format(profile,anviz_user)
+        			
 
-
-
-        print(anviz_user, profile)
-
-        # sql = "UPDATE [anviz].[dbo].[Userinfo] SET Picture =(SELECT  BulkColumn FROM OPENROWSET(BULK  N'{}', SINGLE_BLOB) AS Picture) WHERE Userid ='{}'".format(image,anviz_user)
-
-        # cursor = sql_server.cursor.execute(sql)
-
-        # print(cursor)
+        #cursor = sql_server.cursor.execute(sql)
+        #cursor.commit()
+        #sql_server.connection.close()
+        #sql_server.pyodbc.pooling=False
+        #print(cursor)
 
         return Response(anviz_user)

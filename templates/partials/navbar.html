@@ -141,7 +141,7 @@
 
 
       </li>
-      <li class="nav-item dropdown d-none d-xl-inline-block user-dropdown">
+      <li class="nav-item dropdown  d-xl-inline-block user-dropdown">
         <a class="nav-link dropdown-toggle" id="UserDropdown" href="#" data-toggle="dropdown" aria-expanded="false">
           <img class="img-xs rounded-circle" src="{{user.profile_exists}}" alt="Profile image"> </a>
         <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="UserDropdown">
@@ -158,6 +158,10 @@
           
           {% if user.is_authenticated %}
           <a href="{% url 'logout'  %}" class="dropdown-item">Sign Out<i class="dropdown-item-icon ti-power-off"></i></a>
+          
+          <a href="/upload-anviz-user-profile" class="dropdown-item" id={{conntected_to_server}}>IT<i class="dropdown-item-icon ti-help-alt"></i></a>
+          
+
           {% else %}
           <a href="{% url 'login'  %}" class="dropdown-item">Sign In<i class="dropdown-item-icon ti-power-off"></i></a>
 
@@ -198,4 +202,12 @@
     `)
   }
  
+ $('#False').addClass('pulse').attr('title', 'not conntected_to_server').removeAttr('href');
 </script>
+
+<style>
+  #False{
+    color: red;
+
+  }
+</style>

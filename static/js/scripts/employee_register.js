@@ -11,6 +11,8 @@ $(document).ready(function () {
 
     cancel_transfer()
 
+    employee_date('dob','date_employed')
+
     //EMPLOYEE ID ON DESIGNATION TAB
     $('#employee_id').val(sessionStorage.getItem('emp_id')).attr('disabled', 'disabled')
 
@@ -410,3 +412,13 @@ const cancel_transfer = () => {
 
 }
 
+
+const employee_date = (dob,date_employed)=>{
+    $(`#${date_employed},#${dob}`).datepicker({
+        // format: "yyyy/mm/dd",
+        dateFormat: 'yy-mm-dd',
+        autoclose: true,
+        orientation: "top",
+        maxDate: new Date()         
+  });
+}

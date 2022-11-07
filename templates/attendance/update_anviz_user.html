@@ -1,0 +1,134 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+
+<div class="container-scroller">
+
+  <div class="container-fluid page-body-wrapper">
+    <!-- sidebar start -->
+
+    {% include "partials/sidebar.html" %}
+    <!-- side bar ends -->
+
+    <div class="main-panel">
+
+      <div class="content-wrapper">
+
+
+
+        <div class="row my-5 text-center">
+
+
+            <div class="card my-5">
+
+              <h2 class="card-title text-center">EMPLOYEES ATTENDANCE</h2>
+
+
+                      <form id="anviz_employee_form">
+                        <input type="number" name="anviz_user" id="anviz_user" placeholder="enter anviz id">
+                        <input class="btn-primary text-light" type="submit" value="submit">
+                        
+
+                      </form>
+
+
+
+
+                      <!-- department settings start-->
+                      <div class="table-responsive" style="display:none" id="image_model">
+                        <form id="anviz_form">
+                          <label for="profile">Profile</label>
+                            <input type="file" name="profile" id="profile" class="dropify" data-height="100" 
+                              data-max-file-size="2M" data-allowed-file-extensions="jpg jpeg">
+                              <button  type="submit" class="btn btn-primary text-light btn-lg btn-block mt-4">Submit</button>
+
+                        </form>
+                       
+                        <!-- department settings end-->
+                      </div>
+                    
+                
+
+
+
+              
+            </div>
+          
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+<script>
+
+
+  $("#anviz_employee_form").on('submit', function (e) {
+    e.preventDefault();
+    employee = $("#anviz_user").val()
+    $.ajax({
+      url: "/update-anviz-user/",
+      type: "GET",
+      data: {
+        employee: employee
+      },
+
+      success: function (data) {
+        console.log(data)
+        image_model(data.employee)
+        
+
+        // $( ".selector" ).dialog( "option", "width", 500 );
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+        alert(jqXHR, textStatus, errorThrown,)
+      }
+    })
+  })
+
+
+
+  $("#anviz_form").on('submit', function (e) {
+    e.preventDefault();
+    $.ajax({
+      url: "/update-anviz-user/",
+      type: "POST",
+      data: new FormData(this),
+      enctype: 'multipart/form-data',
+      processData: false,
+      contentType: false,
+      cache: false,
+      csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+
+      success: function (data) {
+        console.log(data)
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+        alert(jqXHR, textStatus, errorThrown,)
+      }
+    })
+  })
+
+
+
+
+  const image_model = (employee)=>{
+    $("#image_model" ).dialog({
+    title:employee,
+    modal:true,
+    show: "blind",
+    hide: "explode",
+    width:'auto',
+    height:'auto',
+   
+});
+  }
+</script>
+
+
+{% endblock content %}
