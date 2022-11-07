@@ -30,10 +30,11 @@
                 {% endif %}
 
                       <form id="anviz_employee_form">
-                        <input type="number" name="anviz_user" id="anviz_user" placeholder="enter anviz id" >
-                        <input class="btn-primary text-light" type="submit" value="submit">
+                        <div class="form-group">
+                        <input class="my-4 btn-lg" type="number" name="anviz_user" id="anviz_user" placeholder="enter anviz id" >
+                        <input class="btn-primary btn-lg text-light" type="submit" value="submit">
                         
-
+                      </div>
                       </form>
 
 
@@ -45,7 +46,7 @@
                           {% csrf_token %}
                           <label for="profile">Profile</label>
                             <input type="file" name="profile" id="profile" class="dropify" data-height="100" required
-                              data-max-file-size="2M" data-allowed-file-extensions="jpg jpeg">
+                              data-max-file-size="5M" data-allowed-file-extensions="jpg jpeg">
                               <input type="number" value="" id="employee_anviz_number" hidden name="employee">
                               <button  type="submit" class="btn btn-primary text-light btn-lg btn-block mt-4">Submit</button>
 
@@ -73,9 +74,6 @@
 
 <script>
 
-window.onload=function(){
-  document.getElementById('anviz_user').focus()
-}
 
   $("#anviz_employee_form").on('submit', function (e) {
     e.preventDefault();
