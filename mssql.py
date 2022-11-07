@@ -1,10 +1,10 @@
 import pyodbc 
 
 conn = pyodbc.connect(
-            "DRIVER={ODBC Driver 17 for SQL Server};" + "SERVER=APP-SERVER-RCH;"
+            "DRIVER={ODBC Driver 17 for SQL Server};" + "RCSAGESVR.rchgh.com;"
             "DATABASE=anviz;"
-            "UID=rch-sql-server;"
-            "PWD=3marymoney500%@;")
+            "UID=anviz;"
+            "PWD=3marymoney500%@")
             # 3marymoney500%
 cursor = conn.cursor()
 

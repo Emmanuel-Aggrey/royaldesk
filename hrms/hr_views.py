@@ -335,57 +335,76 @@ def update_anviz_user(request):
 
         employee= request.GET.get('employee')
         # sql = "SELECT  [DeptName] AS Department, 'Name' as [Employee] FROM [dbo].[V_Record] WHERE [Userid] ='{}'".format(username)
-        sql= "SELECT  [DeptName] AS Department, 'Name' as [Employee] FROM [dbo].[V_Record] WHERE [Userid] = '{}'".format(employee)
+        sql= "SELECT  [Duty] AS Department, [Name] as Employee FROM [dbo].[Userinfo] WHERE [Userid] = '{}'".format(employee)
 
-        # cursor = sql_server.cursor.execute(sql)
-        # rows = cursor.fetchone()
-        # print(rows)
-        sql_output = 'rows'
-        request.session['anviz_employee'] = sql_output
+        sql_data = ()
+        
+        try:
+            cursor = sql_server.cursor.execute(sql)
+            rows = cursor.fetchone()
+            sql_data = rows
+            name,department =  rows 
+            request.session['anviz_id'] = employee
+            anviz_employee = f'{department} {name}'.upper()
+            request.session['anviz_employee'] = anviz_employee
+            
+        except :
+            name=''
+            department=''
+            # print('not found',sql_data)
+        
+        # print('found ',sql_data)
+        
+        # print(department,name)
+        # sql_server.connection.close()
+        # sql_server.pyodbc.pooling=False
+       
 
-      
-
+        
         # print(g)
         data = {
-            'employee':employee
+            'employee':name,
+            'department':department
         }
         return Response(data)
 
  
 
     if request.method == 'POST':
-        anviz_user = request.data.get('employee')
+        anviz_id = request.session.get('anviz_id')
+        anviz_employee = request.session.get('anviz_employee')
         profile = request.FILES.get('profile')
 
-        print(profile,anviz_user)
-
+        print(profile)
 
         image_root = config('IMAGE_ROOT')  
      
         img=  Image.open(profile).convert('RGB')
         size = 128, 128
         #img.thumbnail(size)
-        # img.convert('RGB')
         image =img.save(f"{image_root}//{profile}")
         # img.save(f"{image_root}//{profile}")
         old_path = f'{image_root}//{profile}'
         new_location = config('NEW_LOACION')
         
-        employee = request.session.get('anviz_employee')
-        new_path = f'{new_location}//{anviz_user}.jpg'
+        new_path = f'{new_location}//{anviz_employee}.jpg'
 
             
 
         # sql = "UPDATE [anviz].[dbo].[Userinfo] SET Picture =(SELECT  BulkColumn FROM OPENROWSET(BULK  N'C:/Users/Public/Profiles/{}'.format(profile) 											 SINGLE_BLOB) AS Picture) WHERE Userid ='{}'".format(profile,anviz_user)
-        			
+        # sql = "UPDATE [anviz].[dbo].[Userinfo] SET Picture =(SELECT  BulkColumn FROM OPENROWSET(BULK  N'{}', SINGLE_BLOB) AS Picture) WHERE Userid ='{}'".format(profile,anviz_id)
 
-        #cursor = sql_server.cursor.execute(sql)
-        #cursor.commit()
+        # cursor = sql_server.cursor.execute(sql)
+
+        # cursor.commit()
+
         #sql_server.connection.close()
         #sql_server.pyodbc.pooling=False
+
+        
         os.rename(old_path, new_path)
         # img.show(new_path)
 
         #print(cursor)
 
-        return Response(anviz_user)
+        return Response(anviz_employee)

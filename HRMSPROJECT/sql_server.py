@@ -22,4 +22,5 @@ except:
     print('server_not_connected',SERVER)
 
 
+
 # cursor = connection.cursor()

@@ -44,8 +44,8 @@
                         <form id="anviz_form">
                           {% csrf_token %}
                           <label for="profile">Profile</label>
-                            <input type="file" name="profile" id="profile" class="dropify" data-height="100" 
-                              data-max-file-size="2M" data-allowed-file-extensions="jpg jpeg png">
+                            <input type="file" name="profile" id="profile" class="dropify" data-height="100" required
+                              data-max-file-size="2M" data-allowed-file-extensions="jpg jpeg">
                               <input type="number" value="" id="employee_anviz_number" hidden name="employee">
                               <button  type="submit" class="btn btn-primary text-light btn-lg btn-block mt-4">Submit</button>
 
@@ -85,24 +85,25 @@
       },
 
       success: function (data) {
-        // console.log(data)
-        if(data.employee==23){
-          $('#employee_anviz_number').val(employee)
+
+        if(data.employee){
+          $('#employee_anviz_number').val(data.employee)
           Swal.fire({
-            title:'Nice Loading',
+            title:'Nice Loading...',
             icon:'success',
             timer:2000,
           }).then(()=>{
-            image_model(data.employee)
+            const name = `${data.employee} ${data.department}`
+            image_model(name)
 
           })
-          
-
         }
         else{
           Swal.fire("EMPLOYEE NOT FOUND");
 
         }
+       
+       
 
       },
       error: function (jqXHR, textStatus, errorThrown) {
@@ -127,6 +128,10 @@
 
       success: function (data) {
         console.log(data)
+        $(".ui-dialog-titlebar-close").click();
+        
+        Swal.fire(`${data} PROFILE UPDATED`);
+
       },
       error: function (jqXHR, textStatus, errorThrown) {
         alert(jqXHR, textStatus, errorThrown,)
