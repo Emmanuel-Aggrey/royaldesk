@@ -12,3 +12,7 @@ env
 
 /mediabackup
 /dbbackup
+*guid.txt
+guid.txt
+/image_root
+/new_location
