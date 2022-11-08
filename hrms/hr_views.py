@@ -13,6 +13,8 @@ import os
 from rest_framework.response import Response
 from datetime import datetime
 from decouple import config
+import shutil 
+
 from .models import (Department, Dependant, Designation, Education, Employee,
                      Leave, LeavePolicy, PreviousEployment,
                      ProfessionalMembership)
@@ -402,7 +404,7 @@ def update_anviz_user(request):
         #sql_server.pyodbc.pooling=False
 
         
-        os.rename(old_path, new_path)
+        shutil.move(old_path, new_path)
         # img.show(new_path)
 
         #print(cursor)
