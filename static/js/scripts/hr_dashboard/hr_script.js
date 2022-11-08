@@ -1383,7 +1383,6 @@ const get_employee_leave = (employee) => {
               <td>${element.total_spent}</td>
               <td>${element.out_standing}</td>
               <td>${element.num_application}</td>
-              <td>${element.resuming_date}</td>
 
             </tr>
               `)

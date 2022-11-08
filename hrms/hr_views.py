@@ -211,7 +211,9 @@ def time_attendance(request):
     endTime = data.get('time_to')
 
     # GET YESTERDAYS DATE IF NO DATE FROM AND TO IS PROVIDED
-    sql = "SELECT  [DeptName] AS Department, 'In' as [StatusText In], Count(case StatusText when 'In' then 1 end) as Count_In, 'Out' as [Status_out],Count(case StatusText when 'Out' then 1 end) as Count_Out FROM [dbo].[V_Record] WHERE [StatusText] in ('In', 'Out') AND CAST(CheckTime AS DATE) ='{}' AND DeptName IS NOT NULL GROUP BY [DeptName] ORDER BY [DeptName]".format(yesterday)
+    # sql = "SELECT  [DeptName] AS Department, 'In' as [StatusText In], Count(case StatusText when 'In' then 1 end) as Count_In, 'Out' as [Status_out],Count(case StatusText when 'Out' then 1 end) as Count_Out FROM [dbo].[V_Record] WHERE [StatusText] in ('In', 'Out') AND CAST(CheckTime AS DATE) ='{}' AND DeptName IS NOT NULL GROUP BY [DeptName] ORDER BY [DeptName]".format(yesterday)
+
+    sql = "SELECT  [DeptName] AS Department, 'In' as [StatusText In], Count(case StatusText when 'In' then 1 end) as Count_In FROM [dbo].[V_Record] WHERE [StatusText] in ('In') AND CAST(CheckTime AS DATE) ='{}' AND DeptName IS NOT NULL GROUP BY [DeptName] ORDER BY [DeptName]".format(yesterday)
     # print(sql)
 
     if date_to and endTime:
@@ -225,8 +227,9 @@ def time_attendance(request):
         print(date_from, date_to)
 #
         # print(date_from, date_to, startTime, endTime)
+        # sql = "SELECT  [DeptName] AS Department, 'In' as [StatusText In], Count(case StatusText when 'In' then 1 end) as Count_In, 'Out' as [Status_out],Count(case StatusText when 'Out' then 1 end) as Count_Out FROM [dbo].[V_Record] WHERE [StatusText] in ('In', 'Out') AND CAST(CheckTime AS DATETIME) BETWEEN '{}' AND '{}' AND DeptName IS NOT NULL GROUP BY [DeptName] ORDER BY [DeptName]".format(
 
-        sql = "SELECT  [DeptName] AS Department, 'In' as [StatusText In], Count(case StatusText when 'In' then 1 end) as Count_In, 'Out' as [Status_out],Count(case StatusText when 'Out' then 1 end) as Count_Out FROM [dbo].[V_Record] WHERE [StatusText] in ('In', 'Out') AND CAST(CheckTime AS DATETIME) BETWEEN '{}' AND '{}' AND DeptName IS NOT NULL GROUP BY [DeptName] ORDER BY [DeptName]".format(
+        sql = "SELECT  [DeptName] AS Department, 'In' as [StatusText In], Count(case StatusText when 'In' then 1 end) as Count_In FROM [dbo].[V_Record] WHERE [StatusText] in ('In') AND CAST(CheckTime AS DATETIME) BETWEEN '{}' AND '{}' AND DeptName IS NOT NULL GROUP BY [DeptName] ORDER BY [DeptName]".format(
             date_from, date_to)
 
     elif date_to:
@@ -234,8 +237,9 @@ def time_attendance(request):
         request.session['date_to'] = date_to
         request.session['DATETIME'] = "DATE"
         # print(date_from, date_to)
-
-        sql = "SELECT  [DeptName] AS Department, 'In' as [StatusText In], Count(case StatusText when 'In' then 1 end) as Count_In, 'Out' as [Status_out],Count(case StatusText when 'Out' then 1 end) as Count_Out FROM [dbo].[V_Record] WHERE [StatusText] in ('In', 'Out') AND CAST(CheckTime AS DATE) BETWEEN '{}' AND '{}' AND DeptName IS NOT NULL  GROUP BY [DeptName] ORDER BY [DeptName]".format(
+        # sql = "SELECT  [DeptName] AS Department, 'In' as [StatusText In], Count(case StatusText when 'In' then 1 end) as Count_In, 'Out' as [Status_out],Count(case StatusText when 'Out' then 1 end) as Count_Out FROM [dbo].[V_Record] WHERE [StatusText] in ('In', 'Out') AND CAST(CheckTime AS DATE) BETWEEN '{}' AND '{}' AND DeptName IS NOT NULL  GROUP BY [DeptName] ORDER BY [DeptName]".format(
+    
+        sql = "SELECT  [DeptName] AS Department, 'In' as [StatusText In], Count(case StatusText when 'In' then 1 end) as Count_In FROM [dbo].[V_Record] WHERE [StatusText] in ('In') AND CAST(CheckTime AS DATE) BETWEEN '{}' AND '{}' AND DeptName IS NOT NULL  GROUP BY [DeptName] ORDER BY [DeptName]".format(
             date_from, date_to)
 
     if sql_server.server_not_connected:
@@ -259,7 +263,10 @@ def get_department(request, department):
     date_to = request.session.get('date_to')
     DATETIME = request.session.get('DATETIME')
 
-    sql = "SELECT  [Name] , 'In' as [StatusText In], Count(case StatusText when 'In' then 1 end) as Count_In, 'Out' as [Status_out],Count(case StatusText when 'Out' then 1 end) as Count_Out FROM [dbo].[V_Record] WHERE [StatusText] in ('In', 'Out') AND CAST(CheckTime AS {}) BETWEEN '{}' AND '{}' AND [DeptName]='{}' GROUP BY [Name] ORDER BY [Name]".format(
+    # sql = "SELECT  [Name] , 'In' as [StatusText In], Count(case StatusText when 'In' then 1 end) as Count_In, 'Out' as [Status_out],Count(case StatusText when 'Out' then 1 end) as Count_Out FROM [dbo].[V_Record] WHERE [StatusText] in ('In', 'Out') AND CAST(CheckTime AS {}) BETWEEN '{}' AND '{}' AND [DeptName]='{}' GROUP BY [Name] ORDER BY [Name]".format(
+    #     DATETIME, date_from, date_to, department)
+
+    sql = "SELECT  [Name] , 'In' as [StatusText In], Count(case StatusText when 'In' then 1 end) as Count_In FROM [dbo].[V_Record] WHERE [StatusText] in ('In') AND CAST(CheckTime AS {}) BETWEEN '{}' AND '{}' AND [DeptName]='{}' GROUP BY [Name] ORDER BY [Name]".format(
         DATETIME, date_from, date_to, department)
 
     cursor = sql_server.cursor.execute(sql)

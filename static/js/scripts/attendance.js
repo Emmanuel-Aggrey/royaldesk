@@ -1,6 +1,7 @@
 
 
 $(document).ready(function () {
+
     search_leave_table()
     attendance()
     time_hour_value()
@@ -14,6 +15,7 @@ const value = (value) => {
 
 
 const attendance_data = (data) => {
+    console.log(data)
 
     count_In =[]
     data.forEach(element => { 
@@ -33,7 +35,6 @@ const attendance_data = (data) => {
             
             <td class="font-weight-medium text-info" title='view employees' id="${element.Department}" onclick=getDepartment(this)>${element.Department}</td>
             <td class="font-weight-medium">${element.Count_In}</td>
-            <td class="font-weight-medium" style="display:none">${element.Count_Out}</td>
    
         </tr>
         `)
@@ -117,7 +118,6 @@ const getDepartment = (value) => {
                     
                     <td class="font-weight-medium text-info" id="${element.Name}" onclick=getDepartment(this)>${element.Name}</td>
                     <td class="font-weight-medium">${element.Count_In}</td>
-                    <td class="font-weight-medium" style="display:none">${element.Count_Out}</td>
    
                 </tr>
                 `)
