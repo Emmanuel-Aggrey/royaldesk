@@ -385,7 +385,7 @@ def update_anviz_user(request):
         image =img.save(f"{image_root}//{profile}")
         # img.save(f"{image_root}//{profile}")
         old_path = f'{image_root}//{profile}'
-        new_location = config('NEW_LOACION')
+        new_location = config('NEW_LOCATION')
         
         new_path = f'{new_location}//{anviz_employee}.jpg'
 
