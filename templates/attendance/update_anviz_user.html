@@ -48,7 +48,7 @@
                             <input type="file" name="profile" id="profile" class="dropify" data-height="100" required
                               data-max-file-size="5M" data-allowed-file-extensions="jpg jpeg">
                               <input type="number" value="" id="employee_anviz_number" hidden name="employee">
-                              <button  type="submit" class="btn btn-primary text-light btn-lg btn-block mt-4">Submit</button>
+                              <button id="submit_btn"  type="submit" class="btn btn-primary text-light btn-lg btn-block mt-4">Submit</button>
 
                         </form>
                        
@@ -126,18 +126,27 @@
       contentType: false,
       cache: false,
       csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
-
+      beforeSend:function(){
+        $("#submit_btn").addClass('pulse')
+      },
       success: function (data) {
         console.log(data)
         $(".ui-dialog-titlebar-close").click();
+        $(".dropify-clear").click(); 
+
         
         Swal.fire(`${data} PROFILE UPDATED`);
+
+      },
+      complete:function(){
+        $("#submit_btn").removeClass('pulse')
 
       },
       error: function (jqXHR, textStatus, errorThrown) {
         alert(jqXHR, textStatus, errorThrown,)
         console.log(jqXHR, textStatus, errorThrown)
-      }
+      },
+      
     })
   })
 
