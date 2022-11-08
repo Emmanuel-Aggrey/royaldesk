@@ -20,48 +20,50 @@
         <div class="row my-5 text-center">
 
 
-            <div class="card my-5">
+          <div class="card my-5">
 
-              <h2 class="card-title text-center">EMPLOYEES ATTENDANCE</h2>
-            
-                {% if not conntected_to_server %}
-                <p class="text-danger">not connected to server</p>
-                
-                {% endif %}
+            <h2 class="card-title text-center">EMPLOYEES ATTENDANCE</h2>
 
-                      <form id="anviz_employee_form">
-                        <div class="form-group">
-                        <input class="my-4 btn-lg" type="number" name="anviz_user" id="anviz_user" placeholder="enter anviz id"  required>
-                        <input class="btn-primary btn-lg text-light" type="submit" value="submit">
-                        
-                      </div>
-                      </form>
+            {% if not conntected_to_server %}
+            <p class="text-danger">not connected to server</p>
 
+            {% endif %}
 
+            <form id="anviz_employee_form">
+              <div class="form-group">
+                <input class="my-4 btn-lg" type="number" name="anviz_user" id="anviz_user" placeholder="enter anviz id"
+                  required>
+                <input class="btn-primary btn-lg text-light" type="submit" value="submit">
 
-
-                      <!-- department settings start-->
-                      <div class="table-responsive" style="display:none" id="image_model">
-                        <form id="anviz_form">
-                          {% csrf_token %}
-                          <label for="profile">Profile</label>
-                            <input type="file" name="profile" id="profile" class="dropify" data-height="100" required
-                              data-max-file-size="5M" data-allowed-file-extensions="jpg jpeg">
-                              <input type="number" value="" id="employee_anviz_number" hidden name="employee">
-                              <button id="submit_btn"  type="submit" class="btn btn-primary text-light btn-lg btn-block mt-4">Submit</button>
-
-                        </form>
-                       
-                        <!-- department settings end-->
-                      </div>
-                    
-                
+              </div>
+            </form>
 
 
 
-              
+
+            <!-- department settings start-->
+            <div class="table-responsive" style="display:none" id="image_model">
+              <form id="anviz_form">
+                {% csrf_token %}
+                <label for="profile">Profile</label>
+                <input type="file" name="profile" id="profile" class="dropify" data-height="100" required
+                  data-max-file-size="5M" data-allowed-file-extensions="jpg jpeg">
+                <input type="number" value="" id="employee_anviz_number" hidden name="employee">
+                <button id="submit_btn" type="submit"
+                  class="btn btn-primary text-light btn-lg btn-block mt-4">Submit</button>
+
+              </form>
+
+              <!-- department settings end-->
             </div>
-          
+
+
+
+
+
+
+          </div>
+
         </div>
 
       </div>
@@ -87,24 +89,27 @@
 
       success: function (data) {
 
-        if(data.employee){
+        if (data.employee) {
           $('#employee_anviz_number').val(data.employee)
           Swal.fire({
-            title:'Nice Loading...',
-            icon:'success',
-            timer:2000,
-          }).then(()=>{
+            title: 'Nice Loading...',
+            icon: 'success',
+            timer: 2000,
+          }).then(() => {
             const name = `${data.employee} ${data.department}`
             image_model(name)
 
           })
+          // $('#submit_btn').attr('disabled', false) ? $('#profile').val() :  $('#submit_btn').attr('disabled', true)
+          emptyfile()
         }
-        else{
+
+        else {
           Swal.fire("EMPLOYEE NOT FOUND");
 
         }
-       
-       
+
+
 
       },
       error: function (jqXHR, textStatus, errorThrown) {
@@ -113,6 +118,14 @@
     })
   })
 
+
+  const emptyfile = () => {
+    $('#submit_btn').bind("click", function () {
+
+      var imgVal = $('#profile').val()=='' ? alert('empty file'):''
+     
+  });
+  }
 
 
   $("#anviz_form").on('submit', function (e) {
@@ -126,19 +139,19 @@
       contentType: false,
       cache: false,
       csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
-      beforeSend:function(){
+      beforeSend: function () {
         $("#submit_btn").addClass('pulse')
       },
       success: function (data) {
         console.log(data)
         $(".ui-dialog-titlebar-close").click();
-        $(".dropify-clear").click(); 
+        $(".dropify-clear").click();
 
-        
+
         Swal.fire(`${data} PROFILE UPDATED`);
 
       },
-      complete:function(){
+      complete: function () {
         $("#submit_btn").removeClass('pulse')
 
       },
@@ -146,23 +159,23 @@
         alert(jqXHR, textStatus, errorThrown,)
         console.log(jqXHR, textStatus, errorThrown)
       },
-      
+
     })
   })
 
 
 
 
-  const image_model = (employee)=>{
-    $("#image_model" ).dialog({
-    title:employee,
-    modal:true,
-    show: "blind",
-    hide: "explode",
-    width:'auto',
-    height:'auto',
-   
-});
+  const image_model = (employee) => {
+    $("#image_model").dialog({
+      title: employee,
+      modal: true,
+      show: "blind",
+      hide: "explode",
+      width: 'auto',
+      height: 'auto',
+
+    });
   }
 </script>
 
