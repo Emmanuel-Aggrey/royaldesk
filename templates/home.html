@@ -9,8 +9,8 @@
             <h1 class="text-center text-primary mt-5" style="font-weight: 100px;">ROCK CITY HOTEL ROYAL DESK</h1>
 
           <div class="row w-100 mt-0" style="padding-top: 3cm !important;">
-            <div class="col-lg-3 mx-auto mb-4">
-              <h2 class="text-center">HR MANAGEMENT</h2>
+            <div class="col mx-auto">
+              <h4 class="text-center">HR MANAGEMENT</h4>
               <div class="auto-form-wrapper">
                 
                   <div class="form-group">
@@ -23,8 +23,8 @@
               </div>
               
             </div>
-            <div class="col-lg-3 mx-auto">
-                <h2 class="text-center ">LEAVE MANAGEMENT</h2>
+            <div class="col mx-auto">
+                <h4 class="text-center ">LEAVE MANAGEMENT</h4>
                 <div class="auto-form-wrapper">
                     <div class="form-group">
                         <a href="/apply-leave-start" class="btn btn-primary submit-btn btn-block pulse">CLICK TO PROCEED</a>
@@ -37,8 +37,8 @@
                 </div>
                 
               </div>
-              <div class="col-lg-3 mx-auto">
-                <h2 class="text-center ">HELP DESK</h2>
+              <div class="col mx-auto">
+                <h4 class="text-center ">HELP DESK</h4>
                 <div class="auto-form-wrapper">
               
                     <div class="form-group">
@@ -52,16 +52,26 @@
                 </div>
                 
               </div>
-              <div class="col-lg-3 mx-auto">
-                <h2 class="text-center ">ATTENDANCE</h2>
+              <div class="col mx-auto">
+                <h4 class="text-center ">ATTENDANCE</h4>
                 <div class="auto-form-wrapper">
               
-                    <div class="form-group">
-                        <a href="/attendance" class="btn btn-primary submit-btn btn-block pulse">CLICK TO PROCEED</a>
+                    <div class="form-group ">
+                      
+                      {% if conntected_to_server %}
+                        
+                      <a href="/attendance" class="btn btn-primary submit-btn btn-block pulse">CLICK TO PROCEED</a>
+                      {% else %}
+                      <a href="/attendance" title="anviz server not connected" class="btn btn-danger submit-btn btn-block pulse">CLICK TO PROCEED</a>
+
+
+                      {% endif %}
+                        
                       <!-- <button class=""></button> -->
                     </div>
                     <div class="text-block text-center my-3">
-                      <!-- <span class="text-small font-weight-semibold">sign in required</span> -->
+                      <!-- <span class="text-small text-danger">anviz server not conneceted</span> -->
+
                     </div>
                     
                 </div>
@@ -74,4 +84,9 @@
       <!-- page-body-wrapper ends -->
     </div>
    
+    <style>
+      .FALSE{
+        background-color: red;
+        }
+    </style>
 {% endblock content %}

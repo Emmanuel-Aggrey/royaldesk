@@ -452,7 +452,7 @@ def apply_leave(request, employee_id):
         start = leave.start
         end = leave.end
         policy = leave.policy.name
-        handle_over_to = '',#leave.handle_over_to.full_name
+       # handle_over_to = '',#leave.handle_over_to.full_name
         department_email = leave.employee.department.email
         on_leave = leave.from_leave
         leave_days = leave.leavedays

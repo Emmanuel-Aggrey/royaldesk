@@ -14,5 +14,8 @@ env
 /dbbackup
 *guid.txt
 guid.txt
+/guid.txt
 /image_root
 /new_location
+
+#https://vscode.dev/github/Emmanuel-Aggrey/royaldesk/blob/0e7c816e4ead12f77ec1ddb77c09ff1e7f189898/hrms/hr_views.py#L389

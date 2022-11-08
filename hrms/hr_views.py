@@ -392,13 +392,11 @@ def update_anviz_user(request):
         new_path = f'{new_location}//{anviz_employee}.jpg'
 
             
+        sql = "UPDATE [anviz].[dbo].[Userinfo] SET Picture =(SELECT  BulkColumn FROM OPENROWSET(BULK  N'C:/Users/Public/Profiles/{}',SINGLE_BLOB) AS Picture) WHERE Userid ='{}'".format(profile,anviz_id)
 
-        # sql = "UPDATE [anviz].[dbo].[Userinfo] SET Picture =(SELECT  BulkColumn FROM OPENROWSET(BULK  N'C:/Users/Public/Profiles/{}'.format(profile) 											 SINGLE_BLOB) AS Picture) WHERE Userid ='{}'".format(profile,anviz_user)
-        # sql = "UPDATE [anviz].[dbo].[Userinfo] SET Picture =(SELECT  BulkColumn FROM OPENROWSET(BULK  N'{}', SINGLE_BLOB) AS Picture) WHERE Userid ='{}'".format(profile,anviz_id)
+        cursor = sql_server.cursor.execute(sql)
 
-        # cursor = sql_server.cursor.execute(sql)
-
-        # cursor.commit()
+        cursor.commit()
 
         #sql_server.connection.close()
         #sql_server.pyodbc.pooling=False

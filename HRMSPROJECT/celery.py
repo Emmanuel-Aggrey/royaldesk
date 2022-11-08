@@ -17,19 +17,19 @@ app.config_from_object('django.conf:settings', namespace='CELERY')
 app.conf.beat_schedule = {
     'add-every-30-seconds-employee_on_leave': {
         'task': 'hrms.tasks.employee_on_leave',
-        # 'schedule': 30.0,
-        'schedule': crontab(hour=2, minute=0),
-
-        # 'args': (16, 16)
-    },
-
-    'backup-database-media-files': {
-        'task': 'hrms.tasks.backupdjangodb',
-        # 'schedule': 30.0,
+        'schedule': 30.0,
         # 'schedule': crontab(hour=2, minute=0),
 
         # 'args': (16, 16)
     },
+
+    # 'backup-database-media-files': {
+    #     'task': 'hrms.tasks.backupdjangodb',
+    #     'schedule': 30.0,
+    #     # 'schedule': crontab(hour=2, minute=0),
+
+    #     # 'args': (16, 16)
+    # },
 
 }
 # app.conf.timezone = 'UTC'
