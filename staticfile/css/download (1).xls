@@ -1,0 +1,56 @@
+<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>RCH</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table>
+
+                    <thead>
+                        <tr style="text-align:center">
+                            <th><a href="#" aria-label="Sort by ID" data-n="0" class="" style="cursor: pointer; color: inherit; text-decoration: none; white-space: nowrap;">ID</a></th>
+                            <th><a href="#" aria-label="Sort by Name" data-n="1" class="" style="cursor: pointer; color: inherit; text-decoration: none; white-space: nowrap;">Name</a></th>
+                            <th><a href="#" aria-label="Sort by Phone" data-n="2" class="" style="cursor: pointer; color: inherit; text-decoration: none; white-space: nowrap;">Phone</a></th>
+                            <th aria-sort="ascending"><a href="#" aria-label="Sort by Email" data-n="3" class="" style="cursor: pointer; color: inherit; text-decoration: none; white-space: nowrap;">Email<div class="sortArrow" style="margin: 0.1em; display: inline-block; width: 0px; height: 0px; border-left: 0.4em solid transparent; border-right: 0.4em solid transparent; border-top: 0.4em solid rgb(0, 0, 0);"></div></a></th>
+                            <th><a href="#" aria-label="Sort by Department" data-n="4" class="" style="cursor: pointer; color: inherit; text-decoration: none; white-space: nowrap;">Department</a></th>
+                            <th><a href="#" aria-label="Sort by Designation" data-n="5" class="" style="cursor: pointer; color: inherit; text-decoration: none; white-space: nowrap;">Designation</a></th>
+                            <th><a href="#" aria-label="Sort by CV" data-n="6" class="" style="cursor: pointer; color: inherit; text-decoration: none; white-space: nowrap;">CV</a></th>
+                            <th><a href="#" aria-label="Sort by Comment" data-n="7" class="" style="cursor: pointer; color: inherit; text-decoration: none; white-space: nowrap;">Comment</a></th>
+                            <th><a href="#" aria-label="Sort by Action" data-n="8" class="" style="cursor: pointer; color: inherit; text-decoration: none; white-space: nowrap;">Action</a></th>
+
+                        </tr>
+                    <tr class="fancySearchRow"><th style="padding:2px;"><input aria-label="Search column" data-n="0" placeholder="Search..." style="width:100%;box-sizing:border-box;"></th><th style="padding:2px;"><input aria-label="Search column" data-n="1" placeholder="Search..." style="width:100%;box-sizing:border-box;"></th><th style="padding:2px;"><input aria-label="Search column" data-n="2" placeholder="Search..." style="width:100%;box-sizing:border-box;"></th><th style="padding:2px;"><input aria-label="Search column" data-n="3" placeholder="Search..." style="width:100%;box-sizing:border-box;"></th><th style="padding:2px;"><input aria-label="Search column" data-n="4" placeholder="Search..." style="width:100%;box-sizing:border-box;"></th><th style="padding:2px;"><input aria-label="Search column" data-n="5" placeholder="Search..." style="width:100%;box-sizing:border-box;"></th><th style="padding:2px;"><input aria-label="Search column" data-n="6" placeholder="Search..." style="width:100%;box-sizing:border-box;"></th><th style="padding:2px;"><input aria-label="Search column" data-n="7" placeholder="Search..." style="width:100%;box-sizing:border-box;"></th><th style="padding:2px;"><input aria-label="Search column" data-n="8" placeholder="Search..." style="width:100%;box-sizing:border-box;"></th></tr></thead>
+                    <tbody id="applicants_table" style="text-align:center">
+    
+        <tr>
+        <td scope="row" title="print offer letter"><a href="/offer-letter/ENARTEY-2022/" target="_blank" rel="noopener noreferrer">ENARTEY-2022</a> </td>
+        <td scope="row">Emmanuel Nartey</td>
+                <td scope="row">+233240699506</td>
+                <td scope="row">Aggrey.en@gmail.com</td>
+                <td scope="row" class="text-capitalize">Mentanance</td>
+                <td scope="row" class="text-capitalize">Plumber</td>
+                <td scope="row"><a target="_blank" rel="noopener noreferrer" title="download " href="/media/media/cv/2022-07-24/Ophelia_Naa_Armah__cover_letter_rdjTKbm.docx">file</a></td>
+                <td scope="row"> <abbr title="hi...">hi</abbr> </td>
+
+                <td scope="row"> <button type="button" class="btn btn-primary" title="update application" id="ENARTEY-2022" onclick="get_applicant(this)">
+                <i class="fa fa-pencil-square" aria-hidden="true"></i> 
+                </button>
+                <button id="ENARTEY-2022" class="btn btn-outline-info" title="transer applicant" onclick="transfer_applicant(this)">➚</button> 
+
+                </td>
+                </tr>
+        
+    
+        <tr>
+        <td scope="row" title="print offer letter"><a href="/offer-letter/MLARBI-2022/" target="_blank" rel="noopener noreferrer">MLARBI-2022</a> </td>
+        <td scope="row">Mary LARBI</td>
+                <td scope="row">+233206494929</td>
+                <td scope="row">xtayconnect.africa@gmail.com</td>
+                <td scope="row" class="text-capitalize">Mentanance</td>
+                <td scope="row" class="text-capitalize">AC TECHNICIAN</td>
+                <td scope="row"><a target="_blank" rel="noopener noreferrer" title="download " href="#">no file</a></td>
+                <td scope="row"> <abbr title="..."></abbr> </td>
+
+                <td scope="row"> <button type="button" class="btn btn-primary" title="update application" id="MLARBI-2022" onclick="get_applicant(this)">
+                <i class="fa fa-pencil-square" aria-hidden="true"></i> 
+                </button>
+                <button id="MLARBI-2022" class="btn btn-outline-info" title="transer applicant" onclick="transfer_applicant(this)">➚</button> 
+
+                </td>
+                </tr>
+        </tbody>
+                <tfoot><tr><td class="pag" colspan="9"><a data-n="1" style="margin: 0.2em; cursor: pointer;" class="btn btn-light active">1</a></td></tr></tfoot></table></body></html>

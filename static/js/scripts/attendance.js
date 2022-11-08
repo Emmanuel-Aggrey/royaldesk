@@ -15,7 +15,7 @@ const value = (value) => {
 
 
 const attendance_data = (data) => {
-    console.log(data)
+    // console.log(data)
 
     count_In =[]
     data.forEach(element => { 
@@ -109,7 +109,7 @@ const getDepartment = (value) => {
         url: `/get-department/${department}/`,
         type: 'GET',
         success: function (response) {
-            console.log(response)
+            // console.log(response)
 
             $("#department_body").empty();
             response.forEach(function (element) {
