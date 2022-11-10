@@ -628,9 +628,14 @@ def getleave(request, pk):
     return Response(data)
 
 
-def leave_application_detail(request):
+def leave_application_detail(request,employee,leave_id):
+    leave = Leave.objects.get(employee__employee_id=employee,pk=leave_id)
 
-    return render(request, 'leave/leave_application_detail.html')
+    context = {
+        'leave':leave
+    }
+
+    return render(request, 'leave/leave_application_detail.html',context)
 
 
 @api_view(['GET'])

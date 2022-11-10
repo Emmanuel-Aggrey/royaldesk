@@ -361,6 +361,8 @@ class Leave(BaseModel, models.Model):
     on_leave = models.BooleanField(default=False)
     from_leave = models.BooleanField(default=False)
     leavedays = models.IntegerField(default=0,editable=True) #using this because sqlite doesn't support calculations with datefieds
+    approvals = models.JSONField(default=dict,null=True,blank=True)
+    # leave.approvals={'supervisor':'ama','line':'Teye'}
 
     #get the difference between start and end date 
 
@@ -368,6 +370,9 @@ class Leave(BaseModel, models.Model):
     def __str__(self):
         return self.employee.full_name
 
+
+    def get_absolute_url(self):
+        return reverse("hrms:leave_application_detail", kwargs={"employee": self.employee.employee_id,"leave_id": self.pk})
     # @property
     # def leave_days(self):
 
@@ -405,6 +410,8 @@ def update_leave_status(sender, instance, **kwargs):
         instance.status = 'approved'
         # instance.on_leave = True
 
+    # APPROVALS LOGGING
+    partials.approvlas(instance.supervisor, instance.line_manager, instance.hr_manager, instance.employee.full_name)
 
 pre_save.connect(update_leave_status, sender=Leave)
 

@@ -15,6 +15,7 @@ const date_setup = (start, end, resuming_date, days) => {
     dateFormat: 'yy-mm-dd',
     minDate: new Date(),
     title: 'From',
+    
     todayBtn: true,
     // forceParse:true,
     clearBtn: true,
@@ -334,7 +335,7 @@ const leave_table = () => {
     type: "GET",
     success: function (response) {
 
-      console.log(response.user_type)
+      // console.log(response)
 
 
       hod = response.user_type.hod
@@ -386,7 +387,7 @@ const leave_table = () => {
           <div class="edit_product btn text-info btn-outline-dark" title="edit items" onclick="get_employee(${element.id})">
           <i class="fa fa-pencil"  style="cursor:pointer;"  aria-hidden="true">edit</i>
           </div>
-          <a href="/leave_application_detail" class="btn text-primary btn-outline-dark">
+          <a href='${element.url}' class="btn text-primary btn-outline-dark">
           <i class="fa fa-pencil"  style="cursor:pointer;"  aria-hidden="true">view</i>
           </a>
         </td>
@@ -425,11 +426,11 @@ const leave_table = () => {
           })
           // console.log(desig)
         }
-        else if (depart == 'approvals') {
-          // console.log(depart,desig)
+        else if (depart == 'pending') {
+          console.log(depart,desig)
           desig = response.data.filter(function (item) {
 
-            return item.employee_id != emp_key
+            return item.status === 'pending'
           })
         }
 
@@ -459,9 +460,9 @@ const leave_table = () => {
               <i class="fa fa-pencil"  style="cursor:pointer;"  aria-hidden="true">edit</i>
               </div>
 
-              <a href="/leave_application_detail" class="btn text-primary btn-outline-dark">
-          <i class="fa fa-pencil"  style="cursor:pointer;"  aria-hidden="true">view</i>
-          </a>
+              <a href='${element.url}' class="btn text-primary btn-outline-dark">
+              <i class="fa fa-pencil"  style="cursor:pointer;"  aria-hidden="true">view</i>
+              </a>
             </td>
   
           </tr>
@@ -752,7 +753,6 @@ const verify_leave = (employee) => {
                <td>${element.total_spent}</td>
                <td>${element.out_standing}</td>
                <td>${element.num_application}</td>
-               <td>${element.resuming_date}</td>
 
              </tr>
          `)
@@ -842,11 +842,12 @@ const leave_status = (leave_status, from_leave) => {
 }
 
 
-{/* <option value="approvals">MY APPROVALS</option> */}
+
 
 const leave_filter = () => {
   $("#leave_filter").append(`
 <option value="all">ALL</option>
+   <option value="pending">APPROVALS</option> 
         <option value="on_leave">ON LEAVE</option>
 `)
 }

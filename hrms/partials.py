@@ -20,22 +20,24 @@ def days_difference_weekdays(start, end):
         start = start.strftime('%Y-%m-%d')
         end = end.strftime('%Y-%m-%d')
 
-        print('string date',start,end)
+        # print('string date',start,end)
       
         start = datetime.strptime(start,'%Y-%m-%d').date()
         end = datetime.strptime(end,'%Y-%m-%d').date()
 
         days = np.busday_count( start, end )
-        print('days',days)
+        # print('days',days)
 
         return days
 
     else:
         days = np.busday_count( start, end )
-        print('dates',start,end)
-        print('days',days)
+        # print('dates',start,end)
+        # print('days',days)
 
         return days
+
+
 
     
 
@@ -43,3 +45,15 @@ def days_difference_weekdays(start, end):
 
 
 # days_difference_weekdays()
+
+
+
+# APPROVLAS LOGGING
+def approvlas(supervisor,line_manager,hr_manager,username):
+    print('employee')
+    if supervisor:
+        return {'supervisor': username}
+    if line_manager:
+        return {'line_manager': username}
+    if hr_manager:
+        return {'hr_manager': username}

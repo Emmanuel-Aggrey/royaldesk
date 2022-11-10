@@ -18,15 +18,16 @@
         <br>
 
 
-        <div class="row my-5">
+        <div class="row ">
 
-          <div class="col grid-margin stretch-card">
+          <div class="col">
 
             <div class="card">
+              <h4 class="card-title text-center">EMPLOYEES ATTENDANCE</h4>
 
               <div class="card-body">
 
-                <div>
+              
                   <div class="toolbar-item float-right btn" onclick="createPDF('EMPLOYEES')" title="print">
                     <i class="fa fa-print" aria-hidden="true"></i>
                   </div>
@@ -34,20 +35,8 @@
                     <i class="fa fa-file" aria-hidden="true"></i>
 
                   </div>
-                 
-
-                  <h2 class="card-title text-center">EMPLOYEES ATTENDANCE</h2>
-                </div>
-                <hr>
-                <div>
-                    <div class="col-md-12 grid-margin">
-                        <div class="card">
-                          <div class="card-body">
-
-                       
-
-                           
-                            <form id="attendance_form">
+                        <section>
+                              <form id="attendance_form">
                               {% csrf_token %}
                               <label for="date_from">from </label>
                                <input type="date" name="date_from" id="date_from" required>
@@ -56,24 +45,22 @@
     
     
                               <label id="clear_time" for="time_from">Time </label>
-                              <!-- <small id="clear_time" class="fa fa-trash-o text-primary" style="display:none;"></small> -->
 
                               <select name="time_from" id="time_from" class="time_from">
                                 <option value="">from</option>
                               </select>
 
-                              <!-- <label for="time_to">to </label> -->
                               <select name="time_to" id="time_to" class="time_to">
                                 <option value="">to</option>
 
                               </select>
 
-                               <!-- <input type="time" name="datetime" id="datetime"> -->
                               <button  type="submit" class ="btn btn-secondary" style="height: 40px"> submit</button>
 
                               <input class="float-right" type="search" name="" id="attendance_search" placeholder="search">
                        
                            </form>
+                          </section> 
                             <div class="table-responsive my-4" style="background:whitesmoke"> 
                               <p id="loadings"></p>
                               
@@ -87,7 +74,6 @@
                                   <tr>
                                     <th>Department</th>
                                     <th>In</th>
-                                    <th style="display:none">Out</th>
                                   </tr>
                                 </thead>
                                 <tbody id="attendance_table">
@@ -121,20 +107,21 @@
                             </table>
                             <!-- department settings end-->
                           </div>
-                          </div>
-                        </div>
-                      </div>
+                         
+                        
+                      
 
                 
 
-              </div>
+              
             </div>
-          </div>
+        
         </div>
 
       </div>
     </div>
   </div>
+</div>
 </div>
 
 

@@ -55,11 +55,12 @@ class DocumentSerializer(serializers.ModelSerializer):
 class LeaveSerializer(serializers.ModelSerializer):
     # handle_over_to = serializers.CharField(source='handle_over_to.full_name')
     # handle_over_to_pk = serializers.CharField(source='handle_over_to.pk')
-    employee_id = serializers.CharField(source='employee.employee_id')
+    # employee_id = serializers.CharField(source='employee.employee_id')
     group = serializers.CharField(source='employee.my_group')
     employee__name = serializers.CharField(source='employee.full_name')
     department = serializers.CharField(source='employee.department')
     employee_id = serializers.CharField(source='employee.employee_id')
+    url = serializers.CharField(source='get_absolute_url')
 
     policy = serializers.CharField(source='policy.name')
     policy_id = serializers.CharField(source='policy.pk')
@@ -67,10 +68,10 @@ class LeaveSerializer(serializers.ModelSerializer):
     class Meta:
         model = Leave
         fields = [
-            'id', 'employee_id', 'group', 'policy', 'policy_id', 'created_at',
+            'id','url', 'employee_id', 'group', 'policy', 'policy_id', 'created_at',
             'start', 'end', 'status', 'phone', 'resuming_date', 'file',
             'supervisor', 'line_manager', 'hr_manager', 'from_leave', 'employee',
-            'employee__name', 'department', 'employee_id','leavedays'
+            'employee__name', 'department','leavedays'
 
         ]
         # fields = '__all__'

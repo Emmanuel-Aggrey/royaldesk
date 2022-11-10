@@ -20,7 +20,6 @@
 
 <page size="A4">
    
-       
         <div>
             <div align="left" style="margin-bottom:-12%;"><img src="\static\images\logo\Rock-City-Logo.png" width="20%"/></div>
 
@@ -37,6 +36,7 @@
 </tr>
 <tr>
 
+    {{leave.approvals.supervisor}}
 
 <table class="address">
 <tbody>
@@ -49,7 +49,7 @@
 <tbody>
 <tr>
 <th width="20%"><strong>EMPLOYEE FULL NAME :</strong></th>
-<td width="80%" id="full_name">{{employee.title}}{{employee.full_name}}</td>
+<td width="80%" id="full_name">{{leave}}</td>
 </tr>
 </tbody>
 </table>
@@ -64,11 +64,11 @@
 <tbody>
 <tr>
 <th>Department:</th>
-<td id="languages">:{{employee.languages}}</td>
+<td >{{leave.employee.department}}</td>
 <th>Position Title:</th>
-<td id="age">{{employee.age}}</td>
+<td>{{leave.employee.designation.name}}</td>
 <th>Date Employed:</th>
-<td id="age">{{employee.age}}</td>
+<td>{{leave.employee.date_employed}}</td>
 </tr>
 </tbody>
 </table>
@@ -84,9 +84,9 @@
     <tbody>
     <tr>
     <th>Leave Requested:</th>
-    <td id="languages">:{{employee.languages}}</td>
+    <td >{{leave.policy}}</td>
     <th>Phone:</th>
-    <td id="age">{{employee.age}}</td>
+    <td >{{leave.phone}}</td>
  
     </tr>
     </tbody>
@@ -96,9 +96,9 @@
 <tbody>
 <tr>
 <th>Proposed Start Date:</th>
-<td>{{employee.emergency_address}}</td>
+<td>{{leave.start}}</td>
 <th>Proposed End Date:</th>
-<td id='emergency_phone'>{{employee.emergency_phone}}</td>
+<td >{{leave.end}}</td>
 </tr>
 </tbody>
 </table>
@@ -113,22 +113,23 @@
 <tbody>
 <tr>
 <th>No. Days Entitled To:</th>
-<td id="next_of_kin_name">{{employee.next_of_kin_name}}</td>
+<td id="policy_days">{{leave.policy.days}}</td>
 
 <th>Last Time On Leave:</th>
-<td id="next_of_kin_phone">{{employee.next_of_kin_phone}}</td>
+<td >{{employee.next_of_kin_phone}}</td>
 </tr>
 <tr>
 <th>Available Leave Days:</th>
-<td id="next_of_kin_relationship">{{employee.next_of_kin_relationship}}</td>
+<td id="available_leave_days"></td>
 <th>No Days Requested:</th>
-<td id="next_of_kin_address">{{employee.next_of_kin_address}}</td>
+<td id="days_requested">{{leave.leavedays}}</td>
 </tr>
 <tr>
     <th>Outstanding Leave Days:</th>
-<td id="next_of_kin_address">{{employee.next_of_kin_address}}</td>
+    <td id="Outstanding_leave_days"></td>
+
 <th>Date Applied:</th>
-<td id="next_of_kin_address">{{employee.next_of_kin_address}}</td>
+<td >{{leave.created_at}}</td>
 </tr>
 </tbody>
 </table>
@@ -221,6 +222,11 @@
     correctLevel : QRCode.CorrectLevel.H,
 
   });
+
+  
+ 
+  const total = parseInt($("#policy_days").text()- $('#days_requested').text())
+  $('#available_leave_days').text(total)
 })
 </script>
 
