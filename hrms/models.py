@@ -343,6 +343,7 @@ class LeavePolicy(BaseModel, models.Model):
 class Leave(BaseModel, models.Model):
     employee = models.ForeignKey(
         Employee, on_delete=models.CASCADE, related_name='leave_employees')
+    leave_number = models.IntegerField(default=partials.generated_ticket_number)
     start = models.DateField()
     end = models.DateField()
     status = models.CharField(

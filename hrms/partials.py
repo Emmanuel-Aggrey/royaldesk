@@ -1,5 +1,6 @@
 from datetime import datetime,date
 import numpy as np
+import random
 
 def days_difference(d1, d2):
     """Difference between two datetimes: end-start date"""
@@ -37,6 +38,11 @@ def days_difference_weekdays(start, end):
 
         return days
 
+
+
+
+def generated_ticket_number():
+    return random.randint(10**5, 10**6 - 1)
 
 
     
