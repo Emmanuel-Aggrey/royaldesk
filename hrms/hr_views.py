@@ -55,23 +55,16 @@ def hr_reports(request, data_value=None):
         ),
     )
 
-    age = active_employees.values('age').aggregate(
-        above=(
-            Count('id', filter=Q(age__gt=3))
-        ),
-        below=(
-            Count('id', filter=Q(age__lt=3))
-        ),
-    )
+ 
 
-    age = active_employees.values('age').aggregate(
-        above=(
-            Count('id', filter=Q(age__gt=3))
-        ),
-        below=(
-            Count('id', filter=Q(age__lt=3))
-        ),
-    )
+    # age = active_employees.values('age').aggregate(
+    #     above=(
+    #         Count('id', filter=Q(age__gt=3))
+    #     ),
+    #     below=(
+    #         Count('id', filter=Q(age__lt=3))
+    #     ),
+    # )
 
     on_leave = active_employees.values('leave_employees__from_leave').aggregate(
         on_leave=(
@@ -129,7 +122,7 @@ def hr_reports(request, data_value=None):
     # print('active_employees',active_employees)
     data = {
         'gender': gender,
-        'age': age,
+        'age': 'age',
         'is_merried': is_merried,
         'emp_beneficiary': emp_beneficiary,
         'leave': on_leave,
