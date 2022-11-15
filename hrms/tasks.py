@@ -107,6 +107,25 @@ def employee_on_leave():
 
 
 @shared_task
+def log_to_file():
+    from datetime import datetime
+    today = datetime.now().strftime('%d %B %Y, %I:%M:%S %p')
+
+
+
+    with open('./logs.log', 'a') as f:
+        f.write(f'{today}\n')
+
+
+   
+
+log_to_file()
+
+
+
+
+
+@shared_task
 def backupdjangodb():
     management.call_command('dbbackup')
     management.call_command('mediabackup')

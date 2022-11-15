@@ -27,3 +27,6 @@ python3 manage.py  mediabackup
 
 DB Backup
 python3 manage.py dbbackup
+
+START RABBITMQ
+http://127.0.0.1:15672/
