@@ -21,4 +21,5 @@ Pillow==9.0.1
 python-decouple==3.6
 django-dbbackup===4.0.2
 requests==2.25.1
+django-auditlog  ==2.2.0
 
