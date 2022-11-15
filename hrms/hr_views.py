@@ -14,18 +14,23 @@ from rest_framework.response import Response
 from datetime import datetime
 from decouple import config
 import shutil 
-
+from . import partials
 from .models import (Department, Dependant, Designation, Education, Employee,
                      Leave, LeavePolicy, PreviousEployment,
                      ProfessionalMembership)
     
 
 
-@group_required('HR', 'Manager')
+@group_required('HR', 'MNG')
+def hr_dashborad(request):
+
+    return render(request,'hr/hr_dashborad.html')
+
+@group_required('HR', 'MNG')
 @api_view(['GET'])
 def hr_reports(request, data_value=None):
 
-    qs = Employee.objects.exclude(id=4).select_related('designation')
+    qs = Employee.objects.exclude(for_management=True).select_related('designation')
 
     # ACTIVE EMPLOYEES
     active_employees = qs.filter(status='active')
@@ -33,13 +38,14 @@ def hr_reports(request, data_value=None):
 
     is_merried = active_employees.values('is_merried').aggregate(
         married=(
-            Count('id', filter=Q(is_merried=True))
+            Count('id', filter=Q(is_merried='married'))
         ),
         not_married=(
-            Count('id', filter=Q(is_merried=False))
+            Count('id', filter=~Q(is_merried='married'))
         ),
     )
 
+    # print('is_merried',is_merried)
     gender = active_employees.values('gender').aggregate(
         male=(
             Count('id', filter=Q(gender='male'))
@@ -90,7 +96,7 @@ def hr_reports(request, data_value=None):
     leave_applications = qs.filter(leave_employees__start__isnull=False).values(
         'leave_employees__start__year').annotate(leave_applications=Count('id'))
 
-    emp_exceed_leave = qs.filter(leave_employees__from_leave=False, leave_employees__end__lt=timezone.now()).values(
+    emp_exceed_leave = qs.filter(leave_employees__from_leave=False, leave_employees__resuming_date__lt=timezone.now()).values(
         'leave_employees__employee__first_name', 'leave_employees__employee__last_name', 'leave_employees__end')
 
     emp_on_leave = qs.filter(leave_employees__from_leave=False).values('leave_employees__employee__employee_id', 'leave_employees__from_leave', 'leave_employees__hr_manager', 'leave_employees__line_manager',
@@ -105,7 +111,9 @@ def hr_reports(request, data_value=None):
     turn_over_rate = qs.values(
         'status', 'date_employed__year').annotate(employee_count=Count('date_employed'))
 
-    # print(turn_over_rate)
+    department_count = active_employees.values('department__name').annotate(employee_count=Count('department__name'))
+
+    # print(dpeartment_count)
 
     # employment_rate_quarter = employment_rate.filter(date_employed__quarter=2)
 
@@ -127,7 +135,9 @@ def hr_reports(request, data_value=None):
         'leave': on_leave,
         'country': country,
         'department_heads': hods,
+        'department_count':department_count,
         'active_employees_count': active_employees.count(),
+
         # 'active_employees_merried': active_employees.filter(is_merried=True).count(),
 
         'leave_this_year': leave_this_year,
@@ -149,7 +159,7 @@ def hr_reports(request, data_value=None):
 
         return Response(data.get(data_value))
 
-
+@group_required('HR', 'MNG')
 @api_view(['GET'])
 def employment_rate(request, quarter):
 
@@ -177,24 +187,34 @@ def emp_on_leave(request, pk):
 
     return Response(status=status.HTTP_200_OK)
 
-
+@group_required('HR', 'MNG')
 @api_view(['POST'])
 def hr_approve_leave(request, pk):
     leave = get_object_or_404(Leave, pk=pk)
 
+    new_hr_manager = True
+    old_hr_manager = leave.hr_manager
+    employee = str(request.user).upper()
+    if partials.check_approval_status_change(new_hr_manager,old_hr_manager,'hr_manager', employee):
+        print('new state update status')
+        leave.hr_manager_approval = partials.check_approval_status_change(new_hr_manager,old_hr_manager,'hr_manager', employee)
+    else:
+        print('old state dont update status')
+
+    
     leave.hr_manager = True
     leave.save()
 
     return Response(status=status.HTTP_200_OK)
 
 
-@group_required('HR', 'Manager')
+@group_required('HR', 'MNG', 'FO')
 def attendance(request):
 
     return render(request, 'attendance/attendance.html')
 
 
-@group_required('HR', 'Manager', 'FO')
+@group_required('HR', 'MNG', 'FO')
 @api_view(['GET', 'POST'])
 def time_attendance(request):
 
@@ -280,7 +300,7 @@ def get_department(request, department):
     return Response(result)
 
 
-@group_required(['HR', 'FO'])
+@group_required('HR', 'MNG', 'FO')
 @api_view(['GET'])
 def clockins(request):
 
@@ -335,7 +355,7 @@ def clockins(request):
 
         return Response(data)
 
-
+@group_required('IT')
 @api_view(['GET', 'POST'])
 def update_anviz_user(request):
 

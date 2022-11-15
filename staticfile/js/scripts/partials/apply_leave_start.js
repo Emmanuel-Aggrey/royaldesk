@@ -72,3 +72,10 @@ Swal.fire({
   }
 })
 }
+
+
+const loginUser = ()=> {
+  const apply_leave = $("#apply_leave").val()
+  apply_leave ? $("#apply_leave_btn").click(): ''
+  
+}

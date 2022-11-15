@@ -3,6 +3,7 @@
 $(document).ready(function () {
   // var today = new Date();
   leave_filter()
+  $("#leave_user").val(sessionStorage.getItem('emp_key'))
 
 }); //end ready
 
@@ -278,7 +279,7 @@ $("#edit_leave_form").on("submit", function (event) {
     csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(),
 
     success: function (data) {
-      console.log(data.on_leave);
+      // console.log(data.on_leave);
       Swal.fire("LEAVE UPDATED SUCCESSFULLY");
 
       // $("#leave_form")[0].reset()
@@ -369,19 +370,21 @@ const leave_table = () => {
       desig.forEach(element => {
         // days = `${(new Date(element.end) - new Date(element.start)) / 1000 / 60 / 60 / 24}`
 
+        // <td>${approve(element.supervisor)}</td>
+        // <td>${approve(element.line_manager)}</td>
+        // <td>${approve(element.hr_manager)}</td>
+        // <td>${emergencyPhone(element.phone)}</td>
+
         $("#table_body").append(`
         
         <tr> 
         <td>${element.department}</td>
           <td>${element.employee__name}</td>
           <td>${element.policy}</td>
-          <td>${emergencyPhone(element.phone)}</td>
           <td>${element.start}</td>
           <td>${element.end}</td>
           <td>${element.leavedays}</td>
-          <td>${approve(element.supervisor)}</td>
-          <td>${approve(element.line_manager)}</td>
-          <td>${approve(element.hr_manager)}</td>
+        
           <td class="text-uppercase leave_status ${leave_status(element.status, element.from_leave)}"> ${element.status}</td>
           <td>
           <div class="edit_product btn text-info btn-outline-dark" title="edit items" onclick="get_employee(${element.id})">
@@ -427,7 +430,7 @@ const leave_table = () => {
           // console.log(desig)
         }
         else if (depart == 'pending') {
-          console.log(depart,desig)
+          // console.log(depart,desig)
           desig = response.data.filter(function (item) {
 
             return item.status === 'pending'
@@ -440,6 +443,10 @@ const leave_table = () => {
           // days = `${(new Date(element.end) - new Date(element.start)) / 1000 / 60 / 60 / 24}`
           // console.log("days".days)
 
+// <td>${approve(element.supervisor)}</td>
+//             <td>${approve(element.line_manager)}</td>
+//             <td>${approve(element.hr_manager)}</td>
+        // <td>${emergencyPhone(element.phone)}</td>
 
           $("#table_body").append(`
         
@@ -447,13 +454,10 @@ const leave_table = () => {
           <td>${element.department}</td>
             <td>${element.employee__name}</td>
             <td>${element.policy}</td>
-            <td>${emergencyPhone(element.phone)}</td>
             <td>${element.start}</td>
             <td>${element.end}</td>
             <td>${element.leavedays}</td>
-            <td>${approve(element.supervisor)}</td>
-            <td>${approve(element.line_manager)}</td>
-            <td>${approve(element.hr_manager)}</td>
+            
             <td class="text-uppercase leave_status ${leave_status(element.status, element.from_leave)}"> ${element.status}</td>
             <td>
               <div class="edit_product btn text-info btn-outline-dark" title="edit items" onclick="get_employee(${element.id})">
@@ -575,7 +579,7 @@ const user_group = (on_leave, supervisor) => {
         cancelButtonColor: '#d33',
         confirmButtonText: 'continue',
       }).then((result) => {
-        console.log(result)
+        // console.log(result)
         if (result.isConfirmed) {
          $('#supervisor_edit').prop( "checked" ,true);
          
@@ -621,7 +625,7 @@ function viewLeaveDetail(employee) {
   // data-leave
   const employee_id = $(`#${employee.id}`).attr("data-leave")
   const id = employee.id
-  console.log(employee_id, id)
+  // console.log(employee_id, id)
 }
 
 
@@ -740,18 +744,21 @@ const verify_leave = (employee) => {
     url: `/employee-leave/${employee_id}/`,
     type: 'GET',
     success: function (data) {
+   
       $("#leave_summary_body").empty()
       // console.log(data.leave_per_year)
       if (data.leave_per_year.length > 0) {
         data.leave_per_year.forEach(element => {
-          // console.log(element)
+
+          const out_standing  = element.policy__has_days ? element.out_standing : 'N/A';
+
           $("#leave_summary_body").append(`
           <tr>
                <td>${element.policy__name}</td>
                <td>${element.start__year}</td>
                <td>${element.policy__days}</td>
                <td>${element.total_spent}</td>
-               <td>${element.out_standing}</td>
+               <td>${out_standing}</td>
                <td>${element.num_application}</td>
 
              </tr>

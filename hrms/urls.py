@@ -9,7 +9,8 @@ app_name = 'hrms'
 
 urlpatterns = [
     # STAFF URLS
-    path('hr/',  login_required(TemplateView.as_view(template_name="hr/hr_dashborad.html")),name='hr'),
+    # path('hr/',  login_required(TemplateView.as_view(template_name="hr/hr_dashborad.html")),name='hr'),
+    path('hr-dashborad',hr_views.hr_dashborad,name='hr_dashborad'),
     path('employee/', login_required(TemplateView.as_view(template_name="employees/employees.html")),name='employee'),
     path('register-staff/',  login_required(TemplateView.as_view(template_name="employees/add_employee.html")),name='register_staff'),
     

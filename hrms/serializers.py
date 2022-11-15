@@ -32,7 +32,7 @@ class GetEmployeeSerializer(serializers.ModelSerializer):
                   'last_name', 'is_head', 'nia', 'other_name', 'status', 'date_employed',
                   'other_name', 'mobile', 'email', 'address',
                   'profile_exists', 'with_beneficiary', 'department',
-                  'dob', 'age', 'languages', 'place_of_birth', 'nationality', 'country', 'gender',
+                  'dob', 'languages', 'place_of_birth', 'nationality', 'country', 'gender',
                    'snnit_number','is_merried', 'designation', 'bank_branch', 'bank_name', 'bank_ac', 
                    'salary', 'emergency_name','emergency_phone', 'emergency_address', 'next_of_kin_name', 
                    'next_of_kin_phone', 'next_of_kin_address', 'next_of_kin_relationship', 'my_group',

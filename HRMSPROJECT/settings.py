@@ -62,6 +62,7 @@ INSTALLED_APPS = [
      'django_celery_results',
      'djcelery_email',
      'django_celery_beat',
+     'auditlog',
   
     'dbbackup',
 
@@ -79,6 +80,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'auditlog.middleware.AuditlogMiddleware',
 
 ]
 
@@ -256,10 +258,6 @@ CELERYBEAT_SCHEDULE = 'django_celery_beat.schedulers:DatabaseScheduler'
 
 
 
-
-
-
-
 CSRF_TRUSTED_ORIGINS = [config('CSRF_TRUSTED_ORIGINS')]
 
 
@@ -274,3 +272,5 @@ DBBACKUP_STORAGE_OPTIONS = {'location': config('MEDIABACKUP_LOCATION')}
 
 
 
+
+AUDITLOG_INCLUDE_ALL_MODELS=True

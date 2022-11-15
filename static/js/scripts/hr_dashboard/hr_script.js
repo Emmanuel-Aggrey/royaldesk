@@ -22,6 +22,9 @@ const year_leave = {};
 var country_name = []
 var country_count = []
 
+var department_name = []
+var departmen_count = []
+
 var result_department_week_Count_In = []
 var result_department_week_name = []
 var result_department_week_Count_Out = []
@@ -35,12 +38,13 @@ $(document).ready(function () {
     url: '/hr-reports/',
     type: 'GET',
     success: function (data) {
-
+      // console.log(data['dpeartment_count'])
     
 
       $("#gender_male").text(`Male: ${data.gender.male}`)
       $("#gender_female").text(`Female: ${data.gender.female}`)
 
+      // console.log(data.is_merried)
 
       $("#is_merried").text(`Married: ${data.is_merried.married}`)
       $("#is_not_merried").text(`Not Married: ${data.is_merried.not_married}`)
@@ -66,14 +70,21 @@ $(document).ready(function () {
       $("#not_onleave").text(`Not On Leave: ${data.leave.not_on_leave}`)
 
 
+      data.department_count.forEach(element=>{
+      department_name.push(element.department__name)
+      departmen_count.push(element.employee_count)
+     })
+
+      // console.log(department_name,departmen_count)
+
       data.country.forEach(element => {
 
-       
-    
 
         country_name.push(element.country)
         country_count.push(element.emp_count)
 
+
+ 
         $("#country_name").append(`
         <li> 
             ${element.country}
@@ -88,14 +99,21 @@ $(document).ready(function () {
         // console.log(element.emp_count)
       });
 
+
       // HEADS OF DEPARTMENTS
       data.department_heads.forEach(element => {
         // console.log('department_heads ',element)
         full_name = `${element.first_name} ${element.last_name}`
+        // `<div></div>`;
         $('#department_heads').append(`
+
+        <li class="timeline-item">
 
         <p class="mb-n1 font-weight-semibold text-uppercase">${full_name}</p>
         <small >${element.department__name}</small>
+        </li>
+
+    
 
         
         `)
@@ -204,9 +222,11 @@ const emp_from_leave_recent = () => {
       data.forEach(element => {
 
         $("#emp_from_leave").append(`
-  <p class="font-weight-semibold text-gray mb-0 timeline">${element.leave_employees__employee__first_name} ${element.leave_employees__employee__last_name}</p>
-  <small class="text-muted">${element.leave_employees__end}</small>
-
+        <li class="timeline-item">
+        <p class="mb-n1 font-weight-semibold text-uppercase">${element.leave_employees__employee__first_name} ${element.leave_employees__employee__last_name}</p>
+  
+        <small class="event-time">${element.leave_employees__end}</small>
+        </li>
   `)
       });
     }
@@ -222,15 +242,18 @@ const emp_exceed_leave = () => {
     type: 'GET',
   success: function (data) {
 
-    $("#count_exceed_leave").text(data.length).attr('title','exceed leave')
+    data.length >=1 ?
+    $("#count_exceed_leave").text(data.length).attr('title','exceeded leave').addClass('pulse')
+    :  $("#count_exceed_leave").text(data.length).attr('title','exceeded leave')
+
 
     data.forEach(function (element) {
       const full_name = `${element.leave_employees__employee__first_name} ${element.leave_employees__employee__last_name}`
     $('#emp_exceed_leave').append(`
     <li class="timeline-item">
     
-    <p class="timeline-content font-weight-medium"> ${full_name} </p>
-    <p class="event-time">${element.leave_employees__end}</p> 
+    <p class="mb-n1 font-weight-semibold text-uppercase"> ${full_name} </p>
+    <smal class="time-event">${element.leave_employees__end}</smal> 
     </li>
     `)
     })
@@ -246,7 +269,7 @@ const emp_on_leave = () => {
     url: '/hr-reports/emp_on_leave/',
     type: 'GET',
     success: function (data) {
-      $("#count_on_leave").text(data.length).attr('title','on leave')
+      $("#count_on_leave").text(data.length).attr('title','employees on leave')
       let desig = {}
 
       desig = data.filter(function (item) {
@@ -425,7 +448,7 @@ const clockins = () => {
     url: '/clockins/',
     type: 'GET',
     success: function (data) {
-      console.log(data.sql_today)
+      // console.log(data.sql_today)
       if (data.sql_today) {
         $("#today_data").text(data.sql_today[0].Count_In)
       }
@@ -749,7 +772,7 @@ const loadChart = function () {
         }
       }
       var salesChart = new Chart(salesChartCanvas, {
-        type: 'line',//'line',
+        type: 'bar',//'line',
         plugins: [ChartDataLabels],
 
         data: areaData,
@@ -868,7 +891,7 @@ const loadChart = function () {
         }
       }
       var salesChart = new Chart(salesChartCanvas, {
-        type: 'bar',//'line',
+        type: 'pie',//'line',
         plugins: [ChartDataLabels],
 
         data: areaData,
@@ -876,7 +899,7 @@ const loadChart = function () {
       });
     }
    
-// THIS YEAR
+//LEAVE APPLICATION THIS YEAR START
     if ($('#leave_application_month').length) {
       var currentYear = new Date().getFullYear();
       var salesChartCanvas = $("#leave_application_month").get(0).getContext("2d");
@@ -989,6 +1012,126 @@ const loadChart = function () {
         options: areaOptions
       });
     }
+
+    // LEAVE APPLICATION THIS YEAR END
+
+
+
+    //EMPLOYEE DEPARTMENT START
+    if ($('#department_statistics').length) {
+      var departmentChartCanvas = $("#department_statistics").get(0).getContext("2d");
+ 
+      var data_1_1 = departmen_count;
+
+      var areaData = {
+        labels: department_name,
+
+        datasets: [{
+          
+          label: 'EMPLOYEES BY DEPARTMENT', 
+          data: data_1_1,
+          borderWidth: 0,
+          pointRadius: 7,
+          pointBorderWidth: 3,
+          pointBorderColor: '#fff',
+          pointHoverRadius: 7,
+          pointHoverBackgroundColor: "#fa394e",
+          pointHoverBorderColor: "#fa394e",
+          pointHoverBorderWidth: 2,
+          pointHitRadius: 7,
+
+         
+          borderWidth: 2,
+          hoverOffset: 4,
+
+          backgroundColor: [
+            'rgba(255, 99, 132, 0.2)',
+            'rgba(54, 162, 235, 0.2)',
+            'rgba(255, 206, 86, 0.2)',
+            'rgba(75, 192, 192, 0.2)',
+            'rgba(153, 102, 255, 0.2)',
+            'rgba(255, 159, 64, 0.2)'
+          ],
+          borderColor: [
+            'rgba(255, 99, 132, 1)',
+            'rgba(54, 162, 235, 1)',
+            'rgba(255, 206, 86, 1)',
+            'rgba(75, 192, 192, 1)',
+            'rgba(153, 102, 255, 1)',
+            'rgba(255, 159, 64, 1)'
+          ],
+          borderWidth: 3,
+
+        },
+
+          
+        ]
+      };
+      var areaOptions = {
+
+        responsive: true,
+        animation: {
+         
+          animateScale: true,
+          animateRotate: true
+        },
+
+       
+        elements: {
+          point: {
+            radius: 3,
+            backgroundColor: "#fff"
+          },
+          
+        },
+        layout: {
+          padding: {
+            left: 0,
+            right: 0,
+            top: 0,
+            bottom: 0
+          }
+
+        },
+
+
+        legend: true,
+
+        scales: {
+
+          xAxes: [{
+            display: true,
+            ticks: {
+              display: true,
+              beginAtZero: true,
+            },
+            gridLines: {
+              drawBorder: false
+            }
+          }],
+          yAxes: [{
+            ticks: {
+              max: 200,
+              min: 0,
+              stepSize: 50,
+              fontColor: "#858585",
+              beginAtZero: false
+            },
+           
+          }]
+        }
+      }
+      var departmentChart = new Chart(departmentChartCanvas, {
+        type: 'bar',//'line',
+        plugins: [ChartDataLabels],
+
+        data: areaData,
+        options: areaOptions
+      });
+    }
+
+    // EMPLOYEE DEPARTMENT END
+
     if ($('#yesterday_attendance').length)  {
       // var currentYear = new Date().getFullYear();
       var salesChartCanvas = $("#yesterday_attendance").get(0).getContext("2d");
@@ -1197,7 +1340,7 @@ const loadChart = function () {
       var realtimeChartCanvas = $("#employees_country").get(0).getContext("2d");
       var realtimeChart = new Chart(realtimeChartCanvas, {
         
-        type: 'line',
+        type: 'doughnut',
         plugins: [ChartDataLabels],
         // label: 'EMPLOYEES COUNTRY STATISTICS',
 
@@ -1336,6 +1479,9 @@ const get_employee_leave = (employee) => {
 
       $("#leave_table_body, #leave_summary_body").empty();
 
+      const leave_days = data.out_standing_leaves ? data.out_standing_leaves : 'NA'
+      // $(".leave_summary_caption").text('Out Standing Leave Day(s): ' + leave_days).addClass('pulse')
+
       // console.log(data.length);
       if (data.employees.length > 0) {
 
@@ -1350,7 +1496,7 @@ const get_employee_leave = (employee) => {
           if (result.isConfirmed) {
             // Swal.fire('Saved!', '', 'success')
             data.employees.forEach(element => {
-              console.log(element)
+              // console.log(element)
               $('#leave_table_body').append(`
               <tr>
                   <td>${element.policy}</td>
@@ -1370,18 +1516,22 @@ const get_employee_leave = (employee) => {
             });
     
             // model here
-            leave_model('#leave_table',employee)
+            const title = `${employee} | Last Time On Leave : ${data.last_date_on_leave}`
+
+            leave_model('#leave_table',title)
 
           } else if (result.isDenied) {
 
             data.leave_per_year.forEach(element => { 
+              // console.log(element)
+              const out_standing =element.policy__has_days ? element.out_standing :'N/A'
               $("#leave_summary_body").append(`
               <tr>
               <td>${element.policy__name}</td>
               <td>${element.start__year}</td>
               <td>${element.policy__days}</td>
               <td>${element.total_spent}</td>
-              <td>${element.out_standing}</td>
+              <td>${out_standing}</td>
               <td>${element.num_application}</td>
 
             </tr>
@@ -1389,7 +1539,9 @@ const get_employee_leave = (employee) => {
 
             })
 
-            leave_model('#leave_summary_table',employee)
+            const title = `${employee} | Last Time On Leave : ${data.last_date_on_leave}`
+
+            leave_model('#leave_summary_table',title)
 
             // Swal.fire('Changes are not saved', '', 'info')
           }
@@ -1416,7 +1568,7 @@ const get_employee_leave = (employee) => {
 const leave_model = (leave_table,employee)=>{
   $(leave_table).dialog({
     
-    title: `${employee} LEAVE HISTORY`,
+    title: `${employee}`,
     height: 'auto',
     width: 'auto',
     draggable: true,

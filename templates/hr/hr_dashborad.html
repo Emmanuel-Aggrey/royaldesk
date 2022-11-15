@@ -47,7 +47,7 @@
                         <p class="mb-0 text-muted" id="gender_female">Female: 21</p>
                       </div>
                       <div class="wrapper my-auto ml-auto ml-lg-4">
-                        <canvas height="50" width="100" id="stats-line-graph-1"></canvas>
+                        <!-- <canvas height="50" width="100" id="stats-line-graph-1"></canvas> -->
                       </div>
                     </div>
                   </div>
@@ -59,7 +59,7 @@
                         <p class="mb-0 text-muted" id="is_not_merried">Not Married: 34</p>
                       </div>
                       <div class="wrapper my-auto ml-auto ml-lg-4">
-                        <canvas height="50" width="100" id="stats-line-graph-2"></canvas>
+                        <!-- <canvas height="50" width="100" id="stats-line-graph-2"></canvas> -->
                       </div>
                     </div>
                   </div>
@@ -71,7 +71,7 @@
                         <p class="mb-0 text-muted" id="age_below">Below 30: 34</p>
                       </div>
                       <div class="wrapper my-auto ml-auto ml-lg-4">
-                        <canvas height="50" width="100" id="stats-line-graph-3"></canvas>
+                        <!-- <canvas height="50" width="100" id="stats-line-graph-3"></canvas> -->
                       </div>
                     </div>
                   </div>
@@ -84,7 +84,7 @@
                         <p class="mb-0 text-muted" id="not_onleave">Active: 108</p>
                       </div>
                       <div class="wrapper my-auto ml-auto ml-lg-4">
-                        <canvas height="50" width="100" id="stats-line-graph-4"></canvas>
+                        <!-- <canvas height="50" width="100" id="stats-line-graph-4"></canvas> -->
                       </div>
                     </div>
                   </div>
@@ -275,16 +275,20 @@
                   </div>
                 </div>
               </div>
-              <div class="col-md-6 grid-margin stretch-card">
+              <div class="col-md-8 grid-margin stretch-card">
                 <div class="card">
                   <div class="card-body">
                     <div class="row">
+                      <canvas height="200" id="department_statistics"></canvas>
+              
+
+
                       <div class="col-md-6">
                         <div class="d-flex align-items-center pb-2">
                           <div class="dot-indicator bg-danger mr-2"></div>
                           <p class="mb-0">EMPLOYEES WITH BENEFICIARY</p>
                         </div>
-                        <h4 class="font-weight-semibold" id="emp_with_beneficiary">48</h4>
+                        <small class="font-weight-semibold" id="emp_with_beneficiary">48</small>
                         <div class="progress progress-md">
                           <div class="progress-bar bg-danger" id="emp_with_beneficiary_progressbar" role="progressbar">
                           </div>
@@ -293,19 +297,20 @@
                       <div class="col-md-6 mt-4 mt-md-0">
                         <div class="d-flex align-items-center pb-2">
                           <div class="dot-indicator bg-success mr-2"></div>
-                          <p class="mb-0">EMPLOYEES WITHOUT BENEFICIARY</p>
+                          <small class="mb-0">EMPLOYEES WITHOUT BENEFICIARY</small>
                         </div>
-                        <h4 class="font-weight-semibold" id="emp_without_beneficiary">75</h4>
+                        <p class="font-weight-semibold" id="emp_without_beneficiary">75</p>
                         <div class="progress progress-md">
                           <div class="progress-bar bg-success" id="emp_without_beneficiary_progressbar"
                             role="progressbar"></div>
                         </div>
                       </div>
+
                     </div>
                   </div>
                 </div>
               </div>
-              <div class="col-md-6 grid-margin stretch-card average-price-card">
+              <div class="col-md-4 grid-margin stretch-card average-price-card">
                 <div class="card text-white">
                   <div class="card-body">
                     <div class="d-flex justify-content-between pb-2 align-items-center">
@@ -408,9 +413,9 @@
                     <!-- <hr class="bg-primary"> -->
                     <div class="d-flex mt-3 py-2 border-bottom">
                       <!-- <img class="img-sm rounded-circle" src="{% static 'images/faces/face3.jpg' %}" alt="profile image"> -->
-                      <div class="wrapper ml-2" id="department_heads">
+                      <ul class="wrapper ml-2 timeline" id="department_heads">
 
-                      </div>
+                      </ul>
                       <!-- <small class="text-muted ml-auto">1 Hours ago</small> -->
                     </div>
                   </div>
@@ -427,35 +432,39 @@
               <div class="card-body">
                 <h4 class="card-title mb-0">EMPLOYEES FROM LEAVE (RESENT)</h4>
                 <hr>
+                <div style="height:500px;overflow:auto;">
                 <div class="d-flex py-2 border-bottom">
-                  <div class="wrapper" id="emp_from_leave">
 
-                  </div>
+                  <ul class="wrapper timeline ml-1" id="emp_from_leave">
+                    
+
+                  </ul>
                 </div>
-
+              </div>
 
 
 
               </div>
             </div>
           </div>
-          <div class="col-md-4 grid-margin stretch-card">
+          <div class="col-md-3 grid-margin stretch-card">
             <div class="card" style="background-color:rgb(241, 241, 241)">
               <div class="card-body">
-                <h4 class="card-title mb-0">EMP EXCEEDED LEAVE</h4>
+                <h4 class="card-title ">EMP EXCEEDED LEAVE</h4>
                 <hr>
-               
-                <ul class="timeline" id="emp_exceed_leave">
+               <div style="height:500px;overflow:auto;">
+                <ul class="timeline ml-1" id="emp_exceed_leave">
                   <!-- <li class="timeline-item"> -->
                   <!-- <p class="timeline-content"><a href="#">Ben Tossell</a> assign you a task</p> -->
                   <!-- <p class="event-time">Just now</p> -->
                   <!-- </li> -->
                 </ul>
+              </div>
                 <!-- <a class="d-block mt-3" href="#">Show all</a> -->
               </div>
             </div>
           </div>
-          <div class="col-md-4 grid-margin stretch-card">
+          <div class="col-md-5 grid-margin stretch-card">
             <div class="card" style="background-color:rgb(241, 241, 241)">
               <div class="card-body">
                 <h4 class="card-title mb-0">LEAVE APPLICATIONS</h4>
@@ -469,6 +478,8 @@
 
                   <form>
                     {% csrf_token %}
+                    <div style="height:500px;overflow:auto;">
+
                     <table class="table table-stretched">
                       <thead>
                         <tr> 
@@ -489,6 +500,7 @@
 
                       </tbody>
                     </table>
+                  </div>
                   </form>
                 </div>
                 <!-- <a class="d-block mt-3" href="#">Show all</a> -->
@@ -500,7 +512,8 @@
             <!-- DETAIL LEAVE TABLE START -->
             <div class="table-responsive-sm">
               <table id="leave_table" class="table table-striped table-bordered table-hover">
-                  
+                <caption class="font-weight-bold leave_summary_caption"> </caption>
+
                   <thead>
                       <tr>
                          
@@ -525,6 +538,8 @@
           
               <!-- SUMMARY LEAVE TABLE START -->
               <table class="table table-striped table-bordered table-hover" id="leave_summary_table">
+                <caption class="font-weight-bold leave_summary_caption"> </caption>
+
                 <thead>
                   <tr>
                     <th>Policy</th>
@@ -555,5 +570,23 @@
 
 
 
+      <style>
+        /* At the top level of your code */
+    @media screen and (min-width: 900px) {
+      #ticket_filter {
+        /* padding: 1rem 3rem; */
+        position:absolute;left:20px;
+      }
+    }
+    
+    
+        /* At the top level of your code */
+        @media screen and (min-width: 900px) {
+      #leave_search {
+        /* padding: 1rem 3rem; */
+        position:absolute;right:20px;
+      }
+    }
+    </style>
 
       {% endblock content %}

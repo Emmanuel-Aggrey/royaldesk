@@ -108,14 +108,19 @@
 
   <!-- DETAIL LEAVE TABLE START -->
   <div class="table-responsive-sm">
+    
+
     <table id="leave_table" class="table table-striped table-bordered table-hover">
-        
+
+      <caption class="font-weight-bold leave_summary_caption"> </caption>
+
         <thead>
             <tr>
                
                 <th>Policy</th>
                 <th>Start</th>
                 <th>End</th>
+                <th>Resuming Date</th>
                 <th><abbr class="initialism" title="No of Days">Days</abbr></th>
                 <th>Document</th>
                 <th><abbr class="initialism" title="supervisor approve">SUP</abbr></th>
@@ -133,7 +138,10 @@
 <!-- DETAIL LEAVE TABLE END-->
 
     <!-- SUMMARY LEAVE TABLE START -->
+
     <table class="table table-striped table-bordered table-hover" id="leave_summary_table">
+      <caption class="font-weight-bold leave_summary_caption"> </caption>
+
       <thead>
         <tr>
           <th>Policy</th>
@@ -146,6 +154,7 @@
         </tr>
       </thead>
       <tbody id="leave_summary_body">
+
        
        
       </tbody>

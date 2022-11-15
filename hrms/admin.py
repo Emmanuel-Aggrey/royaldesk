@@ -12,7 +12,7 @@ admin.site.site_header = "ROCK CITY HOTEL"  # Add this
 admin.site.site_title = "ROCK CITY HOTEL"
 
 
-admin.site.register([LeavePolicy,File])
+admin.site.register([File])
 
 @admin.register(Contribution)
 class ContributionAdmin(admin.ModelAdmin):
@@ -91,7 +91,7 @@ class EmployeeAdmin(admin.ModelAdmin):
                      'other_name', 'mobile', 'employee_id',]
     list_filter = ['is_head','department', 'designation', 'status', 'is_merried','date_employed','exit_check','date_exited']
     list_editable = ['status', 'is_merried','is_head' ]
-    exclude = ['age', ]
+    # exclude = ['age', ]
     actions = [export_employees]
 
     fieldsets = (
@@ -119,6 +119,10 @@ class EmployeeAdmin(admin.ModelAdmin):
             'classes': ('collapse',),
             'fields': ('bank_name','bank_branch','bank_ac',),
         }),
+          ('ROYALDESK MANEGEMENT', {
+            'classes': ('collapse',),
+            'fields': ('for_management',),
+        }),
 
     )
 
@@ -135,16 +139,26 @@ class EmployeeAdmin(admin.ModelAdmin):
 admin.site.register(Employee, EmployeeAdmin)
 
 
+
+class LeavePolicyAdmin(admin.ModelAdmin):
+    list_display = ['name','days','has_days']
+    search_fields = ['name']
+    list_editable = ['days','has_days']
+   
+
+
+admin.site.register(LeavePolicy, LeavePolicyAdmin)
+
 class LeaveAdmin(admin.ModelAdmin):
     # fields = ['employee','status','policy','handler_over_to']
-    list_display = ['employee', 'status', 'policy',
+    list_display = ['employee', 'leave_number','status', 'policy',
                     'from_leave','supervisor', 'line_manager','hr_manager', 'leavedays', 'start', 'end']
     list_filter = ['status', 'policy', 'from_leave']
     list_editable = ['policy', 'status','supervisor','line_manager',
                      'from_leave', 'hr_manager', 'start', 'end']
     list_filter =['supervisor','line_manager','hr_manager','start','end','status']
-    # exclude =['on_leave',]
-    search_fields = ['employee__first_name', 'employee__last_name']
+    exclude =['on_leave',]
+    search_fields = ['employee__employee_id','employee__first_name', 'employee__last_name','leave_number']
 
 
 admin.site.register(Leave, LeaveAdmin)

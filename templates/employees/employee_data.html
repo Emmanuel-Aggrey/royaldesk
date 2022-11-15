@@ -139,13 +139,24 @@
 <tbody>
 <tr>
 <th>Language(s) :</th>
-<td id="languages">:{{employee.languages}}</td>
+<td >:{{employee.languages}}</td>
 <th>Age:</th>
-<td id="age">{{employee.age}}</td>
+<td>{{employee.age}}</td>
 </tr>
 </tbody>
 </table>
 <table class="address">
+    <table class="digital">
+        <tbody>
+        <tr>
+        <th>Department :</th>
+        <td >:{{employee.department.name}}</td>
+        <th>Designation:</th>
+        <td>{{employee.designation.name}}</td>
+        </tr>
+        </tbody>
+        </table>
+        <table class="address">
 <tbody>
 <tr>
     {% if employee.date_exited %}

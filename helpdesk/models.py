@@ -47,16 +47,19 @@ class User(AbstractUser):
         return self.full_name
 
     
-def hash_password(sender, instance,created,**kwargs):
-    if  created:
-        print('password ',instance.password)
+def hash_password(sender, instance,**kwargs):
+    if  instance.password:
+        # print('password ',instance.password)
 
         instance.password  =make_password(instance.password)
-        print('password ',instance.password)
+        # print('password ',instance.password)
 
-        instance.save()
+        # instance.save()
 
-post_save.connect(hash_password, sender=User)
+pre_save.connect(hash_password, sender=User)
+
+
+
 
 class Issue(models.Model):
     issue_name = models.CharField(max_length=255)

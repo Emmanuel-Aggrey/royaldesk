@@ -24,9 +24,9 @@ export_users.short_description = 'Export to csv'
 # admin.site.register(User)
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
-    list_display = ['first_name','last_name','email','department','designation','is_head',]
+    list_display = ['username','first_name','last_name','email','department','designation','is_head',]
     list_editable = ['is_head']
-    search_fields = ['first_name','last_name','email']
+    search_fields = ['username','first_name','last_name','email']
     list_filter = ['is_head', 'department', 'designation']
     actions = [export_users]
 

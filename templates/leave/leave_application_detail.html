@@ -1,257 +1,345 @@
-
-
-
 {% load static %}
 
 <!doctype html>
 <html>
-<head>
-<meta charset="utf-8">
-<title></title>
-<!-- <script src="/cdn-cgi/apps/head/i-lAwau9_PGB_kvkxfaHap92AMs.js"></script> -->
-<link rel="stylesheet" href="{% static 'css/employee_info.css' %}">
-<script src="{% static 'js/jquery-3.5.1.js' %}"></script>
 
-<script src="{% static 'js/qrcode.min.js' %}"></script>
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <!-- <script src="/cdn-cgi/apps/head/i-lAwau9_PGB_kvkxfaHap92AMs.js"></script> -->
+    
+    <link rel="stylesheet" href="{% static 'css/employee_info.css' %}">
+    <script src="{% static 'js/jquery-3.5.1.js' %}"></script>
+    <script src="{% static 'js/jquery-ui.js' %}"></script>
+
+    <script src="{% static 'js/qrcode.min.js' %}"></script>
 </head>
 <!-- <script src="/cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js" data-cf-settings="ec18832bc4a79e61abeaeea0-|49"></script> -->
 {% comment %} onLoad="window.print()" {% endcomment %}
-<body>
 
-<page size="A4">
-   
+<body onLoad="window.print">
+
+    <page size="A4">
+
         <div>
-            <div align="left" style="margin-bottom:-12%;"><img src="\static\images\logo\Rock-City-Logo.png" width="20%"/></div>
+            <div align="left" style="margin-bottom:-12%;"><img src="\static\images\logo\Rock-City-Logo.png"
+                    width="20%" /></div>
 
             <div align="right" style="margin-bottom:1%" id="qrcode"></div>
+            <div align="right" style="margin-bottom:1%;margin-right:2%;">#{{leave.leave_number}}</div>
+
 
         </div>
-<header><h1>LEAVE APPLICATION FORM</h1></header>
-<article>
-    
-<table cellpadding="0" cellspacing="0" class="meta borderless">
-<tr class="noborder">
-
-</td>
-</tr>
-<tr>
-
-    {{leave.approvals.supervisor}}
-
-<table class="address">
-<tbody>
-<tr>
-<td><div class="grphead"><strong>PERSONAL DETAILS</strong></div></td>
-</tr>
-</tbody>
-</table>
-<table class="nationalid">
-<tbody>
-<tr>
-<th width="20%"><strong>EMPLOYEE FULL NAME :</strong></th>
-<td width="80%" id="full_name">{{leave}}</td>
-</tr>
-</tbody>
-</table>
-
-<table class="address">
-<tbody>
-<tr>
-</tr>
-</tbody>
-</table>
-<table class="digital">
-<tbody>
-<tr>
-<th>Department:</th>
-<td >{{leave.employee.department}}</td>
-<th>Position Title:</th>
-<td>{{leave.employee.designation.name}}</td>
-<th>Date Employed:</th>
-<td>{{leave.employee.date_employed}}</td>
-</tr>
-</tbody>
-</table>
-<table class="address">
-<tbody>
-<table class="address">
-    <tbody>
-    <tr>
-    </tr>
-    </tbody>
-    </table>
-    <table class="digital">
-    <tbody>
-    <tr>
-    <th>Leave Requested:</th>
-    <td >{{leave.policy}}</td>
-    <th>Phone:</th>
-    <td >{{leave.phone}}</td>
- 
-    </tr>
-    </tbody>
-    </table>
-
-<table class="digital">
-<tbody>
-<tr>
-<th>Proposed Start Date:</th>
-<td>{{leave.start}}</td>
-<th>Proposed End Date:</th>
-<td >{{leave.end}}</td>
-</tr>
-</tbody>
-</table>
-<table class="address">
-<tbody>
-<tr>
-<td><div class="grphead"><strong>LEAVE INFORMATION</strong></div></td>
-</tr>
-</tbody>
-</table>
-<table class="inventory">
-<tbody>
-<tr>
-<th>No. Days Entitled To:</th>
-<td id="policy_days">{{leave.policy.days}}</td>
-
-<th>Last Time On Leave:</th>
-<td >{{employee.next_of_kin_phone}}</td>
-</tr>
-<tr>
-<th>Available Leave Days:</th>
-<td id="available_leave_days"></td>
-<th>No Days Requested:</th>
-<td id="days_requested">{{leave.leavedays}}</td>
-</tr>
-<tr>
-    <th>Outstanding Leave Days:</th>
-    <td id="Outstanding_leave_days"></td>
-
-<th>Date Applied:</th>
-<td >{{leave.created_at}}</td>
-</tr>
-</tbody>
-</table>
-
-<table class="address">
-    
-<tbody>
-<tr>
-<td><div class="grphead"><strong>APPROVALS</strong></div></td>
-<table class="inventorys text-center">
-    <thead>
-        <th>Immidiate Supervisor</th>
-        <th>Name</th>
-        <th>Date</th>
-    
-    </thead>
-
-    <tbody id="dependencies">
-        <tr class="text-center">
+        <header>
+            <h1>LEAVE APPLICATION FORM</h1>
+        </header>
+        <article>
             
-            <td>Approved</td>
-            <td class="text-center">Aggrey</td>
-            <td class="text-center">34/24/2022</td>
-            
-        </tr>
+            <table cellpadding="0" cellspacing="0" class="meta borderless">
+                <tr class="noborder">
 
-    </tbody>
-    
-    </table>
-
-    <table class="inventorys text-center">
-        <thead>
-            <th>Head Of Department</th>
-            <th>Name</th>
-            <th>Date</th>
-        
-        </thead>
-    
-        <tbody id="dependencies">
-            <tr class="text-center">
-                
-                <td>Approved</td>
-                <td class="text-center">Aggrey</td>
-                <td class="text-center">34/24/2022</td>
-                
-            </tr>
-    
-        </tbody>
-        
-        </table>
-        <table class="inventorys text-center">
-            <thead>
-                <th>Human Resource Department</th>
-                <th>Name</th>
-                <th>Date</th>
-            
-            </thead>
-        
-            <tbody id="dependencies">
-                <tr class="text-center">
-                    
-                    <td>Approved</td>
-                    <td class="text-center">Aggrey</td>
-                    <td class="text-center">34/24/2022</td>
-                    
+                    </td>
                 </tr>
-        
-            </tbody>
-            
+                <tr>
+
+
+                    <table class="address">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="grphead"><strong>PERSONAL DETAILS</strong></div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="nationalid">
+                        <tbody>
+                            <tr>
+                                <th width="20%"><strong>EMPLOYEE FULL NAME :</strong></th>
+                                <td width="80%" id="full_name">{{leave}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <table class="address">
+                        <tbody>
+                            <tr>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="digital">
+                        <tbody>
+                            <tr>
+                                <th>Department:</th>
+                                <td>{{leave.employee.department}}</td>
+                                <th>Position Title:</th>
+                                <td>{{leave.employee.designation.name}}</td>
+                                <th>Date Employed:</th>
+                                <td>{{leave.employee.date_employed}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="address">
+                        <tbody>
+                            <table class="address">
+                                <tbody>
+                                    <tr>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <table class="digital">
+                                <tbody>
+                                    <tr>
+                                        <th>Leave Requested:</th>
+                                        <td>{{leave.policy.name}}</td>
+                                        <th>Phone:</th>
+                                        <td>{{leave.phone}}</td>
+
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <table class="digital">
+                                <tbody>
+                                    <tr>
+                                        <th>Proposed Start Date:</th>
+                                        <td>{{leave.start}}</td>
+                                        <th>Proposed End Date:</th>
+                                        <td>{{leave.end}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <table class="address">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <div class="grphead"><strong>LEAVE INFORMATION</strong></div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <table class="inventory">
+                                <tbody>
+                                    <tr>
+                                        <th>No. Days Entitled To:</th>
+                                        <td id="policy_days">{{leave.policy.days}}</td>
+
+                                        <th>Last Time On Leave:</th>
+                                        <td>{{last_date_on_leave}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Available Leave Days:</th>
+                                        <td id="available_leave_days">{{available_days}}</td>
+                                        <th>No Days Requested:</th>
+                                        <td id="days_requested">{{leave.leavedays}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Outstanding Leave Days:</th>
+                                        {% if out_standing_days and leave.policy.has_days %}
+                                        <td id="Outstanding_leave_day"><a
+                                            href="#">
+                                            
+                                            {% if out_standing_days < 1 %}
+                                         ({{out_standing_days}})
+                                            {% else  %}
+                                            {{out_standing_days}}
+                                            {% endif %}
+                                                
+                                            </a></td>
+                                            {% elif not leave.policy.has_days %}
+                                            <td>N/A</td>
+
+                                            {% else  %}
+                                            
+                                                    <td> {{out_standing_days}} </td>
+                                        {% endif %}
+                                      
+                                        <th>Date Applied:</th>
+                                        <td>{{leave.created_at}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <table class="address">
+
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <div class="grphead"><strong>APPROVALS</strong></div>
+                                        </td>
+                                        <table class="inventorys text-center">
+                                            <thead>
+                                                <th>Immidiate Supervisor</th>
+                                                <th>Name</th>
+                                                <th>Date</th>
+
+                                            </thead>
+
+                                            <tbody>
+                                                <tr class="text-center">
+
+                                                    <td>{{leave.supervisor|yesno:'Approved,Not Approved'}}</td>
+                                                    {% if leave.supervisor %}
+                                                    <td class="text-center">{{leave.supervisor_approval.supervisor|default:"---"}}</td>
+                                                    {% elif not leave.supervisor and leave.supervisor_approval.supervisor %} 
+                                                    <td class="text-center">({{leave.supervisor_approval.supervisor|default:"---"}})</td>
+
+                                                        {% else %}
+                                                        <td class="text-center">{{leave.supervisor_approval.supervisor|default:"---"}}</td>
+
+                                                    {% endif %}
+                                                    <td class="text-center">{{leave.supervisor_approval.date|default:"---"}}</td>
+
+                                                </tr>
+
+                                            </tbody>
+
+                                        </table>
+
+                                        <table class="inventorys text-center">
+                                            <thead>
+                                                <th>Head Of Department</th>
+                                                <th>Name</th>
+                                                <th>Date</th>
+
+                                            </thead>
+
+                                            <tbody>
+                                                <tr class="text-center">
+                                                    <td>{{leave.line_manager|yesno:'Approved,Not Approved'}}</td>
+                                                    {% if leave.line_manager %}
+                                                    <td class="text-center">{{leave.line_manager_approval.line_manager}}</td>
+                                                    {% elif not leave.line_manager and leave.line_manager_approval.line_manager %} 
+                                                    <td class="text-center">({{leave.line_manager_approval.line_manager|default:"---"}})</td>
+
+                                                        {% else %}
+                                                        <td class="text-center">{{leave.line_manager_approval.line_manager|default:"---"}}</td>
+
+                                                    {% endif %}
+                                                    <td class="text-center">{{leave.line_manager_approval.date|default:"---"}}</td>
+
+
+                                                </tr>
+
+                                            </tbody>
+
+                                        </table>
+                                        <table class="inventorys text-center">
+                                            <thead>
+                                                <th>Human Resource Department</th>
+                                                <th>Name</th>
+                                                <th>Date</th>
+
+                                            </thead>
+
+                                            <tbody>
+                                                <tr class="text-center">
+
+                                                    <td>{{leave.hr_manager|yesno:'Approved,Not Approved'}}</td>
+                                                    {% if leave.hr_manager %}
+                                                    <td class="text-center">{{leave.hr_manager_approval.hr_manager}}</td>
+                                                    {% elif not leave.hr_manager and leave.hr_manager_approval.hr_manager %} 
+                                                    <td class="text-center">({{leave.hr_manager_approval.hr_manager|default:"---"}})</td>
+
+                                                        {% else %}
+                                                        <td class="text-center">{{leave.hr_manager_approval.hr_manager|default:"---"}}</td>
+
+                                                    {% endif %}
+                                                    <td class="text-center">{{leave.hr_manager_approval.date|default:"---"}}</td>
+
+                                                </tr>
+
+                                            </tbody>
+
+                                        </table>
+                                    </tr>
+                                </tbody>
+                            </table>
+        </article>
+        <aside>
+            <h1>&nbsp;</h1>
+        </aside>
+        <p class="text-center" style="text-align: center"><b>NB:Please remember to print a copy of this letter before
+                proceeding on leave</b></p>
+        <div class="table-responsive" id="leave_model" style="display: none;">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th class="th">Year</th>
+                        <th class="th">On leave</th>
+                        <th class="th">Out Standing</th>
+                    </tr>
+                </thead>
+                <tbody style="color: black">
+                    {% for leave_per_year in leave_per_year %}
+
+
+                    <tr>
+                        <td class="td">{{leave_per_year.end__year}}</td>
+                        <td class="td">{{leave_per_year.total_spent}}</td>
+                        <td class="td">{{leave_per_year.out_standing}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
             </table>
-</tr>
-</tbody>
-</table>
-</article>
-<aside>
-<h1>&nbsp;</h1>
-</aside>
-<p class="text-center" style="text-align: center"><b>NB:Please remember to print a copy of this letter before proceeding on leave</b></p>
-</page>
+        </div>
+    </page>
 
-<script>
-    $(document).ready(function(){
- 
-  var qrcode = new QRCode(document.getElementById("qrcode"), {
-    text: location.href,
-    width: 90,
-    height: 90,
-    colorDark : "#000000",
-    colorLight : "#ffffff",
-    correctLevel : QRCode.CorrectLevel.H,
+    <script>
+        $(document).ready(function () {
 
-  });
+            var qrcode = new QRCode(document.getElementById("qrcode"), {
+                text: location.href,
+                width: 90,
+                height: 90,
+                colorDark: "#000000",
+                colorLight: "#ffffff",
+                correctLevel: QRCode.CorrectLevel.H,
 
-  
- 
-  const total = parseInt($("#policy_days").text()- $('#days_requested').text())
-  $('#available_leave_days').text(total)
-})
-</script>
-
-<style>
-    td{
-        text-transform: uppercase;
-        /* text-align: center; */
-        align-items: center;
-    }
-</style>
+            });
 
 
-<!-- <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script></body> -->
-    
+
+            // const total = parseInt($("#policy_days").text() - $('#days_requested').text())
+            // $('#available_leave_days').text(total)
+
+            $("#Outstanding_leave_days").click(function () {
+                // $("#").dialog()
+                $("#leave_model").dialog({
+                    dialogClass: "alert",
+                    draggable:true,
+                   
+                });
+            })
+        })
+
+    </script>
+
+    <style>
+        td {
+            text-transform: uppercase;
+            /* text-align: center; */
+            align-items: center;
+        }
+   /* .table { font-size: 75%; table-layout: fixed; width: 100%; } */
+   /* .table { border-collapse: separate; border-spacing: 1px; border-width: 1px; border-color: #000; border-style: solid; } */
+
+    /* .th, .td { border-width: 0px; padding: 0.5em; position: relative; text-align: left; } */
+   /* th.noborder, td.noborder { border-color: #000; border-width: 1px; padding: 0.5em; position: relative; text-align: left; } */
+   /* .th, td { border-radius: 0.25em; border-style: solid; } */
+   .th { background: rgba(10, 10, 10, 0.973); border-color: rgb(238, 226, 226);color: white; }
+   .td { background: rgba(3, 3, 3, 0.623); border-color: rgb(238, 226, 226);color: white; }
+   button{color: brown;}
+   .ui-dialog-titlebar .ui-corner-all .ui-widget-header .ui-helper-clearfix .ui-draggable-handle{color: black;}
+   /* .td { border-color: rgb(24, 22, 22);color: rgb(8, 8, 8); } */
+   
+    </style>
+
+
+    <!-- <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script></body> -->
+
+
+
 </body>
+
 </html>
-
-
-
-
-
-
-
-
-
-
-
-

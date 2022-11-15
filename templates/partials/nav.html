@@ -3,12 +3,16 @@
       <a class="nav-link  text-light" href="/">Home</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link text-light" href="/hr">Dashboard</a>
+      <a class="nav-link text-light" href="/hr-dashborad">Dashboard</a>
     </li>
     <!-- <li class="nav-item">
       <a class="nav-link text-light" href="#">Link</a>
     </li> -->
     <li class="nav-item">
-      <a class="nav-link disabled text-light active">Disabled</a>
+      <a class="nav-link disabled text-light active text-capitalize" id="pathname"></a>
     </li>
   </ul>
+
+  <script>
+    document.getElementById('pathname').textContent= `${location.pathname}`.replace('/','').replace('/','')
+</script>

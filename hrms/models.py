@@ -41,6 +41,7 @@ class Department(BaseModel, models.Model):
     name = models.CharField(max_length=70, null=False, blank=False)
     email = models.EmailField(null=True, blank=True)
     shortname = models.CharField(max_length=5, null=True, blank=True)
+    for_management = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name
@@ -137,7 +138,7 @@ class Employee(BaseModel, models.Model):
     mobile = models.CharField(max_length=15)
     email = models.EmailField(max_length=125, null=False, blank=True)
     dob = models.DateField(help_text="Date Of Birth")
-    age = models.PositiveIntegerField(blank=True, null=True)
+    # age = models.PositiveIntegerField(blank=True, null=True)
     date_employed = models.DateField(help_text="Date Of Employment", null=True)
     address = models.CharField(max_length=100, help_text="Residential Address")
     languages = models.CharField(max_length=200, null=True)
@@ -169,6 +170,7 @@ class Employee(BaseModel, models.Model):
     emp_uiid = models.UUIDField(default=uuid.uuid4, null=True, editable=True)
     applicant = models.OneToOneField(
         'applicant.Applicant', on_delete=models.SET_NULL, null=True, blank=True, related_name='applicant')
+    for_management = models.BooleanField(default=False,help_text='employee for royalde management')
 
     def __str__(self):
         return f'{self.first_name} {self.last_name}' 
@@ -211,6 +213,12 @@ class Employee(BaseModel, models.Model):
             return True
         else:
             return False
+
+    @property
+    def age(self):
+        today = datetime.today()
+        return today.year - int(self.dob.strftime('%Y'))# datetime.strptime(str(date), '%Y-%m-%d').year
+
    
    
 
@@ -230,10 +238,6 @@ class Employee(BaseModel, models.Model):
         ordering = ('-updated_at',)
 
 
-def age_calendar(date):
-    today = datetime.today()
-    return today.year - datetime.strptime(str(date), '%Y-%m-%d').year
-
 
 # CREATE DEFAULT USER IF FOR EMPLOYEE
 def save_profile(sender, instance, **kwargs):
@@ -243,13 +247,14 @@ def save_profile(sender, instance, **kwargs):
         year = instance.date_employed.strftime('%Y')
         initials = f'{first_name[0]}{last_name}-{year}'.upper()
         instance.employee_id = initials
-        instance.age = age_calendar(instance.dob)
+        # instance.age = age_calendar(instance.dob)
 
         # print('age_calendar',age_calendar(instance.dob))
 
         instance.save()
     if instance.employee_id:
-        instance.age = age_calendar(instance.dob)
+        pass
+        # instance.age = age_calendar(instance.dob)
 
         # instance.save()
 
@@ -278,7 +283,7 @@ class Dependant(models.Model):
             return f'{self.first_name} {self.last_name}'
 
     def __str__(self):
-        return f'{self.first_name} {self.last_name}'
+        return self.first_name #f'{self.first_name} {self.last_name}'
 
     def get_absolute_url(self):
         return reverse("hrms:employee_view", kwargs={'pk': self.employee.pk})
@@ -333,7 +338,8 @@ class PreviousEployment(BaseModel, models.Model):
 
 class LeavePolicy(BaseModel, models.Model):
     name = models.CharField(max_length=70)
-    days = models.PositiveSmallIntegerField()
+    days = models.PositiveSmallIntegerField(default=0)
+    has_days= models.BooleanField(default=True)
     
 
     def __str__(self):
@@ -354,18 +360,18 @@ class Leave(BaseModel, models.Model):
         LeavePolicy, on_delete=models.CASCADE, help_text="Leave Policy")
     resuming_date = models.DateField(null=True, blank=False)
     file = models.FileField(null=True, blank=True, upload_to='media/%Y-%m-%d')
-    # handle_over_to = models.ForeignKey(
-    #     Employee, on_delete=models.CASCADE, null=True, related_name='handler_over_to',default=4)
+
     supervisor = models.BooleanField('supervisor',default=False)
     line_manager = models.BooleanField('hod',default=False)
     hr_manager = models.BooleanField(default=False)
     on_leave = models.BooleanField(default=False)
     from_leave = models.BooleanField(default=False)
     leavedays = models.IntegerField(default=0,editable=True) #using this because sqlite doesn't support calculations with datefieds
-    approvals = models.JSONField(default=dict,null=True,blank=True)
-    # leave.approvals={'supervisor':'ama','line':'Teye'}
+    supervisor_approval = models.JSONField(default=dict,null=True,blank=True) #{'name':'date'}
+    line_manager_approval = models.JSONField(default=dict,null=True,blank=True)
+    hr_manager_approval = models.JSONField(default=dict,null=True,blank=True)
 
-    #get the difference between start and end date 
+
 
 
     def __str__(self):
@@ -379,7 +385,8 @@ class Leave(BaseModel, models.Model):
 
     #     return self.leavedays
 
-       
+
+
 
     @property
     def file_exists(self):
@@ -390,12 +397,13 @@ class Leave(BaseModel, models.Model):
     class Meta:
         ordering = ['-updated_at']
         unique_together = ('employee', 'start')
+    
+
 
 
 
 def update_leave_status(sender, instance, **kwargs):
 
-    
     instance.leavedays =partials.days_difference_weekdays(instance.start,instance.end)  #save the leave days
 
     if instance.line_manager == True and instance.hr_manager == True:
@@ -410,11 +418,18 @@ def update_leave_status(sender, instance, **kwargs):
     elif instance.hr_manager == True:
         instance.status = 'approved'
         # instance.on_leave = True
+    elif instance.hr_manager == False:
+        instance.status = 'pending'
+        instance.from_leave =False
 
     # APPROVALS LOGGING
-    partials.approvlas(instance.supervisor, instance.line_manager, instance.hr_manager, instance.employee.full_name)
+    # partials.approvlas(instance.supervisor, instance.line_manager, instance.hr_manager, instance.employee.full_name)
 
 pre_save.connect(update_leave_status, sender=Leave)
+
+
+
+
 
 
 class File(BaseModel):

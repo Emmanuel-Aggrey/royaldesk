@@ -44,16 +44,6 @@ def days_difference_weekdays(start, end):
 def generated_ticket_number():
     return random.randint(10**5, 10**6 - 1)
 
-
-    
-
-    # print(days)
-
-
-# days_difference_weekdays()
-
-
-
 # APPROVLAS LOGGING
 def approvlas(supervisor,line_manager,hr_manager,username):
     print('employee')
@@ -63,3 +53,46 @@ def approvlas(supervisor,line_manager,hr_manager,username):
         return {'line_manager': username}
     if hr_manager:
         return {'hr_manager': username}
+
+
+
+
+def bool_values(value):
+    return True if value else False
+
+
+def file_exists(old_file, new_file):
+    if old_file and new_file:
+        return new_file
+    elif new_file and old_file:
+        return new_file
+    elif old_file and not new_file:
+        return old_file
+    else:
+        return
+
+
+# def approvals(supervor,hod,hr):
+#     # supervor,hod,hr,username = sup,hos,hr,username
+#     data  ={'supervisor': supervor,'line_manager': hod,'hr_manager': hr} 
+
+#     return data
+   
+# set data for leave approval process
+def approvals(title,employee):
+    date = datetime.now().strftime('%d %B %Y, %I:%M:%S %p')
+    data  ={title: employee,'date': date} 
+    
+        # print(data)
+    return data
+        
+# check status of leave approval
+def check_approval_status_change(status1, status2,title,employee):
+    if status1 != status2:
+        return approvals(title,employee)
+   
+
+
+
+
+

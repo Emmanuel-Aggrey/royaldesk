@@ -6,7 +6,7 @@ from django.contrib.auth import authenticate, get_user_model, login, logout
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView
 from django.db import IntegrityError, models
-from django.db.models import Count, F, Q, Sum, Variance
+from django.db.models import Count, F, Q, Sum, Variance, FloatField
 from django.http import JsonResponse
 from django.shortcuts import (get_list_or_404, get_object_or_404, redirect,
                               render, resolve_url, reverse)
@@ -20,7 +20,7 @@ from rest_framework.decorators import api_view
 from rest_framework.parsers import FileUploadParser
 from rest_framework.response import Response
 from django.contrib.auth.models import Group
-
+from . import partials
 from .import tasks
 from .models import (Department, Dependant, Designation, Education, Employee,
                      Leave, LeavePolicy, PreviousEployment,
@@ -34,18 +34,26 @@ from .serializers import (EmployeeSerializer, GetEmployeeSerializer,
 def date_value(value):
     return value if value else None
 
-# @group_required('HR', 'Manager')
 
-
+# @group_required('HR', 'MNG')
 @api_view(['GET', 'POST'])
 def employees(request):
 
     if request.method == 'GET':
 
-        employees = Employee.objects.exclude(id=4)
+        employees = Employee.objects.exclude(for_management=True)
         serializer = EmployeeSerializer(employees, many=True)
+        employees_on_leave = Leave.objects.filter(from_leave=False).count()
+        employees_exceed_leave = Leave.objects.filter(
+            from_leave=False, resuming_date__gt=datetime.now()).count()
 
-        return Response({'data': serializer.data})
+        data = {
+            'employees': serializer.data,
+            'employees_on_leave': employees_on_leave,
+            'employees_exceed_leave': employees_exceed_leave
+        }
+
+        return Response(data)
 
     elif request.method == 'POST':
 
@@ -112,17 +120,14 @@ def employees(request):
         # GET DEPARTMENT INITIALS eg FRONT OFFICE to FO
         # ''.join([x[0].upper() for x in user.department.name.split(' ')])
 
-        
-        # GET DEPARTMENT SHORTNAME    
+        # GET DEPARTMENT SHORTNAME
         department = employee.department.shortname
 
-       
         # CREATE HELPDESK USER AND ADD TO GROUP
         group = Group.objects.filter(name=department).last()
         if user and helpdesk_user and group:
             user.save()
             user.groups.add(group)
-          
 
          # CREATE HELPDESK USER
         if user and helpdesk_user:
@@ -145,7 +150,7 @@ def employees(request):
         #                 status=status.HTTP_400_BAD_REQUEST)
 
 
-@group_required('HR', 'Manager')
+@group_required('HR', 'MNG')
 @api_view(['GET'])
 def employee(request, emp_uiid):
     '''
@@ -176,7 +181,7 @@ def employee(request, emp_uiid):
 
         # return Response(serializer.data,dependants)
 
-
+@group_required('HR', 'MNG')
 def employee_data(request, emp_uiid):
     '''
     GET EMPLOYEE DETAIL
@@ -193,7 +198,7 @@ def employee_data(request, emp_uiid):
     serializer = GetEmployeeSerializer(employee)
 
     context = {
-        'employee': serializer.data,
+        'employee': employee,#serializer.data,
         'dependants': dependants,
         'educations': educations,
         'memberships': memberships,
@@ -318,6 +323,7 @@ def add_emploment(request, employee_id):
 
         return Response({'data': 'success'})
 
+@group_required('HR', 'MNG')
 
 @api_view(['POST', 'GET'])
 def filename(request):
@@ -333,6 +339,7 @@ def filename(request):
 
 
 # DOCUMENT MANAGEMENT
+@group_required('HR', 'MNG')
 @api_view(['GET', 'POST'])
 def add_document(request, employee_id):
     if request.method == 'GET':
@@ -363,6 +370,8 @@ def add_document(request, employee_id):
 
 # EMPLOYEE EXIT ENDPOINT
 @api_view(['POST'])
+@group_required('HR', 'MNG')
+
 def exit_employee(request, employee_id):
     employee = Employee.objects.get(employee_id=employee_id)
     employee_status = request.data.get('employee_status')
@@ -388,6 +397,8 @@ def exit_employee(request, employee_id):
 
 
 @api_view(['POST'])
+@group_required('HR', 'MNG')
+
 def delate_document(request, employee_id, pk):
     document = get_object_or_404(
         Documente, employee__employee_id=employee_id, pk=pk)
@@ -402,7 +413,7 @@ def delate_document(request, employee_id, pk):
 def apply_leave(request, employee_id):
 
     # employee = get_object_or_404(Employee,employee_id=employee_id)
-    employee = get_object_or_404(Employee, ~Q(id=4) & Q(status='active') & Q(
+    employee = get_object_or_404(Employee, ~Q(for_management=True) & Q(status='active') & Q(
         employee_id=employee_id) | Q(email=employee_id))
 
     # handle_over_to = list(Employee.objects.values(
@@ -464,21 +475,6 @@ def apply_leave(request, employee_id):
         return Response({'data': str(leave_data), 'on_leave': on_leave})
 
 
-def bool_values(value):
-    return True if value else False
-
-
-def file_exists(old_file, new_file):
-    if old_file and new_file:
-        return new_file
-    elif new_file and old_file:
-        return new_file
-    elif old_file and not new_file:
-        return old_file
-    else:
-        return
-
-
 @api_view(['POST'])
 def update_leave(request, leave_id):
 
@@ -488,15 +484,28 @@ def update_leave(request, leave_id):
     new_file = request.FILES.get('file')
 
     data = request.data
+    employee = data.get('leave_user')
 
-    # print(data.get('on_leave'))
+    # supervisor
+    new_supervisor = partials.bool_values(data.get('supervisor'))
+    old_supervisor = leave.supervisor
+
+    # line_manager
+    new_line_manager = partials.bool_values(data.get('line_manager'))
+    old_line_manager = leave.line_manager
+
+    # hr_manager
+    new_hr_manager = partials.bool_values(data.get('hr_manager'))
+    old_hr_manager = leave.hr_manager
+
+    # print(data.get('leave_user'))
 
     # print('supervisor ', data.get('supervisor'))
 
-    supervisor = bool_values(data.get('supervisor'))
-    line_manager = bool_values(data.get('line_manager'))
-    hr_manager = bool_values(data.get('hr_manager'))
-    from_leave = bool_values(data.get('on_leave'))
+    supervisor = new_supervisor
+    line_manager = new_line_manager
+    hr_manager = new_hr_manager
+    from_leave = partials.bool_values(data.get('on_leave'))
     leave.employee = leave.employee
     leave.start = data.get('start')
     leave.end = data.get('end')
@@ -504,12 +513,37 @@ def update_leave(request, leave_id):
     leave.policy_id = data.get('policy')
     leave.resuming_date = data.get('resuming_date')
     leave.status = data.get('status')
-    leave.file = file_exists(old_file, new_file)
-    # leave.handle_over_to_id = data.get('handle_over_to')
+    leave.file = partials.file_exists(old_file, new_file)
     leave.supervisor = supervisor
     leave.hr_manager = hr_manager
     leave.line_manager = line_manager
     leave.from_leave = from_leave
+    print('status1', new_supervisor, 'status2', old_supervisor)
+
+# check the status of leave approvals if changed or not and update accordingly
+    if partials.check_approval_status_change(new_supervisor, old_supervisor, 'supervisor', employee):
+        print('new state update status')
+        leave.supervisor_approval = partials.check_approval_status_change(
+            new_supervisor, old_supervisor, 'supervisor', employee)
+    else:
+        print('old state dont update status')
+
+    if partials.check_approval_status_change(new_line_manager, old_line_manager, 'line_manager', employee):
+        print('new state update status')
+        leave.line_manager_approval = partials.check_approval_status_change(
+            new_line_manager, old_line_manager, 'line_manager', employee)
+    else:
+        print('old state dont update status')
+
+    if partials.check_approval_status_change(new_hr_manager, old_hr_manager, 'hr_manager', employee):
+        print('new state update status')
+        leave.hr_manager_approval = partials.check_approval_status_change(
+            new_hr_manager, old_hr_manager, 'hr_manager', employee)
+    else:
+        print('old state dont update status')
+
+    # print(leave.supervisor_approval)
+
     leave.save()
 
     data = {
@@ -530,8 +564,8 @@ def leaves(request, employee_id):
 
     leave = Leave.objects.select_related(
         'employee').filter(employee__status='active')
-    
-    department = ['HR','MNG']
+
+    department = ['HR', 'MNG']
     if employee.department.shortname in department:
 
         # if any(x in ['GM', 'HR'] for x in group):
@@ -562,26 +596,40 @@ def leaves(request, employee_id):
 def employee_leave(request, employee_id):
 
     leave = Leave.objects.select_related().filter(
-        employee__employee_id=employee_id).order_by('start', 'policy__name')
+        employee__employee_id=employee_id).order_by('-start__year', 'policy__name')
 
     serializer = LeaveSerializer(leave, many=True)
+    last_date_on_leave = leave.values_list('resuming_date', flat=True).filter(
+        employee__employee_id=employee_id, hr_manager=True).last()
 
     leave_per_year = leave.values(
-        'policy__name', 'start__year', 'policy__days').annotate(total_spent=Sum('leavedays'),
-                                                                out_standing=F(
-                                                                    'policy__days') - F('total_spent'),
-                                                                num_application=Count('policy__name')).\
-        order_by('-start__year', 'policy__days')
+        'policy__name', 'start__year', 'policy__days', 'policy__has_days').annotate(total_spent=Sum('leavedays'),
+                                                                                    out_standing=F(
+            'policy__days') - F('total_spent'),
+        num_application=Count('policy__name')).\
+        order_by('-start__year', 'policy__name')
+
+    out_standing_leaves = leave_per_year.filter(
+        policy__has_days=True).aggregate(out_standing_leaves=Sum('out_standing'))
+    # out_standing_leaves = leave.values(
+    #     'policy__name','end__year').filter(policy__has_days=True).annotate(total_spent=Sum('leavedays'),
+    #                                                             out_standing=F(
+    #                                                                 'policy__days') - F('total_spent'))
+
+    # num_application=Count('policy__name'))
+    print(out_standing_leaves)
 
     document_count = Documente.objects.filter(
         employee__employee_id=employee_id).count()
 
-    print(document_count)
+    # print(leave_per_year)
 
     data = {
         'employees': serializer.data,
         'leave_per_year': leave_per_year,
         'document_count': document_count,
+        'last_date_on_leave': last_date_on_leave,
+        'out_standing_leaves': out_standing_leaves.get('out_standing_leaves'),
     }
 
     # print(leave.values('employee__employee_documents'))
@@ -594,8 +642,8 @@ def getleave(request, pk):
     leave = get_object_or_404(Leave, pk=pk)
 
     policies = LeavePolicy.objects.values('pk', 'name', 'days')
-    collegues = Employee.objects.filter(
-        department=leave.employee.department, status='active').values('pk', 'first_name', 'last_name').exclude(employee_id=leave.employee.employee_id)
+    # collegues = Employee.objects.filter(
+    #     department=leave.employee.department, status='active').values('pk', 'first_name', 'last_name').exclude(employee_id=leave.employee.employee_id)
 
     # user = leave.employee.my_group
 
@@ -618,7 +666,7 @@ def getleave(request, pk):
         'hr_manager': leave.hr_manager,
         'on_leave': leave.from_leave,
         'policies': policies,
-        'collegues': collegues,
+        # 'collegues': collegues,
         'employee_id': leave.employee.employee_id,
         # 'hr':leave.employee.department =='Human Resource',
         # 'hod':leave.employee.is_head
@@ -628,14 +676,53 @@ def getleave(request, pk):
     return Response(data)
 
 
-def leave_application_detail(request,employee,leave_id):
-    leave = Leave.objects.get(employee__employee_id=employee,pk=leave_id)
+def leave_application_detail(request, employee, leave_id):
+    employee_leave = Leave.objects.select_related('employee').filter(employee__employee_id=employee)
+    leave =  get_object_or_404(employee_leave,pk=leave_id)# employee_leave.get(pk=leave_id)
+    # policy = leave.policy.name
+    leave_year = leave.end.strftime('%Y')
+
+
+    last_date_on_leave = employee_leave.values_list('resuming_date', flat=True).filter(
+        employee__employee_id=employee, hr_manager=True).last()
+
+    leave_per_year = employee_leave.filter(policy__name=leave.policy.name, end__year=leave_year).values(
+        'policy__name', 'end__year').annotate(total_spent=Sum('leavedays'),
+                                              out_standing=F(
+            'policy__days') - F('total_spent')).order_by('-start__year')
+
+
+    out_standing_days = leave_per_year.filter(policy__has_days=True).aggregate(out_standing_days=Sum('out_standing'))
+
+    # available_days  = leavedays - sum of previous + current
+    prev_issue = leave_per_year.filter(id__lt=leave_id).exclude(id=leave_id).order_by('-id').aggregate(prev_issue=Sum('leavedays'))
+
+    # prev_issue = leave_per_year.exclude(id=leave_id).order_by('-id').aggregate(prev_issue=Sum('leavedays'))
+
+    policy_days = leave.policy.days
+    prev_issue  =  prev_issue.get('prev_issue') if prev_issue.get('prev_issue') else 0
+    current = leave.leavedays
+
+
+    available_days = policy_days-(prev_issue+current)
+
+    # print(available_days)
+  
+    # next_issue = (leave_per_year
+    # .filter(id__gt=leave_id)
+    # .exclude(id=leave_id)
+    # .order_by('id')
+    # .first())
 
     context = {
-        'leave':leave
+        'leave': leave,
+        'last_date_on_leave': last_date_on_leave,
+        'out_standing_days': out_standing_days.get('out_standing_days'),
+        'leave_per_year': leave_per_year,
+        'available_days':available_days if leave.policy.has_days else 'N/A'
     }
 
-    return render(request, 'leave/leave_application_detail.html',context)
+    return render(request, 'leave/leave_application_detail.html', context)
 
 
 @api_view(['GET'])

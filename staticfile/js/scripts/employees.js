@@ -12,7 +12,16 @@ $(document).ready(function () {
     type: 'GET',
     success: function (response) {
       // console.log(response)
-      employee_objects = Object.assign(response.data);
+  
+
+      employee_objects = Object.assign(response.employees);
+      $("#count_on_leave").text(response.employees_on_leave).attr('title', 'employees on leave')
+
+      response.employees_exceed_leave  ?
+      $("#count_exceed_leave").text(response.employees_exceed_leave).attr('title','exceeded leave').addClass('pulse ')
+      : 
+      $("#count_exceed_leave").text(response.employees_exceed_leave).attr('title','exceeded leave')
+
 
       // console.log(employee_objects);
 
@@ -127,8 +136,11 @@ const get_employee = (employee) => {
 
 
       $("#leave_detail_badge").text(data.employees.length)
-      $("#leave_summary_badge").text(data.employees.length)
+      $("#leave_summary_badge").text(data.leave_per_year.length)
       $("#emp_document_badge").text(data.document_count)
+      // console.log(data.out_standing_leaves)
+      const leave_days = data.out_standing_leaves ? data.out_standing_leaves : 'NA'
+      $(".leave_summary_caption").text('Out Standing Leave Day(s): ' + leave_days).addClass('pulse')
 
       // console.log('doc ',data.document_count)
 
@@ -140,8 +152,9 @@ const get_employee = (employee) => {
 
         if (data.employees.length > 0) {
 
-
-          model_dialog('leave_table', employee)
+          const title = `${employee} | Last Time On Leave : ${data.last_date_on_leave}`
+          model_dialog('leave_table', title)
+          // $(".leave_summary_caption").text('Out Standing Leave: ' + data.out_standing_leaves)
 
 
           data.employees.forEach(element => {
@@ -150,6 +163,7 @@ const get_employee = (employee) => {
                 <td>${element.policy}</td>
                 <td>${element.start}</td>
                 <td>${element.end}</td>
+                <td>${element.resuming_date}</td>
                 <td>${element.leavedays}</td>
     
     
@@ -185,20 +199,31 @@ const get_employee = (employee) => {
 
         // console.log(data.employees.length)
 
-        if (data.employees.length > 0) {
-          model_dialog('leave_summary_table', employee)
+        // console.log(data.leave_per_year)
+        // const out_standing_leave = data.leave_per_year.filter((element)=>element.policy__has_days===true)
 
+        // const out_standing_leave_days = out_standing_leave.map((element)=> `${element.policy__name} ${element.out_standing}`)
+
+        // console.log(out_standing_leave_days)
+
+
+        if (data.employees.length > 0) {
+          const title = `${employee} | Last Time On leave : ${data.last_date_on_leave}`
+
+          model_dialog('leave_summary_table', title)
 
 
           data.leave_per_year.forEach(element => {
-            // console.log(element)
+            console.log(element)
+            const out_standing =  element.policy__has_days ? element.out_standing : 'NA'
+
             $("#leave_summary_body").append(`
             <tr>
             <td>${element.policy__name}</td>
             <td>${element.start__year}</td>
             <td>${element.policy__days}</td>
             <td>${element.total_spent}</td>
-            <td>${element.out_standing}</td>
+            <td>  ${out_standing}</td>
             <td>${element.num_application}</td>
           </tr>
             `)

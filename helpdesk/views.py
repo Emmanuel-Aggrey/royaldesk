@@ -22,7 +22,7 @@ from django.contrib.auth.hashers import make_password
 
 def departments_issue(request):
     issue = list(Issue.objects.values('pk','issue_name','department'))
-    department = list(Department.objects.values('pk','name').exclude(id=4))
+    department = list(Department.objects.values('pk','name').exclude(for_management=True))
     data = {
         'departments':department,
         'issues':issue
@@ -31,9 +31,8 @@ def departments_issue(request):
 
     return Response(data)
 
-
-@api_view(['GET'])
 @login_required
+@api_view(['GET'])
 def helpdesk(request,pk):
     # print('user',request.user,'departemnt',request.user.department,'is_head',request.user.is_head,'is admin',request.user.is_staff)
 
@@ -64,9 +63,8 @@ def helpdesk(request,pk):
 
 
 
-
-@api_view(['GET'])
 @login_required
+@api_view(['GET'])
 def filter_helpdesk(request,pk):
     # print('user',request.user,'departemnt',request.user.department,'is_head',request.user.is_head,'is admin',request.user.is_staff)
 
@@ -95,6 +93,7 @@ def filter_helpdesk(request,pk):
     serializer = HelpdeskSerializer(tickets, many=True)
     return Response({'data': serializer.data})
 
+@login_required
 @api_view(['POST'])
 def send_report(request):
 
@@ -163,9 +162,8 @@ def bool_value(user,status):
 
 # def bool_value(value):
 #     return True if value else False
-
-@api_view(['GET','POST'])
 @login_required
+@api_view(['GET','POST'])
 def get_issue_data(request,pk):
     # desk = Helpdesk.objects.get(pk=pk)
     help_desk =  get_object_or_404(Helpdesk,pk=pk)
@@ -226,7 +224,7 @@ def get_issue_data(request,pk):
 
         return Response()
 
-
+@login_required
 @api_view(['GET','POST'])
 def comment(request,pk):
     
