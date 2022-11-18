@@ -450,12 +450,12 @@ const clockins = () => {
     type: 'GET',
     success: function (data) {
       // console.log(data.sql_today)
-      if (data.sql_today) {
-        $("#today_data").text(data.sql_today[0].Count_In)
-      }
-      else{
-        $("#clockin_text").text('No Data For Today')
-      }
+      // if (data.sql_today) {
+      //   $("#today_data").text(data.sql_today[0].Count_In)
+      // }
+      // else{
+      //   $("#clockin_text").text('No Data For Today')
+      // }
       $("#Yesterday_data").text(data.sql_yesterday[0].Count_In)
       $("#Week_data").text(data.sql_week[0].Count_In)
 
