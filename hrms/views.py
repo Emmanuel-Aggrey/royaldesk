@@ -43,7 +43,7 @@ def employees(request):
 
         employees = Employee.objects.exclude(for_management=True)
         serializer = EmployeeSerializer(employees, many=True)
-        employees_on_leave = Leave.objects.filter(from_leave=False).count()
+        # employees_on_leave = Leave.objects.filter(from_leave=False).count()
         employees_exceed_leave = Leave.objects.filter(
             from_leave=False, resuming_date__gt=datetime.now()).count()
 

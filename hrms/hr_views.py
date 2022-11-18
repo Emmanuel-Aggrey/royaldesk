@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta
 
-from django.db.models import Count, F, Q, Sum
+from django.db.models import Count, F, Q, Sum,FloatField
 from django.shortcuts import get_object_or_404, render
 from django.utils import timezone
 from django_pandas.io import read_frame
@@ -55,16 +55,18 @@ def hr_reports(request, data_value=None):
         ),
     )
 
- 
 
-    # age = active_employees.values('age').aggregate(
-    #     above=(
-    #         Count('id', filter=Q(age__gt=3))
-    #     ),
-    #     below=(
-    #         Count('id', filter=Q(age__lt=3))
-    #     ),
-    # )
+
+    age = active_employees.only('dob__year').annotate(age= datetime.now().year -F('dob__year'))\
+        .aggregate(
+        above=(
+             Count('dob__year', filter=Q(age__gte=30))
+        ),
+        below=(
+              Count('dob__year', filter=Q(age__lt=30))
+        ),
+    )
+ 
 
     on_leave = active_employees.values('leave_employees__from_leave').aggregate(
         on_leave=(
@@ -122,7 +124,7 @@ def hr_reports(request, data_value=None):
     # print('active_employees',active_employees)
     data = {
         'gender': gender,
-        'age': 'age',
+        'age': age,
         'is_merried': is_merried,
         'emp_beneficiary': emp_beneficiary,
         'leave': on_leave,
@@ -223,7 +225,7 @@ def time_attendance(request):
     startTime = data.get('time_from')
     endTime = data.get('time_to')
 
-    # GET YESTERDAYS DATE IF NO DATE FROM AND TO IS PROVIDED
+    # GET YESTERDAYS DATE IF NO DATE FROM, AND TO IS PROVIDED
     # sql = "SELECT  [DeptName] AS Department, 'In' as [StatusText In], Count(case StatusText when 'In' then 1 end) as Count_In, 'Out' as [Status_out],Count(case StatusText when 'Out' then 1 end) as Count_Out FROM [dbo].[V_Record] WHERE [StatusText] in ('In', 'Out') AND CAST(CheckTime AS DATE) ='{}' AND DeptName IS NOT NULL GROUP BY [DeptName] ORDER BY [DeptName]".format(yesterday)
 
     sql = "SELECT  [DeptName] AS Department, 'In' as [StatusText In], Count(case StatusText when 'In' then 1 end) as Count_In FROM [dbo].[V_Record] WHERE [StatusText] in ('In') AND CAST(CheckTime AS DATE) ='{}' AND DeptName IS NOT NULL GROUP BY [DeptName] ORDER BY [DeptName]".format(yesterday)

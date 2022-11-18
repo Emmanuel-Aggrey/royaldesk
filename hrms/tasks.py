@@ -18,7 +18,7 @@ def apply_for_leave_email(employee, start, end, diff, policy, department_email):
 
     subject = 'New Leave For {}'.format(employee)
     subject_ = subject.upper()
-    html_content = '{} Have Applied  For {} from {} to {} making {} day(s) , Please <a href="https://a524-154-160-6-247.eu.ngrok.io/apply-leave/">Click Here</a> to approve Thank you <br><hr> <br> <footer><b>POWERD BY <a href="https://a524-154-160-6-247.eu.ngrok.io:8000/"> ROYALDESK </a> RCH IT</b> </footer>'.format(
+    html_content = '{} Have Applied  For {} from {} to {} making {} day(s) , Please <a href="http://192.168.1.18/apply-leave/">Click Here</a> to approve Thank you <br><hr> <br> <footer><b>POWERD BY <a href="https://192.168.1.18/"> ROYALDESK </a> RCH IT</b> </footer>'.format(
         employee, policy, start, end, diff)
 
     msg = EmailMultiAlternatives(
@@ -34,7 +34,7 @@ def send_email_new_helpdesk_employee(employee,employee_id,email,password):
 
     subject = 'Dear {}'.format(employee)
     subject_ = subject.upper()
-    html_content = 'Welcome to Rock City Help Desk, Your Employee ID  is <b>{}</b> ,And your password is <b>{}</b>, Please <a href="https://a524-154-160-6-247.eu.ngrok.io:8000/">Click Here</a> to login to use Help Desk. <p>you will be redirected to change the default password to your own password </p>  Thank you.  <br><hr> <br> <footer><b>POWERD BY <a href="https://a524-154-160-6-247.eu.ngrok.io:8000/"> ROYALDESK </a> RCH IT</b> </footer>'.format(
+    html_content = 'Welcome to Rock City Help Desk, Your Employee ID  is <b>{}</b> ,And your password is <b>{}</b>, Please <a href="http://192.168.1.18/">Click Here</a> to login to use Help Desk. <p>you will be redirected to change the default password to your own password </p>  Thank you.  <br><hr> <br> <footer><b>POWERD BY <a href="https://192.168.1.18/"> ROYALDESK </a> RCH IT</b> </footer>'.format(
         employee_id, password)
 
     msg = EmailMultiAlternatives(
@@ -85,7 +85,7 @@ def employee_on_leave():
 
         subject = 'Employees On Leave'
         subject_ = subject.upper()
-        html_content = 'List of employees whom are to return from Leave tomorrow  On The {}  <br> <br> {} <br> <b>Thank you</b>  <br><hr> <br> <footer><b>POWERD BY <a href="https://a524-154-160-6-247.eu.ngrok.io:8000/"> ROYALDESK </a> RCH IT</b> </footer>'.format(
+        html_content = 'List of employees whom are to return from Leave tomorrow  On The {}  <br> <br> {} <br> <b>Thank you</b>  <br><hr> <br> <footer><b>POWERD BY <a href="http://192.168.1.18/"> ROYALDESK </a> RCH IT</b> </footer>'.format(
         tomorrow,html_table)
 
         # print(html_content)
@@ -119,7 +119,6 @@ def log_to_file():
 
    
 
-log_to_file()
 
 
 

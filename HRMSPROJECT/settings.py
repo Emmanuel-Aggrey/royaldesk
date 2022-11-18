@@ -267,7 +267,7 @@ DBBACKUP_STORAGE = 'django.core.files.storage.FileSystemStorage'
 
 DBBACKUP_STORAGE_OPTIONS = {'location': config('DBBACKUP_LOCATION')}
 
-DBBACKUP_STORAGE_OPTIONS = {'location': config('MEDIABACKUP_LOCATION')}
+# DBBACKUP_STORAGE_OPTIONS = {'location': config('MEDIABACKUP_LOCATION')}
 
 
 

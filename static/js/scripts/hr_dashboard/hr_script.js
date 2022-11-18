@@ -39,6 +39,7 @@ $(document).ready(function () {
     type: 'GET',
     success: function (data) {
       // console.log(data['dpeartment_count'])
+      // console.log(data.emp_exceed_leave)
     
 
       $("#gender_male").text(`Male: ${data.gender.male}`)
@@ -65,9 +66,9 @@ $(document).ready(function () {
       $("#age_above").text(`Above 30: ${data.age.above}`)
       $("#age_below").text(`Below 30: ${data.age.below}`)
 
-      $("#on_leave").text(`On Leave: ${data.leave.on_leave}`)
+      // $("#on_leave").text(`On Leave: ${data.leave.on_leave}`)
 
-      $("#not_onleave").text(`Not On Leave: ${data.leave.not_on_leave}`)
+      // $("#not_onleave").text(`Not On Leave: ${data.leave.not_on_leave}`)
 
 
       data.department_count.forEach(element=>{
@@ -84,17 +85,17 @@ $(document).ready(function () {
         country_count.push(element.emp_count)
 
 
- 
-        $("#country_name").append(`
-        <li> 
-            ${element.country}
-        </li>
-        `)
-        $("#country_number").append(`
-        <li> 
-        ${element.emp_count}
-    </li>
-        `)
+        // working but commented it out
+    //     $("#country_name").append(`
+    //     <li> 
+    //         ${element.country}
+    //     </li>
+    //     `)
+    //     $("#country_number").append(`
+    //     <li> 
+    //     ${element.emp_count}
+    // </li>
+    //     `)
 
         // console.log(element.emp_count)
       });
@@ -784,9 +785,9 @@ const loadChart = function () {
 // Employees Turn Over Rate End
 
     // ALL YEAR
-    if ($("#leave-applicatopn").length) {
+    if ($("#leave-application").length) {
 
-      var salesChartCanvas = $("#leave-applicatopn").get(0).getContext("2d");
+      var salesChartCanvas = $("#leave-application").get(0).getContext("2d");
       // var gradientStrokeFill_1 = salesChartCanvas.createLinearGradient(0, 100, 200, 0);
       // gradientStrokeFill_1.addColorStop(0, '#fa5539');
       // gradientStrokeFill_1.addColorStop(1, '#fa3252');
@@ -864,7 +865,7 @@ const loadChart = function () {
         },
 
 
-        // legend: true,
+        legend: true,
 
         scales: {
 
@@ -891,7 +892,7 @@ const loadChart = function () {
         }
       }
       var salesChart = new Chart(salesChartCanvas, {
-        type: 'pie',//'line',
+        type: 'doughnut',//'line',pie,
         plugins: [ChartDataLabels],
 
         data: areaData,
