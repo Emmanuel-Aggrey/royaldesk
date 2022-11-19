@@ -125,9 +125,12 @@ const get_employee = (employee) => {
   emp_uiid = $(employee).attr('data-emp_uiid');
   employee = employee.id
 
+  
+
   model_dialog('d_model', employee)
     sessionStorage.setItem('employee_name',employee)
 
+ 
 
   $.ajax({
     url: `/employee-leave/${employee}/`,
@@ -190,7 +193,9 @@ const get_employee = (employee) => {
 
       $("#employee_status").on("click", function () {
         model_dialog('employee_status_view', employee)
-    
+                // employee_exit_model()
+
+      
       })
 
       $("#leave_summary").on('click', function () {
@@ -399,6 +404,28 @@ const filename = (filename) => {
 }
 
 
+const employee_exit_model =()=>{
+  employee = sessionStorage.getItem('employee_name')
+
+  $.ajax({
+    url: `/exit_employee/${employee}/`,
+    type: "GET",
+    success: function (data) {
+      $("#employee_exit_status_form")[0].reset()
+
+      if(data.date_exited != null){
+        // console.log(data)
+        $("#employee_status_exit").val(data.employee_status)
+        $("#date_exited").val(data.date_exited)
+        $("#exit_check").attr('checked', data.exit_check)
+  
+      }
+      
+      
+      //here
+    }
+  })
+}
 
 
 
@@ -433,6 +460,7 @@ $(document).ready(function () {
 
         $("#employee_exit_status_form")[0].reset()
         $('#employee_status_view').dialog("close");
+        
 
         show_alert(6000, "success", 'saved successfully')
 
@@ -559,7 +587,6 @@ $(document).ready(function () {
 
 
 const model_dialog = (element, title) => {
-
   $(`#${element}`).dialog({
     title: title,
     height: 'auto',
@@ -575,7 +602,6 @@ const model_dialog = (element, title) => {
       }
     ]
   });
-
 }
 
 
@@ -618,3 +644,11 @@ const search_employee_table = (value) => {
 }
 
 
+
+const employee_name_available = () => {
+  if (sessionStorage.getItem('employee_name') === null) {
+    location.href = '/accounts/logout'
+
+  }
+
+}

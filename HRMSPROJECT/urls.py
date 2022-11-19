@@ -10,7 +10,7 @@ from .custome_decorators import default_passeord
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',login_required(default_passeord(TemplateView.as_view(template_name="home.html"))) ,name="home"),
+    path('',login_required((TemplateView.as_view(template_name="home.html"))) ,name="home"),
 
     path('', include('hrms.urls', namespace = 'hrms')),
     path('', include('helpdesk.urls', namespace = 'helpdesk')),

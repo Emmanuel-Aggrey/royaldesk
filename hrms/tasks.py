@@ -8,7 +8,7 @@ from django.conf import settings
 from django.core import management
 from django.core.mail import EmailMultiAlternatives, send_mail, send_mass_mail
 
-from hrms.models import Leave
+from hrms.models import Leave,Employee
 
 
 @shared_task
@@ -106,9 +106,16 @@ def employee_on_leave():
 
 
 
+
+@shared_task
+def employee_exiting(employee_id,date_exited,employee_status,exit_check):
+    employee_id = Employee.objects.filter(employee_id=employee_id).update(date_exited=date_exited,status=employee_status,exit_check=exit_check)
+    print('employee_id',employee_id)
+
+
+
 @shared_task
 def log_to_file():
-    from datetime import datetime
     today = datetime.now().strftime('%d %B %Y, %I:%M:%S %p')
 
 

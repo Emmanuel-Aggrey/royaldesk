@@ -30,7 +30,7 @@ def hr_dashborad(request):
 @api_view(['GET'])
 def hr_reports(request, data_value=None):
 
-    qs = Employee.objects.exclude(for_management=True).select_related('designation')
+    qs = Employee.objects.select_related('designation').exclude(for_management=True)
 
     # ACTIVE EMPLOYEES
     active_employees = qs.filter(status='active')
@@ -68,12 +68,12 @@ def hr_reports(request, data_value=None):
     )
  
 
-    on_leave = active_employees.values('leave_employees__from_leave').aggregate(
+    on_leave = active_employees.values('leave_employees__from_leave','leave_employees__hr_manager').aggregate(
         on_leave=(
-            Count('id', filter=Q(leave_employees__from_leave=False))
+            Count('id', filter=Q(leave_employees__from_leave=False,leave_employees__hr_manager=True))
         ),
-        not_on_leave=(
-            Count('id', filter=Q(leave_employees__from_leave=True))
+        applied_leave=(
+            Count('id', filter=Q(leave_employees__from_leave=False,leave_employees__hr_manager=False))
         ),
     )
 
@@ -91,13 +91,13 @@ def hr_reports(request, data_value=None):
     leave_applications = qs.filter(leave_employees__start__isnull=False).values(
         'leave_employees__start__year').annotate(leave_applications=Count('id'))
 
-    emp_exceed_leave = qs.filter(leave_employees__from_leave=False, leave_employees__resuming_date__lt=timezone.now()).values(
+    emp_exceed_leave = qs.filter(leave_employees__from_leave=False,leave_employees__hr_manager=True, leave_employees__resuming_date__gt=timezone.now()).values(
         'leave_employees__employee__first_name', 'leave_employees__employee__last_name', 'leave_employees__end')
 
     emp_on_leave = qs.filter(leave_employees__from_leave=False).values('leave_employees__employee__employee_id', 'leave_employees__from_leave', 'leave_employees__hr_manager', 'leave_employees__line_manager',
-                                                                       'leave_employees__employee__first_name', 'leave_employees__employee__last_name', 'leave_employees__pk', 'leave_employees__end')
+                                                                       'leave_employees__employee__first_name', 'leave_employees__employee__last_name', 'leave_employees__pk', 'leave_employees__resuming_date','leave_employees__status')
 
-    emp_from_leave_recent = qs.filter(leave_employees__from_leave=True).values(
+    emp_from_leave_recent = qs.filter(leave_employees__from_leave=True,leave_employees__hr_manager=True).values(
         'leave_employees__employee__first_name', 'leave_employees__employee__last_name', 'leave_employees__end').reverse()[:5]
 
     employment_rate = qs.values(

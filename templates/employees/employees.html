@@ -169,7 +169,7 @@
     <button type="button" id="emp_reocord" title="employee details" class="btn btn-info btn-lg">Emp Record</button>
     <button type="button" id="emp_document" title="employee documents" class="btn btn-success btn-lg ">Emp Document(s)<span id="emp_document_badge" class="mx-1 badge badge-danger"></span> </button>
 
-    <button type="button" id="employee_status" title="employee status change" class="btn btn-danger btn-lg">Exit Process <span id="" class="badge badge-primary"></span> </button>
+    <button type="button" onclick="employee_exit_model()" id="employee_status" title="employee status change" class="btn btn-danger btn-lg">Exit Process <span  class="badge badge-primary"></span> </button>
 
 <button type="submit" id="leave_detail" title="employee  leave details" class="btn btn-primary btn-lg">Leave Detail <span id="leave_detail_badge" class="badge badge-danger"></span> </button>
 <button type="button" id="leave_summary" title="employee leave summary" class="btn btn-danger btn-lg">Leave Summary <span id="leave_summary_badge" class="badge badge-primary"></span> </button>
@@ -275,34 +275,31 @@
     <div>
       <div class="container" id="employee_status_view">
         <div class="row">
-          <div class="col">
+          <div class="col text-centers">
             <form id="employee_exit_status_form">
               {% csrf_token %}
             <div class="form-group">
            
-              <select name="employee_status" required>
-                <option>Select Employee Status</option>
-                <option value="active">ACTIVE</option>
+              <select name="employee_status" id="employee_status_exit" class="form-select" required title="select if employee resigin date is now or have past">
+                <!-- <option>Employee Exit Now</option> -->
+                <option selected value="active">ACTIVE</option>
                 <option value="sacked">SACKED</option>
                 <option value="resign">RESIGN</option>
 
               </select>
             </div>
+           
 
             <div class="form-group">
               <label for="date">Date</label>
               <input 
-               class="form-control-file" type="date" name="date_exited" required>
+               class="form-control-file" type="date" name="date_exited" id="date_exited" required>
             </div>
 
             <div class="form-group">
-
-             <select name="exit_check">
-              <option value="0">Select Completed Conditions</option>
-              <option value="1">YES</option>
-              <option value="0">NO</option>
-
-             </select>
+              <label title="check if all checks have been completed eg handling over"  for="exit_check">Select Completed Conditions
+             <input type="checkbox" name="exit_check" id="exit_check">
+            </label>
             </div>
             <!-- <input type="hidden" name="employee" readonly id="employee"> -->
            

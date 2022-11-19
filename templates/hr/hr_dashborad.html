@@ -67,8 +67,8 @@
                     <div class="d-flex">
                       <div class="wrapper">
                         <h3 class="mb-0 font-weight-semibold">Emp Age</h3>
-                        <h5 class="mb-0 font-weight-medium text-primary" id="age_above">Above 30: 24</h5>
-                        <p class="mb-0 text-muted" id="age_below">Below 30: 34</p>
+                        <h5 class="mb-0 font-weight-medium text-primary" id="age_above">30 & Above:</h5>
+                        <p class="mb-0 text-muted" id="age_below">Below 30:</p>
                       </div>
                       <div class="wrapper my-auto ml-auto ml-lg-4">
                         <!-- <canvas height="50" width="100" id="stats-line-graph-3"></canvas> -->
@@ -80,8 +80,8 @@
                     <div class="d-flex">
                       <div class="wrapper">
                         <h3 class="mb-0 font-weight-semibold">Leave Status</h3>
-                        <h5 class="mb-0 font-weight-medium text-primary" id="on_leave">On Leave:20</h5>
-                        <p class="mb-0 text-muted" id="not_onleave">Active: 108</p>
+                        <h5 class="mb-0 font-weight-medium text-primary" id="on_leave">On Leave:</h5>
+                        <p class="mb-0 text-muted" onclick="scroolDown()"  id="applied_leave">Applied Leave: </p>
                       </div>
                       <div class="wrapper my-auto ml-auto ml-lg-4">
                         <!-- <canvas height="50" width="100" id="stats-line-graph-4"></canvas> -->
@@ -471,7 +471,7 @@
                 <hr>
                 <select name="filter_leave" id="filter_leave">
                   <option value="on_leave">ON LEAVE</option>
-                  <option value="2">APPLIED FOR LEAVE</option>
+                  <option value="applied_for_leave">APPLIED FOR LEAVE</option>
                 </select>
 
                 <div class="table-responsive">
@@ -567,7 +567,17 @@
       <script src="{% static 'js/scripts/hr_dashboard/hr_script.js' %}"></script>
       <!-- <script src="{% static 'js/dashboard.js' %}"></script> -->
 
+<script>
+  function scroolDown(){
+    window.scrollTo(0,document.body.scrollHeight);
+    $('html body').animate({
+      scrollTop:$(this).height()
+      
+    })
 
+
+  }
+</script>
 
 
       <style>

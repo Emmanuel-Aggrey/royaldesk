@@ -46,7 +46,6 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'debug_toolbar',
 
     'django.contrib.staticfiles',
     'django.contrib.humanize',
@@ -59,6 +58,8 @@ INSTALLED_APPS = [
 
     # 3RD PARTY APPS
      'rest_framework',
+    'debug_toolbar',
+
      'django_celery_results',
      'djcelery_email',
      'django_celery_beat',
@@ -274,3 +275,5 @@ DBBACKUP_STORAGE_OPTIONS = {'location': config('DBBACKUP_LOCATION')}
 
 
 AUDITLOG_INCLUDE_ALL_MODELS=True
+
+INTERNAL_IPS=('127.0.0.1',)

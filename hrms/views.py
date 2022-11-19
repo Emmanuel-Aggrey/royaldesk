@@ -41,16 +41,31 @@ def employees(request):
 
     if request.method == 'GET':
 
-        employees = Employee.objects.exclude(for_management=True)
+        employees = Employee.objects.select_related('designation').exclude(for_management=True)
         serializer = EmployeeSerializer(employees, many=True)
-        # employees_on_leave = Leave.objects.filter(from_leave=False).count()
-        employees_exceed_leave = Leave.objects.filter(
-            from_leave=False, resuming_date__gt=datetime.now()).count()
+
+
+        on_leave = employees.values('leave_employees__from_leave','leave_employees__hr_manager').aggregate(
+        on_leave=(
+            Count('id', filter=Q(leave_employees__from_leave=False,leave_employees__hr_manager=True))
+        ),
+        not_on_leave=(
+            Count('id', filter=Q(leave_employees__from_leave=True,leave_employees__hr_manager=True))
+        ),
+        )
+
+        # print(on_leave)
+
+        employees_on_leave = employees.filter(leave_employees__from_leave=False,leave_employees__hr_manager=True).count()
+        employees_exceed_leave = employees.filter(leave_employees__from_leave=False, leave_employees__hr_manager=True,leave_employees__resuming_date__gt=datetime.now()).count()
+    
+        # employees_requested_leave = employees.filter(leave_employees__from_leave=False,).count()
+        
 
         data = {
             'employees': serializer.data,
             'employees_on_leave': employees_on_leave,
-            'employees_exceed_leave': employees_exceed_leave
+            'employees_exceed_leave': employees_exceed_leave,
         }
 
         return Response(data)
@@ -369,29 +384,56 @@ def add_document(request, employee_id):
 
 
 # EMPLOYEE EXIT ENDPOINT
-@api_view(['POST'])
+@api_view(['POST','GET'])
 @group_required('HR', 'MNG')
 
 def exit_employee(request, employee_id):
     employee = Employee.objects.get(employee_id=employee_id)
-    employee_status = request.data.get('employee_status')
-    date_exited = request.data.get('date_exited')
-    exit_check = request.data.get('exit_check', False)
 
-    employee.status = employee_status
-    employee.date_exited = date_exited
-    employee.exit_check = exit_check
+    if request.method == 'GET':
 
-    employee.save()
-
-    if employee:
         data = {
-            'status': employee.status,
-            'employee_id': employee_id
+            'employee': employee_id,
+            'employee_status':employee.status,
+            'date_exited': employee.date_exited,
+            'exit_check': employee.exit_check,
+            # 'exit_status': employee.exit_status
         }
-        return Response(data=data, status=status.HTTP_202_ACCEPTED)
-    else:
-        return Response(status=status.HTTP_400_BAD_REQUEST)
+
+        
+
+        return Response(data)
+
+    if request.method == 'POST':
+        # tasks.employee_exiting.apply_async()
+        employee_status = request.data.get('employee_status','active')
+        date_exited = request.data.get('date_exited')
+        exit_check = partials.bool_values(request.data.get('exit_check', False))
+
+        # print('employee_status',employee_status,exit_status,date_exited,exit_check)
+
+        # employee.status = employee_status
+        # employee.date_exited = date_exited
+        # employee.exit_check = exit_check
+        
+        
+        # send_email.apply_async(eta=datetime(2020, 10, 18, 11,34,30),args=('St Dominic Savio R/C School',\
+        #         f'Next Acadamiic Session Begins at {next_semester_begins}','uniquepab@gmail.com',['aggrey.en@live.com','teye.etn@gmail.com']))
+        # SYAW-2022	sacked
+        date = datetime.strptime(date_exited,'%Y-%m-%d')
+        tasks.employee_exiting.apply_async(eta=date,args=(employee_id, date_exited, employee_status, exit_check))
+
+
+        # employee.save()
+
+        if employee:
+            data = {
+                    'status': employee.status,
+                'employee_id': employee_id
+            }
+            return Response(data=data, status=status.HTTP_202_ACCEPTED)
+        else:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
 
     return Response(status=status.HTTP_400_BAD_REQUEST)
 

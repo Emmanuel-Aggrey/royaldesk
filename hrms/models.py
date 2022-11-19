@@ -123,6 +123,8 @@ class DepartmentHeads(models.Model):
 class Employee(BaseModel, models.Model):
     status = models.CharField(
         max_length=10, choices=EMPLOYEE_STATUS, default='active', blank=True)
+   
+        
     exit_check = models.BooleanField(default=False,help_text='checks to see if the employee exit checks are successful')
     date_exited = models.DateField(null=True,blank=True,help_text='shows the date when the employee exited from the company')
     employee_id = models.CharField(

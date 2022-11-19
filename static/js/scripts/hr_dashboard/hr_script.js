@@ -66,9 +66,14 @@ $(document).ready(function () {
       $("#age_above").text(`Above 30: ${data.age.above}`)
       $("#age_below").text(`Below 30: ${data.age.below}`)
 
-      // $("#on_leave").text(`On Leave: ${data.leave.on_leave}`)
+      console.log(data.on_leave)
 
-      // $("#not_onleave").text(`Not On Leave: ${data.leave.not_on_leave}`)
+      $("#on_leave").text(`On Leave: ${data.leave.on_leave}`)
+
+      data.leave.applied_leave ? 
+                  $("#applied_leave").text(`Applied Leave: ${data.leave.applied_leave}`).addClass('pulse')
+                      :
+                  $("#applied_leave").text(`Applied Leave: ${data.leave.applied_leave}`)
 
 
       data.department_count.forEach(element=>{
@@ -270,11 +275,15 @@ const emp_on_leave = () => {
     url: '/hr-reports/emp_on_leave/',
     type: 'GET',
     success: function (data) {
-      $("#count_on_leave").text(data.length).attr('title','employees on leave')
+
+     const count_on_leave=  data.filter(emp_on_leave=>emp_on_leave.leave_employees__hr_manager===true)
+
+     $("#count_on_leave").text(count_on_leave.length).attr('title','employees on leave')
+
       let desig = {}
 
       desig = data.filter(function (item) {
-        return item.leave_employees__hr_manager===true;
+        return item.leave_employees__hr_manager===true ;
 
       })
 
@@ -287,7 +296,7 @@ const emp_on_leave = () => {
         <tr>
                             <td>
                               <p class="mb-1 text-dark font-weight-medium">${element.leave_employees__employee__first_name} ${element.leave_employees__employee__last_name}</p>
-                              <p class="mt-3 text-muted">Reporting Date : ${element.leave_employees__end}</p>
+                              <p class="mt-3 text-muted">Reporting Date : ${element.leave_employees__resuming_date}</p>
                               </td>
                             <td class="text-primary font-weight-medium">
                               <div onclick="backfromleave(${element.leave_employees__pk})" class="btn btn-primary" title="back from leave"> 
@@ -317,9 +326,11 @@ const emp_on_leave = () => {
             return item.leave_employees__hr_manager===true;
           })
         }
-        else{
+
+        if(leave=='applied_for_leave'){
           // console.log(leave)
 
+          
           desig = data.filter(function (item) {
             // console.log('applied',item)
             return item.leave_employees__hr_manager===false;
@@ -327,7 +338,7 @@ const emp_on_leave = () => {
           })
         }
 
-        // console.log('desig',desig)
+        console.log('desig',desig)
 
         desig.forEach(element => {
         
@@ -338,7 +349,7 @@ const emp_on_leave = () => {
           <tr>
                               <td>
                                 <p class="mb-1 text-dark font-weight-medium">${element.leave_employees__employee__first_name} ${element.leave_employees__employee__last_name}</p>
-                                <p class="mt-3 text-muted">Reporting Date : ${element.leave_employees__end}</p>
+                                <p class="mt-3 text-muted">Reporting Date : ${element.leave_employees__resuming_date}</p>
 
                               </td>
                             
