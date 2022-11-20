@@ -275,8 +275,8 @@ const get_applicant = (applicant_id) => {
 
 const showModal = (model, title) => {
   $(`#${model}`).dialog({
-    height: 790,
-    width: 1300,
+    height: 'auto',
+    width: 'auto',
     title: title,
     buttons: [
       {

@@ -31,9 +31,12 @@ def hr_dashborad(request):
 def hr_reports(request, data_value=None):
 
     qs = Employee.objects.select_related('designation').exclude(for_management=True)
+ 
 
     # ACTIVE EMPLOYEES
-    active_employees = qs.filter(status='active')
+    active_employees = qs.filter(status='active',department__for_management=False)
+
+    # print(dir(active_employees))
     # active_employees_married = active_employees.filter(is_merried=True)
 
     is_merried = active_employees.values('is_merried').aggregate(

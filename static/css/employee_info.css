@@ -155,6 +155,7 @@
        body { box-shadow: none; margin: 0; }
        span:empty { display: none; }
        .add, .cut { display: none; }
+
    }
    
    @page { margin: 0; }

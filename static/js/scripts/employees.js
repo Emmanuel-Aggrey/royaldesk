@@ -37,7 +37,7 @@ $(document).ready(function () {
                 
             <tr>
                                 
-                                <td class="font-weight-medium" title="view leave history"> <img class='img' src="${element.profile_exists}" alt="employee prifile image"></td>
+                                <td  class="font-weight-medium employees_image" title="view leave history"> <img id="employees_image" class='img' src="${element.profile_exists}" alt="employee prifile image"></td>
                                 <td class="font-weight-medium">${element.employee_id}</td>
 
                                 <td class="font-weight-medium">${element.full_name}</td>
@@ -78,7 +78,7 @@ $(document).ready(function () {
                 
                 <tr>
                                     
-                <td class="font-weight-medium" title="view leave history"> <img class='img' src="${element.profile_exists}" alt="employee prifile image"></td>
+                <td class="font-weight-medium employees_image" title="view leave history"> <img class='img employees_image' src="${element.profile_exists}" alt="employee prifile image"></td>
                             
                                     <td class="font-weight-medium">${element.employee_id}</td>
                                     <td class="font-weight-medium">${element.full_name}</td>

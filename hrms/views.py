@@ -139,7 +139,7 @@ def employees(request):
         department = employee.department.shortname
 
         # CREATE HELPDESK USER AND ADD TO GROUP
-        group = Group.objects.filter(name=department).last()
+        group = Group.objects.prefetch_related('name').filter(name=department).last()
         if user and helpdesk_user and group:
             user.save()
             user.groups.add(group)
@@ -405,7 +405,6 @@ def exit_employee(request, employee_id):
         return Response(data)
 
     if request.method == 'POST':
-        # tasks.employee_exiting.apply_async()
         employee_status = request.data.get('employee_status','active')
         date_exited = request.data.get('date_exited')
         exit_check = partials.bool_values(request.data.get('exit_check', False))

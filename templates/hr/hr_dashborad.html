@@ -81,7 +81,7 @@
                       <div class="wrapper">
                         <h3 class="mb-0 font-weight-semibold">Leave Status</h3>
                         <h5 class="mb-0 font-weight-medium text-primary" id="on_leave">On Leave:</h5>
-                        <p class="mb-0 text-muted" onclick="scroolDown()"  id="applied_leave">Applied Leave: </p>
+                        <p class="mb-0 text-muted" onclick="scroolDown()" id="applied_leave">Applied Leave: </p>
                       </div>
                       <div class="wrapper my-auto ml-auto ml-lg-4">
                         <!-- <canvas height="50" width="100" id="stats-line-graph-4"></canvas> -->
@@ -210,8 +210,8 @@
                     <form id="attendance_form">
                       {% csrf_token %}
                       <label for="date_from">from </label>
-                       <input type="date" name="date_from" id="date_from" required>
-                       <label for="date_to">to </label>
+                      <input type="date" name="date_from" id="date_from" required>
+                      <label for="date_to">to </label>
                       <input type="date" name="date_to" id="date_to" required>
 
 
@@ -226,10 +226,10 @@
 
                       </select>
                       <!-- <input type="submit" value="submit"> -->
-                      <button  type="submit" class ="btn btn-secondary" style="height: 40px"> submit</button>
+                      <button type="submit" class="btn btn-secondary" style="height: 40px"> submit</button>
 
-               
-                   </form>
+
+                    </form>
                     <div class="table-responsive">
 
                       <div style="height:200px;overflow:auto;">
@@ -249,29 +249,29 @@
                         </table>
                       </div>
                     </div>
-                      <!-- department settings start-->
-                      <div style="display:none" id="department_model">
-                        <table class="table  table-bordered table-hover mt-4">
-                          <caption>
-                            <div class="float-right my-3" id="total_checkin"></div>
-                            <div class="float-left my-3" id="days"></div>
-                            
-                          </caption>
+                    <!-- department settings start-->
+                    <div style="display:none" id="department_model">
+                      <table class="table  table-bordered table-hover mt-4">
+                        <caption>
+                          <div class="float-right my-3" id="total_checkin"></div>
+                          <div class="float-left my-3" id="days"></div>
 
-                          <thead>
-                            <tr>
-                              <th>Name</th>
-                              <th>In</th>
-                            </tr>
-                          </thead>
-                          <tbody id="department_body">
-                           
-                          
-                           
-                          </tbody>
-                        </table>
-                        <!-- department settings end-->
-                      </div>
+                        </caption>
+
+                        <thead>
+                          <tr>
+                            <th>Name</th>
+                            <th>In</th>
+                          </tr>
+                        </thead>
+                        <tbody id="department_body">
+
+
+
+                        </tbody>
+                      </table>
+                      <!-- department settings end-->
+                    </div>
                   </div>
                 </div>
               </div>
@@ -280,7 +280,7 @@
                   <div class="card-body">
                     <div class="row">
                       <canvas height="200" id="department_statistics"></canvas>
-              
+
 
 
                       <div class="col-md-6">
@@ -380,7 +380,7 @@
               <div class="col-md-12 grid-margin">
                 <div class="card">
                   <div class="card-body">
-                    <h5 class="card-title mb-4">COUNTRY STATISTICS</h5>
+                    <h5 class="card-title mb-4 text-center">COUNTRY STATISTICS</h5>
                     <!-- <div id="employees_country" class="vector-map"></div> -->
                     <canvas class="mt-4 vector-map" height="100" id="employees_country"></canvas>
 
@@ -433,14 +433,14 @@
                 <h4 class="card-title mb-0">EMPLOYEES FROM LEAVE (RESENT)</h4>
                 <hr>
                 <div style="height:500px;overflow:auto;">
-                <div class="d-flex py-2 border-bottom">
+                  <div class="d-flex py-2 border-bottom">
 
-                  <ul class="wrapper timeline ml-1" id="emp_from_leave">
-                    
+                    <ul class="wrapper timeline ml-1" id="emp_from_leave">
 
-                  </ul>
+
+                    </ul>
+                  </div>
                 </div>
-              </div>
 
 
 
@@ -452,15 +452,15 @@
               <div class="card-body">
                 <h4 class="card-title ">EMP EXCEEDED LEAVE</h4>
                 <hr>
-               <div style="height:500px;overflow:auto;">
-                <ul class="timeline ml-1" id="emp_exceed_leave">
-                  <!-- <li class="timeline-item"> -->
-                  <!-- <p class="timeline-content"><a href="#">Ben Tossell</a> assign you a task</p> -->
-                  <!-- <p class="event-time">Just now</p> -->
-                  <!-- </li> -->
-                </ul>
-              </div>
-                <!-- <a class="d-block mt-3" href="#">Show all</a> -->
+                <div style="height:500px;overflow:auto;">
+                  <ul class="timeline ml-1" id="emp_exceed_leave">
+                    <!-- <li class="timeline-item"> -->
+                    <!-- <p class="timeline-content"><a href="#">Ben Tossell</a> assign you a task</p> -->
+                    <!-- <p class="event-time">Just now</p> -->
+                    <!-- </li> -->
+                  </ul>
+                </div>
+                <!-- <a-- class="d-block mt-3" href="#">Show all</a-->
               </div>
             </div>
           </div>
@@ -480,16 +480,16 @@
                     {% csrf_token %}
                     <div style="height:500px;overflow:auto;">
 
-                    <table class="table table-stretched">
-                      <thead>
-                        <tr> 
-                          <th>Name</th>
-                          <!-- <th>Reporting Date</th> -->
-                          <th>Change</th>
-                        </tr>
-                      </thead>
-                      <tbody id="emp_on_leave">
-                        <!-- <tr>
+                      <table class="table table-stretched">
+                        <thead>
+                          <tr>
+                            <th>Name</th>
+                            <!-- <th>Reporting Date</th> -->
+                            <th>Change</th>
+                          </tr>
+                        </thead>
+                        <tbody id="emp_on_leave">
+                          <!-- <tr>
                             <td>
                               <p class="mb-1 text-dark font-weight-medium">NFLX</p><small class="font-weight-medium">Netflix, Inc.</small>
                             </td>
@@ -498,9 +498,9 @@
                           </tr> -->
 
 
-                      </tbody>
-                    </table>
-                  </div>
+                        </tbody>
+                      </table>
+                    </div>
                   </form>
                 </div>
                 <!-- <a class="d-block mt-3" href="#">Show all</a> -->
@@ -514,89 +514,95 @@
               <table id="leave_table" class="table table-striped table-bordered table-hover">
                 <caption class="font-weight-bold leave_summary_caption"> </caption>
 
-                  <thead>
-                      <tr>
-                         
-                          <th>Policy</th>
-                          <th>Start</th>
-                          <th>End</th>
-                          <th><abbr class="initialism" title="No of Days">Days</abbr></th>
-                          <th>Document</th>
-                          <th><abbr class="initialism" title="supervisor approve">SUP</abbr></th>
-                          <th>HOD</th>
-                          <th>HR</th>
-                          <th>Status</th>
-                      </tr>
-                  </thead> 
-                  <tbody id="leave_table_body">
-                    
-          
-                  </tbody>
-              </table>
-          </div>
-          <!-- DETAIL LEAVE TABLE END-->
-          
-              <!-- SUMMARY LEAVE TABLE START -->
-              <table class="table table-striped table-bordered table-hover" id="leave_summary_table">
-                <caption class="font-weight-bold leave_summary_caption"> </caption>
-
                 <thead>
                   <tr>
-                    <th>Policy</th>
-                    <th>Applied Year</th>
-                    <th>Policy Days</th>
-                    <th>Days Applied For</th>
-                    <th>Outstanding</th>
-                    <th>Num Of Application</th>
 
+                    <th>Policy</th>
+                    <th>Start</th>
+                    <th>End</th>
+                    <th><abbr class="initialism" title="No of Days">Days</abbr></th>
+                    <th>Document</th>
+                    <th><abbr class="initialism" title="supervisor approve">SUP</abbr></th>
+                    <th>HOD</th>
+                    <th>HR</th>
+                    <th>Status</th>
                   </tr>
                 </thead>
-                <tbody id="leave_summary_body">
-                 
-                 
+                <tbody id="leave_table_body">
+
+
                 </tbody>
               </table>
-          
-              <!-- SUMMARY LEAVE TABLE END -->
+            </div>
+            <!-- DETAIL LEAVE TABLE END-->
+
+            <!-- SUMMARY LEAVE TABLE START -->
+            <table class="table table-striped table-bordered table-hover" id="leave_summary_table">
+              <caption class="font-weight-bold leave_summary_caption"> </caption>
+
+              <thead>
+                <tr>
+                  <th>Policy</th>
+                  <th>Applied Year</th>
+                  <th>Policy Days</th>
+                  <th>Days Applied For</th>
+                  <th>Outstanding</th>
+                  <th>Num Of Application</th>
+
+                </tr>
+              </thead>
+              <tbody id="leave_summary_body">
+
+
+              </tbody>
+            </table>
+
+            <!-- SUMMARY LEAVE TABLE END -->
           </div>
         </div>
       </div>
+      <p id="pageBottom"></p>
       <!-- content-wrapper ends -->
       <script src="{% static 'js/scripts/attendance.js' %}"></script>
 
       <script src="{% static 'js/scripts/hr_dashboard/hr_script.js' %}"></script>
       <!-- <script src="{% static 'js/dashboard.js' %}"></script> -->
 
-<script>
-  function scroolDown(){
-    window.scrollTo(0,document.body.scrollHeight);
-    $('html body').animate({
-      scrollTop:$(this).height()
-      
-    })
+      <script>
+        function scroolDown() {
 
+          let pageBottom = document.querySelector("#pageBottom")
 
-  }
-</script>
+          pageBottom.scrollIntoView()
+
+        }
+      </script>
 
 
       <style>
-        /* At the top level of your code */
-    @media screen and (min-width: 900px) {
-      #ticket_filter {
-        /* padding: 1rem 3rem; */
-        position:absolute;left:20px;
-      }
-    }
-    
-    
+        html,
+        body {
+          scroll-behavior: smooth;
+        }
+
         /* At the top level of your code */
         @media screen and (min-width: 900px) {
-      #leave_search {
-        /* padding: 1rem 3rem; */
-        position:absolute;right:20px;
-      }
-    }
-    </style>
+          #ticket_filter {
+            /* padding: 1rem 3rem; */
+            position: absolute;
+            left: 20px;
+          }
+        }
+
+
+        /* At the top level of your code */
+        @media screen and (min-width: 900px) {
+          #leave_search {
+            /* padding: 1rem 3rem; */
+            position: absolute;
+            right: 20px;
+          }
+        }
+      </style>
 
       {% endblock content %}

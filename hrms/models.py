@@ -151,7 +151,7 @@ class Employee(BaseModel, models.Model):
     snnit_number = models.CharField(max_length=15, null=True, blank=True)
     is_merried = models.CharField('marital_status', max_length=20, null=True, blank=True,choices=MARRITAL_STATUS)
     department = models.ForeignKey(
-        Department, on_delete=models.SET_NULL, null=True)
+        Department, on_delete=models.SET_NULL, null=True,related_name='employees_department')
     designation = models.ForeignKey(
         Designation, on_delete=models.SET_NULL, null=True)
     bank_name = models.CharField(max_length=50, blank=True, null=True)

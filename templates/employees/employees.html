@@ -38,7 +38,7 @@
                   <!-- <a class="btn btn-primary toolbar-item float-right btn" id="add_employee" href="/register-staff">New
                     Employee</a> -->
 
-                  <h2 class="card-title text-center">EMPLOYEES</h2>
+                  <h2  style="font: bold 100% sans-serif; letter-spacing: 0.5em; " class="card-title text-center">EMPLOYEES</h2>
                 </div>
                 <hr>
                 <div>
@@ -67,7 +67,7 @@
                       <table class="table table-stretched" id="sampleTable">
                         <thead>
                           <tr>
-                            <th>Profile</th>
+                            <th class="employees_image">Profile</th>
                             <th>EMP ID</th>
                             <th>Name</th>
                             <th>Department</th>
@@ -327,8 +327,16 @@
 
 #active {
   color:red;
+}
+
+@media print { 
+    /* * { -webkit-print-color-adjust: exact; } */
+ 
 
 }
+
+
 </style>
+
 
 {% endblock content %}
