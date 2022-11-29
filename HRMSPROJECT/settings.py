@@ -66,7 +66,7 @@ INSTALLED_APPS = [
      'auditlog',
   
     'dbbackup',
-    'django_model_changes',
+    # 'django_model_changes',
 
 
 
