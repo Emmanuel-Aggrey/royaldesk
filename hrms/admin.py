@@ -86,11 +86,11 @@ export_employees.short_description = 'Export to csv'
 
 class EmployeeAdmin(admin.ModelAdmin):
     list_display = ['employee_id', 'status', 'full_name', 'dob','is_head', 'is_merried', 'department',
-                    'designation', 'mobile', 'email', 'date_employed', 'address', 'emergency_name', 'emergency_phone',]
+                    'designation', 'mobile', 'email', 'date_employed', 'address', 'emergency_name', 'emergency_phone','anviz_id']
     search_fields = ['first_name', 'last_name',
                      'other_name', 'mobile', 'employee_id',]
     list_filter = ['is_head','department', 'designation', 'status', 'is_merried','date_employed','exit_check','date_exited']
-    list_editable = ['status', 'is_merried','is_head' ]
+    list_editable = ['status', 'is_merried','is_head', 'anviz_id']
     # exclude = ['age', ]
     actions = [export_employees]
 
@@ -100,7 +100,7 @@ class EmployeeAdmin(admin.ModelAdmin):
         }),
 
         ('WORK RELATED INFOMATION', {
-            'fields': ('status','department', 'designation','is_head', 'date_employed','salary','exit_check','date_exited')
+            'fields': ('status','department', 'designation','is_head', 'date_employed','anviz_id','salary','exit_check','date_exited')
         }),
 
          ('COUNTRY / REGION INFOMATION', {
@@ -119,10 +119,10 @@ class EmployeeAdmin(admin.ModelAdmin):
             'classes': ('collapse',),
             'fields': ('bank_name','bank_branch','bank_ac',),
         }),
-          ('ROYALDESK MANEGEMENT', {
-            'classes': ('collapse',),
-            'fields': ('for_management',),
-        }),
+        #   ('ROYALDESK MANEGEMENT', {
+        #     'classes': ('collapse',),
+        #     'fields': ('for_management',),
+        # }),
 
     )
 

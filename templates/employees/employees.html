@@ -28,6 +28,8 @@
               <div class="card-body ">
 
                 <div>
+                  <div title='fadeout profile' class="toolbar-item float-right btn" onclick="fadeOutProfile()"> <i class="fa fa-pencil-square" aria-hidden="true"></i></div>
+
                   <div class="toolbar-item float-right btn" onclick="createPDF('EMPLOYEES')" title="print">
                     <i class="fa fa-print" aria-hidden="true"></i>
                   </div>
@@ -35,10 +37,11 @@
                     <i class="fa fa-file" aria-hidden="true"></i>
 
                   </div>
+
                   <!-- <a class="btn btn-primary toolbar-item float-right btn" id="add_employee" href="/register-staff">New
                     Employee</a> -->
 
-                  <h2  style="font: bold 100% sans-serif; letter-spacing: 0.5em; " class="card-title text-center">EMPLOYEES</h2>
+                  <h2  style="font: bold 100% sans-serif; letter-spacing: 0.5em;" class="card-title text-center">EMPLOYEES</h2>
                 </div>
                 <hr>
                 <div>
@@ -59,12 +62,12 @@
                     Employee</a>
                   <input class="float-right" type="search" name="" id="emp_search" placeholder="search">
                 </div>
-                <div class="table-responsive">
+                <div class="table-responsive table-responsive-sm table-responsive-md">
 
                   <form>
                     {% csrf_token %}
                     <div id="tab">
-                      <table class="table table-stretched" id="sampleTable">
+                      <table class="table table-stretched table-hover" id="sampleTable">
                         <thead>
                           <tr>
                             <th class="employees_image">Profile</th>
@@ -338,5 +341,11 @@
 
 </style>
 
+<script>
+function fadeOutProfile(){
+  $(".employees_image").toggle()
+} 
+
+</script>
 
 {% endblock content %}

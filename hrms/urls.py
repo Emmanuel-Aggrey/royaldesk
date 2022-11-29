@@ -8,6 +8,9 @@ from HRMSPROJECT.custome_decorators import group_required
 app_name = 'hrms'
 
 urlpatterns = [
+
+
+
     # STAFF URLS
     # path('hr/',  login_required(TemplateView.as_view(template_name="hr/hr_dashborad.html")),name='hr'),
     path('hr-dashborad',hr_views.hr_dashborad,name='hr_dashborad'),
@@ -15,8 +18,13 @@ urlpatterns = [
     path('register-staff/',  login_required(TemplateView.as_view(template_name="employees/add_employee.html")),name='register_staff'),
     
 
-    # REGISTER EMPLOYEE
+    # GET EMPLOYEEs
     path('employees/', views.employees,name='employees'),
+    path('allemployees/',views.allemployees),
+
+    # path('employees/', views.employees,name='employees'),
+
+
     path('employee/<str:emp_uiid>/',views.employee),
     path('employee-data/<str:emp_uiid>/',views.employee_data,name='employee_data'),
     # path('employee-info/',login_required(TemplateView(template_name="employees/employee_info.html")),name='employee_info'),
@@ -74,6 +82,7 @@ urlpatterns = [
     path('clockins/',hr_views.clockins,name='clockins'),
     path('upload-anviz-user-profile/', TemplateView.as_view(template_name="attendance/update_anviz_user.html")),
     path('update-anviz-user/',hr_views.update_anviz_user),
+    path('daemons_service/<str:service_name>/',hr_views.daemons_service)
 
 
 

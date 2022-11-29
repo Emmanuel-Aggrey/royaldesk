@@ -20,7 +20,8 @@ celery -A  HRMSPROJECT beat -l INFO
 celery flower --port=5566
 celery -A HRMSPROJECT flower  --address=127.0.0.6 --port=5566
 
-
+#PURGE ALL CELERY QUEUES
+celery -A HRMSPROJECT  purge
 
 Mdedia Backup
 python3 manage.py  mediabackup
@@ -28,5 +29,12 @@ python3 manage.py  mediabackup
 DB Backup
 python3 manage.py dbbackup
 
-START RABBITMQ
+VIEW RABBITMQ
 http://127.0.0.1:15672/
+
+#TALK TO SYSTEMD
+s = subprocess.call(['systemctl','is-active','flower'])
+
+#VIEW SERVICES
+systemctl list-unit-files
+

@@ -61,13 +61,11 @@ const helpdesk_table = () => {
 
   var table = "";
 
-  // $(`#ticket_filter option:contains('${'MY DATA'}')`).prop("selected",true)
 
   $.ajax({
     url: `/helpdesk-cases/${user_id}/`, ///helpdesk-cases/2/
     type: "GET",
     success: function (response) {
-      // console.log('ticket_filter',response)
       //  $("#ticket_filter").empty();
       // console.log(response)
 
@@ -100,8 +98,8 @@ const helpdesk_table = () => {
         <td>${data} : ${time}</td>
         <td>${element.subject}</td>
         <td>${element.issue}</td>
-        <td>${element.status}</td>
-        <td class="edit_product  btn btn-light btn-outline-info"  title="edit items" onclick="getData(${element.id})" ><i class="fa fa-edit  mx-4"  style="cursor:pointer;"  aria-hidden="true"></i></td>
+        <td class="text-uppercase">${element.status}</td>
+        <td class="edit_product  btn btn-light btn-outline-info"  title="edit items" id=${element.id} onclick=getData(this.id) ><i class="fa fa-edit  mx-4"  style="cursor:pointer;"  aria-hidden="true"></i></td>
 
         
         </tr>
@@ -152,8 +150,8 @@ const helpdesk_table = () => {
           <td>${data} ${time}</td>
           <td>${element.subject}</td>
           <td>${element.issue}</td>
-          <td>${element.status}</td>
-          <td class="edit_product  btn btn-light btn-outline-info"  title="edit items" onclick="getData(${element.id})" ><i class="fa fa-edit  mx-4"  style="cursor:pointer;"  aria-hidden="true"></i></td>
+          <td class="text-uppercase">${element.status}</td>
+          <td class="edit_product  btn btn-light btn-outline-info"  title="edit items" id=${element.id} onclick="getData(this.id)" ><i class="fa fa-edit  mx-4"  style="cursor:pointer;"  aria-hidden="true"></i></td>
   
           
           </tr>
@@ -244,15 +242,13 @@ $("#date_to").change(function () {
             + `<td >` + element.department + `</td>`
             + `<td >` + `${data} : ${time}` + `</td>`
             + `<td>` + `<div class="a">${element.subject}</div>` + `</td>`
-            // + `<td >` + element.description + `</td>`
             + `<td >` + element.issue + `</td>`
             + `<td >` + `<a  target="_blank" rel="noopener noreferrer" title="download file" href="${fileExist(element.image)}">${fileName(element.image)}</a>` + `</td>`
 
             + `<td class="text-uppercase">` + element.status + `</td>`
-            // + `<td >` + ` ${approve(element.hr_manager)}` + `</td>`
-            // + `<td >` + element.status + `</td>`
 
-            + `<td class="edit_product  btn btn-light btn-outline-info"  title="edit items" onclick="getData(${element.id})" >` + `<i class="fa fa-edit  mx-4"  style="cursor:pointer;"  aria-hidden="true"></i>` + `</td>`
+
+            + `<td class="edit_product  btn btn-light btn-outline-info"  title="edit items" id=${element.id} onclick="getData(this.id)" >` + `<i class="fa fa-edit  mx-4"  style="cursor:pointer;"  aria-hidden="true"></i>` + `</td>`
 
 
 
@@ -280,30 +276,27 @@ function hideLoader() {
 
 // GET SINGLE DATA
 const getData = (id) => {
-  // console.log(id)
-  // JUST USING ticket_id TO STORE THIS ID FOR EDITING
-  ticket_id = document.getElementById('ticket_id').innerHTML = id
+  ticket_id = sessionStorage.setItem('ticket_id', id)
 
   $.ajax({
     url: `/get_issue_data/${id}/`,
     type: "GET",
     success: function (response) {
-      // console.log('response',response)
+      // console.log(response)
       const issue = response.issue
       const department = response.department
       var priority = response.priority.toUpperCase()
-      var status = response.status.toUpperCase()
-      const handle_over_to = response.handle_over_to_pk
-      // console.log('handle_over_to ',handle_over_to)
 
       ticket_number = response.ticket_number
 
-      // console.log(handle_over_to)
+
+
+
       $("#assiend_to").empty()
+
 
       $("#comments_count").text(response.comments)
       $("#subject_edit").val(response.subject)
-      // $("#description_edit").val(response.description)
       $("#file_url").attr('href', response.image)
       $('#file_url').text(response.image.substring(response.image.lastIndexOf('/') + 1)).css('color', '#0078F5')
       $("#priority_edit").append(
@@ -316,31 +309,25 @@ const getData = (id) => {
         <option value="${response.department_pk}"> ${department} </option> 
          `
       )
-      // $("#status").val(status)
-      $('#status_id').prop('checked', resolved(response.status))
 
 
-
-      // $('#issue_edit').val(issue)
       $("#issue_edit").append(
         `
         <option value="${response.issue_pk}"> ${issue} </option> 
          `
       )
-      // $('#department_edit').val(department)
 
-      edit_helpdesk_table(ticket_number)
-
-
-
+      edit_helpdesk_table(ticket_number, response.status)
 
       $("#assiend_to").append(
         `
-          <option value="4">Help Desk</option>
 
-          `
+       <option value="${response.handle_over_to_pk}">${response.handle_over_to} </option> 
+        `
       )
+
       response.employees.forEach(element => {
+
         $("#assiend_to").append(
           `
 
@@ -350,9 +337,11 @@ const getData = (id) => {
 
       });
 
-      // $(`#assiend_to option:contains('${handle_over_to}')`).prop("selected",true)
-      $(`#assiend_to option[value='${handle_over_to}']`).attr("selected", true)
+      $(`#assiend_to option[value='${response.handle_over_to_pk}']`).attr("selected", true).text()
 
+      response.hod_user ? $('.assiend_to').removeClass('d-none'):$('.assiend_to').addClass('d-none');
+
+      response.handle_overto_user ? $('#close_ticket').addClass('d-none'):$('.close_ticket').removeClass('d-none');
 
 
     }
@@ -361,8 +350,7 @@ const getData = (id) => {
 }
 
 
-const edit_helpdesk_table = (ticket_number) => {
-  // console.log(status)
+const edit_helpdesk_table = (ticket_number, status) => {
   $("#edit_help_desk").dialog({
 
     title: `REVIEW TICKET ${ticket_number}`,
@@ -379,12 +367,12 @@ const edit_helpdesk_table = (ticket_number) => {
   })
 
 
-  // check if checkbox is ticked
-  is_resolved()
+  is_resolved(status)
+
 }
 
 $("#btn_comment").click(function () {
-  $("#commentss").dialog({
+  $("#comment_dialog").dialog({
     width: 'auto',
     height: 'auto',
     title: 'Commnets',
@@ -405,23 +393,21 @@ $("#btn_comment").click(function () {
 })
 
 
-function is_resolved() {
-  status_id = document.getElementById('status_id').checked
-  // console.log(status_id)
-  if (status_id) {
+function is_resolved(resolved) {
 
-    return $("#submit_ticket_edit").attr('disabled', 'disabled').text('TICKET RESOLVED').addClass('pulse');
+  // resolved =='resolved' ? $("#submit_ticket_edit, #submit_comment").addClass('disabled').text('TICKET RESOLVED').addClass('pulse') :
+  // $("#submit_ticket_edit, #submit_comment").removeClass('disabled').text('Submit Ticket').removeClass('pulse')
 
-    //  $('#ticket_status').text('TICKET RESOLVED').css( "color", "red" ).addClass('pulse');
-    //  show_alert(6000,"success",'Ticket Closed')
+  if (resolved == 'resolved') {
+    $("#submit_ticket_edit, #submit_comment").addClass('disabled').text('TICKET RESOLVED').addClass('pulse')
+    $("#status_id").prop("disabled", true).prop("checked", true);;
   }
   else {
-
-    return $("#submit_ticket_edit").removeAttr('disabled')
+    $("#submit_ticket_edit, #submit_comment").removeClass('disabled').text('Submit Ticket').removeClass('pulse')
+    $("#status_id").prop("disabled", false).prop("checked", false);;
 
   }
 }
-
 
 function fileExist(file) {
   return (file ? file : '#');
@@ -437,21 +423,7 @@ function fileName(file) {
 }
 
 
-$("#assiend_to").change(function () {
-  assiend_to = $("#assiend_to").val()
-  if (!assiend_to) {
-    // console.log('no', assiend_to)
-    $(".submit-btn-edit").css('display', 'none')
 
-  }
-  else {
-    console.log('yes', assiend_to)
-    $(".submit-btn-edit").css('display', 'block')
-
-  }
-
-
-})
 
 $("#new_report").click(function (e) {
 
@@ -554,7 +526,7 @@ $("#issue_form").on("submit", function (event) {
 
 $("#issue_form_edit").on("submit", function (event) {
   // var formData = new FormData(this);
-  const ticket_id = $("#ticket_id").text()
+  const ticket_id = sessionStorage.getItem('ticket_id')
   event.preventDefault();
 
   user_id
@@ -578,13 +550,20 @@ $("#issue_form_edit").on("submit", function (event) {
       helpdesk_table()
       // $('#apply_leave').dialog( "close" );
       $(".ui-dialog-titlebar-close").click();
-      is_resolved()
+      // console.log(data.status)
+      const resolved = data.status
+      resolved == 'resolved' ? is_resolved(resolved) : ''
+      // is_resolved()
 
 
 
     },
     error: function (jqXHR, textStatus, errorThrown) {
       console.log(jqXHR, textStatus, errorThrown);
+      show_alert(6000, "error", `${textStatus} ${errorThrown}`)
+
+      // alert(errorThrown)
+      // Swal
     },
   });
 }); // EDIT NEW ISSUE END
@@ -593,11 +572,9 @@ $("#issue_form_edit").on("submit", function (event) {
 
 
 // send comment
-$("#submit_comment").on("click", function (event) {
+$("#submit_comment_form").on("submit", function (event) {
   event.preventDefault();
-  const ticket_id = $("#ticket_id").text()
-
-
+  const ticket_id = sessionStorage.getItem('ticket_id')
 
   // console.log($('#comment_text').val(),ticket_id)
   const url = `/comment/${ticket_id}/`
@@ -618,6 +595,8 @@ $("#submit_comment").on("click", function (event) {
       $("#comment_text").val('')
       show_alert(6000, "success", 'comment saved')
       get_comments()
+      $("#comment_dialog").dialog('close')
+
 
     },
     error: function (jqXHR, textStatus, errorThrown) {
@@ -631,7 +610,7 @@ $("#submit_comment").on("click", function (event) {
 
 
 const get_comments = () => {
-  const ticket_id = $("#ticket_id").text()
+  const ticket_id = sessionStorage.getItem('ticket_id')
   const url = `/comment/${ticket_id}/`
 
   $.ajax({

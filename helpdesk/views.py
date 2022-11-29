@@ -34,7 +34,6 @@ def departments_issue(request):
 @login_required
 @api_view(['GET'])
 def helpdesk(request,pk):
-    # print('user',request.user,'departemnt',request.user.department,'is_head',request.user.is_head,'is admin',request.user.is_staff)
 
     tickets = Helpdesk.objects.select_related('user')
     date_filter = request.data
@@ -44,18 +43,18 @@ def helpdesk(request,pk):
     
     if request.user.is_staff:
         tickets = tickets.all()
-       
-
+    
     
     elif request.user.is_head:
         tickets = tickets.filter(Q(department=request.user.department)|Q(user__pk=pk))
-        print(request.data)
-
+        print('head',request.user.department,request.user.is_head)
+   
 
     else:
         tickets = tickets.filter(Q(user__pk=pk)| Q(handle_over_to_id=pk))
-        print(request.data)
+        print('head',request.user.department,request.user.is_head)
 
+     
    
     serializer = HelpdeskSerializer(tickets, many=True)
     return Response({'data': serializer.data})
@@ -68,18 +67,16 @@ def helpdesk(request,pk):
 def filter_helpdesk(request,pk):
     # print('user',request.user,'departemnt',request.user.department,'is_head',request.user.is_head,'is admin',request.user.is_staff)
 
-    tickets = Helpdesk.objects.select_related('user')
+    tickets = Helpdesk.objects.select_related('user').exclude(user__for_management=True)
     date_filter = request.data
     date_from = request.GET.get('date_from')
 
     date_to = request.GET.get('date_to')
     
     if request.user.is_staff:
-        tickets = tickets.filter(date__range=[date_from, date_to])
-       
-        print(tickets)
+        tickets = tickets.filter(date__range=[date_from, date_to])       
+        # print(tickets)
 
-    
     elif request.user.is_head:
         tickets = tickets.filter(Q(department=request.user.department)|Q(user__pk=pk),date__range=[date_from, date_to])
         # print(tickets.query)
@@ -87,7 +84,7 @@ def filter_helpdesk(request,pk):
 
     else:
         tickets = tickets.filter(Q(user__pk=pk)| Q(handle_over_to_id=pk),date__range=[date_from, date_to])
-        print(request.data)
+        # print(request.data)
 
    
     serializer = HelpdeskSerializer(tickets, many=True)
@@ -153,8 +150,10 @@ def file_exists(old_file, new_file):
 def bool_value(user,status):
     if status =='on':
         return 'resolved' 
-    elif status ==None:
-        return 'assiend' if  user !='4' else 'pending' 
+    elif status ==None and user:
+        return 'assiend' #if  user !='4' else 'pending' 
+    else:
+        return 'pending'
         
 
 
@@ -169,12 +168,12 @@ def get_issue_data(request,pk):
     help_desk =  get_object_or_404(Helpdesk,pk=pk)
 
 
-    if request.method == 'GET':
- 
-        employees = list(User.objects.filter(department=help_desk.department).values('pk','first_name','last_name'))
 
+    if request.method == 'GET':
+        
+        employees = list(User.activeusers.filter(department=help_desk.department).values('pk','first_name','last_name','department__name'))
+        
         data = {
-        # 'pk':pk,
         'image':help_desk.image_exists,
         'department':help_desk.department.name,
         'department_pk':help_desk.department.pk,
@@ -182,26 +181,26 @@ def get_issue_data(request,pk):
         'issue_pk':help_desk.issue.pk,
         'subject':help_desk.subject,
         'priority':help_desk.priority,
-        # 'description':help_desk.description,
         'status':help_desk.status,
         'handle_over_to':help_desk.handle_over_to.full_name,  
         'handle_over_to_pk':help_desk.handle_over_to.pk,  
         'ticket_number':help_desk.ticket_number,
         'employees':employees,
         'comments':help_desk.comments.count(),
+        'hod_user':request.user.is_head,
+        'handle_overto_user' : True if help_desk.handle_over_to ==request.user else False,
+
         }
         return Response(data)
 
     if request.method == 'POST':
-        # desk = Helpdesk.objects.get(pk=pk)
         data = request.data
         old_file = help_desk.image
         new_file = request.FILES.get('image')
-        status= bool_value(data.get('assiend_to'),data.get('status'))
-       
+        status_= bool_value(data.get('assiend_to'),data.get('status'))
         help_desk.department_id= data.get('department')
         help_desk.issue_id = data.get('issue')
-        help_desk.status=status
+        help_desk.status=status_
         help_desk.priority = data.get('priority')
         help_desk.subject = data.get('subject')
         help_desk.comment = data.get('comment')
@@ -212,7 +211,6 @@ def get_issue_data(request,pk):
         help_desk.save()
 
         
-        # print('help_desk',help_desk.status)
         if help_desk.status == 'resolved':
             department_email = help_desk.department.email
 
@@ -221,8 +219,10 @@ def get_issue_data(request,pk):
             tasks.helpdesk_ticket_resolved(help_desk.user.full_name,help_desk.ticket_number,help_desk.subject,help_desk.user.email,help_desk.department,[department_email])
 
 
-
-        return Response()
+        data = {
+            'status':help_desk.status,
+        }
+        return Response(data,status=status.HTTP_201_CREATED)
 
 @login_required
 @api_view(['GET','POST'])

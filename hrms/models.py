@@ -103,32 +103,25 @@ class Contribution(BaseModel):
      
 # NOT USING TNIS REPLACED BY is_head in EMPLOYEE MODEL
 
-class DepartmentHeads(models.Model):
-    name = models.CharField(max_length=255)
-    employee = models.ManyToManyField(
-        'Employee', related_name='departart_heads', blank=True)
 
-    @property
-    def employee_count(self):
-        return self.employee.count()
 
-    class Meta:
-        verbose_name = 'Department Head'
-        verbose_name_plural = 'Department Heads'
 
-    def __str__(self):
-        return self.name
+class ActiveEmployeesManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(department__for_management=False,status='active')
+
+class EmployeesManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(department__for_management=False)
 
 
 class Employee(BaseModel, models.Model):
     status = models.CharField(
         max_length=10, choices=EMPLOYEE_STATUS, default='active', blank=True)
-   
-        
     exit_check = models.BooleanField(default=False,help_text='checks to see if the employee exit checks are successful')
     date_exited = models.DateField(null=True,blank=True,help_text='shows the date when the employee exited from the company')
     employee_id = models.CharField(
-        max_length=200, blank=True, unique=True, help_text='system generated (leave blank)')
+        max_length=200,null=True, blank=True, unique=True, help_text='system generated (leave blank)')
     profile = models.ImageField(null=True, blank=True)
     title = models.CharField(max_length=20, choices=TITLE, null=True)
     first_name = models.CharField(max_length=50, null=False)
@@ -170,9 +163,14 @@ class Employee(BaseModel, models.Model):
     next_of_kin_relationship = models.CharField(
         max_length=20, null=True, blank=True)
     emp_uiid = models.UUIDField(default=uuid.uuid4, null=True, editable=True)
+    anviz_id = models.CharField(max_length=20,null=True, blank=True)
     applicant = models.OneToOneField(
         'applicant.Applicant', on_delete=models.SET_NULL, null=True, blank=True, related_name='applicant')
-    for_management = models.BooleanField(default=False,help_text='employee for royalde management')
+    # for_management = models.BooleanField(default=False,help_text='employee for royalde management')
+
+    objects = models.Manager() 
+    activeemployees = ActiveEmployeesManager() 
+    employees = EmployeesManager() 
 
     def __str__(self):
         return f'{self.first_name} {self.last_name}' 
@@ -222,23 +220,10 @@ class Employee(BaseModel, models.Model):
         return today.year - int(self.dob.strftime('%Y'))# datetime.strptime(str(date), '%Y-%m-%d').year
 
    
-   
-
-    # quick fix make it work later
-    # @property
-    # def department(self):
-    #     if self.applicant.department.department.name:
-
-    #         return self.applicant.department.department.name
-
-    #     else:
-
-    #         return self.department.name
 
     class Meta:
         unique_together = ('employee_id', 'mobile')
         ordering = ('-updated_at',)
-
 
 
 # CREATE DEFAULT USER IF FOR EMPLOYEE
@@ -248,14 +233,20 @@ def save_profile(sender, instance, **kwargs):
         last_name = instance.last_name
         year = instance.date_employed.strftime('%Y')
         initials = f'{first_name[0]}{last_name}-{year}'.upper()
-        instance.employee_id = initials
+        instance.employee_id = initials.replace(' ','')
         # instance.age = age_calendar(instance.dob)
 
         # print('age_calendar',age_calendar(instance.dob))
 
-        instance.save()
+        # instance.save()
     if instance.employee_id:
-        pass
+        first_name = instance.first_name
+        last_name = instance.last_name
+        year = instance.date_employed.strftime('%Y')
+        initials = f'{first_name[0]}{last_name}-{year}'.upper()
+        instance.employee_id = initials.replace(' ','')
+        # print('employee_id not set')
+        
         # instance.age = age_calendar(instance.dob)
 
         # instance.save()
@@ -291,7 +282,8 @@ class Dependant(models.Model):
         return reverse("hrms:employee_view", kwargs={'pk': self.employee.pk})
 
     class Meta:
-        unique_together = ('first_name', 'last_name', 'address')
+        pass
+        # unique_together = ('first_name', 'last_name', 'address')
 
 
 class Education(BaseModel, models.Model):
@@ -306,8 +298,9 @@ class Education(BaseModel, models.Model):
         return f'{self.employee} {self.school_name}'
 
     class Meta:
+        pass
         # pass
-        unique_together = ('school_name', 'course','employee')
+        # unique_together = ('school_name', 'course','employee')
 
 
 class ProfessionalMembership(BaseModel, models.Model):
@@ -320,7 +313,8 @@ class ProfessionalMembership(BaseModel, models.Model):
         return f'{self.employee} {self.name}'
 
     class Meta:
-        unique_together = ('name', 'employee')
+        pass
+        # unique_together = ('name', 'employee')
 
 
 class PreviousEployment(BaseModel, models.Model):
@@ -335,7 +329,7 @@ class PreviousEployment(BaseModel, models.Model):
 
     class Meta:
         pass
-        unique_together = ('job_title', 'employee')
+        # unique_together = ('job_title', 'employee')
 
 
 class LeavePolicy(BaseModel, models.Model):

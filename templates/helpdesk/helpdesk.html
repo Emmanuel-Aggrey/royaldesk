@@ -20,7 +20,7 @@
             <div class="col-xl-12 col-lg-12 col-md-12 col-12 text-center">
                 
                 <div class="card px-0">
-                    <h3 id="heading">WELCOME TO HELP DESK
+                    <h3 id="heading">WELCOME TO HELP DESK 
                         <button type="button" id="new_report" class="btn btn-outline-primary heading text-white" style="position: absolute;right:20px;top: 20px;background:#6B42B1">NEW TICKET</button>
                     
                     </h3>
@@ -40,7 +40,6 @@
                             <div class="form-grousp col-sm-4 flex-column d-flex"> <label
                                     class="form-control-label px-3">Department<span class="text-danger">
                                         *</span></label> <Select required id="department" name="department" required class="form-control">
-                                            <option value="">select</option>
                                         </Select>
                             </div>
                             <div class="form-grousp col-sm-4 flex-column d-flex"> <label
@@ -89,7 +88,7 @@
                         <p id="days"></p>
 
                         <button type="submit" class="btn btn-primary  submit-btn"
-                            style="width: 100%;">Submit</button>
+                            style="width: 100%;">Submit Ticket</button>
 
                     </form>
                         <!-- APPLY FOR LEAVE END -->
@@ -164,19 +163,25 @@
 
                                 <!-- THIRED ROW START -->
                                 <div class="row justify-content-between text-left">
-                                    <div class="form-group col-sm-4 flex-column d-flex">  
+                                    <div class="form-group col-sm-4 flex-column d-flex ">  
+                                        <div class="status_id" id="close_ticket">
                                         <label for="" class="form-control-label px-3 switch" id="ticket_status">CLOSE TICKET
                                         <input type="checkbox" name="status" id="status_id">
-
+                                    </div>
                                     </label>
                                 </div>
                                   
-                               
-                                <div class="form-group col-sm-4 flex-column d-flex"> <label
-                                    class="form-control-label px-3">Assign To
-                                    <span class="text-danger">
-                                        *</span></label> <select name="assiend_to" id="assiend_to"></select>
-                            </div>
+                               <div class="form-group col-sm-4 flex-column d-flex ">
+                                <div class="assiend_to">
+                                <label class="form-control-label px-3">Assign To
+                               <span class="text-danger">
+                                   *</span></label> <select name="assiend_to" id="assiend_to" required>
+                                       <option value="">Select Employee</option>
+                                   </select>
+                                </div>
+                           </div>
+                                
+                                
                                    
                                 <div class="form-group col-sm-4 flex-column d-flex"> <label
                                     class="form-control-label px-3 pb-3">
@@ -197,7 +202,7 @@
                                 <p id="days"></p>
         
                                 <button type="submit" class="btn btn-primary  submit-btn" id="submit_ticket_edit"
-                                    style="width: 100%;">Submit</button>
+                                    style="width: 100%;">Submit Ticket</button>
 
         
                             </form>
@@ -206,8 +211,8 @@
                                 
                 </div>
 
-                <div id="commentss" style="display: none">
-                    <form id="">
+                <div id="comment_dialog" style="display: none">
+                    <form id="submit_comment_form">
                         {% csrf_token %}
                     <div id="comments" class="chatboard">
                        

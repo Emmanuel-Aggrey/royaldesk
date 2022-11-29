@@ -11,13 +11,19 @@ from .serializers import ApplicantSerializer, AcceptanceSerializer
 from datetime import datetime
 from .import tasks
 from hrms.models import Employee
+from HRMSPROJECT.custome_decorators import group_required
+
 # Create your views here.
 
+@group_required('HR', 'MNG')
+def applicantView(request):
+
+    return render(request,'applicant/applicants.html')
 
 def date_value(value):
     return value if value else None
 
-
+@group_required('HR', 'MNG')
 @api_view(['GET', 'POST'])
 def applicant(request):
     employees = Employee.objects.values_list('pk', flat=True)
@@ -91,7 +97,7 @@ def file_exists(old_file, new_file):
     else:
         return
 
-
+# FOR APPLCANTS VIEW
 @api_view(['GET', 'POST'])
 def update_applicant(request, applicant_id):
     applicant = get_object_or_404(Applicant, Q(
@@ -157,9 +163,8 @@ def update_applicant(request, applicant_id):
 
         return Response(applicant.full_name)
 
-# @api_view(['GET'])
 
-
+# OFFER LETTER  DJANGO TEMPLATE
 def acceptance_view(request, applicant_id):
     applicant = get_object_or_404(Applicant, Q(
         applicant_id=applicant_id) | Q(phone=applicant_id))
@@ -173,6 +178,7 @@ def acceptance_view(request, applicant_id):
     # return Response(serializer.data)
     return render(request, 'applicant/offerl_letter.html', context)
 
+# OFFER LETTER   API
 
 @api_view(['GET'])
 def acceptance_api_view(request, applicant_id):

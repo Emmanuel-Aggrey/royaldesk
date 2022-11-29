@@ -22,7 +22,7 @@
 
           <div class="card my-5">
 
-            <h2 class="card-title text-center">EMPLOYEES ATTENDANCE</h2>
+            <h2 class="card-title text-center">UPDATE ANVIZ USER PROFILE</h2>
 
             {% if not conntected_to_server %}
             <p class="text-danger">not connected to server</p>
@@ -33,7 +33,12 @@
               <div class="form-group">
                 <input class="my-4 btn-lg" type="number" name="anviz_user" id="anviz_user" placeholder="enter anviz id"
                   required>
+                {% if conntected_to_server %}
                 <input class="btn-primary btn-lg text-light" type="submit" value="submit">
+                {% else %}
+                <input class="btn-primary btn-lg text-light " disabled type="submit" value="submit">
+
+                {% endif %}
 
               </div>
             </form>
@@ -60,6 +65,99 @@
 
 
 
+            <!-- Button trigger modal -->
+            <button id="status" type="button" class="btn btn-primary btn-sm " data-toggle="modal"
+              data-target="#modelId">
+              services
+            </button>
+
+            <!-- Modal -->
+            <div class="modal fade " id="modelId" tabindex="-1" role="dialog" aria-labelledby="modelTitleId"
+              aria-hidden="true">
+              <div class="modal-dialog  modal-dialog-centered" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title text-center">Background Serives => Daemons </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <form id="serices_form">
+                      <table class="table">
+                        <thead>
+                          <tr>
+                            <th>#</th>
+                            <th>Service</th>
+                            <th>Status</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td scope="row">1</td>
+                            <td><a class="text-muted" href="http://localhost/" target="_blank" rel="noopener noreferrer">Nginx</a> </td>
+                            <td>
+                              <button onclick="daemons_service(this.id)" id="nginx" type="button"
+                                class="btn btn-primary">check</button>
+
+                            </td>
+                          </tr>
+                          <tr>
+                            <td scope="row">2</td>
+                            <td><a  class="text-muted" href="#">Gunicorn</a></td>
+                            <td>
+                              <button onclick="daemons_service(this.id)" id="gunicorn" type="button"
+                                class="btn btn-primary">check</button>
+
+                            </td>
+                          </tr>
+                          <tr>
+                            <td scope="row">3</td>
+                            <td><a class="text-muted"  href="http://127.0.0.1:15672/" target="_blank" rel="noopener noreferrer">RabbitMQ</a> </td>
+                            <td>
+                              <button onclick="daemons_service(this.id)" id="rabbitmq-server" type="button"
+                                class="btn btn-primary">check</button>
+
+                            </td>
+                          </tr>
+                          <tr>
+                          <tr>
+                            <td scope="row">4</td>
+                            <td><a class="text-muted" href="#">Celery</a></td>
+                            <td>
+                              <button onclick="daemons_service(this.id)" id="celery" type="button"
+                                class="btn btn-primary">check</button>
+
+                            </td>
+                          </tr>
+                          <tr>
+                            <td scope="row">5</td>
+                            <td><a class="text-muted" href="#">Celery Beat</a></td>
+                            <td>
+                              <button onclick="daemons_service(this.id)" id="celerybeat" type="button"
+                                class="btn btn-primary">check</button>
+
+                            </td>
+                          </tr>
+                          <tr>
+                            <td scope="row">6</td>
+                            <td><a class="text-muted" href="http://127.0.0.6:5566/" target="_blank" rel="noopener noreferrer">Flower</a> </td>
+                            <td>
+                              <button onclick="daemons_service(this.id)" id="flower" type="button"
+                                class="btn btn-primary">check</button>
+
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </form>
+                  </div>
+                  <div class="modal-footer">
+                    <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
+                  </div>
+                </div>
+              </div>
+            </div>
 
 
           </div>
@@ -73,10 +171,10 @@
 
 
 
-
 <script>
 
 
+  // console.log(conntected_to_server)
   $("#anviz_employee_form").on('submit', function (e) {
     e.preventDefault();
     employee = $("#anviz_user").val()
@@ -122,9 +220,9 @@
   const emptyfile = () => {
     $('#submit_btn').bind("click", function () {
 
-      var imgVal = $('#profile').val()=='' ? alert('empty file'):''
-     
-  });
+      var imgVal = $('#profile').val() == '' ? alert('empty file') : ''
+
+    });
   }
 
 
@@ -148,7 +246,7 @@
         $(".dropify-clear").click();
 
 
-        Swal.fire(`${data} PROFILE UPDATED`);
+        Swal.fire('PROFILE UPDATED');
 
       },
       complete: function () {
@@ -177,6 +275,34 @@
 
     });
   }
+
+
+  $('#status').insertAfter("#count_on_leave");
+  $("#count_exceed_leave, #count_on_leave").addClass('d-none')
+
+
+  const daemons_service = (service) => {
+    // console.log('serice_name ',serice_name)
+
+    $.ajax({
+      url: `/daemons_service/${service}/`,
+      type: "GET",
+      success: function (data) {
+        // console.log(data)
+        status = data.status
+        service_name = data.service_name
+
+        status == 0 ? $(`#${service_name}`).text('Active').addClass('bg-success pulse') : $(`#${service_name}`).text('Inactive').addClass('text-light bg-danger pulse')
+
+        // console.log(status,service_name)
+        // $(`#${serice_name}`).text()
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+        alert(jqXHR, textStatus, errorThrown,)
+      }
+    })
+  }
+
 </script>
 
 

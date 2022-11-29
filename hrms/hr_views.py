@@ -1,40 +1,45 @@
+import os
+import shutil
+import subprocess
 from datetime import datetime, timedelta
 
-from django.db.models import Count, F, Q, Sum,FloatField
+from decouple import config
+from django.db.models import Count, F, FloatField, Q, Sum
 from django.shortcuts import get_object_or_404, render
+from django.http import JsonResponse
 from django.utils import timezone
 from django_pandas.io import read_frame
-from HRMSPROJECT import sql_server
-from HRMSPROJECT.custome_decorators import group_required
+from PIL import Image
 from rest_framework import generics, status
 from rest_framework.decorators import api_view
-from PIL import Image
-import os
 from rest_framework.response import Response
-from datetime import datetime
-from decouple import config
-import shutil 
+
+from HRMSPROJECT import sql_server
+from HRMSPROJECT.custome_decorators import group_required
+from django.views.decorators.csrf import csrf_exempt
+
 from . import partials
 from .models import (Department, Dependant, Designation, Education, Employee,
                      Leave, LeavePolicy, PreviousEployment,
                      ProfessionalMembership)
-    
 
 
 @group_required('HR', 'MNG')
 def hr_dashborad(request):
 
-    return render(request,'hr/hr_dashborad.html')
+    return render(request, 'hr/hr_dashborad.html')
+
 
 @group_required('HR', 'MNG')
 @api_view(['GET'])
 def hr_reports(request, data_value=None):
 
-    qs = Employee.objects.select_related('designation').exclude(for_management=True)
- 
+    qs = Employee.employees.select_related(
+        'designation')#.exclude(for_management=True)
 
     # ACTIVE EMPLOYEES
-    active_employees = qs.filter(status='active',department__for_management=False)
+    active_employees = qs.filter(
+        status='active', department__for_management=False)
 
     # print(dir(active_employees))
     # active_employees_married = active_employees.filter(is_merried=True)
@@ -58,25 +63,24 @@ def hr_reports(request, data_value=None):
         ),
     )
 
-
-
-    age = active_employees.only('dob__year').annotate(age= datetime.now().year -F('dob__year'))\
+    age = active_employees.only('dob__year').annotate(age=datetime.now().year - F('dob__year'))\
         .aggregate(
         above=(
-             Count('dob__year', filter=Q(age__gte=30))
+            Count('dob__year', filter=Q(age__gte=30))
         ),
         below=(
-              Count('dob__year', filter=Q(age__lt=30))
+            Count('dob__year', filter=Q(age__lt=30))
         ),
     )
- 
 
-    on_leave = active_employees.values('leave_employees__from_leave','leave_employees__hr_manager').aggregate(
+    on_leave = active_employees.values('leave_employees__from_leave', 'leave_employees__hr_manager').aggregate(
         on_leave=(
-            Count('id', filter=Q(leave_employees__from_leave=False,leave_employees__hr_manager=True))
+            Count('id', filter=Q(leave_employees__from_leave=False,
+                  leave_employees__hr_manager=True))
         ),
         applied_leave=(
-            Count('id', filter=Q(leave_employees__from_leave=False,leave_employees__hr_manager=False))
+            Count('id', filter=Q(leave_employees__from_leave=False,
+                  leave_employees__hr_manager=False))
         ),
     )
 
@@ -94,13 +98,13 @@ def hr_reports(request, data_value=None):
     leave_applications = qs.filter(leave_employees__start__isnull=False).values(
         'leave_employees__start__year').annotate(leave_applications=Count('id'))
 
-    emp_exceed_leave = qs.filter(leave_employees__from_leave=False,leave_employees__hr_manager=True, leave_employees__resuming_date__gt=timezone.now()).values(
+    emp_exceed_leave = qs.filter(leave_employees__from_leave=False, leave_employees__hr_manager=True, leave_employees__resuming_date__gt=timezone.now()).values(
         'leave_employees__employee__first_name', 'leave_employees__employee__last_name', 'leave_employees__end')
 
     emp_on_leave = qs.filter(leave_employees__from_leave=False).values('leave_employees__employee__employee_id', 'leave_employees__from_leave', 'leave_employees__hr_manager', 'leave_employees__line_manager',
-                                                                       'leave_employees__employee__first_name', 'leave_employees__employee__last_name', 'leave_employees__pk', 'leave_employees__resuming_date','leave_employees__status')
+                                                                       'leave_employees__employee__first_name', 'leave_employees__employee__last_name', 'leave_employees__pk', 'leave_employees__resuming_date', 'leave_employees__status')
 
-    emp_from_leave_recent = qs.filter(leave_employees__from_leave=True,leave_employees__hr_manager=True).values(
+    emp_from_leave_recent = qs.filter(leave_employees__from_leave=True, leave_employees__hr_manager=True).values(
         'leave_employees__employee__first_name', 'leave_employees__employee__last_name', 'leave_employees__end').reverse()[:5]
 
     employment_rate = qs.values(
@@ -109,7 +113,8 @@ def hr_reports(request, data_value=None):
     turn_over_rate = qs.values(
         'status', 'date_employed__year').annotate(employee_count=Count('date_employed'))
 
-    department_count = active_employees.values('department__name').annotate(employee_count=Count('department__name'))
+    department_count = active_employees.values('department__name').annotate(
+        employee_count=Count('department__name'))
 
     # print(dpeartment_count)
 
@@ -133,7 +138,7 @@ def hr_reports(request, data_value=None):
         'leave': on_leave,
         'country': country,
         'department_heads': hods,
-        'department_count':department_count,
+        'department_count': department_count,
         'active_employees_count': active_employees.count(),
 
         # 'active_employees_merried': active_employees.filter(is_merried=True).count(),
@@ -157,6 +162,7 @@ def hr_reports(request, data_value=None):
 
         return Response(data.get(data_value))
 
+
 @group_required('HR', 'MNG')
 @api_view(['GET'])
 def employment_rate(request, quarter):
@@ -175,15 +181,21 @@ def employment_rate(request, quarter):
     return Response(employment_rate)
 
 
-@api_view(['POST'])
+# @api_view(['POST'])
+@csrf_exempt
 def emp_on_leave(request, pk):
     leave = get_object_or_404(Leave, pk=pk)
 
-    # leave.on_leave = False
     leave.from_leave = True
+    # print(leave.from_leave)
     leave.save()
+    data = {
+        'from_leave': leave.from_leave
+    }
+    return JsonResponse(data,safe=False)
+    
+    # return Response(data=data,status=status.HTTP_200_OK)
 
-    return Response(status=status.HTTP_200_OK)
 
 @group_required('HR', 'MNG')
 @api_view(['POST'])
@@ -193,13 +205,13 @@ def hr_approve_leave(request, pk):
     new_hr_manager = True
     old_hr_manager = leave.hr_manager
     employee = str(request.user).upper()
-    if partials.check_approval_status_change(new_hr_manager,old_hr_manager,'hr_manager', employee):
+    if partials.check_approval_status_change(new_hr_manager, old_hr_manager, 'hr_manager', employee):
         print('new state update status')
-        leave.hr_manager_approval = partials.check_approval_status_change(new_hr_manager,old_hr_manager,'hr_manager', employee)
+        leave.hr_manager_approval = partials.check_approval_status_change(
+            new_hr_manager, old_hr_manager, 'hr_manager', employee)
     else:
         print('old state dont update status')
 
-    
     leave.hr_manager = True
     leave.save()
 
@@ -231,7 +243,8 @@ def time_attendance(request):
     # GET YESTERDAYS DATE IF NO DATE FROM, AND TO IS PROVIDED
     # sql = "SELECT  [DeptName] AS Department, 'In' as [StatusText In], Count(case StatusText when 'In' then 1 end) as Count_In, 'Out' as [Status_out],Count(case StatusText when 'Out' then 1 end) as Count_Out FROM [dbo].[V_Record] WHERE [StatusText] in ('In', 'Out') AND CAST(CheckTime AS DATE) ='{}' AND DeptName IS NOT NULL GROUP BY [DeptName] ORDER BY [DeptName]".format(yesterday)
 
-    sql = "SELECT  [DeptName] AS Department, 'In' as [StatusText In], Count(case StatusText when 'In' then 1 end) as Count_In FROM [dbo].[V_Record] WHERE [StatusText] in ('In') AND CAST(CheckTime AS DATE) ='{}' AND DeptName IS NOT NULL GROUP BY [DeptName] ORDER BY [DeptName]".format(yesterday)
+    sql = "SELECT  [DeptName] AS Department, 'In' as [StatusText In], Count(case StatusText when 'In' then 1 end) as Count_In FROM [dbo].[V_Record] WHERE [StatusText] in ('In') AND CAST(CheckTime AS DATE) ='{}' AND DeptName IS NOT NULL GROUP BY [DeptName] ORDER BY [DeptName]".format(
+        yesterday)
     # print(sql)
 
     if date_to and endTime:
@@ -256,7 +269,7 @@ def time_attendance(request):
         request.session['DATETIME'] = "DATE"
         # print(date_from, date_to)
         # sql = "SELECT  [DeptName] AS Department, 'In' as [StatusText In], Count(case StatusText when 'In' then 1 end) as Count_In, 'Out' as [Status_out],Count(case StatusText when 'Out' then 1 end) as Count_Out FROM [dbo].[V_Record] WHERE [StatusText] in ('In', 'Out') AND CAST(CheckTime AS DATE) BETWEEN '{}' AND '{}' AND DeptName IS NOT NULL  GROUP BY [DeptName] ORDER BY [DeptName]".format(
-    
+
         sql = "SELECT  [DeptName] AS Department, 'In' as [StatusText In], Count(case StatusText when 'In' then 1 end) as Count_In FROM [dbo].[V_Record] WHERE [StatusText] in ('In') AND CAST(CheckTime AS DATE) BETWEEN '{}' AND '{}' AND DeptName IS NOT NULL  GROUP BY [DeptName] ORDER BY [DeptName]".format(
             date_from, date_to)
 
@@ -353,49 +366,46 @@ def clockins(request):
 
         return Response(data)
 
+
 @group_required('IT')
 @api_view(['GET', 'POST'])
 def update_anviz_user(request):
 
-
     if request.method == 'GET':
 
-        employee= request.GET.get('employee')
+        employee = request.GET.get('employee')
         # sql = "SELECT  [DeptName] AS Department, 'Name' as [Employee] FROM [dbo].[V_Record] WHERE [Userid] ='{}'".format(username)
-        sql= "SELECT  [Duty] AS Department, [Name] as Employee FROM [dbo].[Userinfo] WHERE [Userid] = '{}'".format(employee)
+        sql = "SELECT  [Duty] AS Department, [Name] as Employee FROM [dbo].[Userinfo] WHERE [Userid] = '{}'".format(
+            employee)
 
         sql_data = ()
-        
+
         try:
             cursor = sql_server.cursor.execute(sql)
             rows = cursor.fetchone()
             sql_data = rows
-            name,department =  rows 
+            name, department = rows
             request.session['anviz_id'] = employee
             anviz_employee = f'{department} {name}'.upper()
             request.session['anviz_employee'] = anviz_employee
-            
-        except :
-            name=''
-            department=''
+
+        except:
+            name = ''
+            department = ''
             # print('not found',sql_data)
-        
+
         # print('found ',sql_data)
-        
+
         # print(department,name)
         # sql_server.connection.close()
         # sql_server.pyodbc.pooling=False
-       
 
-        
         # print(g)
         data = {
-            'employee':name,
-            'department':department
+            'employee': name,
+            'department': department
         }
         return Response(data)
-
- 
 
     if request.method == 'POST':
         anviz_id = request.session.get('anviz_id')
@@ -404,32 +414,46 @@ def update_anviz_user(request):
 
         print(profile)
 
-        image_root = config('IMAGE_ROOT')  
-     
-        img=  Image.open(profile).convert('RGB')
+        image_root = config('IMAGE_ROOT')
+
+        img = Image.open(profile).convert('RGB')
         size = 128, 128
-        #img.thumbnail(size)
-        image =img.save(f"{image_root}//{profile}")
+        # img.thumbnail(size)
+        image = img.save(f"{image_root}//{profile}")
         # img.save(f"{image_root}//{profile}")
         old_path = f'{image_root}//{profile}'
         new_location = config('NEW_LOCATION')
-        
+
         new_path = f'{new_location}//{anviz_employee}.jpg'
 
-            
-        sql = "UPDATE [anviz].[dbo].[Userinfo] SET Picture =(SELECT  BulkColumn FROM OPENROWSET(BULK  N'C:/Users/Public/Profiles/{}',SINGLE_BLOB) AS Picture) WHERE Userid ='{}'".format(profile,anviz_id)
+        sql = "UPDATE [anviz].[dbo].[Userinfo] SET Picture =(SELECT  BulkColumn FROM OPENROWSET(BULK  N'C:/Users/Public/Profiles/{}',SINGLE_BLOB) AS Picture) WHERE Userid ='{}'".format(
+            profile, anviz_id)
 
         cursor = sql_server.cursor.execute(sql)
 
         cursor.commit()
 
-        #sql_server.connection.close()
-        #sql_server.pyodbc.pooling=False
+        # sql_server.connection.close()
+        # sql_server.pyodbc.pooling=False
 
-        
         shutil.move(old_path, new_path)
         # img.show(new_path)
 
-        #print(cursor)
+        # print(cursor)
 
         return Response(anviz_employee)
+
+
+@group_required('IT')
+@api_view(['GET'])
+def daemons_service(request, service_name=None):
+    
+    status = subprocess.call(['systemctl', 'is-active', service_name])
+
+    # subprocess.call(['systemctl', 'restart', 'flower'])
+
+    data = {
+        'status': status,
+        'service_name': service_name,
+    }
+    return Response(data)

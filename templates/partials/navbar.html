@@ -156,11 +156,15 @@
           <a class="dropdown-item">Activity<i class="dropdown-item-icon ti-location-arrow"></i></a>
           <a class="dropdown-item">FAQ<i class="dropdown-item-icon ti-help-alt"></i></a>
           
+          
           {% if user.is_authenticated %}
           <a href="{% url 'logout'  %}" class="dropdown-item">Sign Out<i class="dropdown-item-icon ti-power-off"></i></a>
+
+          {% if request.user.department.shortname == 'IT' %}
           
+                    
           <a href="/upload-anviz-user-profile" class="dropdown-item" id={{conntected_to_server}}>IT<i class="dropdown-item-icon ti-help-alt"></i></a>
-          
+          {% endif %}
 
           {% else %}
           <a href="{% url 'login'  %}" class="dropdown-item">Sign In<i class="dropdown-item-icon ti-power-off"></i></a>
@@ -202,7 +206,7 @@
     `)
   }
  
- $('#False').addClass('pulse').attr('title', 'not conntected to anviz server').removeAttr('href');
+ $('#False').addClass('pulse').attr('title', 'not conntected to anviz server')
 </script>
 
 <style>

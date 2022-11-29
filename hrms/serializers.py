@@ -2,12 +2,39 @@ from dataclasses import fields
 
 from rest_framework import serializers
 
-from .models import (Dependant, Education, Employee, Leave,
+from .models import (Dependant, Education, Employee,PreviousEployment, Leave,
                      ProfessionalMembership,Documente)
 
 
+class AllEmployeeSerializer(serializers.ModelSerializer):
+    employee_id = serializers.CharField(read_only=True)
+    department_name = serializers.CharField(source='department.name', read_only=True)
+    exit_check = serializers.CharField(read_only=True)
+    date_exited = serializers.CharField(read_only=True)
+    pk = serializers.CharField(read_only=True)
+    emp_uiid = serializers.CharField(read_only=True)
+    status = serializers.CharField(read_only=True)
 
 
+    class Meta:
+        model=Employee
+
+        fields=  [
+            'employee_id','full_name','first_name','last_name','title','gender','mobile','email','dob',
+            'other_name','is_head','salary','nia','emergency_name','emergency_phone',
+            'emergency_address','place_of_birth','is_merried','nationality',
+            'languages','country','department','designation','snnit_number',
+            'bank_name','bank_branch','bank_ac','next_of_kin_name','next_of_kin_phone',
+            'next_of_kin_address','next_of_kin_relationship','date_employed',
+            'address','applicant_id','anviz_id','profile','department_name',
+            'exit_check','date_exited','pk','emp_uiid','status',
+            'profile_exists','applicant_cv_exists','with_beneficiary',
+        
+        ]
+        
+            
+
+        
 
 class EmployeeSerializer(serializers.ModelSerializer):
     # profile_exists = serializers.CharField('profile_exists')
@@ -15,30 +42,68 @@ class EmployeeSerializer(serializers.ModelSerializer):
     department = serializers.CharField(source='department.name')
     # department = serializers.CharField(source='employee.department')
 
-
-
     class Meta:
         model = Employee
         fields = ['pk', 'employee_id', 'is_head','full_name', 'emp_uiid', 'status','is_merried', 'date_employed',
                   'mobile', 'email', 'address', 'profile_exists', 'with_beneficiary', 'department',]
 
 
-class GetEmployeeSerializer(serializers.ModelSerializer):
-    # cv_exists = serializers.URLField(source='applicant.cv_exists')
 
+# class GetEmployeeSerializer(serializers.ModelSerializer):
+#     # cv_exists = serializers.URLField(source='applicant.cv_exists')
+
+#     class Meta:
+#         model = Employee
+#         fields = ['pk', 'employee_id', 'title', 'full_name', 'first_name',
+#                   'last_name', 'is_head', 'nia', 'other_name', 'status', 'date_employed',
+#                   'other_name', 'mobile', 'email', 'address',
+#                   'profile_exists', 'with_beneficiary', 'department',
+#                   'dob', 'languages', 'place_of_birth', 'nationality', 'country', 'gender',
+#                    'snnit_number','is_merried', 'designation', 'bank_branch', 'bank_name', 'bank_ac', 
+#                    'salary', 'emergency_name','emergency_phone', 'emergency_address', 'next_of_kin_name', 
+#                    'next_of_kin_phone', 'next_of_kin_address', 'next_of_kin_relationship', 'my_group',
+#                    'applicant_cv_exists','exit_check','date_exited',
+#                   ]
+
+
+
+class DependantSerializer(serializers.ModelSerializer):
+    employee = serializers.CharField(read_only=True)
+
+    
     class Meta:
-        model = Employee
-        fields = ['pk', 'employee_id', 'title', 'full_name', 'first_name',
-                  'last_name', 'is_head', 'nia', 'other_name', 'status', 'date_employed',
-                  'other_name', 'mobile', 'email', 'address',
-                  'profile_exists', 'with_beneficiary', 'department',
-                  'dob', 'languages', 'place_of_birth', 'nationality', 'country', 'gender',
-                   'snnit_number','is_merried', 'designation', 'bank_branch', 'bank_name', 'bank_ac', 
-                   'salary', 'emergency_name','emergency_phone', 'emergency_address', 'next_of_kin_name', 
-                   'next_of_kin_phone', 'next_of_kin_address', 'next_of_kin_relationship', 'my_group',
-                   'applicant_cv_exists','exit_check','date_exited',
-                  ]
+        model = Dependant
+        fields = ['employee','gender','first_name','last_name',
+        'other_name','dob','mobile','address','full_name']
 
+
+class EducationSerializer(serializers.ModelSerializer):
+    employee = serializers.CharField(read_only=True)
+
+    
+    class Meta:
+        model = Education
+        fields = ['employee','school_name','course','certificate',
+        'date_completed']
+
+
+class PreviousMembershipSerializer(serializers.ModelSerializer):
+    employee = serializers.CharField(read_only=True)
+
+    
+    class Meta:
+        model = ProfessionalMembership
+        fields = ['employee','name']
+
+
+
+class PreviousEploymentSerializer(serializers.ModelSerializer):
+    employee = serializers.CharField(read_only=True)
+
+    
+    class Meta:
+        model = PreviousEployment
+        fields = ['employee','company','job_title','date']
 
 
 class DocumentSerializer(serializers.ModelSerializer):

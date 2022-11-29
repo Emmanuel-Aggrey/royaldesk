@@ -152,19 +152,7 @@ $(document).ready(function () {
     $("#user_name").text(user_name)
     $("#email").val(data.data.email);
     $("#phone").val(data.data.phone);
-    // LOOP EMPLOYEES
-    // data.data.handle_over_to.forEach((element) => {
-    //     // console.log(element.pk,element.first_name, element.last_name)
-    //   $("#handle_over_to")
-    //     .append(
-    //       '<option value="' +
-    //       element.pk +
-    //       '">' +
-    //       `${element.first_name} ${element.last_name}` +
-    //       "</option>"
-    //     )
-    //     .css("height", "50");
-    // });
+
 
     // LOOP LEAVE POLICY
     data.data.leave_policies.forEach((element) => {
@@ -326,7 +314,6 @@ const leave_table = () => {
       `
   )
 
-
   // var table = "";
 
   $(`#leave_filter option:contains('${'MY DATA'}')`).prop("selected", true)
@@ -341,14 +328,30 @@ const leave_table = () => {
 
       hod = response.user_type.hod
       hr = response.user_type.hr
-
-      if (hod === true) {
-        $("#line_manager_edit").addClass("HOD")
-        $("#supervisor_edit").addClass("HOD")
+      // console.log(hr,hod)
+      
+// APPROVALS TO LEAVE APPROVALS
+      if (hr  & hod) {
+        $("#hr__edit").addClass('HR')
+        $(".approve_leave_view").css('display', 'block')
 
       }
-      if (hr === true) {
+       else if (hr ) {
         $("#hr__edit").addClass('HR')
+        $(".approve_leave_view").css('display', 'block')
+      
+      }
+      else if (hod) {
+
+        $("#line_manager_edit").addClass("HOD")
+        $("#supervisor_edit").addClass("HOD")
+        $(".approve_leave_view").css('display', 'block')
+
+      }
+
+      else{
+        $( ".on_leave" ).insertBefore( "#from_leave_col" ).addClass('my-4');
+        // console.log('#from_leave_col #on_leave')
       }
 
 
@@ -387,7 +390,7 @@ const leave_table = () => {
         
           <td class="text-uppercase leave_status ${leave_status(element.status, element.from_leave)}"> ${element.status}</td>
           <td>
-          <div class="edit_product btn text-info btn-outline-dark" title="edit items" onclick="get_employee(${element.id})">
+          <div class="edit_product btn text-info btn-outline-dark" title="edit items" onclick="getLeave(${element.id})">
           <i class="fa fa-pencil"  style="cursor:pointer;"  aria-hidden="true">edit</i>
           </div>
           <a href='${element.url}' class="btn text-primary btn-outline-dark">
@@ -460,7 +463,7 @@ const leave_table = () => {
             
             <td class="text-uppercase leave_status ${leave_status(element.status, element.from_leave)}"> ${element.status}</td>
             <td>
-              <div class="edit_product btn text-info btn-outline-dark" title="edit items" onclick="get_employee(${element.id})">
+              <div class="edit_product btn text-info btn-outline-dark" title="edit items" onclick="getLeave(${element.id})">
               <i class="fa fa-pencil"  style="cursor:pointer;"  aria-hidden="true">edit</i>
               </div>
 
@@ -527,36 +530,33 @@ function emp_on_leave(on_leave) {
 
 
 // CHECK IF USER HAVE RIGHT TO GRANT LEAVE
-const user_group = (on_leave, supervisor) => {
-  // user_name = $('#user_name').text()
+const user_group = (hr_manager_approve) => {
+  // console.log(hr_manager_approve,on_leave)
+
 
   const hr = document.getElementById("hr__edit").classList.contains("HR")
   const hod = document.getElementById("line_manager_edit").classList.contains("HOD")
-  // const supervisor = $('#supervisor_edit').prop('checked', true)
+
+
+  
+  // hr && hr_manager_approve  ? $("#submit_btn_edit").addClass('disabled') : $("#submit_btn_edit").removeClass('disabled') 
+
+
+  hr_manager_approve & !hr ? $("#submit_btn_edit").addClass("disabled"):$("#submit_btn_edit").removeClass("disabled");
 
   if (hr && hod) {
     // console.log("HR USER")
   }
 
-  // else if (hr) {
-  //   $('#line_manager_edit').on('change click', function (e) {
-  //     e.preventDefault();
-  //     Swal.fire("INSUFICIENT RIGHT TO PERFORM THIS ACTION");
 
-  //   })
-  // }
-  // else if (hod) {
-  //   // console.log('HOD USER')
-  //   $('#hr__edit').on('change click', function (e) {
-  //     e.preventDefault();
-  //     Swal.fire("INSUFICIENT RIGHT TO PERFORM THIS ACTION");
-
-  //   })
-  // }
   if (hr) {
-    // console.log("HR USER")
+    // console.log("HR USER" ,hr,' hr_manager_approve',hr_manager_approve)
 
   }
+  // else if (hr_manager && !hr) {
+  //   hr_manager  ? $(".submit_btn_edit").addClass('disabled') : $(".submit_btn_edit").removeClass('disabled') 
+
+  // }
   else if (hod) {
     // console.log('HOD USER')
     $('#hr__edit').on('change click', function (e) {
@@ -602,19 +602,31 @@ const user_group = (on_leave, supervisor) => {
     })
 
 
+    // if ( hr_manager_approve & !hr) {
+
+    //   // console.log('on_leave',hr,'hr_manager_approve',hr_manager_approve)
+    //   // console.log('on_leave',!hr,'hr_manager_approve',!hr_manager_approve)
+    //   return $("#submit_btn_edit").addClass("disabled");
+  
+    // }
+    // else{
+    //   return $("#submit_btn_edit").removeClass("disabled");
+  
+    // }
+  
   }
 
 
 
-  if (on_leave) {
 
-    // console.log('on_leave',on_leave)
-    return $("#submit_btn_edit").attr("disabled", true);
-  }
 
-  else {
-    return $("#submit_btn_edit").attr("disabled", false);
-  }
+  
+//   if(on_leave ){
+//     return $("#on_leave").attr('disabled',true);
+// }
+
+
+  
 
 }
 
@@ -629,7 +641,7 @@ function viewLeaveDetail(employee) {
 }
 
 
-function get_employee(leave_id) {
+function getLeave(leave_id) {
 
 
   date_setup('start_edit', 'end_edit', 'resuming_date_edit', 'days_edit');
@@ -643,15 +655,16 @@ function get_employee(leave_id) {
 
       // console.log(response)
 
-
+  
       $("#policy_edit").empty();
       policy = response.policy
-      // handle_over_to = response.handle_over_to
 
 
 
-      // user_group(handle_over_to.toLowerCase(), response.on_leave)
-      user_group(response.on_leave, response.supervisor)
+      // check user group and apply policy
+      user_group(response.hr_manager)
+
+      // console.log(response)
 
 
       $(".leave").attr('id', response.employee_id)
@@ -664,11 +677,6 @@ function get_employee(leave_id) {
       $("#phone_edit").val(response.phone)
       $("#days_edit").text('No. of days applied for: ' + response.leave_days)
 
-      // $("#handle_over_to_edit").removeAttr("class")
-
-      // $("#handle_over_to_edit").addClass(handle_over)
-
-      // $("#handle_over_to_edit").val(handle_over_to)
       $("#resuming_date_edit").val(response.resuming_date)
       $("#status").val(response.status)
       $('#supervisor_edit').prop('checked', response.supervisor)
@@ -677,7 +685,6 @@ function get_employee(leave_id) {
       $('#on_leave').prop('checked', response.on_leave)
       $("#file_url").attr('href', response.file)
       $('#file_url').text(response.file.substring(response.file.lastIndexOf('/') + 1)).css('color', '#0078F5')
-      // document.getElementById("file_url").textContent = response.file
 
 
       response.policies.forEach(element => {
@@ -691,20 +698,7 @@ function get_employee(leave_id) {
       // $("#policy_edit option[value='2']").attr("selected",true)
       $(`#policy_edit option:contains('${policy}')`).prop("selected", true)
 
-      // response.collegues.forEach(element => {
-      //   $("#handle_over_to_edit").append(
-      //     `
-      //    <option value="${element.pk}">${element.first_name} ${element.last_name} </option> 
-      //     `
-      //   )
-
-      // });
-
-      // $(`#handle_over_to_edit option:contains('${handle_over_to}')`).prop("selected", true)
-      // console.log(handle_over_to)
-
-      // height: 680,
-      // width: 380,
+      
 
       $("#edit_leave").dialog({
 
@@ -722,20 +716,93 @@ function get_employee(leave_id) {
         ]
 
       })
+      
+      // response.status =='approved' && response.on_leave ? $("#on_leave, #submit_btn_edit").attr('disabled', true) : $("#on_leave, #submit_btn_edit").attr('disabled', false);
+      // response.status =='pending'  ? $("#on_leave").addClass('disabled') : $("#on_leave").removeClass('disabled');
 
-      // console.log('response',response.status)
-      if (response.status === 'pending') {
-        return $("#on_leave").attr('disabled', true);
+      response.on_leave   ? $("#on_leave,#submit_btn_edit").attr('disabled', true) : $("#on_leave,#submit_btn_edit").attr('disabled', false);
+
+      if(response.status=='pending'){
+        return $("#on_leave").attr('disabled',true)
       }
-      else {
-        return $("#on_leave").attr('disabled', false);
+      else{
+        return $("#on_leave").attr('readonly',false)
 
       }
-      // is_collegue(handle_over_to.toLowerCase())
+
+   
+
+      // response.hr_manager  ? $("#on_leave").addClass("pulse"):$("#on_leave").removeClass("pulse");
+
+      // response.on_leave & response.hr_manager  ? $("#on_leave").addClass("pulse"):$("#on_leave").removeClass("pulse");
+
+
+      // response.on_leave  ? $("#on_leave").addClass("disabled"):$("#on_leave").removeClass("disabled");
+
 
     }
   })
 }
+
+
+// FROM LEAVE POST REQUEST
+  $("#on_leave" ).change(function() {
+
+
+    const on_leave = $("#on_leave").prop('checked')
+    const leave_id = sessionStorage.getItem("leave_id");
+
+    if (on_leave) {
+      Swal.fire({
+        title: 'From Leave',
+        text: '',
+        // icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        cancelButtonText: 'NO',
+        confirmButtonText: 'YES',
+      }).then((result) => {
+        // console.log(result)
+        if (result.isConfirmed) {
+  
+        //  ajax request start
+  
+        $.ajax({
+          url: `/emp-on-leave/${leave_id}/`,
+          type: "POST",
+          csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(),
+    
+          success: function (data) {
+            // console.log(data.from_leave)
+              data.from_leave ? $("#on_leave").prop('checked', true).attr('disabled',true) : $("#on_leave").prop('checked', false)
+              data.from_leave  ? $("#submit_btn_edit").addClass('disabled') : $("#submit_btn_edit").removeClass('disabled') 
+    
+              Swal.fire('saved successfully')
+          },
+          error: function (jqXHR, textStatus, errorThrown){
+            console.log(jqXHR, textStatus, errorThrown)
+            Swal.fire('error occurred try again')
+          }
+        })
+        //ajax request end
+         
+        }
+        else if (result.isDismissed){
+          $('#on_leave').prop( "checked",false );
+  
+        }
+        
+      })
+  
+      
+    }
+    else{
+      // not on leave
+    }
+
+  })
+
 
 
 const verify_leave = (employee) => {

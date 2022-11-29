@@ -13,8 +13,7 @@
 	<link href="/static/css/education/partials.css" rel="stylesheet" type="text/css" />
 
 </head>
-{% comment %} <body> {% endcomment %}
-<body onLoad="window.print()">
+<body id="offer_letter_body" onLoad="window.print()">
 <page size="A4">
 	<!-- <div id="topbanner"><img src="./static/images/logo/rch.jpg" /> -->
 	</div>
@@ -291,6 +290,14 @@
 		
 	</div>
 </page>
+<style>
+	@media print {
+		#offer_letter_body{
+		background-image: none;
+	}
+	}
+</style>
+
 
 
 </body>

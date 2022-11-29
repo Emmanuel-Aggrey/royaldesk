@@ -7,7 +7,8 @@ from celery import shared_task
 from django.conf import settings
 from django.core import management
 from django.core.mail import EmailMultiAlternatives, send_mail, send_mass_mail
-
+from HRMSPROJECT import sql_server
+from datetime import datetime, timedelta
 from hrms.models import Leave,Employee
 
 
@@ -34,7 +35,7 @@ def send_email_new_helpdesk_employee(employee,employee_id,email,password):
 
     subject = 'Dear {}'.format(employee)
     subject_ = subject.upper()
-    html_content = 'Welcome to Rock City Help Desk, Your Employee ID  is <b>{}</b> ,And your password is <b>{}</b>, Please <a href="http://192.168.1.18/">Click Here</a> to login to use Help Desk. <p>you will be redirected to change the default password to your own password </p>  Thank you.  <br><hr> <br> <footer><b>POWERD BY <a href="https://192.168.1.18/"> ROYALDESK </a> RCH IT</b> </footer>'.format(
+    html_content = 'Welcome to Rock City Help Desk, Your Employee ID  is <b>{}</b> ,And your password is <b>{}</b>, Please <a href="http://192.168.1.18/">Click Here</a> to login to use Help Desk. <p>you will be redirected to change the default password to your own password. </p>  <p>Best Regards, <br>The Royaldesk Team.</p>  <br><hr> <br> <footer><b>POWERD BY <a href="https://192.168.1.18/"> ROYALDESK </a> RCH IT</b> </footer>'.format(
         employee_id, password)
 
     msg = EmailMultiAlternatives(
@@ -98,13 +99,46 @@ def employee_on_leave():
 
 
 
-    
+
+
         # df = pd.DataFrame(data)
 
         # df.to_csv('employee_on_leave.csv')
 
+@shared_task
+def anviz_employee(name="leave_users"):
+    employees_on_leave  = Leave.objects.select_related('employee').only('employee__anviz_id').filter(from_leave=False,status='approved',employee__anviz_id__isnull=False)
+    # print(employees_on_leave)
+   
+    for employee_ids in employees_on_leave:
+        anviz_ids = employee_ids.employee.anviz_id
+        employee = employee_ids.employee.employee_id
+        resuming_date = employee_ids.resuming_date
+        next_day = resuming_date+timedelta(days=1)
+        leave_pk = employee_ids.pk
 
+        name = employee_ids.employee.full_name
 
+        # print(name,'\n')
+
+        sql = "SELECT DISTINCT [Userid]  FROM [dbo].[Checkinout] WHERE [Userid]  ='{}' AND CAST(CheckTime AS DATE) = '{}'  ".format(anviz_ids,resuming_date)
+        # print(sql,'\n')
+
+        try:
+            cursor = sql_server.cursor.execute(sql)
+            rows = cursor.fetchall()
+            columns = [column[0] for column in cursor.description]
+            anviz_users = [dict(zip(columns, row)) for row in rows]
+        
+            values =  [val for dic in anviz_users for val in dic.values()]
+
+            numbers = ', '.join(map(str, values))
+        
+            from_leave=  employees_on_leave.filter(employee__anviz_id=numbers)#.update(from_leave=True)
+
+            # print(from_leave)
+        except :
+            pass
 
 
 @shared_task

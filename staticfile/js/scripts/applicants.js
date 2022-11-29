@@ -3,7 +3,6 @@
 
 $(document).ready(function () {
 
-
   applicants()
 
 
@@ -52,8 +51,8 @@ const applicants = () => {
                 <td scope="row">${element.email}</td>
                 <td scope="row" class="text-capitalize">${element.department}</td>
                 <td scope="row" class="text-capitalize">${element.designation}</td>
-                <td scope="row"><a  target="_blank" rel="noopener noreferrer" title="download ${file}" href="${fileExist(element.cv_exists)}">${fileName(element.cv_exists)}</a></td>
-                <td scope="row" > <abbr title="${element.comment}...">${element.comment.slice(0,50)}</abbr> </td>
+                <td class="cv_view" scope="row" ><a   target="_blank" rel="noopener noreferrer" title="download ${file}" href="${fileExist(element.cv_exists)}">${fileName(element.cv_exists)}</a></td>
+                <td scope="row"> <abbr title="${element.comment}">${element.comment.slice(0,50)}...</abbr> </td>
 
                 <td scope="row"> <button type="button" class="btn btn-primary" title='update application' id="${element.applicant_id}" onClick=get_applicant(this)>
                 <i class="fa fa-pencil-square" aria-hidden="true"></i> 
@@ -83,8 +82,8 @@ const applicants = () => {
                 <td scope="row">${element.email}</td>
                 <td scope="row" class="text-capitalize">${element.department}</td>
                 <td scope="row" class="text-capitalize">${element.designation}</td>
-                <td scope="row"><a  target="_blank" rel="noopener noreferrer" title="download ${file}" href="${fileExist(element.cv_exists)}">${fileName(element.cv_exists)}</a></td>
-                <td scope="row" > <abbr title="${element.comment}...">${element.comment.slice(0,50)}</abbr> </td>
+                <td scope="row" class="cv_view"><a  target="_blank" rel="noopener noreferrer" title="download ${file}" href="${fileExist(element.cv_exists)}">${fileName(element.cv_exists)}</a></td>
+                <td scope="row"> <abbr title="${element.comment}">${element.comment.slice(0,50)}...</abbr> </td>
 
                 <td scope="row"> <button type="button" class="btn btn-primary" title='update application' id="${element.applicant_id}" onClick=get_applicant(this)>
                 <i class="fa fa-pencil-square" aria-hidden="true"></i> 
@@ -275,8 +274,8 @@ const get_applicant = (applicant_id) => {
 
 const showModal = (model, title) => {
   $(`#${model}`).dialog({
-    height: 790,
-    width: 1300,
+    height: 'auto',
+    width: 'auto',
     title: title,
     buttons: [
       {

@@ -46,19 +46,20 @@ const applicants = () => {
         $("#applicants_table").append(`
     
         <tr>
-              <td scope="row" title="print offer letter"> ${is_selected(element.status,element.applicant_id)} </td>
-                <td scope="row">${element.full_name}</td>
+        <td scope="row" title="print offer letter" >${element.applicant_id} </td>
+        <td scope="row">${element.full_name}</td>
                 <td scope="row">${element.phone}</td>
                 <td scope="row">${element.email}</td>
                 <td scope="row" class="text-capitalize">${element.department}</td>
                 <td scope="row" class="text-capitalize">${element.designation}</td>
-                <td scope="row"><a  target="_blank" rel="noopener noreferrer" title="download ${file}" href="${fileExist(element.cv_exists)}">${fileName(element.cv_exists)}</a></td>
-                <td scope="row" > <abbr title="${element.comment}...">${element.comment.slice(0,50)}</abbr> </td>
+                <td scope="row" class="cv_view"><a  target="_blank" rel="noopener noreferrer" title="download ${file}" href="${fileExist(element.cv_exists)}">${fileName(element.cv_exists)}</a></td>
+                <td scope="row" title="${element.comment}">${comment_exist(element.comment)} </td>
 
                 <td scope="row"> <button type="button" class="btn btn-primary" title='update application' id="${element.applicant_id}" onClick=get_applicant(this)>
                 <i class="fa fa-pencil-square" aria-hidden="true"></i> 
                 </button>
-                ${set_applicant(element.status,element.applicant_id)}
+                ${set_applicant(element.status,element.applicant_id)} 
+                ${is_selected(element.status,element.applicant_id)}
                 </td>
                 </tr>
         `)
@@ -77,20 +78,20 @@ const applicants = () => {
         $("#applicants_table").append(`
     
         <tr>
-        <td scope="row" title="print offer letter" >${is_selected(element.status,element.applicant_id)} </td>
+        <td scope="row" title="print offer letter" >${element.applicant_id} </td>
         <td scope="row">${element.full_name}</td>
                 <td scope="row">${element.phone}</td>
                 <td scope="row">${element.email}</td>
                 <td scope="row" class="text-capitalize">${element.department}</td>
                 <td scope="row" class="text-capitalize">${element.designation}</td>
-                <td scope="row"><a  target="_blank" rel="noopener noreferrer" title="download ${file}" href="${fileExist(element.cv_exists)}">${fileName(element.cv_exists)}</a></td>
-                <td scope="row" > <abbr title="${element.comment}...">${element.comment.slice(0,50)}</abbr> </td>
+                <td scope="row" class="cv_view"><a  target="_blank" rel="noopener noreferrer" title="download ${file}" href="${fileExist(element.cv_exists)}">${fileName(element.cv_exists)}</a></td>
+                <td scope="row" title="${element.comment}">${comment_exist(element.comment)} </td>
 
                 <td scope="row"> <button type="button" class="btn btn-primary" title='update application' id="${element.applicant_id}" onClick=get_applicant(this)>
                 <i class="fa fa-pencil-square" aria-hidden="true"></i> 
                 </button>
                 ${set_applicant(element.status,element.applicant_id)} 
-
+                ${is_selected(element.status,element.applicant_id)}
                 </td>
                 </tr>
         `)
@@ -318,12 +319,16 @@ $(`#${status}`).change(function () {
 
 // ADD URL TO APPLICANT PAGE IF SELECTED
 function is_selected(status,applicant) {
+  
   if (status !=='selected') {
     
-   return `<a class="text-danger" title="${status}" href="#">${applicant}</a>`
+   return `<a href="#"></a>`
   }
   else{
-    return `<a href="/offer-letter/${applicant}/" target="_blank" rel="noopener noreferrer">${applicant}</a>`
+    return `<a class='btn btn-outline-primary bg-info' title="offer letter" href="/offer-letter/${applicant}/" target="_blank" rel="noopener noreferrer">
+    <i class="fa fa-file text-light" aria-hidden="true"></i>
+    </a>`
+    
     
   }
 
@@ -340,9 +345,23 @@ function set_applicant(status,applicant) {
     return `<button id="${applicant}" class="btn btn-outline-info" title="transer applicant" onclick=transfer_applicant(this)>➚</button>`
     
   }
-
-
 }
+
+
+const comment_exist = (comment) =>{
+  if(comment.length >=50){
+     return comment.slice(0, 50) +"..."
+  }
+  else if(comment){
+    return comment.slice(0, 50)
+ }
+  else{
+    return ''
+  }
+}
+
+
+
 const transfer_applicant = (applicant)=> {
   // console.log(applicant.id)
   $.ajax({

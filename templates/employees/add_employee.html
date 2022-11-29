@@ -50,6 +50,8 @@
             {% csrf_token %}
             <!-- FIRST ROW -->
             <input type="hidden" name="applicant" id="applicant">
+
+            
             <div class="row justify-content-between text-left">
               <div class="form-group col-sm-3 flex-column d-flex"> <label class="form-control-label px-3">Title<span
                     class="text-danger">*</span></label> <select name="title" id="title" required class="form-control">
@@ -64,17 +66,17 @@
               </div>
               <div class="form-group col-sm-3 flex-column d-flex"> <label class="form-control-label px-3">First
                   Name<span class="text-danger">
-                    *</span></label> <input type="text" id="fname" name="fname" required
+                    *</span></label> <input type="text" id="fname" name="first_name" required
                   placeholder="Enter your last name">
               </div>
               <div class="form-group col-sm-3 flex-column d-flex"> <label class="form-control-label px-3">Last
                   Name<span class="text-danger">
-                    *</span></label> <input type="text" id="lname" name="lname" required
+                    *</span></label> <input type="text" id="lname" name="last_name" required
                   placeholder="Enter your last name">
               </div>
               <div class="form-group col-sm-3 flex-column d-flex"> <label class="form-control-label px-3">Other
                   Name<span class="text-danger">
-                  </span></label> <input type="text" id="oname" name="oname" placeholder="Enter your last name">
+                  </span></label> <input type="text" id="oname" name="other_name" placeholder="Enter your last name">
               </div>
 
             </div>
@@ -84,7 +86,7 @@
             <div class="row justify-content-between text-left">
               <div class="form-group col-sm-3 flex-column d-flex"> <label class="form-control-label px-2">SEX<span
                     class="text-danger">
-                    *</span></label> <select name="sex" id="sex" required>
+                    *</span></label> <select name="gender" id="sex" required>
                   <option value="male">MALE</option>
                   <option value="female">FEMALE</option>
                 </select>
@@ -106,7 +108,7 @@
               </div>
               <div class="form-group col-sm-3 flex-column d-flex"> <label class="form-control-label px-3">Phone<span
                     class="text-danger">
-                    *</span></label> <input type="text" id="p_phone" required name="p_phone"
+                    *</span></label> <input type="text" id="p_phone" required name="mobile"
                   placeholder="Enter your Phone Number">
               </div>
 
@@ -140,16 +142,16 @@
             <div class="row justify-content-between text-left">
               <div class="form-group col-sm-3 flex-column d-flex"> <label class="form-control-label px-2">DOB<span
                     class="text-danger">
-                    *</span></label> <input type="text"  id="dob" name="dob" required autocomplete="off"
+                    *</span></label> <input type="text" class="dob"  id="dob" name="dob" required autocomplete="off"
                   placeholder="yyyy-mm-dd">
               </div>
               <div class="form-group col-sm-3 flex-column d-flex"> <label class="form-control-label px-3">Date
                   Employed<span class="text-danger">
-                    *</span></label> <input type="text" id="date_employed" required name="date_employed" autocomplete="off"
+                    *</span></label> <input type="text" class="dob" id="date_employed" required name="date_employed" autocomplete="off"
                   placeholder="yyyy-mm-dd"> </div>
               <div class="form-group col-sm-3 flex-column d-flex"> <label class="form-control-label px-3">Residential
                   Address<span class="text-danger">
-                    *</span></label> <input type="text" id="res_address" required name="res_address"
+                    *</span></label> <input type="text" id="res_address" required name="address"
                   placeholder="Residential Address">
               </div>
               <div class="form-group col-sm-3 flex-column d-flex"> <label class="form-control-label px-3">Place Of
@@ -167,7 +169,7 @@
                     *</span></label> <select name="is_merried" id="is_merried" required>
                   <option value="not_married">NOT MARRIED</option>
                   <option value="married">MARRIED</option>
-                  <option value="Divorced">DIVORCED</option>
+                  <option value="divorced">DIVORCED</option>
                   <option value="widow">WIDOW</option>
 
                   <option value="widower">WIDOWER</option>
@@ -202,7 +204,7 @@
               </div>
               <div class="form-group col-sm-3 flex-column d-flex"> <label class="form-control-label px-3">HOD<span
                     class="text-danger">
-                    *</span></label> <select name="hod" id="hod" required>
+                    *</span></label> <select name="is_head" id="hod" required>
                   <option value="0">NO</option>
                   <option value="1">YES</option>
                 </select>
@@ -270,6 +272,12 @@
                   <option value="1">YES</option>
                 </select>
               </div>
+              <div class="form-group col-sm-6 flex-column d-flex"> <label class="form-control-label px-3">
+                Anviz ID<span class="text-danger">
+              </span></label> <input type="number" id="anviz_id" name="anviz_id"
+              placeholder="">
+          </div>
+
               <hr class="bg-primary">
 
             </div>
@@ -330,10 +338,17 @@
                 <label class="form-control-label px-3">Address<span class="text-danger"> *</span></label>
                 <input type="text" id="address" name="address" required placeholder="" />
               </div>
-              <div class="form-group col-sm-3 flex-column d-flex">
+
+              <div class="form-group col-sm-3 flex-column d-flex"> <label class="form-control-label px-2">Date of Birth<span
+                class="text-danger">
+                *</span></label> <input class="dob" type="text"  id="dob_dependant" name="dob" required autocomplete="off"
+              placeholder="yyyy-mm-dd">
+          </div>
+
+              <!-- <div class="form-group col-sm-3 flex-column d-flex">
                 <label class="form-control-label px-3">Date of Birth<span class="text-danger"> *</span></label>
-                <input type="text" id="dob" required name="dob" placeholder="" />
-              </div>
+                <input type="text" id="dob" required name="dob" placeholder=""  />
+              </div> -->
             </div>
             <!-- SECOND ROW END -->
             <hr class="bg-primary" />
@@ -378,10 +393,12 @@
                 <input type="text" id="certificate" name="certificate" placeholder="" />
               </div>
 
-              <div class="form-group col-sm-6 flex-column d-flex">
-                <label class="form-control-label px-3">Date Completed<span class="text-danger"> *</span></label>
-                <input type="text" value="" id="date_completed" required name="date_completed" placeholder="" />
-              </div>
+
+              <div class="form-group col-sm-6 flex-column d-flex"> <label class="form-control-label px-2">Date Completed<span
+                class="text-danger">
+                *</span></label> <input class="dob" type="text"   name="date_completed" required autocomplete="off"
+              placeholder="yyyy-mm-dd">
+          </div>
             </div>
             <!-- SECOND ROW END -->
             <hr class="bg-primary" />
@@ -461,7 +478,7 @@
 
               <div class="form-group col-sm-4 flex-column d-flex">
                 <label class="form-control-label px-3">Date Completed<span class="text-danger"> *</span></label>
-                <input type="text" value="" id="date_completed" required name="date_completed" placeholder="" />
+                <input type="text" class="dob" value=""  required name="date" placeholder="" />
               </div>
 
             </div>
@@ -481,7 +498,7 @@
 
             <!-- <input type="button" name="next" class="next action-button" id="membership_next_btn" style="width: 100px" value="Next" /> -->
             <!-- <button type="button" class="btn btn-primary action-button submit-btn" onClick="reg_finished()" id="save-continue-btn">Finish</button> -->
-            <input type="button" name="next" class="next action-button submit-btn" onclick="reg_finished()"
+            <input type="submit" name="next" class="next action-button submit-btn" onclick="reg_finished()"
             value="Finish" /> 
 
             <button type="submit" class="btn btn-primary action-button submit-btn">Save and add another</button>

@@ -43,7 +43,7 @@
                     <br />
 
                     <hr class="bg-dark" />
-                    <h5 id="heading">Leave Application Form</h5>
+                    <h5 id="heading" style="font: bold 100% sans-serif; letter-spacing: 0.5em;" >Leave Application Form</h5>
 
                     <!-- APPLY FOR LEAVE START -->
                     <div id="apply_leave" style="display: none">
@@ -122,7 +122,7 @@
 
                             <h6 id="days"></h6>
 
-                            <button type="submit" class="btn btn-primary submit-btn" style="width: 100%">
+                            <button  type="submit" class="btn btn-primary submit-btn" style="width: 100%">
                                 Submit
                             </button>
                         </form>
@@ -131,7 +131,7 @@
                     <!-- EDIT LEAVE START -->
 
                     <div id="edit_leave" style="display: none">
-                        <form class="form-card" id="edit_leave_form" enctype="multipart/form-data" method="POST">
+                        <form class="form-card" id="edit_leave_form" enctype="multipart/form-data">
                             {% csrf_token %}
                             <input type="text" id="leave_user" name='leave_user' hidden>
                             <!-- FIRST ROW -->
@@ -184,7 +184,8 @@
                                     <input title="upload supporting document" type="file" id="file_edit" name="file" />
                                     <a title="download file" id="file_url" href="#">file</a>
                                 </div>
-                                <div class="form-group col-sm-3 flex-column d-flex">
+                                <div class="form-group col-sm-3 flex-column d-flex" >
+                                    <div id="from_leave_col"></div>
                                     <!-- <label
                                             class="form-control-label px-3">Handle Over To<span class="text-danger">
                                                 *</span></label> <select required name="handle_over_to" id="handle_over_to_edit" class="form-control">
@@ -192,8 +193,9 @@
                                                 </select> -->
                                 </div>
                             </div>
-
-                            <h5 class="my-4">APPROVE LEAVE</h5>
+                            <!-- approve leave start hod,manager,supervisor -->
+                            <div class="approve_leave_view " style="display: none">
+                            <h5 class="my-4" style="font: bold 100% sans-serif; letter-spacing: 0.5em;" >APPROVE LEAVE</h5>
                             <hr class="bg-dark" />
 
                             <!-- THIRED ROW START -->
@@ -207,27 +209,40 @@
 
 
                                 <div class="form-group col-sm-3 flex-column d-flex">
+                                    <div>
                                     <label class="form-control-label px-3 supervisor_edit">Supervisor<span class="text-danger">
                                         </span></label>
                                     <input type="checkbox" id="supervisor_edit" name="supervisor"/>
                                 </div>
+                                </div>
 
                                 <div class="form-group col-sm-3 flex-column d-flex">
+                                    <div>
                                     <label class="form-control-label px-3">Line Manger<span class="text-danger">
                                         </span></label>
                                     <input type="checkbox" id="line_manager_edit" name="line_manager"/>
                                 </div>
+                                </div>
                                 <div class="form-group col-sm-3 flex-column d-flex">
+                                    <div>
                                     <label class="form-control-label px-3">HR<span class="text-danger"> </span></label>
                                     <input type="checkbox" id="hr__edit" name="hr_manager" />
                                 </div>
-                                <div class="form-group col-sm-3 flex-column d-flex on_leave">
-                                    <label class="form-control-label px-3">From Leave<span class="text-danger">
-                                        </span></label>
+                                </div>
+                                <div class="form-group col-sm-3 flex-column d-flex">
+                                    <div class="on_leave">
+                                    <label class="form-control-label px-3">From Leave<span class="text-danger"> </span></label>
                                     <input type="checkbox" id="on_leave" name="on_leave" />
                                 </div>
+                                </div>
+
+                             
+
+                                
                             </div>
 
+                            <!-- approve leave  end -->
+                        </div>
                             <!-- THIRED ROW END -->
                             <hr class="bg-dark" />
 
@@ -243,7 +258,7 @@
                             </p>
                             <p id="days_edit"></p>
 
-                            <button type="submit" class="btn btn-primary submit-btn" id="submit_btn_edit"
+                            <button type="submit" class="btn btn-primary submit-btn submit_btn_edit" id="submit_btn_edit"
                                 style="width: 100%">
                                 Submit
                             </button>
@@ -347,6 +362,7 @@
                 right: 20px;
             }
         }
+        
     </style>
 </body>
 

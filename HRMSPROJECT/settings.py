@@ -66,6 +66,7 @@ INSTALLED_APPS = [
      'auditlog',
   
     'dbbackup',
+    'django_model_changes',
 
 
 
@@ -209,6 +210,8 @@ MEDIA_ROOT =config('MEDIA_ROOT') #os.path.join(BASE_DIR, 'media') #This is the f
 
 # django_heroku.settings(locals())
 
+
+
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'login'
 
@@ -217,14 +220,20 @@ LOGOUT_REDIRECT_URL = 'login'
 # EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# CELERY_EMAIL_BACKEND =  'djcelery_email.backends.CeleryEmailBackend'
+
 EMAIL_BACKEND = 'djcelery_email.backends.CeleryEmailBackend'
-
-
+CELERY_EMAIL_CHUNK_SIZE = 1 
+DEFAULT_FROM_EMAIL =  config('EMAIL_HOST_USER')
 EMAIL_HOST = config('EMAIL_HOST')
 EMAIL_USE_TLS = True
 EMAIL_PORT = config('EMAIL_PORT',cast=int)
 EMAIL_HOST_USER = config('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
+
+# ERROR MAILS SENT TO ADMINS EMAIL
+SERVER_EMAIL =  config('EMAIL_HOST_USER')
+
 
 
 # SETTING UP CELERY
@@ -273,7 +282,8 @@ DBBACKUP_STORAGE_OPTIONS = {'location': config('DBBACKUP_LOCATION')}
 
 
 
+# DJANGO MODEL LOGS
+# AUDITLOG_INCLUDE_ALL_MODELS=True
 
-AUDITLOG_INCLUDE_ALL_MODELS=True
-
+# DJANGO DEBUG TOOLBAR
 INTERNAL_IPS=('127.0.0.1',)

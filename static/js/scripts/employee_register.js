@@ -11,7 +11,9 @@ $(document).ready(function () {
 
     cancel_transfer()
 
-    employee_date('dob','date_employed','date_completed')
+    // employee_date('dob','date_employed','date_completed','dob_dependant')
+    employee_date()
+
 
     //EMPLOYEE ID ON DESIGNATION TAB
     $('#employee_id').val(sessionStorage.getItem('emp_id')).attr('disabled', 'disabled')
@@ -25,7 +27,7 @@ $('#add_employee').on('submit', function (ev) {
     ev.preventDefault();
 
     $.ajax({
-        url: "/employees/",
+        url: '/allemployees/', 
         type: "POST",
         data: new FormData(this),
         enctype: 'multipart/form-data',
@@ -35,22 +37,39 @@ $('#add_employee').on('submit', function (ev) {
         csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
 
         success: function (data) {
+            // console.log(data)           
+
+            if(data.errors){
+                for (let [key,value] of Object.entries(data.errors)) {  
+                    // console.log(key,value)
+                    errors = `${value}`
+                //  Swal.fire('error',errors)
+
+                    show_alert(5000, "error",errors)
+
+                }
+            }
+           else{
             sessionStorage.setItem('emp_id', data.data)
             $("#employee_id").val(data.data)
             $('#add_employee_next').click()
             // console.log(data)
             show_alert(5000, "success", data.data + ' SAVED')
             sessionStorage.removeItem('applicant')
-            $("#add_employee")[0].reset()
+            $("#cancel_transfer").css('display', 'none')
+
+            // $("#add_employee")[0].reset()
 
             $("#department").empty()
             load_designation()
+           }
 
-
+            
         },
         error: function (jqXHR, textStatus, errorThrown) {
+            console.log(jqXHR, textStatus, errorThrown)
             show_alert(9000, "error", 'ERROR: THIS USER ALREADY EXIST')
-            console.log(jqXHR, textStatus, errorThrown);
+            // console.log(jqXHR.responseText,);
         }
 
     });
@@ -91,21 +110,35 @@ $('#emp_dependant').on('submit', function (ev) {
             } 
                 
 
-            if (data.data === 'success') {
-                show_alert(6000, "info", 'SAVED: ADD MORE: PRESS NEXT TO CONTINUE')
-                $("#gender, #first_name, #last_name, #other_name, #mobile, #address, #dob").val('')
+          
 
-            }
-            else if (data.data === 'error') {
-                show_alert(6000, "error", 'ERROR: DEPENDANT ALREADY EXIST')
 
+            if(data.errors){
+                for (let [key,value] of Object.entries(data.errors)) {  
+                    // console.log(key,value)
+                    errors = `${value}`
+                //  Swal.fire('error',errors)
+
+                    show_alert(5000, "error",errors)
+
+                }
             }
+           else{
+            show_alert(5000, "success", data + ' SAVED')
+            $("#gender, #first_name, #last_name, #other_name, #mobile, #address, #dob").val('')
 
             // $("#emp_dependant")[0].reset()
+
+
+           }
+
+
 
         },
         error: function (jqXHR, textStatus, errorThrown) {
             console.log(jqXHR, textStatus, errorThrown);
+            show_alert(6000, "error", 'ERROR: DEPENDANT ALREADY EXIST')
+
         }
 
     });
@@ -147,26 +180,39 @@ $('#emp_education').on('submit', function (ev) {
 
 
         success: function (data) {
-            // console.log(data.data);
+
 
             if (sessionStorage.getItem('save_another_btn') !== null) {
                 $("#education_next_btn").click()
                 sessionStorage.removeItem('save_another_btn')
             } 
+                
 
+            if(data.errors){
+                for (let [key,value] of Object.entries(data.errors)) {  
+                    // console.log(key,value)
+                    errors = `${value}`
+                //  Swal.fire('error',errors)
 
-            if (data.data === 'success') {
-                show_alert(6000, "info", 'SAVED: ADD MORE: PRESS NEXT TO CONTINUE')
-                $("#emp_education")[0].reset()
+                    show_alert(5000, "error",errors)
 
+                }
             }
-            else if (data.data === 'error') {
-                show_alert(6000, "error", 'ERROR: ALREADY EXIST')
+           else{
+            show_alert(5000, "success", data + ' SAVED')
+            $("#emp_education")[0].reset()
 
-            }
+            // $("#emp_dependant")[0].reset()
+
+
+           }
+            
+           
         },
         error: function (jqXHR, textStatus, errorThrown) {
             console.log('error');
+            show_alert(6000, "error", 'ERROR: ALREADY EXIST')
+
         }
 
     });
@@ -202,18 +248,32 @@ $('#emp_membership').on('submit', function (ev) {
                 sessionStorage.removeItem('save_another_btn')
             } 
 
-            if (data.data === 'success') {
-                show_alert(6000, "info", 'SAVED: ADD MORE: PRESS NEXT TO CONTINUE')
+            
+
+                if(data.errors){
+                    for (let [key,value] of Object.entries(data.errors)) {  
+                        // console.log(key,value)
+                        errors = `${value}`
+                    //  Swal.fire('error',errors)
+    
+                        show_alert(5000, "error",errors)
+    
+                    }
+                }
+               else{
+                show_alert(5000, "success", data + ' SAVED')
                 $("#emp_membership")[0].reset()
-
-            }
-            else if (data.data === 'error') {
-                show_alert(6000, "error", 'ERROR: ALREADY EXIST')
-
-            }
+    
+                // $("#emp_dependant")[0].reset()
+    
+    
+               }
+           
         },
         error: function (jqXHR, textStatus, errorThrown) {
             console.log('error');
+            show_alert(6000, "error", 'ERROR: ALREADY EXIST')
+
         }
 
     });
@@ -240,17 +300,31 @@ $('#emp_employment').on('submit', function (ev) {
 
 
         success: function (data) {
-            if (data.data === 'success') {
-                show_alert(6000, "info", 'SAVED: ADD MORE: PRESS NEXT TO CONTINUE')
-                $("#emp_employment")[0].reset()
+           
 
-            }
-            else if (data.data === 'error') {
-                show_alert(6000, "error", 'ERROR: ALREADY EXIST')
+            if(data.errors){
+                for (let [key,value] of Object.entries(data.errors)) {  
+                    // console.log(key,value)
+                    errors = `${value}`
+                //  Swal.fire('error',errors)
 
+                    show_alert(5000, "error",errors)
+
+                }
             }
+           else{
+            show_alert(5000, "success", data + ' SAVED')
+            $("#emp_employment")[0].reset()
+            sessionStorage.removeItem('emp_id');
+
+            // $("#emp_dependant")[0].reset()
+
+
+           }
         },
         error: function (jqXHR, textStatus, errorThrown) {
+            show_alert(6000, "error", 'ERROR: ALREADY EXIST')
+
             console.log('error');
         }
 
@@ -263,12 +337,13 @@ $('#emp_employment').on('submit', function (ev) {
 
 const reg_finished = () => {
     emp_id = sessionStorage.getItem('emp_id');
-
     Swal.fire(
         'EMPLOYEE  ID',
         `${emp_id}`,
         'info'
     )
+   
+
 }
 
 
@@ -413,12 +488,31 @@ const cancel_transfer = () => {
 }
 
 
-const employee_date = (dob,date_employed)=>{
-    $(`#${date_employed},#${dob}`).datepicker({
-        // format: "yyyy/mm/dd",
+// const employee_date = (dob,date_employed,dob_dependant)=>{
+//     $(`#${date_employed},#${dob},#${dob_dependant}`).datepicker({
+//         dateFormat: 'yy-mm-dd',
+//         autoclose: true,
+//         orientation: "top",
+//         maxDate: new Date()         
+//   });
+// }
+
+
+const employee_date = ()=>{
+    $('.dob').datepicker({
         dateFormat: 'yy-mm-dd',
         autoclose: true,
         orientation: "top",
-        maxDate: new Date()         
+        maxDate: new Date(),
+        changeMonth: true,
+        changeYear: true,
+        showWeek: true,
+
+        // maxDate:'-7y,'
   });
 }
+
+
+
+
+
