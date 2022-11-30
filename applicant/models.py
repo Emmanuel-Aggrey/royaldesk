@@ -1,5 +1,8 @@
 from django.db import models
-from hrms.models import BaseModel,Department,Designation
+# from BaseModel.models import BaseModel,Depa
+# from hrms.models import Department,Designation,BaseModel
+from BaseModel.models import BaseModel,Department,Designation
+
 STATUS = (('selected','SELECTED'),('not selected','NOT SELECTED'),('in review','IN REVIEW'))
 
 

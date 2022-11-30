@@ -4,10 +4,13 @@ from django.db.models.signals import pre_save,post_save
 from django.contrib.auth.hashers import make_password,check_password
 
 from django.contrib.auth.models import AbstractUser,UserManager
-from hrms.models import Department,Designation
+# from hrms.models import Department,Designation
 import random
+# from BaseModel.models import BaseModel
 from django.utils import timezone
 from django.dispatch import receiver
+from BaseModel.models import BaseModel,Department,Designation
+
 
 
 PRIORITY = (('critical','CRITICAL'),('normal','NORMAL'))

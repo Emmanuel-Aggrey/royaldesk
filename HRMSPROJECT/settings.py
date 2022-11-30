@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     
 
     # LOCALS APPS
+    'BaseModel',
     'hrms',
     'helpdesk',
     'applicant',
