@@ -66,12 +66,12 @@ class User(AbstractUser):
             self.profile.delete()
         super().delete(*args, **kwargs)
 
-    # def save(self, *args, **kwargs):
-    #     if self.password:
-    #         # print(self.password)
-    #         self.set_password(self.password)
+    def save(self, *args, **kwargs):
+        if self.password:
+            # print(self.password)
+            self.set_password(self.password)
    
-    #     super().save(*args, **kwargs)
+        super().save(*args, **kwargs)
 
 
 # def hash_password(sender, instance,created, **kwargs):
