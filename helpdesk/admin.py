@@ -2,8 +2,17 @@ from django.contrib import admin
 from .models import User,Helpdesk,Issue,Department,Ticket_Comment
 from django.http import HttpResponse
 import csv
-
+from django import forms
 # Register your models here.
+
+class CustomUserSignUpForm(forms.ModelForm):
+    def save(self, commit=True):
+        # Save the provided password in hashed format
+        user = super(CustomUserSignUpForm, self).save(commit=False)
+        user.set_password(self.cleaned_data["password"])
+        if commit:
+            user.save()
+        return user
 
 
 
