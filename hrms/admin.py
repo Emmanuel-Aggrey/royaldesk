@@ -3,7 +3,7 @@ import csv
 
 from django.contrib import admin
 from django.http import HttpResponse
-
+from helpdesk.models import Issue
 from .models import (Department, Dependant,
                      Designation, Education, Employee, Leave, LeavePolicy,
                      PreviousEployment, ProfessionalMembership,Contribution,Documente,File)
@@ -29,15 +29,19 @@ class ContributionAdmin(admin.ModelAdmin):
         return retVal
 
 
+class IssueInline(admin.TabularInline):
+    model = Issue
+
+
 class DesignationInline(admin.TabularInline):
     model = Designation
 
 
 class DepartmentAdmin(admin.ModelAdmin):
-    list_display = ['name','shortname','email']
+    list_display = ['name','shortname','email','designations']
     search_fields = ['name']
     inlines = [
-        DesignationInline,
+        DesignationInline,IssueInline
     ]
 
 

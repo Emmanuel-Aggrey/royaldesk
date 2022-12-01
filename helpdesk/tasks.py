@@ -21,7 +21,7 @@ def helpdesk_ticket_create(user_name, ticket_number, user_email, department, des
 
     subject = 'Dear {}'.format(user_name)
     subject_ = subject.upper()
-    html_content = 'Your Request With Ticket Number {} Have Been Created, <a href="https://a524-154-160-6-247.eu.ngrok.io/helpdesk/">Click Here</a> to view the status <br><hr> <br> <footer><b>POWERD BY <a href="https://a524-154-160-6-247.eu.ngrok.io:8000/"> ROYALDESK </a> RCH IT</b> </footer>'.format(
+    html_content = 'Your Request With Ticket Number {} Have Been Created, <a href="https://192.168.1.18/helpdesk/">Click Here</a> to view the status <br><hr> <br> <footer><b>POWERD BY <a href="https://a524-154-160-6-247.eu.ngrok.io:8000/"> ROYALDESK </a> RCH IT</b> </footer>'.format(
         ticket_number)
 
     msg = EmailMultiAlternatives(
@@ -34,7 +34,7 @@ def helpdesk_ticket_create(user_name, ticket_number, user_email, department, des
     subject1 = 'New Ticket From {} in {} Department'.format(
         user_name, department)
     subject_1 = subject1
-    html_content_1 = '{} PRIORITY: {} <a href="https://a524-154-160-6-247.eu.ngrok.io/helpdesk/">Click Here</a> to view the status <br><hr> <br> <footer> <b>POWERD BY <a href="https://a524-154-160-6-247.eu.ngrok.io:8000/"> ROYALDESK </a> RCH IT</b> </footer>'.format(
+    html_content_1 = '{} PRIORITY: {} <a href="http://192.168.1.18/helpdesk/">Click Here</a> to view the status <br><hr> <br> <footer> <b>POWERD BY <a href="https://a524-154-160-6-247.eu.ngrok.io:8000/"> ROYALDESK </a> RCH IT</b> </footer>'.format(
         description, priority)
     # html_content = 'Your Request With Ticket Number {} Have Been Created, <a href="http://192.168.1.119:8000/helpdesk/">Click Here</a> to view the status'.format(ticket_number)
 
@@ -52,7 +52,7 @@ def helpdesk_ticket_resolved(user_name,ticket_number,description,user_email,depa
 
     subject = 'Dear {}'.format(user_name)
     subject_ = subject.upper()
-    html_content = 'Your Request With Ticket Number {} Have Been Resolved Thank You <br><hr> <br> <footer><b>POWERD BY <a href="https://a524-154-160-6-247.eu.ngrok.io/"> ROYALDESK </a> RCH IT</b> </footer>'.format(
+    html_content = 'Your Request With Ticket Number {} Have Been Resolved Thank You <br><hr> <br> <footer><b>POWERD BY <a href="http://192.168.1.18/"> ROYALDESK </a> RCH IT</b> </footer>'.format(
         ticket_number)
 
     msg = EmailMultiAlternatives(
@@ -65,7 +65,7 @@ def helpdesk_ticket_resolved(user_name,ticket_number,description,user_email,depa
 
     subject1 = 'Ticket Number {} Has Been Resolved'.format(ticket_number)
     subject_1 = subject1
-    html_content_1 = '{} From {} In {}  <br><hr> <br> <footer> <b>POWERD BY <a href="https://a524-154-160-6-247.eu.ngrok.io/"> ROYALDESK </a> RCH</b> </footer>'.format(
+    html_content_1 = '{} From {} In {}  <br><hr> <br> <footer> <b>POWERD BY <a href="http://192.168.1.18/"> ROYALDESK </a> RCH</b> </footer>'.format(
         description,user_name,department)
     # html_content = 'Your Request With Ticket Number {} Have Been Created, <a href="http://192.168.1.119:8000/helpdesk/">Click Here</a> to view the status'.format(ticket_number)
 

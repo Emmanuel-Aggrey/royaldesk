@@ -141,10 +141,10 @@ def anviz_employee(name="leave_users"):
             pass
 
 
-@shared_task
-def employee_exiting(employee_id,date_exited,employee_status,exit_check):
-    employee_id = Employee.objects.filter(employee_id=employee_id).update(date_exited=date_exited,status=employee_status,exit_check=exit_check)
-    print('employee_id',employee_id)
+# @shared_task
+# def employee_exiting(employee_id,date_exited,employee_status,exit_check):
+#     employee_id = Employee.objects.filter(employee_id=employee_id).update(date_exited=date_exited,status=employee_status,exit_check=exit_check)
+#     print('employee_id',employee_id)
 
 
 
@@ -166,6 +166,6 @@ def log_to_file():
 
 
 @shared_task
-def backupdjangodb():
+def backupdb():
     management.call_command('dbbackup')
     management.call_command('mediabackup')

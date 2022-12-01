@@ -50,8 +50,9 @@
             {% csrf_token %}
             <!-- FIRST ROW -->
             <input type="hidden" name="applicant" id="applicant">
+            <p>PERSONAL INFO</p>
+            <hr class="bg-primary">
 
-            
             <div class="row justify-content-between text-left">
               <div class="form-group col-sm-3 flex-column d-flex"> <label class="form-control-label px-3">Title<span
                     class="text-danger">*</span></label> <select name="title" id="title" required class="form-control">
@@ -215,6 +216,7 @@
               </div>
             </div>
             <hr class="bg-primary">
+            <p>BANK INFO</p>
             <!-- 8TH ROW END -->
             <!-- 6TH ROW START -->
             <div class="row justify-content-between text-left">
@@ -237,9 +239,11 @@
             </div>
             <!-- 6TH ROW END -->
 
+            <hr class="bg-primary">
 
             <!-- 7th ROW START -->
             <!-- <label for="" class="float-left"> NEXT OF KIN</label> -->
+            <p>NEXT OF KEEN</p>
             <div class="row justify-content-between text-left">
               <!-- <label for="">NETX OF KIN</label> -->
               <div class="form-group col-sm-3 flex-column d-flex"> <label class="form-control-label px-3"><abbr
@@ -264,6 +268,9 @@
 
 
             </div>
+            <hr class="bg-primary">
+            <p>OTHER INFOMATION</p>
+
             <div class="row justify-content-between text-left">
               <div class="form-group col-sm-6 flex-column d-flex" title="employee can use helpdesk"> <label
                   class="form-control-label px-3">Helpdesk User<span class="text-danger">
@@ -285,7 +292,7 @@
             <!-- 7TH ROW END -->
 
             <!-- NEXT AND PREVIOUS BUTTONS START -->
-            <input type="button" name="next" class="next action-button" id="add_employee_next" style="display: snone"
+            <input type="button" name="next" class="next action-button" id="add_employee_next" style="display: none"
               value="Next" />
 
             <button type="submit" class="btn btn-primary action-button submit-btn" style="width: 100%;">Submit</button>
@@ -360,7 +367,7 @@
 
             <button type="submit" class="btn btn-primary action-button submit-btn">Save and add another</button>
 
-            <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
+            <input type="button" name="previous" class="previous action-button-previous d-none" value="Previous" />
 
           </form>
           <!-- STEP TWO END -->

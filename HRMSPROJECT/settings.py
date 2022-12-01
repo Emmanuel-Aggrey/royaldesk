@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
-import pyodbc 
+import pyodbc
 from datetime import datetime
 from decouple import config
 from django.core import management
@@ -19,7 +19,6 @@ from django.conf import settings
 
 # import django_heroku
 # import dj_database_url
-
 
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -33,9 +32,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config('DEBUG', default=False,cast=bool)
+DEBUG = config('DEBUG', default=False, cast=bool)
 
-ALLOWED_HOSTS = ['*','9ccf-154-160-6-247.eu.ngrok.io/','9ccf-154-160-6-247.eu.ngrok.io']
+ALLOWED_HOSTS = ['*', '9ccf-154-160-6-247.eu.ngrok.io/',
+                 '9ccf-154-160-6-247.eu.ngrok.io']
 
 
 # Application definition
@@ -49,7 +49,7 @@ INSTALLED_APPS = [
 
     'django.contrib.staticfiles',
     'django.contrib.humanize',
-    
+
 
     # LOCALS APPS
     'BaseModel',
@@ -58,14 +58,13 @@ INSTALLED_APPS = [
     'applicant',
 
     # 3RD PARTY APPS
-     'rest_framework',
+    'rest_framework',
     'debug_toolbar',
 
-     'django_celery_results',
-     'djcelery_email',
-     'django_celery_beat',
-     'auditlog',
-  
+    'django_celery_results',
+    'djcelery_email',
+    'django_celery_beat',
+    'auditlog',
     'dbbackup',
     # 'django_model_changes',
 
@@ -75,7 +74,6 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "debug_toolbar.middleware.DebugToolbarMiddleware",
-
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -113,45 +111,34 @@ WSGI_APPLICATION = 'HRMSPROJECT.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
-#Development
-
-
-
-
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': config('POSTGRES_DB'),
-#         'USER': config('POSTGRES_USER'),
-#         'PASSWORD': config('POSTGRES_PASSWORD'),
-#         'HOST': config('POSTGRESS_HOST'),
-#         'PORT': config('POSTGRESS_PORT'),
-#     }
-# }
-
-
+# Development
 
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': config('POSTGRES_DB'),
+        'USER': config('POSTGRES_USER'),
+        'PASSWORD': config('POSTGRES_PASSWORD'),
+        'HOST': config('POSTGRESS_HOST'),
+        'PORT': config('POSTGRESS_PORT'),
     }
 }
 
 
-
-
-
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     }
+# }
 
 
 AUTH_USER_MODEL = 'helpdesk.User'
-#Production
+# Production
 
 
-
-#this will update settings datbase configuration automatically from heroku and let us local config also
+# this will update settings datbase configuration automatically from heroku and let us local config also
 
 
 # Password validation
@@ -205,12 +192,12 @@ STATICFILES_DIRS = [
 ]
 
 
-
-MEDIA_URL = config('MEDIA_URL') #'/media/' #This is just for url i.e https://l.me/media/l.jpg
-MEDIA_ROOT =config('MEDIA_ROOT') #os.path.join(BASE_DIR, 'media') #This is the folder the image will be uploaded
+# '/media/' #This is just for url i.e https://l.me/media/l.jpg
+MEDIA_URL = config('MEDIA_URL')
+# os.path.join(BASE_DIR, 'media') #This is the folder the image will be uploaded
+MEDIA_ROOT = config('MEDIA_ROOT')
 
 # django_heroku.settings(locals())
-
 
 
 LOGIN_REDIRECT_URL = 'home'
@@ -224,17 +211,16 @@ LOGOUT_REDIRECT_URL = 'login'
 # CELERY_EMAIL_BACKEND =  'djcelery_email.backends.CeleryEmailBackend'
 
 EMAIL_BACKEND = 'djcelery_email.backends.CeleryEmailBackend'
-CELERY_EMAIL_CHUNK_SIZE = 1 
-DEFAULT_FROM_EMAIL =  config('EMAIL_HOST_USER')
+CELERY_EMAIL_CHUNK_SIZE = 1
+DEFAULT_FROM_EMAIL = config('EMAIL_HOST_USER')
 EMAIL_HOST = config('EMAIL_HOST')
 EMAIL_USE_TLS = True
-EMAIL_PORT = config('EMAIL_PORT',cast=int)
+EMAIL_PORT = config('EMAIL_PORT', cast=int)
 EMAIL_HOST_USER = config('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 
 # ERROR MAILS SENT TO ADMINS EMAIL
-SERVER_EMAIL =  config('EMAIL_HOST_USER')
-
+SERVER_EMAIL = config('EMAIL_HOST_USER')
 
 
 # SETTING UP CELERY
@@ -244,7 +230,7 @@ CELERY_RESULT_BACKEND = 'amqp://localhost'
 # CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
-CELERY_TIMEZONE ='UTC'
+CELERY_TIMEZONE = 'UTC'
 
 # STORE RESULTS IN DJANGO DB
 CELERY_RESULT_BACKEND = 'django-db'
@@ -262,11 +248,8 @@ CACHES = {
 }
 
 
-
 # CELERY BEAT SETTINGS
 CELERYBEAT_SCHEDULE = 'django_celery_beat.schedulers:DatabaseScheduler'
-
-
 
 
 CSRF_TRUSTED_ORIGINS = [config('CSRF_TRUSTED_ORIGINS')]
@@ -281,10 +264,8 @@ DBBACKUP_STORAGE_OPTIONS = {'location': config('DBBACKUP_LOCATION')}
 # DBBACKUP_STORAGE_OPTIONS = {'location': config('MEDIABACKUP_LOCATION')}
 
 
-
-
 # DJANGO MODEL LOGS
 # AUDITLOG_INCLUDE_ALL_MODELS=True
 
 # DJANGO DEBUG TOOLBAR
-INTERNAL_IPS=('127.0.0.1',)
+INTERNAL_IPS = ('127.0.0.1',)

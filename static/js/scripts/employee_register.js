@@ -58,7 +58,7 @@ $('#add_employee').on('submit', function (ev) {
             sessionStorage.removeItem('applicant')
             $("#cancel_transfer").css('display', 'none')
 
-            // $("#add_employee")[0].reset()
+            $("#add_employee")[0].reset()
 
             $("#department").empty()
             load_designation()
@@ -502,13 +502,14 @@ const employee_date = ()=>{
     $('.dob').datepicker({
         dateFormat: 'yy-mm-dd',
         autoclose: true,
-        orientation: "top",
+        // orientation: "top",
         maxDate: new Date(),
+        yearRange:'1960:',
+        // minDate:'-70Y',
         changeMonth: true,
         changeYear: true,
-        showWeek: true,
+        // showWeek: true,
 
-        // maxDate:'-7y,'
   });
 }
 

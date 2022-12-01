@@ -16,38 +16,28 @@ app.config_from_object('django.conf:settings', namespace='CELERY')
 
 
 app.conf.beat_schedule = {
-    'log_to_file_every_minute': {
-        'task': 'hrms.tasks.log_to_file',
-        'schedule': crontab(minute='*/1'),
+    'employee_on_leave': {
+        'task': 'hrms.tasks.employee_on_leave',
+        # Executes every Day at Midnight
+        'schedule': crontab(minute=0, hour=0),
         # 'args': (1,2)
     },
-    'backup-database-media-files': {
-        'task': 'hrms.tasks.backupdjangodb',
-        'schedule': crontab(minute='*/2'),
+    'backup-database': {
+        'task': 'hrms.tasks.backupdb',
+        # Executes every Day at Midnight
+        'schedule': crontab(minute=0, hour=0),
         # 'args': (3,4)
     },
+     'anviz_employees_from_leave': {
+        'task': 'hrms.tasks.anviz_employee',
+        # Executes every Day morning at 9:30 a.m.
+        'schedule': crontab(minute=30, hour=9),
+        # 'args': (3,4)
+    },
+    
 }
 
-# app.conf.beat_schedule = {
-#     'add-every-30-seconds-employee_on_leave': {
-#         # 'task': 'hrms.tasks.employee_on_leave',
-#         'task': 'hrms.tasks.log_to_file',
-#         # 'schedule': 30.0,
-#         'schedule': crontab(minute='0', hour='*/2'),
-#         # 'schedule': crontab(hour=2, minute=0),
 
-#         # 'args': (16, 16)
-#     },
-
-    # 'backup-database-media-files': {
-    #     'task': 'hrms.tasks.backupdjangodb',
-    #     'schedule': 30.0,
-    #     # 'schedule': crontab(hour=2, minute=0),
-
-    #     # 'args': (16, 16)
-    # },
-
-# }
 # app.conf.timezone = 'UTC'
 
 # Load task modules from all registered Django apps.

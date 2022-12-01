@@ -20,6 +20,14 @@ class Department(BaseModel, models.Model):
     # def get_absolute_url(self):
     #     return reverse("hrms:dept_detail", kwargs={"pk": self.pk})
 
+    @property
+    def designations(self):
+        return self.departments.count()
+
+
+    class Meta:
+        ordering = ['name']
+
 
 class Designation(BaseModel, models.Model):
     name = models.CharField(max_length=70)
@@ -43,6 +51,10 @@ class Designation(BaseModel, models.Model):
 
     def limit_choices(self):
         return self.pk
+
+ 
+    class Meta:
+        ordering = ['department','name']
 
     # def get_absolute_url(self):
     #     return reverse("hrms:dept_detail", kwargs={"pk": self.pk})

@@ -60,5 +60,6 @@ admin.site.register(Helpdesk, HelpdeskAdmin)
 
 @admin.register(Issue)
 class IssuesAdmin(admin.ModelAdmin):
-    pass
+    list_display = ['issue_name','department']
+    list_filter = ['department']
 
