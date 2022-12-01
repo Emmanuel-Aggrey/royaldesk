@@ -23,9 +23,10 @@ def apply_for_leave_email(employee, start, end, diff, policy, department_email):
         employee, policy, start, end, diff)
 
     msg = EmailMultiAlternatives(
-        subject_, html_content, email_from, ['aggrey.en@live.com'])
+        subject_, html_content, email_from, ['aggrey.en@live.com'])  #department_email not a list
     msg.attach_alternative(html_content, "text/html")
-    msg.send()
+    # print(department_email)
+    # msg.send()
 
 
 @shared_task
@@ -42,14 +43,20 @@ def send_email_new_helpdesk_employee(employee,employee_id,email,password):
         subject_, html_content, email_from, [email])
     msg.attach_alternative(html_content, "text/html")
 
-    print(html_content)
+    # print(html_content)
     msg.send()
 
 
 @shared_task
 def employee_on_leave():
-    today = datetime.now().date() #+ timedelta(days=1)
-    leave = Leave.objects.select_related('employee').filter(resuming_date=today,from_leave=False)
+    date = datetime.now().date() 
+    yesterday = date + timedelta(days=1)
+    tomorrow = date + timedelta(days=1)
+
+
+
+    leave = Leave.objects.select_related('employee').filter(resuming_date=tomorrow,from_leave=False)
+    # print(leave)
     if leave:
         data = leave.values('employee__first_name', 'employee__last_name', 'employee__department__name','employee__designation__name','employee__department__email')
 
@@ -57,14 +64,16 @@ def employee_on_leave():
 
         department_email = list(set(department_email))
 
-        # print(department_email)
 
 
 
 
         # create an html table with data
         df = pd.DataFrame(data)
-        print(df)
+        # print(df)
+
+        
+
         df.drop(['employee__department__email'], axis = 1, inplace = True) 
 
         df.columns = ['First Name', 'Last Name', 'Department', 'Designation']
@@ -93,7 +102,7 @@ def employee_on_leave():
     
 
         msg = EmailMultiAlternatives(
-        subject_, html_content, email_from, ['aggrey.en@live.com'])
+        subject_, html_content, email_from, ['aggrey.en@live.com']) #department_email email is a list 
         msg.attach_alternative(html_content, "text/html")
         msg.send()
 
@@ -104,6 +113,8 @@ def employee_on_leave():
         # df = pd.DataFrame(data)
 
         # df.to_csv('employee_on_leave.csv')
+
+
 
 @shared_task
 def anviz_employee(name="leave_users"):

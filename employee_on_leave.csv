@@ -1,1 +1,2 @@
-""
+,employee__first_name,employee__last_name,employee__department__name,employee__designation__name,employee__department__email
+0,Mary,Ago,Accounts,Officer,accounts@rockcityhotelgh.com
