@@ -351,6 +351,7 @@ def exit_employee(request, employee_id):
             'employee_status':employee.status,
             'date_exited': employee.date_exited,
             'exit_check': employee.exit_check,
+            'reason_exiting':reason_exiting,
         }
 
         
@@ -360,6 +361,10 @@ def exit_employee(request, employee_id):
     if request.method == 'POST':
         employee_status = request.data.get('employee_status','active')
         date_exited = request.data.get('date_exited')
+
+        reason_exiting = request.data.get('reason_exiting')
+
+            
         exit_check = partials.bool_values(request.data.get('exit_check', False))
 
         # print('employee_status',employee_status,exit_status,date_exited,exit_check)
@@ -367,11 +372,12 @@ def exit_employee(request, employee_id):
         # employee.status = employee_status
         # employee.date_exited = date_exited
         # employee.exit_check = exit_check
+        # employee.reason_exiting = reason_exiting
         
         
        
         date = datetime.strptime(date_exited,'%Y-%m-%d')
-        tasks.employee_exiting.apply_async(eta=date,args=(employee_id, date_exited, employee_status, exit_check))
+        tasks.employee_exiting.apply_async(eta=date,args=(employee_id, date_exited, employee_status, exit_check,reason_exiting))
 
 
         # employee.save()
