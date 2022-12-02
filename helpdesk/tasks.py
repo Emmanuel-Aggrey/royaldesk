@@ -39,9 +39,9 @@ def helpdesk_ticket_create(user_name, ticket_number, user_email, department, des
     # html_content = 'Your Request With Ticket Number {} Have Been Created, <a href="http://192.168.1.119:8000/helpdesk/">Click Here</a> to view the status'.format(ticket_number)
 
     msg = EmailMultiAlternatives(
-        subject_1, html_content_1, email_from, ['aggrey.en@live.com'])  #department_email is a list
+        subject_1, html_content_1, email_from, department_email)  #department_email is a list
     msg.attach_alternative(html_content_1, "text/html")
-    # msg.send()
+    msg.send()
 
     print('department_email', department_email)
 
@@ -70,6 +70,6 @@ def helpdesk_ticket_resolved(user_name,ticket_number,description,user_email,depa
     # html_content = 'Your Request With Ticket Number {} Have Been Created, <a href="http://192.168.1.119:8000/helpdesk/">Click Here</a> to view the status'.format(ticket_number)
 
     msg = EmailMultiAlternatives(
-        subject_1, html_content_1, email_from, ['aggrey.en@live.com']) #department_email is a list
+        subject_1, html_content_1, email_from, department_email) #department_email is a list
     msg.attach_alternative(html_content_1, "text/html")
     msg.send()

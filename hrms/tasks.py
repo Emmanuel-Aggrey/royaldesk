@@ -23,10 +23,10 @@ def apply_for_leave_email(employee, start, end, diff, policy, department_email):
         employee, policy, start, end, diff)
 
     msg = EmailMultiAlternatives(
-        subject_, html_content, email_from, ['aggrey.en@live.com'])  #department_email not a list
+        subject_, html_content, email_from, ['aggrey.en@live.com',department_email])  #department_email not a list
     msg.attach_alternative(html_content, "text/html")
     # print(department_email)
-    # msg.send()
+    msg.send()
 
 
 @shared_task
@@ -102,7 +102,7 @@ def employee_on_leave():
     
 
         msg = EmailMultiAlternatives(
-        subject_, html_content, email_from, ['aggrey.en@live.com']) #department_email email is a list 
+        subject_, html_content, email_from, department_email) #department_email email is a list 
         msg.attach_alternative(html_content, "text/html")
         msg.send()
 
