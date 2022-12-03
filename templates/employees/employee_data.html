@@ -179,6 +179,10 @@
 <th>Checks Done</th>
 <td style="color: brown">{{employee.exit_check|yesno:"YES,NO"}}</td>
 </tr>
+<th>Note:</th>
+<td style="color: brown;text-transform: none !important;" colspan="3"><div>
+   {{employee.reason_exiting|default:"Not Provided" }}
+</div> </td>
 </tbody>
 </table>
 {% endif %}

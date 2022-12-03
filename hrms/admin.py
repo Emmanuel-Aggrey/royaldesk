@@ -104,7 +104,7 @@ class EmployeeAdmin(admin.ModelAdmin):
         }),
 
         ('WORK RELATED INFOMATION', {
-            'fields': ('status','department', 'designation','is_head', 'date_employed','anviz_id','salary','exit_check','date_exited')
+            'fields': ('status','department', 'designation','is_head', 'date_employed','anviz_id','salary','exit_check','date_exited','reason_exiting')
         }),
 
          ('COUNTRY / REGION INFOMATION', {

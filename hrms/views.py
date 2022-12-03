@@ -64,7 +64,7 @@ def allemployees(request):
             employee_key = employee.employee_id
             user = User(password=default_password,username=employee.employee_id, first_name=employee.first_name, last_name=employee.last_name, is_head=employee.is_head,
                     email=employee.email, department_id=employee.department_id, designation_id=employee.designation_id, profile=employee.profile)
-            # user.set_password(default_password)
+            user.set_password(default_password)
             # user.has_usable_password(user.password)
             
 
@@ -351,7 +351,7 @@ def exit_employee(request, employee_id):
             'employee_status':employee.status,
             'date_exited': employee.date_exited,
             'exit_check': employee.exit_check,
-            'reason_exiting':reason_exiting,
+            'reason_exiting':employee.reason_exiting,
         }
 
         

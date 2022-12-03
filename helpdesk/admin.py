@@ -2,18 +2,16 @@ from django.contrib import admin
 from .models import User,Helpdesk,Issue,Department,Ticket_Comment
 from django.http import HttpResponse
 import csv
-from django import forms
-# Register your models here.
 
-class CustomUserSignUpForm(forms.ModelForm):
-    def save(self, commit=True):
-        # Save the provided password in hashed format
-        user = super(CustomUserSignUpForm, self).save(commit=False)
-        user.set_password(self.cleaned_data["password"])
-        if commit:
-            user.save()
-        return user
+def change_user_password(modeladmin, request, queryset):
+    users = queryset.only('password')
+    
+    for users in users:
+        password = users.password
+        users.set_password(password)
+        users.save()
 
+    return users
 
 
 def export_users(modeladmin, request, queryset):
@@ -29,15 +27,16 @@ def export_users(modeladmin, request, queryset):
 
 
 export_users.short_description = 'Export to csv'
+change_user_password.short_description = 'Change Password'
 
 # admin.site.register(User)
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
-    list_display = ['username','first_name','last_name','email','department','designation','is_head',]
-    list_editable = ['is_head']
+    list_display = ['username','first_name','last_name','email','department','designation','is_head','password']
+    list_editable = ['is_head','password']
     search_fields = ['username','first_name','last_name','email']
     list_filter = ['is_head', 'department', 'designation']
-    actions = [export_users]
+    actions = [export_users,change_user_password]
 
 
 

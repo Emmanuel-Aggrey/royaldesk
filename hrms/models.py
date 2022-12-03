@@ -81,7 +81,7 @@ class Employee(BaseModel, models.Model):
         max_length=10, choices=EMPLOYEE_STATUS, default='active', blank=True)
     exit_check = models.BooleanField(default=False,help_text='checks to see if the employee exit checks are successful')
     date_exited = models.DateField(null=True,blank=True,help_text='shows the date when the employee exited from the company')
-    reason_exiting = models.TextField(help_text='reason of exiting')
+    reason_exiting = models.TextField(null=True,blank=True,help_text='reason of exiting')
     employee_id = models.CharField(
         max_length=200,null=True, blank=True, unique=True, help_text='system generated (leave blank)')
     profile = models.ImageField(null=True, blank=True)

@@ -418,9 +418,7 @@ const employee_exit_model =()=>{
         $("#employee_status_exit").val(data.employee_status)
         $("#date_exited").val(data.date_exited)
         $("#exit_check").attr('checked', data.exit_check)
-        $("#reason_exiting").val(data.exit_check)
-
-    
+        $("#reason_exiting").val(data.reason_exiting)
       }
       
       //here
