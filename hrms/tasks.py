@@ -9,21 +9,28 @@ from django.core import management
 from django.core.mail import EmailMultiAlternatives, send_mail, send_mass_mail
 from HRMSPROJECT import sql_server
 from datetime import datetime, timedelta
-from hrms.models import Leave,Employee
+from hrms.models import Leave,Employee,Department
 
+email_from = settings.DEFAULT_FROM_EMAIL
 
 @shared_task
-def apply_for_leave_email(employee, start, end, diff, policy, department_email):
+def apply_for_leave_email(employee, start, end, diff, policy, department_email=[]):
 
-    email_from = settings.EMAIL_HOST_USER
+    # email_from = settings.EMAIL_HOST_USER
 
     subject = 'New Leave For {}'.format(employee)
     subject_ = subject.upper()
-    html_content = '{} Have Applied  For {} from {} to {} making {} day(s) , Please <a href="http://192.168.1.18/apply-leave/">Click Here</a> to approve Thank you <br><hr> <br> <footer><b>POWERD BY <a href="https://192.168.1.18/"> ROYALDESK </a> RCH IT</b> </footer>'.format(
+    html_content = '{} Have Applied  For {} from {} to {} making {} day(s) , Please <a href="http://192.168.1.18/apply-leave/">Click Here</a> to approve Thank you <p>Best Regards,</p>The Royal Desk Team.</p> <br><hr> <br> <footer><b>POWERD BY <a href="http://192.168.1.18/"> ROYALDESK </a> RCH IT</b> </footer>'.format(
         employee, policy, start, end, diff)
 
+    #GET HR EMAIL AND APPEND TO EMPLOYEE DEPARTMENT EMAIL
+    hr_email = Department.objects.values_list('email',flat=True).filter(shortname='HR')
+    emails = [hr_email for hr_email in hr_email]
+    emails.append(department_email)
+
+
     msg = EmailMultiAlternatives(
-        subject_, html_content, email_from, ['aggrey.en@live.com',department_email])  #department_email not a list
+        subject_, html_content, email_from, emails)  #emails  a list
     msg.attach_alternative(html_content, "text/html")
     # print(department_email)
     msg.send()
@@ -32,15 +39,15 @@ def apply_for_leave_email(employee, start, end, diff, policy, department_email):
 @shared_task
 def send_email_new_helpdesk_employee(employee,employee_id,email,password):
 
-    email_from = settings.EMAIL_HOST_USER
+    # email_from = settings.EMAIL_HOST_USER
 
     subject = 'Dear {}'.format(employee)
     subject_ = subject.upper()
-    html_content = 'Welcome to Rock City Help Desk, Your Employee ID  is <b>{}</b> ,And your password is <b>{}</b>, Please <a href="http://192.168.1.18/">Click Here</a> to login to use Help Desk. <p>you will be redirected to change the default password to your own password. </p>  <p>Best Regards, <br>The Royaldesk Team.</p>  <br><hr> <br> <footer><b>POWERD BY <a href="https://192.168.1.18/"> ROYALDESK </a> RCH IT</b> </footer>'.format(
+    html_content = 'Welcome to Rock City Help Desk, Your Employee ID  is <b>{}</b> ,And your password is <b>{}</b>, Please <a href="http://192.168.1.18/">Click Here</a> to login to use Help Desk. <p>you will be redirected to change the default password to your own password. </p>  <p>Best Regards, <br>The Royaldesk Team.</p>  <br><hr> <br> <footer><b>POWERD BY <a href="http://192.168.1.18/"> ROYALDESK </a> RCH IT</b> </footer>'.format(
         employee_id, password)
 
     msg = EmailMultiAlternatives(
-        subject_, html_content, email_from, [email])
+        subject_, html_content, email_from, [email])  #personal email address
     msg.attach_alternative(html_content, "text/html")
 
     # print(html_content)
@@ -50,23 +57,28 @@ def send_email_new_helpdesk_employee(employee,employee_id,email,password):
 @shared_task
 def employee_on_leave():
     date = datetime.now().date() 
-    yesterday = date + timedelta(days=1)
-    tomorrow = date + timedelta(days=1)
+    today = date
+    # yesterday = date + timedelta(days=1)
+    # tomorrow = date + timedelta(days=1)
 
 
 
-    leave = Leave.objects.select_related('employee').filter(resuming_date=tomorrow,from_leave=False)
-    # print(leave)
+    leave = Leave.objects.select_related('employee').filter(resuming_date=today,from_leave=False)
     if leave:
         data = leave.values('employee__first_name', 'employee__last_name', 'employee__department__name','employee__designation__name','employee__department__email')
 
         department_email = [data[i]['employee__department__email'] for i in range(len(data))]
 
+        # GET HR EMAIL FROM DEPARTEMT AND APPEND TO USER DEPARTEMT EMAIL
+        hr_email = Department.objects.values_list('email',flat=True).filter(shortname='HR')
+        hr_email = [hr_email for hr_email in hr_email]
+        department_email = hr_email+department_email
+
         department_email = list(set(department_email))
 
+        # print(department_email)
 
-
-
+        
 
         # create an html table with data
         df = pd.DataFrame(data)
@@ -87,18 +99,17 @@ def employee_on_leave():
         # print(html_table)
 
 
-
-
-        email_from = settings.EMAIL_HOST_USER
-        tomorrow = tomorrow.strftime("%B %d, %Y")
+        # email_from = settings.EMAIL_HOST_USER
+        today = today.strftime("%B %d, %Y")
 
 
         subject = 'Employees On Leave'
         subject_ = subject.upper()
-        html_content = 'List of employees whom are to return from Leave tomorrow  On The {}  <br> <br> {} <br> <b>Thank you</b>  <br><hr> <br> <footer><b>POWERD BY <a href="http://192.168.1.18/"> ROYALDESK </a> RCH IT</b> </footer>'.format(
-        tomorrow,html_table)
+        html_content = 'List of employees whom are to return from Leave On The {}  <br> <br> {} <br> <b>Thank you</b>  <br><hr> <br> <footer><b>POWERD BY <a href="http://192.168.1.18/"> ROYALDESK </a> RCH IT</b> </footer>'.format(
+        today,html_table)
 
         # print(html_content)
+        # print(department_email)
     
 
         msg = EmailMultiAlternatives(
@@ -145,7 +156,7 @@ def anviz_employee(name="leave_users"):
 
             numbers = ', '.join(map(str, values))
         
-            from_leave=  employees_on_leave.filter(employee__anviz_id=numbers)#.update(from_leave=True)
+            from_leave=  employees_on_leave.filter(employee__anviz_id=numbers).update(from_leave=True)
 
             # print(from_leave)
         except :

@@ -19,7 +19,7 @@ app.conf.beat_schedule = {
     'employee_on_leave': {
         'task': 'hrms.tasks.employee_on_leave',
         # Executes every Day at Midnight
-        'schedule': crontab(minute=0, hour=0),
+        'schedule': crontab(minute=0, hour=0), #minute='*/1' for a minute schedule
         # 'args': (1,2)
     },
     'backup-database': {
@@ -30,8 +30,8 @@ app.conf.beat_schedule = {
     },
      'anviz_employees_from_leave': {
         'task': 'hrms.tasks.anviz_employee',
-        # Executes every Day morning at 9:30 a.m.
-        'schedule': crontab(minute=30, hour=9),
+        # Executes every Day morning at 9:00 a.m.
+        'schedule': crontab(hour=9,minute=0), 
         # 'args': (3,4)
     },
     

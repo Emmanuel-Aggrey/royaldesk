@@ -11,17 +11,18 @@ from django.core.mail import EmailMultiAlternatives
 
 #NB REPLACING ALL DEPARTMENT EMAILS WITH PERSONALL ONE FOR NOW 
 
+email_from = settings.DEFAULT_FROM_EMAIL
+
+
 @shared_task
 def helpdesk_ticket_create(user_name, ticket_number, user_email, department, description, priority, department_email=[]):
 
-    email_from = settings.EMAIL_HOST_USER
-
-
-
+    # email_from = settings.EMAIL_HOST_USER
+    # email_from = settings.DEFAULT_FROM_EMAIL
 
     subject = 'Dear {}'.format(user_name)
     subject_ = subject.upper()
-    html_content = 'Your Request With Ticket Number {} Have Been Created, <a href="https://192.168.1.18/helpdesk/">Click Here</a> to view the status <br><hr> <br> <footer><b>POWERD BY <a href="https://a524-154-160-6-247.eu.ngrok.io:8000/"> ROYALDESK </a> RCH IT</b> </footer>'.format(
+    html_content = 'Your Request With Ticket Number {} Have Been Created, <a href="http://192.168.1.18/helpdesk/">Click Here</a> to view the status <br> <p>Best Regards,</p>The Royal Desk Team.</p> <hr> <br> <footer><b>POWERD BY <a href="http://192.168.1.18/"> ROYALDESK </a> RCH IT</b> </footer>'.format(
         ticket_number)
 
     msg = EmailMultiAlternatives(
@@ -34,7 +35,7 @@ def helpdesk_ticket_create(user_name, ticket_number, user_email, department, des
     subject1 = 'New Ticket From {} in {} Department'.format(
         user_name, department)
     subject_1 = subject1
-    html_content_1 = '{} PRIORITY: {} <a href="http://192.168.1.18/helpdesk/">Click Here</a> to view the status <br><hr> <br> <footer> <b>POWERD BY <a href="https://a524-154-160-6-247.eu.ngrok.io:8000/"> ROYALDESK </a> RCH IT</b> </footer>'.format(
+    html_content_1 = '{} PRIORITY: {} <a href="http://192.168.1.18/helpdesk/">Click Here</a> to view the status <br><p>Best Regards,</p>The Royal Desk Team.</p><hr>  <br> <footer> <b>POWERD BY <a href="http://192.168.1.18/"> ROYALDESK </a> RCH IT</b> </footer>'.format(
         description, priority)
     # html_content = 'Your Request With Ticket Number {} Have Been Created, <a href="http://192.168.1.119:8000/helpdesk/">Click Here</a> to view the status'.format(ticket_number)
 
@@ -43,16 +44,16 @@ def helpdesk_ticket_create(user_name, ticket_number, user_email, department, des
     msg.attach_alternative(html_content_1, "text/html")
     msg.send()
 
-    print('department_email', department_email)
+    # print('department_email', department_email)
 
 
 @shared_task
 def helpdesk_ticket_resolved(user_name,ticket_number,description,user_email,department,department_email=[]):
-    email_from = settings.EMAIL_HOST_USER
+    # email_from = settings.EMAIL_HOST_USER
 
     subject = 'Dear {}'.format(user_name)
     subject_ = subject.upper()
-    html_content = 'Your Request With Ticket Number {} Have Been Resolved Thank You <br><hr> <br> <footer><b>POWERD BY <a href="http://192.168.1.18/"> ROYALDESK </a> RCH IT</b> </footer>'.format(
+    html_content = 'Your Request With Ticket Number {} Have Been Resolved Thank You <br><p>Best Regards,</p>The Royal Desk Team.</p><hr> <br> <footer><b>POWERD BY <a href="http://192.168.1.18/"> ROYALDESK </a> RCH IT</b> </footer>'.format(
         ticket_number)
 
     msg = EmailMultiAlternatives(
@@ -65,7 +66,7 @@ def helpdesk_ticket_resolved(user_name,ticket_number,description,user_email,depa
 
     subject1 = 'Ticket Number {} Has Been Resolved'.format(ticket_number)
     subject_1 = subject1
-    html_content_1 = '{} From {} In {}  <br><hr> <br> <footer> <b>POWERD BY <a href="http://192.168.1.18/"> ROYALDESK </a> RCH</b> </footer>'.format(
+    html_content_1 = '{} From {} In {}  <br><p>Best Regards,</p>The Royal Desk Team.</p><hr> <br> <footer> <b>POWERD BY <a href="http://192.168.1.18/"> ROYALDESK </a> RCH</b> </footer>'.format(
         description,user_name,department)
     # html_content = 'Your Request With Ticket Number {} Have Been Created, <a href="http://192.168.1.119:8000/helpdesk/">Click Here</a> to view the status'.format(ticket_number)
 

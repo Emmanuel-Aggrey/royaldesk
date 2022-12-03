@@ -160,7 +160,7 @@
           {% if user.is_authenticated %}
           <a href="{% url 'logout'  %}" class="dropdown-item">Sign Out<i class="dropdown-item-icon ti-power-off"></i></a>
 
-          {% if request.user.department.shortname == 'IT' %}
+          {% if request.user.department.shortname == 'IT' or request.user.is_staff or request.user.is_superuser %}
           
                     
           <a href="/upload-anviz-user-profile" class="dropdown-item" id={{conntected_to_server}}>IT<i class="dropdown-item-icon ti-help-alt"></i></a>

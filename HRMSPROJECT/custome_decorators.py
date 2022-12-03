@@ -101,7 +101,7 @@ def group_required(*group_names):
     """Requires user membership in at least one of the groups passed in."""
     def in_groups(u):
         if u.is_authenticated:
-            if bool(u.groups.prefetch_related('name').filter(name__in=group_names)) | u.is_superuser | u.is_staff:
+            if bool(u.groups.only('name').filter(name__in=group_names)) | u.is_superuser | u.is_staff:
                 return True
         return False
 
