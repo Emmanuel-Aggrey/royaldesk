@@ -128,38 +128,31 @@ def employee_on_leave():
 @shared_task
 def anviz_employee(name="leave_users"):
     employees_on_leave  = Leave.objects.select_related('employee').only('employee__anviz_id').filter(from_leave=False,status='approved',employee__anviz_id__isnull=False)
-    # print(employees_on_leave)
-   
-    for employee_ids in employees_on_leave:
-        anviz_ids = employee_ids.employee.anviz_id
-        employee = employee_ids.employee.employee_id
-        resuming_date = employee_ids.resuming_date
-        next_day = resuming_date+timedelta(days=1)
-        leave_pk = employee_ids.pk
+    if employees_on_leave:
+        for employee_ids in employees_on_leave:
+            anviz_ids = employee_ids.employee.anviz_id
+            # employee = employee_ids.employee.employee_id
+            resuming_date = employee_ids.resuming_date
+          
 
-        name = employee_ids.employee.full_name
 
-        # print(name,'\n')
+            sql = "SELECT DISTINCT [Userid]  FROM [dbo].[Checkinout] WHERE [Userid]  ='{}' AND CAST(CheckTime AS DATE) >= '{}'  ".format(anviz_ids,resuming_date)
+            # print(sql,'\n')
 
-        sql = "SELECT DISTINCT [Userid]  FROM [dbo].[Checkinout] WHERE [Userid]  ='{}' AND CAST(CheckTime AS DATE) = '{}'  ".format(anviz_ids,resuming_date)
-        # print(sql,'\n')
+            try:
+                cursor = sql_server.cursor.execute(sql)
+                rows = cursor.fetchall()
+                columns = [column[0] for column in cursor.description]
+                anviz_users = [dict(zip(columns, row)) for row in rows]
 
-        try:
-            cursor = sql_server.cursor.execute(sql)
-            rows = cursor.fetchall()
-            columns = [column[0] for column in cursor.description]
-            anviz_users = [dict(zip(columns, row)) for row in rows]
+                values =  [val for dic in anviz_users for val in dic.values()]
+
+                numbers = ', '.join(map(str, values))
         
-            values =  [val for dic in anviz_users for val in dic.values()]
+                from_leave=  employees_on_leave.filter(employee__anviz_id=numbers).update(from_leave=True)
 
-            numbers = ', '.join(map(str, values))
-        
-            from_leave=  employees_on_leave.filter(employee__anviz_id=numbers).update(from_leave=True)
-
-            # print(from_leave)
-        except :
-            pass
-
+            except :
+                Leave.DoesNotExist()
 
 # SAVE EMPLOYEE EXITING EXIT STATUS DATA TO DB IF THE SPECIFIED DATE VALUE IS DUE ELSE HOLD THE DATA
 @shared_task
