@@ -219,6 +219,9 @@ EMAIL_PORT = config('EMAIL_PORT', cast=int)
 EMAIL_HOST_USER = config('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 
+# email used for testing in production
+TEST_EMAIL = config('TEST_EMAIL')
+
 # ERROR MAILS SENT TO ADMINS EMAIL
 SERVER_EMAIL = config('EMAIL_HOST_USER')
 

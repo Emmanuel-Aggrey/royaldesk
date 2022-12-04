@@ -12,7 +12,7 @@ from datetime import datetime, timedelta
 from hrms.models import Leave,Employee,Department
 
 email_from = settings.DEFAULT_FROM_EMAIL
-
+TEST_EMAIL = settings.TEST_EMAIL
 @shared_task
 def apply_for_leave_email(employee, start, end, diff, policy, department_email=[]):
 
@@ -24,15 +24,14 @@ def apply_for_leave_email(employee, start, end, diff, policy, department_email=[
         employee, policy, start, end, diff)
 
     #GET HR EMAIL AND APPEND TO EMPLOYEE DEPARTMENT EMAIL
-    hr_email = Department.objects.values_list('email',flat=True).filter(shortname='HR')
-    emails = [hr_email for hr_email in hr_email]
-    emails.append(department_email)
+    hr_email = Department.objects.only('email').filter(shortname='HR').first()
+    emails = [hr_email.email,department_email,TEST_EMAIL]
+
 
 
     msg = EmailMultiAlternatives(
-        subject_, html_content, email_from, emails)  #emails  a list
+        subject_, html_content, email_from, [emails])  #emails  a list
     msg.attach_alternative(html_content, "text/html")
-    # print(department_email)
     msg.send()
 
 
@@ -45,9 +44,10 @@ def send_email_new_helpdesk_employee(employee,employee_id,email,password):
     subject_ = subject.upper()
     html_content = 'Welcome to Rock City Help Desk, Your Employee ID  is <b>{}</b> ,And your password is <b>{}</b>, Please <a href="http://192.168.1.18/">Click Here</a> to login to use Help Desk. <p>you will be redirected to change the default password to your own password. </p>  <p>Best Regards, <br>The Royaldesk Team.</p>  <br><hr> <br> <footer><b>POWERD BY <a href="http://192.168.1.18/"> ROYALDESK </a> RCH IT</b> </footer>'.format(
         employee_id, password)
+    emails = [email,TEST_EMAIL]
 
     msg = EmailMultiAlternatives(
-        subject_, html_content, email_from, [email])  #personal email address
+        subject_, html_content, email_from, emails)  #personal email address
     msg.attach_alternative(html_content, "text/html")
 
     # print(html_content)
@@ -69,16 +69,15 @@ def employee_on_leave():
 
         department_email = [data[i]['employee__department__email'] for i in range(len(data))]
 
-        # GET HR EMAIL FROM DEPARTEMT AND APPEND TO USER DEPARTEMT EMAIL
-        hr_email = Department.objects.values_list('email',flat=True).filter(shortname='HR')
-        hr_email = [hr_email for hr_email in hr_email]
-        department_email = hr_email+department_email
+         # GET HR EMAIL FROM DEPARTEMT AND APPEND TO USER DEPARTEMT EMAIL
+        hr_email = Department.objects.only('email').filter(shortname='HR').first()
+
+        department_email.append(hr_email.email)
+        department_email.append(TEST_EMAIL)
+        # print(department_email)
 
         department_email = list(set(department_email))
 
-        # print(department_email)
-
-        
 
         # create an html table with data
         df = pd.DataFrame(data)
@@ -110,13 +109,12 @@ def employee_on_leave():
 
         # print(html_content)
         # print(department_email)
-    
+        
 
         msg = EmailMultiAlternatives(
         subject_, html_content, email_from, department_email) #department_email email is a list 
         msg.attach_alternative(html_content, "text/html")
         msg.send()
-
 
 
 
@@ -163,6 +161,7 @@ def anviz_employee(name="leave_users"):
             pass
 
 
+# SAVE EMPLOYEE EXITING EXIT STATUS DATA TO DB IF THE SPECIFIED DATE VALUE IS DUE ELSE HOLD THE DATA
 @shared_task
 def employee_exiting(employee_id,date_exited,employee_status,exit_check,reason_exiting=''):
     employee_id = Employee.objects.filter(employee_id=employee_id).update(date_exited=date_exited,status=employee_status,exit_check=exit_check,reason_exiting=reason_exiting)
@@ -173,16 +172,8 @@ def employee_exiting(employee_id,date_exited,employee_status,exit_check,reason_e
 @shared_task
 def log_to_file():
     today = datetime.now().strftime('%d %B %Y, %I:%M:%S %p')
-
-
-
     with open('./logs.log', 'a') as f:
         f.write(f'{today}\n')
-
-
-   
-
-
 
 
 
