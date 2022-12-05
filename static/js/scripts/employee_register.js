@@ -37,8 +37,7 @@ $('#add_employee').on('submit', function (ev) {
         csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
 
         success: function (data) {
-            // console.log(data)           
-
+            
             if(data.errors){
                 for (let [key,value] of Object.entries(data.errors)) {  
                     // console.log(key,value)
@@ -49,7 +48,12 @@ $('#add_employee').on('submit', function (ev) {
 
                 }
             }
-           else{
+            if (data.unique_contraints) {
+                show_alert(5000, "error",data.unique_contraints)
+
+            }
+           
+           if (data.data){
             sessionStorage.setItem('emp_id', data.data)
             $("#employee_id").val(data.data)
             $('#add_employee_next').click()
@@ -68,7 +72,7 @@ $('#add_employee').on('submit', function (ev) {
         },
         error: function (jqXHR, textStatus, errorThrown) {
             console.log(jqXHR, textStatus, errorThrown)
-            show_alert(9000, "error", 'ERROR: THIS USER ALREADY EXIST')
+            show_alert(9000, "error", 'ERROR: Unknown error occurred Contact Administrator')
             // console.log(jqXHR.responseText,);
         }
 

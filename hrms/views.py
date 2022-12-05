@@ -60,49 +60,61 @@ def allemployees(request):
             helpdesk_user = bool(int(request.data.get('helpdesk_user')))
             applicant=date_value(request.data.get('applicant'))
 
-            employee = serializer.save(applicant_id=applicant)
-            employee_key = employee.employee_id
-            user = User(password=default_password,username=employee.employee_id, first_name=employee.first_name, last_name=employee.last_name, is_head=employee.is_head,
+            try:
+                employee = serializer.save(applicant_id=applicant)
+                employee_key = employee.employee_id
+                user = User(username=employee.employee_id, first_name=employee.first_name, last_name=employee.last_name, is_head=employee.is_head,
                     email=employee.email, department_id=employee.department_id, designation_id=employee.designation_id, profile=employee.profile)
-            user.set_password(default_password)
-            # user.has_usable_password(user.password)
+                user.set_password(default_password)
+                # user.has_usable_password(user.password)
             
 
-         # GET DEPARTMENT SHORTNAME
-            department = employee.department.shortname
+                # GET DEPARTMENT SHORTNAME
+                department = employee.department.shortname
 
-            # CREATE HELPDESK USER AND ADD TO GROUP
-            group = Group.objects.prefetch_related().filter(name=department).last()
-            if user and helpdesk_user and group:
-                user.save()
-                user.groups.add(group)
+                # CREATE HELPDESK USER AND ADD TO GROUP
+                group = Group.objects.prefetch_related().filter(name=department).last()
+                if user and helpdesk_user and group:
+                    user.save()
+                    user.groups.add(group)
 
-         # CREATE HELPDESK USER
-            if user and helpdesk_user:
-                user.save()
+                # CREATE HELPDESK USER
+                if user and helpdesk_user:
+                    user.save()
 
             # SEND USERNAME AND PASSEORD  TO THE NEW EMPLOYEE VIA EMAIL
-            if user and user.email and helpdesk_user:
-                employee_id = user.username
-                employee = user.full_name
-                employee_email = user.email
-                employee_password = default_password
-                tasks.send_email_new_helpdesk_employee(
+                if user and user.email and helpdesk_user:
+                    employee_id = user.username
+                    employee = user.full_name
+                    employee_email = user.email
+                    employee_password = default_password
+                    
+                    # SEND EMAIL TO NEW USER  VIA CELERY
+                    tasks.send_email_new_helpdesk_employee(
                     employee, employee_id, employee_email, employee_password)
 
 
-            data ={
-                'data':employee_key
-            }
-            return Response(data=data,status=status.HTTP_201_CREATED)
+                data ={
+                    'data':employee_key
+                }
+                return Response(data=data,status=status.HTTP_201_CREATED)
+
+            
+            except IntegrityError as e:
+                
+                data = {
+                'unique_contraints': 'Employee Already Exists',
+                }
+                return Response(data=data)
 
         if serializer.errors:
-    
+            
             data = {
-                'errors': serializer.errors
-            }
+            'errors': serializer.errors
+                }
             return Response(data)
-    return Response(status=status.HTTP_400_BAD_REQUEST)
+
+        return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
 
