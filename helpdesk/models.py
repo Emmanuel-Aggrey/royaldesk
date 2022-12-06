@@ -48,7 +48,7 @@ class User(AbstractUser):
     def profile_exists(self):
         if self.profile:
             return self.profile.url
-        return '/static/images/faces-clipart/default_emp_profile.png/'
+        return '/static/js/default_profile.jpg'
 
 
     def get_absolute_url(self):

@@ -39,12 +39,13 @@ $(document).ready(function () {
     type: 'GET',
     success: function (data) {
       // console.log(data['dpeartment_count'])
+      // console.log(data.emp_exceed_leave)
     
 
       $("#gender_male").text(`Male: ${data.gender.male}`)
       $("#gender_female").text(`Female: ${data.gender.female}`)
 
-      console.log(data.is_merried)
+      // console.log(data.is_merried)
 
       $("#is_merried").text(`Married: ${data.is_merried.married}`)
       $("#is_not_merried").text(`Not Married: ${data.is_merried.not_married}`)
@@ -65,9 +66,14 @@ $(document).ready(function () {
       $("#age_above").text(`Above 30: ${data.age.above}`)
       $("#age_below").text(`Below 30: ${data.age.below}`)
 
+      // console.log(data.on_leave)
+
       $("#on_leave").text(`On Leave: ${data.leave.on_leave}`)
 
-      $("#not_onleave").text(`Not On Leave: ${data.leave.not_on_leave}`)
+      data.leave.applied_leave ? 
+                  $("#applied_leave").text(`Applied Leave: ${data.leave.applied_leave}`).addClass('pulse')
+                      :
+                  $("#applied_leave").text(`Applied Leave: ${data.leave.applied_leave}`)
 
 
       data.department_count.forEach(element=>{
@@ -84,17 +90,17 @@ $(document).ready(function () {
         country_count.push(element.emp_count)
 
 
- 
-        $("#country_name").append(`
-        <li> 
-            ${element.country}
-        </li>
-        `)
-        $("#country_number").append(`
-        <li> 
-        ${element.emp_count}
-    </li>
-        `)
+        // working but commented it out
+    //     $("#country_name").append(`
+    //     <li> 
+    //         ${element.country}
+    //     </li>
+    //     `)
+    //     $("#country_number").append(`
+    //     <li> 
+    //     ${element.emp_count}
+    // </li>
+    //     `)
 
         // console.log(element.emp_count)
       });
@@ -269,11 +275,15 @@ const emp_on_leave = () => {
     url: '/hr-reports/emp_on_leave/',
     type: 'GET',
     success: function (data) {
-      $("#count_on_leave").text(data.length).attr('title','employees on leave')
+
+     const count_on_leave=  data.filter(emp_on_leave=>emp_on_leave.leave_employees__hr_manager===true)
+
+     $("#count_on_leave").text(count_on_leave.length).attr('title','employees on leave')
+
       let desig = {}
 
       desig = data.filter(function (item) {
-        return item.leave_employees__hr_manager===true;
+        return item.leave_employees__hr_manager===true ;
 
       })
 
@@ -286,7 +296,7 @@ const emp_on_leave = () => {
         <tr>
                             <td>
                               <p class="mb-1 text-dark font-weight-medium">${element.leave_employees__employee__first_name} ${element.leave_employees__employee__last_name}</p>
-                              <p class="mt-3 text-muted">Reporting Date : ${element.leave_employees__end}</p>
+                              <p class="mt-3 text-muted">Reporting Date : ${element.leave_employees__resuming_date}</p>
                               </td>
                             <td class="text-primary font-weight-medium">
                               <div onclick="backfromleave(${element.leave_employees__pk})" class="btn btn-primary" title="back from leave"> 
@@ -316,9 +326,11 @@ const emp_on_leave = () => {
             return item.leave_employees__hr_manager===true;
           })
         }
-        else{
+
+        if(leave=='applied_for_leave'){
           // console.log(leave)
 
+          
           desig = data.filter(function (item) {
             // console.log('applied',item)
             return item.leave_employees__hr_manager===false;
@@ -326,7 +338,7 @@ const emp_on_leave = () => {
           })
         }
 
-        // console.log('desig',desig)
+        console.log('desig',desig)
 
         desig.forEach(element => {
         
@@ -337,7 +349,7 @@ const emp_on_leave = () => {
           <tr>
                               <td>
                                 <p class="mb-1 text-dark font-weight-medium">${element.leave_employees__employee__first_name} ${element.leave_employees__employee__last_name}</p>
-                                <p class="mt-3 text-muted">Reporting Date : ${element.leave_employees__end}</p>
+                                <p class="mt-3 text-muted">Reporting Date : ${element.leave_employees__resuming_date}</p>
 
                               </td>
                             
@@ -449,12 +461,12 @@ const clockins = () => {
     type: 'GET',
     success: function (data) {
       // console.log(data.sql_today)
-      if (data.sql_today) {
-        $("#today_data").text(data.sql_today[0].Count_In)
-      }
-      else{
-        $("#clockin_text").text('No Data For Today')
-      }
+      // if (data.sql_today) {
+      //   $("#today_data").text(data.sql_today[0].Count_In)
+      // }
+      // else{
+      //   $("#clockin_text").text('No Data For Today')
+      // }
       $("#Yesterday_data").text(data.sql_yesterday[0].Count_In)
       $("#Week_data").text(data.sql_week[0].Count_In)
 
@@ -784,9 +796,9 @@ const loadChart = function () {
 // Employees Turn Over Rate End
 
     // ALL YEAR
-    if ($("#leave-applicatopn").length) {
+    if ($("#leave-application").length) {
 
-      var salesChartCanvas = $("#leave-applicatopn").get(0).getContext("2d");
+      var salesChartCanvas = $("#leave-application").get(0).getContext("2d");
       // var gradientStrokeFill_1 = salesChartCanvas.createLinearGradient(0, 100, 200, 0);
       // gradientStrokeFill_1.addColorStop(0, '#fa5539');
       // gradientStrokeFill_1.addColorStop(1, '#fa3252');
@@ -864,7 +876,7 @@ const loadChart = function () {
         },
 
 
-        // legend: true,
+        legend: true,
 
         scales: {
 
@@ -891,7 +903,7 @@ const loadChart = function () {
         }
       }
       var salesChart = new Chart(salesChartCanvas, {
-        type: 'pie',//'line',
+        type: 'doughnut',//'line',pie,
         plugins: [ChartDataLabels],
 
         data: areaData,
@@ -1480,7 +1492,7 @@ const get_employee_leave = (employee) => {
       $("#leave_table_body, #leave_summary_body").empty();
 
       const leave_days = data.out_standing_leaves ? data.out_standing_leaves : 'NA'
-      $(".leave_summary_caption").text('Out Standing Leave Day(s): ' + leave_days).addClass('pulse')
+      // $(".leave_summary_caption").text('Out Standing Leave Day(s): ' + leave_days).addClass('pulse')
 
       // console.log(data.length);
       if (data.employees.length > 0) {
@@ -1499,7 +1511,8 @@ const get_employee_leave = (employee) => {
               // console.log(element)
               $('#leave_table_body').append(`
               <tr>
-                  <td>${element.policy}</td>
+                  <td> <a class="text-primary" href=${element.url} target="_blank" rel="noopener noreferrer">${element.policy}</a></td>
+
                   <td>${element.start}</td>
                   <td>${element.end}</td>
                   <td>${element.leavedays}</td>
@@ -1523,13 +1536,15 @@ const get_employee_leave = (employee) => {
           } else if (result.isDenied) {
 
             data.leave_per_year.forEach(element => { 
+              // console.log(element)
+              const out_standing =element.policy__has_days ? element.out_standing :'N/A'
               $("#leave_summary_body").append(`
               <tr>
               <td>${element.policy__name}</td>
               <td>${element.start__year}</td>
               <td>${element.policy__days}</td>
               <td>${element.total_spent}</td>
-              <td>${element.out_standing}</td>
+              <td>${out_standing}</td>
               <td>${element.num_application}</td>
 
             </tr>
