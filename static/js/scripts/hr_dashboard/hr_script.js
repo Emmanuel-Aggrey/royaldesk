@@ -66,7 +66,7 @@ $(document).ready(function () {
       $("#age_above").text(`Above 30: ${data.age.above}`)
       $("#age_below").text(`Below 30: ${data.age.below}`)
 
-      console.log(data.on_leave)
+      // console.log(data.on_leave)
 
       $("#on_leave").text(`On Leave: ${data.leave.on_leave}`)
 
@@ -1511,7 +1511,8 @@ const get_employee_leave = (employee) => {
               // console.log(element)
               $('#leave_table_body').append(`
               <tr>
-                  <td>${element.policy}</td>
+                  <td> <a class="text-primary" href=${element.url} target="_blank" rel="noopener noreferrer">${element.policy}</a></td>
+
                   <td>${element.start}</td>
                   <td>${element.end}</td>
                   <td>${element.leavedays}</td>

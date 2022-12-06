@@ -161,9 +161,10 @@ const get_employee = (employee) => {
 
 
           data.employees.forEach(element => {
+            // console.log(element)
             $('#leave_table_body').append(`
             <tr>
-                <td>${element.policy}</td>
+                <td> <a class="text-primary" href=${element.url} target="_blank" rel="noopener noreferrer">${element.policy}</a></td>
                 <td>${element.start}</td>
                 <td>${element.end}</td>
                 <td>${element.resuming_date}</td>
@@ -355,7 +356,7 @@ const delete_document_data = (element, employee) => {
   // console.log(element.id,employee)
   url = `/delate-document/${employee}/${element.id}/`
 
-  console.log(url)
+  // console.log(url)
 
   $.ajax({
     url: url,

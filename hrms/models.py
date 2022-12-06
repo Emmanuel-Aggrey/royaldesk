@@ -315,7 +315,7 @@ class Leave(BaseModel, models.Model):
     policy = models.ForeignKey(
         LeavePolicy, on_delete=models.CASCADE, help_text="Leave Policy")
     resuming_date = models.DateField(null=True, blank=False)
-    file = models.FileField(null=True, blank=True, upload_to='media/%Y-%m-%d')
+    file = models.FileField(null=True, blank=True, upload_to='leave/%Y-%m-%d')
 
     supervisor = models.BooleanField('supervisor',default=False)
     line_manager = models.BooleanField('hod',default=False)

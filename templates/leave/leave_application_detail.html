@@ -256,6 +256,18 @@
                                         </table>
                                     </tr>
                                 </tbody>
+                                {% if leave.file %}
+                                <table>
+                                    <th>Attached Document </th>
+                                    <td> 
+                                        <a style='color:blue' href={{leave.file_exists}} target="_blank" rel="noopener noreferrer">
+                                            Download File
+                                        </a>
+
+                                    </td>
+                                </table>
+                                {% endif %}
+                                
                             </table>
         </article>
         <aside>
