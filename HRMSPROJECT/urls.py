@@ -9,7 +9,7 @@ from django.contrib.auth.decorators import login_required
 from .custome_decorators import default_passeord
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('back-office/', admin.site.urls,name='back_office'),
     path('',login_required(default_passeord((TemplateView.as_view(template_name="home.html")))) ,name="home"),
 
     path('', include('hrms.urls', namespace = 'hrms')),

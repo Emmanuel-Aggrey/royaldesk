@@ -75,6 +75,7 @@ def allemployees(request):
                 # CREATE HELPDESK USER AND ADD TO GROUP
                 group = Group.objects.prefetch_related().filter(name=department).last()
                 if user and helpdesk_user and group:
+                    user.is_staff=True
                     user.save()
                     user.groups.add(group)
 
