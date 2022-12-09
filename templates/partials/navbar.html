@@ -153,14 +153,14 @@
           </div>
           <a class="dropdown-item">My Profile <span class="badge badge-pill badge-danger">1</span><i class="dropdown-item-icon ti-dashboard"></i></a>
           <a class="dropdown-item">Messages<i class="dropdown-item-icon ti-comment-alt"></i></a>
-          <a class="dropdown-item">FAQ<i class="dropdown-item-icon ti-location-arrow"></i></a>
-          <a class="dropdown-item" href="/back-office">Back Office<i class="dropdown-item-icon ti-help-alt"></i></a>
-          
+          <a class="dropdown-item">FAQ<i class="dropdown-item-icon ti-location-arrow"></i></a>          
           
           {% if user.is_authenticated %}
+            <a class="dropdown-item" href="/back-office">Back Office<i class="dropdown-item-icon ti-help-alt"></i></a>
+
           <a href="{% url 'logout'  %}" class="dropdown-item">Sign Out<i class="dropdown-item-icon ti-power-off"></i></a>
 
-          {% if request.user.department.shortname == 'IT' or request.user.is_staff or request.user.is_superuser %}
+          {% if request.user.department.shortname == 'IT'  or request.user.is_superuser %}
           
                     
           <a href="/upload-anviz-user-profile" class="dropdown-item" id={{conntected_to_server}}>IT<i class="dropdown-item-icon ti-help-alt"></i></a>
