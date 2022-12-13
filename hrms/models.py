@@ -142,7 +142,7 @@ class Employee(BaseModel, models.Model):
     @property
     def full_name(self):
         if self.first_name and self.last_name and self.other_name:
-            return f'{self.first_name} {self.last_name} {self.other_name}'
+            return f'{self.first_name} {self.other_name} {self.last_name}'
         else:
             return f'{self.first_name} {self.last_name}'
 
@@ -158,7 +158,7 @@ class Employee(BaseModel, models.Model):
     def profile_exists(self):
         if self.profile:
             return self.profile.url
-        return '/static/js/pngtree.jpg'
+        return'/static/js/default_profile.jpg'
 
     @property
     def applicant_cv_exists(self):
