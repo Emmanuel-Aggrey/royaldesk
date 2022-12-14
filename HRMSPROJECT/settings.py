@@ -190,6 +190,7 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static')
 ]
+FORCE_SERVE_STATIC = True
 
 
 # '/media/' #This is just for url i.e https://l.me/media/l.jpg
