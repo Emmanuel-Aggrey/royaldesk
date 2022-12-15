@@ -188,10 +188,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 
 STATIC_URL = '/static/'
-STATIC_ROOT = config('STATIC_ROOT')
-STATICFILES_DIRS = [config('STATICFILES_DIRS')]
-
-# STATIC_ROOT = os.path.join(BASE_DIR, 'staticfile')
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static')
+]
 
 # STATICFILES_DIRS = [
 #     os.path.join(BASE_DIR, 'static')
