@@ -186,11 +186,15 @@ DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 #LOGIN_URL = 'hrms:login'
 
 
-
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static')
-]
+STATIC_ROOT = config('STATIC_ROOT')
+STATICFILES_DIRS = [config('STATICFILES_DIRS')]
+
+# STATIC_ROOT =  os.path.join(BASE_DIR, 'staticfile')
+# STATIC_URL = '/static/'
+# STATICFILES_DIRS = [
+#     os.path.join(BASE_DIR, 'static')
+# ]
 
 # STATICFILES_DIRS = [
 #     os.path.join(BASE_DIR, 'static')
