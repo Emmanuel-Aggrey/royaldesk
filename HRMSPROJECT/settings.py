@@ -186,19 +186,15 @@ DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 #LOGIN_URL = 'hrms:login'
 
 
+
+
+STATIC_ROOT =  os.path.join(BASE_DIR, 'staticfile')
 STATIC_URL = '/static/'
-STATIC_ROOT = config('STATIC_ROOT')
-STATICFILES_DIRS = [config('STATICFILES_DIRS')]
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static')
+]
 
-# STATIC_ROOT =  os.path.join(BASE_DIR, 'staticfile')
-# STATIC_URL = '/static/'
-# STATICFILES_DIRS = [
-#     os.path.join(BASE_DIR, 'static')
-# ]
 
-# STATICFILES_DIRS = [
-#     os.path.join(BASE_DIR, 'static')
-# ]
 
 # '/media/' #This is just for url i.e https://l.me/media/l.jpg
 MEDIA_URL = config('MEDIA_URL')
@@ -266,13 +262,10 @@ CELERYBEAT_SCHEDULE = 'django_celery_beat.schedulers:DatabaseScheduler'
 CSRF_TRUSTED_ORIGINS = [config('CSRF_TRUSTED_ORIGINS')]
 
 
-today = datetime.now().date().strftime('%Y-%m-%d')
-DBBACKUP_STORAGE = 'django.core.files.storage.FileSystemStorage'
-# DBBACKUP_STORAGE_OPTIONS = {'location': f'./backup/{today}/'}
 
+DBBACKUP_STORAGE = 'django.core.files.storage.FileSystemStorage'
 DBBACKUP_STORAGE_OPTIONS = {'location': config('DBBACKUP_LOCATION')}
 
-# DBBACKUP_STORAGE_OPTIONS = {'location': config('MEDIABACKUP_LOCATION')}
 
 
 # DJANGO MODEL LOGS
