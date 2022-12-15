@@ -179,14 +179,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
-# PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
-# STATIC_URL = '/static/'
-# STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static')
-# LOGIN_REDIRECT_URL = 'hrms:dashboard'
-#LOGIN_URL = 'hrms:login'
 
 
 
+FORCE_SERVE_STATIC = True
 
 STATIC_ROOT =  os.path.join(BASE_DIR, 'staticfile')
 STATIC_URL = '/static/'
