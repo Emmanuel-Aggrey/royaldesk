@@ -10,6 +10,10 @@ urlpatterns = [
     path('applicant/',TemplateView.as_view(template_name="applicant/applicant.html"),name="applicant"),
     # path('offerl_letter/',TemplateView.as_view(template_name="applicant/offerl_letter.html"),name="offerl_letter"),
 
+    path('FileUploadView/<str:applicant_id>/',views.FileUploadView.as_view()),
+
+    path('upload-offer-letter/<str:applicant_id>/',views.upload_offer_letter),
+
 
 
     path('applicants-api/',views.applicant,name="applicants_api"),
@@ -17,5 +21,7 @@ urlpatterns = [
 
     path('offer-letter/<str:applicant_id>/',views.acceptance_view,name="acceptance_view"),
     path('offer-letter-api/<str:applicant_id>/',views.acceptance_api_view),
+
+    path("message-to-applicant/", views.message_to_applicant),
 
 ]

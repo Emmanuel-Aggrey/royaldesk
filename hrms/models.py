@@ -17,20 +17,21 @@ from . import partials
 from BaseModel.models import BaseModel,Department,Designation
 from applicant.models import Applicant
 
-
+from django.core.exceptions import ValidationError
 # from applicant.models import Applicant
 # from django.contrib.auth.models import Group
 GENDER = (('male', 'MALE'), ('female', 'FEMALE'))
 TITLE = (('mr', 'MR'), ('mrs', 'MRS'), ('doc', 'DOCTOR'), ('prof',
          'PROFESSOR'), ('miss', 'MISS'), ('sir', 'SIR'), ('hon', 'HONARABLE'))
-EMPLOYEE_STATUS = (('active', 'ACTIVE'), ('sacked',
-                   'SACKED'), ('resign', 'RESIGN'))
+EMPLOYEE_STATUS = (('active', 'ACTIVE'), ('terminated',
+                   'TERMINATED'), ('resigned', 'RESIGNED'),('dismised', 'DISMISED'),('redundancy', 'REDUNDANCY'))
 
 STATUS = (('approved', 'APPROVED'), ('unapproved',
           'UNAPPROVED'), ('pending', 'PENDING'))
 
 MARRITAL_STATUS = (('married','MARRIED'),('not_married','NOT MARRIED'),('divorced','Divorced'),('widow','WIDOW'),('widower','WIDOWER'),)
 
+# RELATION = (('mother','MOTHER'),('father',''),('divorced','Divorced'),('widow','WIDOW'),('widower','WIDOWER'),)
 
 
 
@@ -83,8 +84,8 @@ class Employee(BaseModel, models.Model):
     date_exited = models.DateField(null=True,blank=True,help_text='shows the date when the employee exited from the company')
     reason_exiting = models.TextField(null=True,blank=True,help_text='reason of exiting')
     employee_id = models.CharField(
-        max_length=200,null=True, blank=True, unique=True, help_text='system generated (leave blank)')
-    profile = models.ImageField(null=True, blank=True)
+        max_length=200,null=True, blank=True, unique=True, help_text='system generated (leave blank)',db_index=True)
+    profile = models.ImageField(upload_to='employees/%Y-%m-%d',null=True,blank=True)
     title = models.CharField(max_length=20, choices=TITLE, null=True)
     first_name = models.CharField(max_length=50, null=False)
     last_name = models.CharField(max_length=50, null=False)
@@ -158,7 +159,7 @@ class Employee(BaseModel, models.Model):
     def profile_exists(self):
         if self.profile:
             return self.profile.url
-        return'/static/js/default_profile.jpg'
+        return '/static/js/default_profile.jpg'
 
     @property
     def applicant_cv_exists(self):
@@ -193,7 +194,9 @@ def save_profile(sender, instance, **kwargs):
         last_name = instance.last_name
         year = instance.date_employed.strftime('%Y')
         initials = f'{first_name[0]}{last_name}-{year}'.upper()
-        instance.employee_id = initials.replace(' ','')
+        employee_id = initials.replace(' ','')
+        instance.employee_id = employee_id
+        instance.anviz_id = employee_id
         # instance.age = age_calendar(instance.dob)
 
         # print('age_calendar',age_calendar(instance.dob))
@@ -204,7 +207,10 @@ def save_profile(sender, instance, **kwargs):
         last_name = instance.last_name
         year = instance.date_employed.strftime('%Y')
         initials = f'{first_name[0]}{last_name}-{year}'.upper()
-        instance.employee_id = initials.replace(' ','')
+        employee_id = initials.replace(' ','')
+        instance.employee_id = employee_id
+        instance.anviz_id = employee_id
+
         # print('employee_id not set')
         
         # instance.age = age_calendar(instance.dob)
@@ -226,6 +232,8 @@ class Dependant(models.Model):
     dob = models.DateField(null=True)
     mobile = models.CharField(max_length=15, null=True, blank=True)
     address = models.TextField(max_length=100, null=True, blank=True)
+    relation= models.CharField(blank=True,null=True, max_length=20)
+    is_beneficiary = models.BooleanField(default=False)
     # image = models.ImageField(null=True, blank=True)
 
     @property
@@ -244,6 +252,9 @@ class Dependant(models.Model):
     class Meta:
         pass
         # unique_together = ('first_name', 'last_name', 'address')
+
+
+   
 
 
 class Education(BaseModel, models.Model):
@@ -267,6 +278,10 @@ class ProfessionalMembership(BaseModel, models.Model):
     employee = models.ForeignKey(
         Employee, on_delete=models.CASCADE, related_name='memberships')
     name = models.CharField(max_length=200)
+    document = models.FileField(null=True, blank=True,upload_to='memberships/%Y-%m-%d')
+
+
+
     # date_completed = models.DateField(null=True,blank=True)
 
     def __str__(self):
@@ -276,6 +291,11 @@ class ProfessionalMembership(BaseModel, models.Model):
         pass
         # unique_together = ('name', 'employee')
 
+    @property
+    def document_exists(self):
+        if self.document:
+            return self.document.url
+        return ''
 
 class PreviousEployment(BaseModel, models.Model):
     employee = models.ForeignKey(
@@ -306,7 +326,7 @@ class Leave(BaseModel, models.Model):
     employee = models.ForeignKey(
         Employee, on_delete=models.CASCADE, related_name='leave_employees')
     leave_number = models.IntegerField(default=partials.generated_ticket_number)
-    start = models.DateField()
+    start = models.DateField(db_index=True)
     end = models.DateField()
     status = models.CharField(
         choices=STATUS,  default='pending', max_length=15)
@@ -352,7 +372,36 @@ class Leave(BaseModel, models.Model):
 
     class Meta:
         ordering = ['-updated_at']
-        unique_together = ('employee', 'start')
+
+
+
+    # def save(self, *args, **kwargs):
+    #     # If new instance created
+    #     # print('employee',self.employee)
+    #     start = datetime.strptime(self.start, '%Y-%m-%d')
+    #     # end = datetime.strptime(self.end, '%Y-%m-%d')
+
+    #     # print('start',start.year,start.month)
+
+    #     queryset = Leave.objects.only('start__year','start__month').filter(start__isnull=False,employee=self.employee).last()
+
+    #     year_month1 = start.year,start.month
+    #     year_month2 = queryset.get('start__year',0),queryset.get('start__month',0)
+    #     print('year_month',year_month1,year_month2)
+
+    #     # queryset = Leave.objects.filter(
+    #     #                 datetime__startswith=self.datetime.strftime('%Y-%m-'))
+
+    #     # If instance changed
+    #     if queryset is None:
+    #         print('passing')
+    #         # queryset = queryset.exclude(id=self.id)
+
+    #     if queryset.exists():
+    #         raise ValidationError('Choose another date')
+
+    #     super(Leave, self).save(*args, **kwargs)
+   
     
 
 
@@ -400,12 +449,12 @@ class Documente(BaseModel):
     description =models.CharField(max_length=200,blank=True)
     filename = models.ForeignKey(File, on_delete=models.CASCADE,related_name='filenames')
     date = models.DateField(null=True, blank=True,default=timezone.now)
-    file = models.FileField(upload_to='documents/%Y-%m-%d',null=True)
+    file = models.FileField(upload_to='documents/%Y-%m-%d',null=True,blank=True)
 
 
 
-    # def __str__(self):
-    #     return f'{self.filename.name} {self.description}'
+    def __str__(self):
+        return f'{self.filename.name}'
 
     
 

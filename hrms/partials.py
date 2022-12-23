@@ -1,6 +1,8 @@
 from datetime import datetime,date
 import numpy as np
 import random
+from django.contrib.auth.hashers import  check_password
+
 
 def days_difference(d1, d2):
     """Difference between two datetimes: end-start date"""
@@ -94,5 +96,10 @@ def check_approval_status_change(status1, status2,title,employee):
 
 
 
+def hashed_employee(session,value):
+    store = check_password(value,session)
+    if True:
+        return session
+    else:  return  None
 
 

@@ -20,7 +20,7 @@ STATUS = (('resolved','RESOLVED'),('assiend','ASSIGEND'),('pending','PENDING'))
 # Create your models here.
 class ActiveUsersManager(models.Manager):
     def get_queryset(self):
-        return super().get_queryset().exclude(for_management=True)
+        return super().get_queryset().exclude(for_management=True,is_applicant=True,is_normal_user=True)
 
 
 class User(AbstractUser):
@@ -28,8 +28,11 @@ class User(AbstractUser):
     profile = models.ImageField(blank=True, null=True)
     department = models.ForeignKey(Department,on_delete=models.CASCADE,null=True)
     designation = models.ForeignKey(Designation,on_delete=models.CASCADE, null=True)
-    is_head = models.BooleanField(default=False)
+    is_head = models.BooleanField(default=False,help_text='tick if user is HOD')
+    is_applicant = models.BooleanField(default=False,help_text='tick if user is an applicant')
+    is_normal_user = models.BooleanField(default=False,help_text='tick if user will not use help desk')
     for_management = models.BooleanField(default=False)
+    
 
     objects = UserManager()
 

@@ -8,6 +8,8 @@ $(document).ready(function () {
 
 
   search_applicant_table()
+
+  load_comment_form()
   // fancyTable()
 
   // showModal1()
@@ -50,10 +52,9 @@ const applicants = () => {
         <td scope="row">${element.full_name}</td>
                 <td scope="row">${element.phone}</td>
                 <td scope="row">${element.email}</td>
-                <td scope="row" class="text-capitalize">${element.department}</td>
-                <td scope="row" class="text-capitalize">${element.designation}</td>
+                <td scope="row" class="text-capitalize">${element.department_name}</td>
+                <td scope="row" class="text-capitalize">${element.designation_name}</td>
                 <td scope="row" class="cv_view"><a  target="_blank" rel="noopener noreferrer" title="download ${file}" href="${fileExist(element.cv_exists)}">${fileName(element.cv_exists)}</a></td>
-                <td scope="row" title="${element.comment}">${comment_exist(element.comment)} </td>
 
                 <td scope="row"> <button type="button" class="btn btn-primary" title='update application' id="${element.applicant_id}" onClick=get_applicant(this)>
                 <i class="fa fa-pencil-square" aria-hidden="true"></i> 
@@ -82,10 +83,9 @@ const applicants = () => {
         <td scope="row">${element.full_name}</td>
                 <td scope="row">${element.phone}</td>
                 <td scope="row">${element.email}</td>
-                <td scope="row" class="text-capitalize">${element.department}</td>
-                <td scope="row" class="text-capitalize">${element.designation}</td>
+                <td scope="row" class="text-capitalize">${element.department_name}</td>
+                <td scope="row" class="text-capitalize">${element.designation_name}</td>
                 <td scope="row" class="cv_view"><a  target="_blank" rel="noopener noreferrer" title="download ${file}" href="${fileExist(element.cv_exists)}">${fileName(element.cv_exists)}</a></td>
-                <td scope="row" title="${element.comment}">${comment_exist(element.comment)} </td>
 
                 <td scope="row"> <button type="button" class="btn btn-primary" title='update application' id="${element.applicant_id}" onClick=get_applicant(this)>
                 <i class="fa fa-pencil-square" aria-hidden="true"></i> 
@@ -123,7 +123,7 @@ $('#applicant_form').submit(function (event) {
 
     success: function (data) {
 
-      show_alert(5000, "success", data + ' Record saved')
+      show_alert(5000, "success", data.full_name + ' Record saved')
       $("#applicant_form")[0].reset()
       $('#applicants_table').empty()
       applicants()
@@ -157,8 +157,9 @@ $('#applicant_form_edit').submit(function (event) {
     csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
     
     success: function (data) {
+      console.log(data);
 
-      show_alert(5000, "success", data + ' Record Updated')
+      show_alert(5000, "success", data.full_name + ' Record Updated')
       // $("#applicant_form_edit")[0].reset()
       $('#applicants_table').empty()
       applicants()
@@ -242,7 +243,6 @@ const get_applicant = (applicant_id) => {
       $("#oname_edit").val(data.other_name);
       $("#email_edit").val(data.email);
       $("#phone_edit").val(data.phone);
-      $("#comment_edit").val(data.comment);
       $("#date_edit").val(data.resuming_date);
       $("#address_edit").val(data.address);
       $("#salary_edit").val(data.applicant_salary);
@@ -250,18 +250,20 @@ const get_applicant = (applicant_id) => {
       status_ = data.status.toUpperCase();
 
       $("#designation_edit").append(`
-      <option value="${data.designation_id}">${data.designation}</option>`)
+      <option value="${data.designation}">${data.designation_name}</option>`)
 
       $(`#status_edit option:contains('${status_}')`).prop("selected", true)
-      $(`#department_edit option:contains('${data.department}')`).prop("selected", true)
-      $(`#designation_edit option:contains('${data.designation}')`).prop("selected", true)
+      $(`#department_edit option:contains('${data.department_name}')`).prop("selected", true)
+      $(`#designation_edit option:contains('${data.designation_name}')`).prop("selected", true)
 
-      $("#cv_url").attr('href', data.cv_exists).text(fileName(data.cv_exists))
-      $("#cv_url").text(data.cv_exists.substring(data.cv_exists.lastIndexOf('/') +1)).css('color','#0078F5')
+      $("#cv_url").attr('href', data.cv_exists).text(fileName(data.cv_exists)).attr('title', data.cv_exists.substring(data.cv_exists.lastIndexOf('/') +1)).css('color','#0078F5')
+      // $("#cv_url").text(data.cv_exists.substring(data.cv_exists.lastIndexOf('/') +1)).css('color','#0078F5')
 
       // $('#department_edit').prop('checked', data.department)
 
-  
+
+      $("#file_edit").val('') //empty the file edit input when clicked here
+
     if ($("#status_edit").val() !='selected') {
       $(".date").css('display','none').attr('required',false);
       
@@ -269,9 +271,78 @@ const get_applicant = (applicant_id) => {
       $(".date").css('display', 'block').attr('required',true);
     }
 
+    if(data.cv){
+      // document.getElementById('file_edit').remove();
+      $("#file_edit").attr('name', 'profile')
+    }
+    // else{
+    //   $("#file_edit").attr('name', 'cv');
+    // }
+    
+
     }
   })
 }
+
+const file_input_change = ()=>{
+   
+  if($("#file_edit").val()==''){
+    // alert('Please select')
+    $("#file_edit").attr('name', 'profile')
+  }
+  else(
+    // alert('Please select ne'),
+    $("#file_edit").attr('name', 'cv')
+    
+  )
+}
+
+// SAVE COMMECTS
+const load_comment_form =()=>{
+  $.ajax({
+    url:'/message-to-applicant/',
+    type:'GET',
+    success: function(response){
+      // console.log(response);
+      $("#selected").val(response.selected)
+      $("#in_review").val(response.in_review)
+      $("#not_selected").val(response.not_selected)
+    }
+  })
+}
+
+$("#comment_form").on('submit', function(event){
+  event.preventDefault();
+  $.ajax({
+    url:'/message-to-applicant/',
+    type:'POST',
+    data: new FormData(this),
+    // enctype: 'multipart/form-data',
+    processData: false,
+    contentType: false,
+    cache: false,
+    csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+
+    success: function(data){
+      // console.log(data);
+      $("#comment_div" ).dialog( "close" );
+      show_alert(6000, "success", 'comment saved')
+    },
+    error: function(jqXHR, textStatus, errorThrown){
+      console.log(jqXHR, textStatus, errorThrown);
+      show_alert(6000, "error", 'error saving comment try again')
+
+    }
+  })
+})
+
+$('#message_btn').click(function () {
+
+  $("#comment_div").removeClass('d-none')
+  showModal('comment_div','Message')
+})
+
+
 
 
 const showModal = (model, title) => {
@@ -288,8 +359,8 @@ const showModal = (model, title) => {
       }
     ]
   });
-  $("#comment").height($("#file").height())
-  $("#comment_edit").height($("#file_edit").height())
+  // $("#comment").height($("#file").height())
+  // $("#comment_edit").height($("#file_edit").height())
 
 
 }
@@ -348,17 +419,17 @@ function set_applicant(status,applicant) {
 }
 
 
-const comment_exist = (comment) =>{
-  if(comment.length >=50){
-     return comment.slice(0, 50) +"..."
-  }
-  else if(comment){
-    return comment.slice(0, 50)
- }
-  else{
-    return ''
-  }
-}
+// const comment_exist = (comment) =>{
+//   if(comment.length >=50){
+//      return comment.slice(0, 50) +"..."
+//   }
+//   else if(comment){
+//     return comment.slice(0, 50)
+//  }
+//   else{
+//     return ''
+//   }
+// }
 
 
 
@@ -395,7 +466,7 @@ function fileExist(file) {
 }
 
 function fileName(file) {
-  return (file ? 'file' : 'no file');
+  return (file ? 'download' : '');
 }
 
 

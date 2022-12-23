@@ -6,11 +6,11 @@ from django.contrib import admin
 from django.urls import include, path
 from django.views.generic import TemplateView
 from django.contrib.auth.decorators import login_required
-from .custome_decorators import default_passeord
+from .custome_decorators import default_passeord,applicant_user
 
 urlpatterns = [
     path('back-office/', admin.site.urls,name='back_office'),
-    path('',login_required(default_passeord((TemplateView.as_view(template_name="home.html")))) ,name="home"),
+    path('',login_required(default_passeord(applicant_user((TemplateView.as_view(template_name="home.html"))))) ,name="home"),
 
     path('', include('hrms.urls', namespace = 'hrms')),
     path('', include('helpdesk.urls', namespace = 'helpdesk')),

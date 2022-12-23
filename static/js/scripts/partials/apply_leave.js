@@ -1,4 +1,5 @@
-
+var last_on_leave_year = ''
+var last_on_leave_month = ''
 
 $(document).ready(function () {
   // var today = new Date();
@@ -8,8 +9,7 @@ $(document).ready(function () {
 }); //end ready
 
 const date_setup = (start, end, resuming_date, days) => {
-
-
+   
   $(`#${start}`).datepicker({
     beforeShowDay: $.datepicker.noWeekends,
 
@@ -22,10 +22,26 @@ const date_setup = (start, end, resuming_date, days) => {
     clearBtn: true,
 
   }).on("change", function () {
+
+    // $(`#${policy}`).prop('selectedIndex',0)
+
     var selected = $(this).val();
     var next_day = new Date(selected)
     next_day.setDate(next_day.getDate() + 1)
     // console.log(new Date(selected))
+    start_date = new Date(selected)
+    // console.log('month ',start_date.getMonth()+1)
+    // console.log('year ',start_date.getFullYear())
+    // console.log(last_on_leave_year,last_on_leave_month)
+    // console.log(toMonthName(last_on_leave_month))
+    if (last_on_leave_year==start_date.getFullYear() && last_on_leave_month==start_date.getMonth()+1){
+      
+
+      Swal.fire(`Last Date On Leave ${last_on_leave_year} - ${toMonthName(last_on_leave_month)}`)
+      $('#start').datepicker().val('');
+
+    }
+   
     // console.log('selected',selected,'next_day',next_day)
 
     $(`#${end}`).datepicker().val('');
@@ -39,13 +55,17 @@ const date_setup = (start, end, resuming_date, days) => {
       clearBtn: true,
       beforeShowDay: $.datepicker.noWeekends,
       onSelect: function (dateText, inst) {
+
         $(`#${days}`).text('No. of days applied for: ' + dateDifference(new Date(selected), new Date(dateText)
 
         )),
+        $('#policy').prop('selectedIndex',0)
+
           resuming = $(this).val();
         var next_day = new Date(resuming)
         next_day.setDate(next_day.getDate() + 1)
         // console.log(next_day)
+       
         $(`#${resuming_date}`).datepicker().val('');
 
         $(`#${resuming_date}`).datepicker("destroy");
@@ -68,6 +88,7 @@ const date_setup = (start, end, resuming_date, days) => {
 
       }
     }).on("change", function (
+
       // resuming_date
       // ('#resuming_date').datepicker().val('')
     ) {
@@ -84,6 +105,7 @@ const date_setup = (start, end, resuming_date, days) => {
       // console.log('selected')
 
     });
+    
   })
 }
 
@@ -128,6 +150,14 @@ function dateDifference(start, end) {
   return days;
 }
 
+const toMonthName=(monthNumber)=> {
+  const date = new Date();
+  //date number to convert to string 1 = Jan
+  date.setMonth(monthNumber-1);
+  return date.toLocaleString('en-US',{
+    month:'short',
+  });
+}
 
 $(document).ready(function () {
 
@@ -140,26 +170,32 @@ $(document).ready(function () {
 
   $.get(url, function (data) {
     // console.log(data)
-
-
+      if(data.last_on_leave){
+      //  const  year = data.last_on_leave.start__year
+      //  const  month = data.last_on_leave.start__month
+        // console.log(year,month)
+        last_on_leave_year =  data.last_on_leave.start__year
+        last_on_leave_month = data.last_on_leave.start__month
+        // last_on_leave(year,month)
+      }
 
     // DISABLE APPLY FOR LEAVE IF ALREADY ON LEAVE
-    emp_on_leave(data.data.on_leave)
+    emp_on_leave(data.on_leave)
 
-    $(".leave").attr('id', data.data.employee_id)
+    $(".leave").attr('id', data.employee_id)
 
-    user_name = data.data.user_name.toUpperCase();
+    user_name = data.user_name.toUpperCase();
     $("#user_name").text(user_name)
-    $("#email").val(data.data.email);
-    $("#phone").val(data.data.phone);
+    $("#email").val(data.email);
+    $("#phone").val(data.phone);
 
 
     // LOOP LEAVE POLICY
-    data.data.leave_policies.forEach((element) => {
+    data.leave_policies.forEach((element) => {
       //   console.log(element.pk,element.first_name, element.last_name)
       $("#policy")
         .append(
-          '<option value="' +
+          `<option data-days=${element.days} value="` +
           element.pk +
           '">' +
           `${element.name} (${element.days} days)` +
@@ -242,7 +278,20 @@ $("#leave_form").on("submit", function (event) {
 
 
 
+$("#policy").change(function () {
+  // console.log(this.value)
+  const policy_days = parseInt($('select[name="policy"]').find(':selected').attr('data-days'))
+ const days2 =  $("#days").text()
+ const clean_days = parseInt(days2.replace('No. of days applied for:',''))
+  //  console.log(policy_days,clean_days,typeof(policy_days),typeof clean_days)
 
+ if(clean_days>policy_days){
+  Swal.fire('more than policy days')
+  $('#start').val('')
+ }
+//  days1 > clean_days ? Swal.fire('more than policy days'):''
+  // console.log(days1,clean_days)
+})
 
 
 // UPADTE LEAVE START
@@ -600,6 +649,7 @@ const user_group = (hr_manager_approve) => {
       Swal.fire("INSUFICIENT RIGHT TO PERFORM THIS ACTION");
 
     })
+
 
 
     // if ( hr_manager_approve & !hr) {

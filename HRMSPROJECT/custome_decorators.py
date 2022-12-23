@@ -59,7 +59,12 @@ def manager_required(function=None, redirect_field_name=REDIRECT_FIELD_NAME, log
     return actual_decorator
 
 
-def hod_required(function=None, redirect_field_name=REDIRECT_FIELD_NAME, login_url='login'):
+
+
+
+
+
+def help_desk_user(function=None, redirect_field_name=REDIRECT_FIELD_NAME, login_url='login'):
     '''
     Decorator for views that checks that the logged in user belongs to site,
     redirects to the log-in page if necessary.
@@ -67,7 +72,7 @@ def hod_required(function=None, redirect_field_name=REDIRECT_FIELD_NAME, login_u
     
     actual_decorator = user_passes_test(
     # lambda u: u.is_active and u.is_student or u.is_superuser,  
-    lambda user: user.is_head or user.is_superuser,
+    lambda user: not user.is_normal_user and not user.is_applicant,
     login_url=login_url,
     redirect_field_name=redirect_field_name
     )
@@ -77,15 +82,15 @@ def hod_required(function=None, redirect_field_name=REDIRECT_FIELD_NAME, login_u
     return actual_decorator
 
 
-def all_heads_required(function=None, redirect_field_name=REDIRECT_FIELD_NAME, login_url='login'):
+def applicant_user(function=None, redirect_field_name=REDIRECT_FIELD_NAME, login_url='hrms:register_staff'):
     '''
-    Decorator for views that checks that the logged in user belongs to site,
-    redirects to the log-in page if necessary.
+    Decorator for views that checks that the logged in user is an applicant,
+    redirects to the applicant page if necessary.
     '''
     
     actual_decorator = user_passes_test(
     # lambda u: u.is_active and u.is_student or u.is_superuser,  
-    lambda user: user.is_staff or user.is_superuser, #or user.is_head,
+    lambda user: not user.is_applicant, #or user.is_head,
     login_url=login_url,
     redirect_field_name=redirect_field_name
     )

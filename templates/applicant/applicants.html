@@ -39,16 +39,16 @@
                                 <div class="form-group col-sm-4 flex-column d-flex"> <label
                                         class="form-control-label px-3">First
                                         Name<span class="text-danger">
-                                            *</span></label> <input type="text" id="fname" name="fname" required>
+                                            *</span></label> <input type="text" id="fname" name="first_name" required>
                                 </div>
                                 <div class="form-group col-sm-4 flex-column d-flex"> <label
                                         class="form-control-label px-3">Last
                                         Name<span class="text-danger">
-                                            *</span></label> <input type="text" id="lname" name="lname" required>
+                                            *</span></label> <input type="text" id="lname" name="last_name" required>
                                 </div>
                                 <div class="form-group col-sm-4 flex-column d-flex"> <label
                                         class="form-control-label px-3">Other
-                                        Name</label> <input type="text" id="oname" name="oname">
+                                        Name</label> <input type="text" id="oname" name="other_name">
                                 </div>
 
                             </div>
@@ -97,42 +97,32 @@
                                         class="form-control-label px-3">Email
                                     </label> <input type="email" id="email" name="email">
                                 </div>
-                                <div class="form-group col-sm-4 flex-column d-flex date"> <label
-                                        class="form-control-label px-3 date">Resuming Date
-                                    </label> <input class="date" type="date" id="date" name="date">
+                                <div class="form-group col-sm-4 flex-column d-flex"> <label
+                                        class="form-control-label px-3 ">Start Date
+                                    </label> <input  type="date" id="date" name="resuming_date">
                                 </div>
                                 <!-- <div class="form-group col-sm-4 flex-column d-flex"> <label
                     class="form-control-label px-3">Address
                     </label> <input class="address" type="text" id="address" name="address">
             </div> -->
-                                <div class="form-group col-sm-4 flex-column d-flex">
-                                </div>
-
+                                
                             </div>
 
                             <!-- THIRED ROW START -->
 
-                            <div class="row justify-content-between text-left w-100 mt-0">
-                                <div class="form-group col-sm-6 flex-column d-flex">
+                            <!-- <div class="row justify-content-between text-left w-100 mt-0"> -->
+                               
 
-                                    <label class="form-control-label px-3"> </label>
-                                    Upload CV
-                                    <input type="file" name="file" id="file" class="dropify" data-height="110"
-                                        data-max-file-size="2M" data-allowed-file-extensions="pdf doc docx">
-
-                                </div>
-
-
-                                <div class="form-group col-sm-6 flex-column d-flex">
+                                <!-- <div class="form-group col-sm-6 flex-column d-flex">
 
                                     <label class="form-control-label px-3"> </label>
                                     comment
                                     <textarea name="comment" id="comment" cols="30" rows="10"
                                         placeholder="eg congratulate them or wish them luck"></textarea>
 
-                                </div>
+                                </div> -->
 
-                            </div>
+                            <!-- </div> -->
 
 
 
@@ -140,7 +130,7 @@
                             <!-- FORTH ROW START -->
 
                             <div class="row justify-content-between text-left w-100 mt-0">
-                                <div class="form-group col-sm-6 flex-column d-flex">
+                                <div class="form-group col-sm-4 flex-column d-flex">
 
                                     <label class="form-control-label px-3"> Address</label>
 
@@ -149,12 +139,20 @@
                                 </div>
 
 
-                                <div class="form-group col-sm-6 flex-column d-flex">
+                                <div class="form-group col-sm-4 flex-column d-flex">
 
                                     <label class="form-control-label px-3"> Salary</label>
 
                                     <input type="text" name="salary" class="form-control" id="salary">
                                 </div>
+
+
+                                <div class="form-group col-sm-4 flex-column d-flex">
+
+                                    <input type="file" name="cv" id="file">
+
+                                </div>
+
 
                             </div>
                             <!-- FORTH ROW END -->
@@ -180,16 +178,16 @@
                                 <div class="form-group col-sm-4 flex-column d-flex"> <label
                                         class="form-control-label px-3">First
                                         Name<span class="text-danger">
-                                            *</span></label> <input type="text" id="fname_edit" name="fname" required>
+                                            *</span></label> <input type="text" id="fname_edit" name="first_name" required>
                                 </div>
                                 <div class="form-group col-sm-4 flex-column d-flex"> <label
                                         class="form-control-label px-3">Last
                                         Name<span class="text-danger">
-                                            *</span></label> <input type="text" id="lname_edit" name="lname" required>
+                                            *</span></label> <input type="text" id="lname_edit" name="last_name" required>
                                 </div>
                                 <div class="form-group col-sm-4 flex-column d-flex"> <label
                                         class="form-control-label px-3">Other
-                                        Name</label> <input type="text" id="oname_edit" name="oname_edit">
+                                        Name</label> <input type="text" id="oname_edit" name="other_name">
                                 </div>
 
                             </div>
@@ -240,46 +238,39 @@
                                     </label> <input type="email" id="email_edit" name="email">
                                 </div>
                                 <div class="form-group col-sm-4 flex-column d-flex date"> <label
-                                        class="form-control-label px-3 date">Resuming Date
-                                    </label> <input class="date" type="date" id="date_edit" name="date">
+                                        class="form-control-label px-3 date">Start Date
+                                    </label> <input class="date" type="date" id="date_edit" name="resuming_date">
                                 </div>
-                                <div class="form-group col-sm-4 flex-column d-flex">
 
-                                </div>
+
+                               
 
                             </div>
 
                             <!-- THIRED ROW START -->
 
-                            <div class="row justify-content-between text-left w-100 mt-0">
+                            <!-- <div class="row justify-content-between text-left w-100 mt-0">
                                 <div class="form-group col-sm-6 flex-column d-flex">
 
                                     <label class="form-control-label px-3"> </label>
                                     Upload CV
 
-                                    <input type="file" name="file" id="file_edit" class="dropify" data-height="100"
+                                    <input type="file" name="file" id="file_edit" class="dropify" data-height="10"
                                         data-max-file-size="2M" data-allowed-file-extensions="pdf doc docx">
                                     <a id="cv_url" href="">download</a>
                                 </div>
 
 
-                                <div class="form-group col-sm-6 flex-column d-flex">
+                                
 
-                                    <label class="form-control-label px-3"> </label>
-                                    comment
-                                    <textarea name="comment" id="comment_edit" cols="30" rows="10"
-                                        placeholder="eg congratulate them or wish them luck"></textarea>
-
-                                </div>
-
-                            </div>
+                            </div> -->
 
 
 
                             <!-- THIRED ROW END-->
                             <!-- FORTH ROW START -->
                             <div class="row justify-content-between text-left w-100 mt-0">
-                                <div class="form-group col-sm-6 flex-column d-flex">
+                                <div class="form-group col-sm-4 flex-column d-flex">
 
                                     <label class="form-control-label px-3"> Address</label>
 
@@ -288,11 +279,20 @@
                                 </div>
 
 
-                                <div class="form-group col-sm-6 flex-column d-flex">
+                                <div class="form-group col-sm-4 flex-column d-flex">
 
                                     <label class="form-control-label px-3"> Salary</label>
 
                                     <input type="text" name="salary" class="form-control" id="salary_edit">
+                                </div>
+
+                                
+                                <div class="form-group col-sm-4 flex-column d-flex">
+
+                                 
+                                    <input type="file" name="cv" id="file_edit" onchange="file_input_change()">
+                                    <a id="cv_url" href="">download</a>
+
                                 </div>
 
                             </div>
@@ -332,6 +332,7 @@
                                     <i class="fa fa-file" aria-hidden="true"></i>
 
                                 </div>
+                                
 
                             </div>
 
@@ -359,6 +360,7 @@
                                     <option value="not selected">NOT SELECTED</option>
                                     <option value="in review">IN REVIEW</option>
                                 </select>
+                                <button id="message_btn" class="btn-small">message</button>
                             </div>
                             
                         </section>
@@ -379,7 +381,6 @@
                                         <th>Department</th>
                                         <th>Designation</th>
                                         <th class="cv_view">CV</th>
-                                        <th>Comment</th>
                                         <th>Action</th>
 
                                     </tr>
@@ -389,7 +390,35 @@
 
                                 </tbody>
                             </table>
+                            <div id="comment_div" class="d-none">
+                            <form id="comment_form">
+                                {% csrf_token %}
+                                <div class="row justify-content-between text-left">
+                                    <div class="form-grousp col-sm-4 flex-column d-flex"> <label
+                                            class="form-control-label px-3">Selected<span class="text-danger">
+                                                *</span></label> 
+                                                <textarea required name="selected" id="selected" cols="30" rows="10"></textarea>
+                                    </div>
+                                    <div class="form-grousp col-sm-4 flex-column d-flex"> <label
+                                        class="form-control-label px-3">Not Seleled<span class="text-danger">
+                                            *</span></label> 
+                                            <textarea required name="not_selected" id="not_selected" cols="30" rows="10"></textarea>
 
+                                </div>
+                                <div class="form-grousp col-sm-4 flex-column d-flex"> <label
+                                    class="form-control-label px-3">In Review<span class="text-danger">
+                                        *</span></label> 
+                                        <textarea required name="in_review" id="in_review"  cols="30" rows="10"></textarea>
+
+                            </div>
+
+                            
+                                   
+        
+                                </div>
+                                <button class="btn-primary my-4  btn-block" type="submit">Save</button>
+                            </form>
+                        </div>
                         </div>
                     </div>
                     </div>

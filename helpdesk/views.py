@@ -41,7 +41,7 @@ def helpdesk(request,pk):
 
     date_to = request.GET.get('date_to')
     
-    if request.user.is_staff:
+    if request.user.is_superuser:
         tickets = tickets.all()
     
     

@@ -14,13 +14,15 @@
 
 
 
+<!-- no of beneficiaries -->
+{{no_beneficiaries|json_script:'no_beneficiaries'}}
 
 
 <div class="container px-1 py-5 mx-auto">
   <div class="row d-flex justify-content-center">
     <div class="col-xl-12 col-lg-12 col-md-12 col-12 text-center">
       <div class="card px-0 pb-0 mt-3 mb-3">
-        <h3 id="heading">USER REGISTRATION</h3>
+        <h3 id="heading">USER REGISTRATION </h3>
         <p class="text-muted">Fill all form field to go to next step forms marked <span class="text-danger">*</span> are
           compulsory</p>
         <fieldset id="msform">
@@ -33,6 +35,8 @@
             <li id="p_membership"><strong>Professional Membership(s)</strong></li>
             <li id="p_Employee"><strong>Previous Employment(s)</strong></li>
           </ul>
+          <a class="text-center  d-none" id="record_link"></a>
+
           <div class="progress my-2">
             <div id="current" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuemin="0"
               aria-valuemax="100"></div>
@@ -97,15 +101,16 @@
                   </span></label> <input type="email" id="email" name="email" placeholder="Enter your last name">
               </div>
               <div class="form-group col-sm-3 flex-column d-flex">
-                <!-- <label class="form-control-label px-3">Profile<span
-                      class="text-danger">
-                      </span></label>  -->
+              
+                <img class="img-fluid d-none text-center" id="profile_image" src="" alt="" height="100" width="150" onmouseenter="img_increase()" onmouseleave="img_decrease()">
 
-                <!-- <input type="file" id="profile" name="profile" placeholder="profile image"> -->
-                <label for="profile">Profile
+                  <div id="profile_div" >
+                    <label for="profile">Profile </label>
                   <input type="file" name="profile" id="profile" class="dropify" data-height="50"
                     data-max-file-size="2M" data-allowed-file-extensions="jpg jpeg png gif">
-                </label>
+
+                  </div>
+
               </div>
               <div class="form-group col-sm-3 flex-column d-flex"> <label class="form-control-label px-3">Phone<span
                     class="text-danger">
@@ -188,6 +193,26 @@
                     *</span></label> <input type="text" id="country" name="country" required placeholder=""></div>
 
             </div>
+            <!-- marrird row start -->
+            <!-- <div class="row justify-content-between text-left d-nones" id="is_married_selected">
+              <div class="form-group col-sm-2 flex-column d-flex"> <label
+                class="form-control-label px-3">Relation<span class="text-danger">
+                  *</span></label> <select name="relation" id="relation" >
+                    <option value="Wife">WIFE</option>
+                    <option value="Husband">HUSBAND</option>
+                   
+                  </select>
+            </div>
+              <div class="form-group col-sm-5 flex-column d-flex"> <label
+                class="form-control-label px-3">Name<span class="text-danger">
+                  *</span></label> <input type="text" id="is_merried_f_name"  name="nationality" placeholder="">
+            </div>
+              <div class="form-group col-sm-5 flex-column d-flex"> <label
+                  class="form-control-label px-3">Phone<span class="text-danger">
+                    *</span></label> <input type="text" id="is_merried_phone"  name="nationality" placeholder="">
+              </div>
+            </div> -->
+            <!-- married row end -->
             <hr class="bg-primary">
             <!-- 5TH ROW END -->
             <!-- 8TH ROW START -->
@@ -268,6 +293,7 @@
 
 
             </div>
+            {% if not user.is_applicant %}
             <hr class="bg-primary">
             <p>OTHER INFOMATION</p>
 
@@ -279,20 +305,17 @@
                   <option value="1">YES</option>
                 </select>
               </div>
-              <div class="form-group col-sm-6 flex-column d-flex"> <label class="form-control-label px-3">
-                Anviz ID<span class="text-danger">
-              </span></label> <input type="number" id="anviz_id" name="anviz_id"
-              placeholder="">
-          </div>
-
+             
               <hr class="bg-primary">
 
             </div>
+            {% endif %}
+           
 
             <!-- 7TH ROW END -->
 
             <!-- NEXT AND PREVIOUS BUTTONS START -->
-            <input type="button" name="next" class="next action-button" id="add_employee_next" style="display: none"
+            <input type="button" name="next" class="next action-button" id="add_employee_next" style="display: nones"
               value="Next" />
 
             <button type="submit" class="btn btn-primary action-button submit-btn" style="width: 100%;">Submit</button>
@@ -303,13 +326,26 @@
           <!-- NEXT AND PREVIOUS BUTTONS END -->
           <!-- STEP TWO START -->
 
-          <form class="form-card" id="emp_dependant" enctype="multipart/form-data">
+          <form class="form-card" id="emp_dependant">
             {% csrf_token %}
             <div class="row justify-content-between text-left">
 
               <div class="form-group col-sm-3 flex-column d-flex">
-                <label class="form-control-label px-3">Employee ID<span class="text-danger"> </span></label>
-                <input type="text" id="employee_id" name="employee_id" placeholder="" />
+                <label class="form-control-label px-3">Relationship<span class="text-danger">* </span></label>
+                  <select id="relation" class="form-control" required name="relation">
+                    <option value="">relation</option>
+                    <option value="son">SON</option>
+                    <option value="daughter">DAUGHTER</option>
+                    <option value="wife">WIFE</option>
+                    <option value="husband">HUSBAND</option>
+                    <option value="mother">MOTHER</option>
+                    <option value="father">FATHER</option>
+                    <option value="nephew">NEPHEW</option>
+                    <option value="niece">NIECE</option>
+                    <option value="other">OTHER</option>
+                    
+                  </select>
+
               </div>
               <div class="form-group col-sm-3 flex-column d-flex">
                 <label class="form-control-label px-3">Gender<span class="text-danger"> *</span></label>
@@ -348,16 +384,19 @@
 
               <div class="form-group col-sm-3 flex-column d-flex"> <label class="form-control-label px-2">Date of Birth<span
                 class="text-danger">
-                *</span></label> <input class="dob" type="text"  id="dob_dependant" name="dob" required autocomplete="off"
+                </span></label> <input class="dob" type="text"  id="dob_dependant" name="dob"  autocomplete="off"
               placeholder="yyyy-mm-dd">
           </div>
 
-              <!-- <div class="form-group col-sm-3 flex-column d-flex">
-                <label class="form-control-label px-3">Date of Birth<span class="text-danger"> *</span></label>
-                <input type="text" id="dob" required name="dob" placeholder=""  />
-              </div> -->
+              <div class="form-group col-sm-3  d-flex">
+                <label class="form-control-label px-3">Beneficiary</label>
+                <input type="checkbox" id="is_beneficiary"  name="is_beneficiary"  />
+              </div>
             </div>
             <!-- SECOND ROW END -->
+               
+            <p class='text-danger text-center'>NB: You can enroll only <em class="font-weight-bold">{{no_beneficiaries}}</em> of your children on the ROCK CITY HOTEL health scheme as Beneficiaries, when you are married, your spouce is enrolled by default</p>
+
             <hr class="bg-primary" />
             <input type="button" name="next" class="next action-button" id="add_employee_next"
             value="Next" />
@@ -367,8 +406,25 @@
 
             <button type="submit" class="btn btn-primary action-button submit-btn">Save and add another</button>
 
-            <input type="button" name="previous" class="previous action-button-previous d-nones" value="Previous" />
-
+            <input type="button" name="previous" class="previous action-button-previous d-none3" value="Previous" />
+         
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Relationship</th>
+                  <!-- <th>Beneficiary</th> -->
+                  <th>Gender</th>
+                  <th>Name</th>
+                  <th>Phone </th>
+                  <th>Address</th>
+                  <th>DOB</th>
+                  <th>Delete</th>
+                </tr>
+              </thead>
+              <tbody id='dependant_body' class="text-uppercase">
+              </tbody>
+            </table>
           </form>
           <!-- STEP TWO END -->
           <!-- STEP THREE START -->
@@ -424,6 +480,21 @@
 
             <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
 
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>School</th>
+                  <th>Course</th>
+                  <th>Certificate Name </th>
+                  <th>Date Completed</th>
+                  <th>Delete</th>
+                </tr>
+              </thead>
+              <tbody id='education_body' class="text-uppercase">
+              </tbody>
+            </table>
+
           </form>
           <!-- STEP THREE END -->
           <!-- STEP FOUR START -->
@@ -435,14 +506,14 @@
 
 
               <div class="form-group col-sm-6 flex-column d-flex">
-                <label class="form-control-label px-3">Company<span class="text-danger"> *</span></label>
-                <input type="text" id="name" name="name" placeholder="company or organisation" />
+                <label class="form-control-label px-3">Organisation Name<span class="text-danger"> *</span></label>
+                <input type="text" id="name" name="name" placeholder="eg CISCO ,ICA" />
               </div>
 
-              <!-- <div class="form-group col-sm-6 flex-column d-flex">
-                    <label class="form-control-label px-3">Date End<span class="text-danger"> *</span></label>
-                    <input type="date" value="" id="date" required name="date" placeholder="" />
-                  </div> -->
+              <div class="form-group col-sm-6 flex-column d-flex">
+                    <label class="form-control-label px-3">Supporting Document<span class="text-danger"> *</span></label>
+                    <input type="file" value="" id="document" required name="document" />
+                  </div>
             </div>
 
             <!-- FIRST ROW END -->
@@ -465,6 +536,19 @@
 
             <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
 
+
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Name</th>
+                  <th>Document</th>
+                  <th>Delete</th>
+                </tr>
+              </thead>
+              <tbody id='membership_body' class="text-uppercase">
+              </tbody>
+            </table>
           </form>
           <!-- STEP FOUR END -->
           <!-- STEP FIVE START -->
@@ -484,8 +568,8 @@
               </div>
 
               <div class="form-group col-sm-4 flex-column d-flex">
-                <label class="form-control-label px-3">Date Completed<span class="text-danger"> *</span></label>
-                <input type="text" class="dob" value=""  required name="date" placeholder="" />
+                <label class="form-control-label px-3">End Date<span class="text-danger"> *</span></label>
+                <input type="text" class="dob" value=""  required name="date" placeholder="" autocomplete="off" />
               </div>
 
             </div>
@@ -496,6 +580,7 @@
             <!-- FIRST ROW END -->
 
             <hr class="bg-primary" />
+
             <!-- <input type="button" name="next" class="next action-button submit-btn" onclick="reg_finished()"
               value="Finish" /> -->
 
@@ -511,7 +596,19 @@
             <button type="submit" class="btn btn-primary action-button submit-btn">Save and add another</button>
 
             <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
-
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Job Title</th>
+                  <th>Company</th>
+                  <th>End Date</th>
+                  <th>Delete</th>
+                </tr>
+              </thead>
+              <tbody id='employment_body' class="text-uppercase">
+              </tbody>
+            </table>
           </form>
           <!-- STEP FIVE END -->
         </fieldset>
@@ -519,7 +616,6 @@
     </div>
   </div>
 </div>
-
 
 
 <script src="{% static 'js/scripts/employee_register.js' %}"></script>

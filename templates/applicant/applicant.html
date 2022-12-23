@@ -1,99 +1,230 @@
+{% extends 'base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>APPLY-LEAVE</title>
-    <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
-    <script src="{% static 'js/jquery-ui.js' %}"></script>
-
-    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />
-    <link rel="stylesheet" href="{% static 'css/education/partials.css' %}">
-    <link rel="stylesheet" href="{% static 'css/jquery-ui.min.css' %}">
-
-    
-</head>
-
-<body>
-    <div class="container px-1 py-5  mt-4 mx-auto ">
-        <div class="row d-flex mt-5 justify-content-center">
-            <div class="col-xl-12 col-lg-12 col-md-12 col-12 text-center">
-                <p class="heading lead text-light">
-                    WELCOME TO ROCKCITY JOB APPLICANT PORTAL
-                </p>
-                <div class="card px-0 pb-0 mt-5 mb-3">
-                    <h3 class="heading">CHECK YOUR APPLICATION STATUS</h3>
 
 
-                    <br />
+{% block content %}
+{% block title %}
+<title>APPLICANT-OFFER-LETTER</title>
+{% endblock title %}
+
+<link rel="stylesheet" href="{% static 'css/education/partials.css' %}">
+
+<script src="{% static 'js/scripts/partials.js' %}"></script>
+<script src="/static/js/jquery-3.3.1.min.js"></script>
 
 
-                    <hr class="bg-primary">
 
-                    <form class="form-card" id="appicant_form" method="GET">
-
-                        <!-- FIRST ROW -->
-                        <div class="row justify-content-center text-center mb-4">
-                            <div class="form-grousp col-sm-6 flex-column d-flex"> <label
-                                    class="form-control-label px-6">ENTER YOUR UNIQUE IDENTIFIER OR PHONE NUMBER<span class="text-danger">
-                                        *</span></label> <input type="text" id="unique_id" name="unique_id" required>
-                            </div>
-
-                        </div>
+<!-- no of beneficiaries -->
 
 
-                        <button type="submit" id="submit_btn" class="btn btn-outline-primary" style="width: 100%;">Submit</button>
+<div class="container px-1 py-5 mx-auto">
+  <div class="row d-flex justify-content-center">
+    <div class="col-xl-12 col-lg-12 col-md-12 col-12 text-center">
+      <div class="card px-0 pb-0 mt-3 mb-3">
+        <h3 id="heading"> ROCK CITY JOB APPLICANT PORTAL</h3>
+        <p class="text-muted">Fill all form field to go to next step forms marked <span class="text-danger">*</span> are
+          compulsory</p>
+        <fieldset id="msform">
 
-                    </form>
-                    <p id="message"></p>
+          <!-- progressbar -->
+          <ul id="progressbar">
+            <li class="active" id="p_detail"><strong>Application Status</strong></li>
+            <li id="dependants"><strong>Upload Document </strong></li>
+            <li id="education"><strong>Personal Infomation</strong></li>
+          </ul>
 
-                    <div id="model" style="display: none">
-                    
-                        <ul class="list-inline">
-                            <li class="text-center">
+          <div class="progress my-2">
+            <div id="current" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuemin="0"
+              aria-valuemax="100"></div>
+              
+          </div>
+          <!-- <br /> -->
+          <!-- fieldsets -->
+          <!-- STEP ONE START -->
+         
 
 
-                                <section>
+          <form class="form-card" id="appicant_form" enctype="multipart/form-data">
 
-                                        <td colspan="2" nowrap="nowrap"><div align="center"><img src="/static/images/logo/Rock-City-Logo.png" width="20%" /> </div></td>
-                                        <hr>
-                                        <p class="succesText" id='fiarwell'></p>
-                                        <td colspan="2" nowrap="nowrap" ><div align="center"> <h3>Job Description</h3> </div></td>
-                                        <td colspan="2" nowrap="nowrap"><div align="center" id="department"></div></td>
-                                        <br>
-                                        <td colspan="2" nowrap="nowrap"><div align="center" id="designation"></div></td>
-        
-                                            <br>
-                                        <td colspan="2" nowrap="nowrap"><div  align="center">APPLICATION STATUS </div></td>
-                                        <td colspan="2" nowrap="nowrap"><div align="center" class="btn font-weight-bolder text-uppercase" id="status"></div></td>
-                                        <hr>
-                                        <td class="succesText" colspan="2" nowrap="nowrap"><a class="succesText btn btn-outline-primary" align="center" class="btn font-weight-bolder" id="link"></a></td>
-                                    
-                                        <td>
-                                            <p class="text-capitalize" id="comment"></p>
-
-                                        </td>
-                                    </section>
-
-                            </li>
-                            
-                        </ul>
+                  <!-- FIRST ROW -->
+                  <div class="row justify-content-center text-center mb-4">
+                    <div class="form-grousp col-sm-6 flex-column d-flex"> <label
+                            class="form-control-label px-6">ENTER YOUR UNIQUE IDENTIFIER OR PHONE NUMBER<span class="text-danger">
+                                *</span></label> <input type="text" id="unique_id" name="unique_id" required>
                     </div>
-                    
-                    
-                        
-                </div>
-            </div>
-        </div>
-    </div>
 
+                </div>
+                <div>
+                    <!-- <p>NB:When </p> -->
+                </div>
+                <div>
+                    
+                </div>
+
+                
+                <input  type="button" name="next" class="next action-button d-nones" id="add_employee_next"
+                value="Next" />
+
+                <button style="margin-right: 250px;"  type="submit" id="submit_btn" class="btn  action-button  btn-outline-primary">Check Status</button>
+
+            
+          
+           
+
+
+         
+
+
+
+
+            <div id="model" style="display: none">
+                    
+                <ul class="list-inline">
+                    <li class="text-center">
+
+
+                        <section>
+
+                                <td colspan="2" nowrap="nowrap"><div align="center"><img src="/static/images/logo/Rock-City-Logo.png" width="20%" /> </div></td>
+                                <hr>
+                                {% comment %} <p class="succesText" id='fiarwell'></p> {% endcomment %}
+                                <td colspan="2" nowrap="nowrap" ><div align="center"> <h3>Job Description</h3> </div></td>
+                                <td colspan="2" nowrap="nowrap"><div align="center" id="department"></div></td>
+                                <br>
+                                <td colspan="2" nowrap="nowrap"><div align="center" id="designation"></div></td>
+
+                                    <br>
+                                <td colspan="2" nowrap="nowrap"><div  align="center">APPLICATION STATUS </div></td>
+                                <td colspan="2" nowrap="nowrap"><div align="center" class="btn font-weight-bolder text-uppercase" id="status"></div></td>
+                                <hr>
+                            
+                               
+                                <td class="succesText"  nowrap="nowrap"><a class="succesText btn btn-outline-primary d-none text-light bg-dark align="center" class="btn font-weight-bolder" id="link"></a></td>
+
+                            </section>
+                                <!-- <div class="text-capitalize" id="comment"></div> -->
+
+                    </li>
+                    
+                </ul>
+                    <hr>
+
+                    <div class="instruction " id="text_message">
+                      
+                        <br>
+                        
+                    </div>
+                    <!-- <p class="instruction" id="rch_message"></p> -->
+
+            </div>
+
+          </form>
+
+
+          
+          <!-- STEP ONE END -->
+          <!-- NEXT AND PREVIOUS BUTTONS END -->
+          <!-- STEP TWO START -->
+
+          <form class="form-card" id="emp_dependant">
+            {% csrf_token %}
+            <div class="row justify-content-between text-left">
+
+             
+              
+              <div class="form-group col-sm-6 flex-column d-flex">
+                <label class="form-control-label px-3">First Name<span class="text-danger"> *</span></label>
+                <input type="text" id="first_name" name="first_name" required placeholder="" />
+              </div>
+
+              <div class="form-group col-sm-6 flex-column d-flex">
+                <label class="form-control-label px-3">Last Name<span class="text-danger"> *</span></label>
+                <input type="text" value="" id="last_name" name="last_name" required placeholder="" />
+              </div>
+            </div>
+
+            <!-- FIRST ROW END -->
+            <!-- SECOND ROW -->
+            
+            <!-- SECOND ROW END -->
+               
+            <p class='text-danger text-center'>NB: You can enroll only <em class="font-weight-bold">{{no_beneficiaries}}</em> of your children on the ROCK CITY HOTEL health scheme as Beneficiaries, when you are married, your spouce is enrolled by default</p>
+
+            <hr class="bg-primary" />
+            <input type="button" name="next" class="next action-button" id="add_employee_next"
+            value="Next" />
+
+            <input type="button" name="next" class="next action-button d-none" id="dependant_next_btn" style="width: 100px" value="Next" />
+            <button type="submit" class="btn btn-primary action-button submit-btn" onClick="save_continue_btn(this.id)" id="save-continue-btn">Save and continue</button>
+
+            <button type="submit" class="btn btn-primary action-button submit-btn">Save and add another</button>
+
+            <input type="button" name="previous" class="previous action-button-previous d-none3" value="Previous" />
+         
+            
+          </form>
+          <!-- STEP TWO END -->
+          <!-- STEP THREE START -->
+          <form class="form-card" id="emp_education">
+            {% csrf_token %}
+            <!-- FIRST ROW -->
+            <hr class="bg-primary" />
+            <div class="row justify-content-between text-left">
+
+
+              <div class="form-group col-sm-6 flex-column d-flex">
+                <label class="form-control-label px-3">School Name<span class="text-danger"> *</span></label>
+                <input type="text" id="school_name" required name="school_name" placeholder="" />
+              </div>
+
+             
+            </div>
+
+            <!-- FIRST ROW END -->
+            <!-- SECOND ROW -->
+            
+            <!-- SECOND ROW END -->
+
+            <!-- <input type="button" name="next" class="next action-button" value="Next" /> -->
+            <!-- <button type="submit" class="btn btn-primary action-button submit-btn mx-3">Submit</button> -->
+
+            <!-- <input type="button" name="previous" class="previous action-button-previous" value="Previous" /> -->
+            <input type="button" name="next" class="next action-button" id="add_employee_next"
+            value="Next" />
+
+            <input type="button" name="next" class="next action-button d-none" id="education_next_btn" style="width: 100px" value="Next" />
+            <button type="submit" class="btn btn-primary action-button submit-btn" onClick="save_continue_btn(this.id)" id="save-continue-btn">Save and continue</button>
+
+            <button type="submit" class="btn btn-primary action-button submit-btn">Save and add another</button>
+
+            <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
+
+            
+
+          </form>
+          <!-- STEP THREE END -->
+          <!-- STEP FOUR START -->
+          
+          <!-- STEP FOUR END -->
+          <!-- STEP FIVE START -->
+         
+          <!-- STEP FIVE END -->
+        </fieldset>
+      </div>
+    </div>
+  </div>
+</div>
 
 <script src="{% static 'js/scripts/applicant.js' %}"></script>
 
 
-</body>
+<style>
+    .instruction{    
+    width:500px;
+    word-wrap: break-word;
+}
+</style>
 
-</html>
+
+
+{% endblock content %}

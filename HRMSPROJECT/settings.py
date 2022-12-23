@@ -98,7 +98,10 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'hrms.context_preporsessor.sql_server_is_connected'
+                'hrms.context_preporsessor.sql_server_is_connected',
+                'hrms.context_preporsessor.no_beneficiaries',
+                'hrms.context_preporsessor.company_name',
+                
 
             ],
         },

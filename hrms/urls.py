@@ -9,7 +9,13 @@ app_name = 'hrms'
 
 urlpatterns = [
 
+   
+   
 
+    # path('dependant/',views.CreateDependantView.as_view()),
+    # path('dependant/<str:pk>/',views.CreateDependantView.as_view()),
+
+    # path('emp-api/<str:employee_id>/',views.updateEmployee),
 
     # STAFF URLS
     # path('hr/',  login_required(TemplateView.as_view(template_name="hr/hr_dashborad.html")),name='hr'),
@@ -20,12 +26,15 @@ urlpatterns = [
 
     # GET EMPLOYEEs
     path('employees/', views.employees,name='employees'),
+    # delete employee session when form is submitted
     path('allemployees/',views.allemployees),
+
+    path('employee-api/<str:employee_id>/',views.updateEmployee),
 
     # path('employees/', views.employees,name='employees'),
 
 
-    path('employee/<str:emp_uiid>/',views.employee),
+    # path('employee-api/<str:employee_id>/',views.employee_api),
     path('employee-data/<str:emp_uiid>/',views.employee_data,name='employee_data'),
     # path('employee-info/',login_required(TemplateView(template_name="employees/employee_info.html")),name='employee_info'),
     path('employee-info/<str:emp_uiid>/',  TemplateView.as_view(template_name="employees/employee_info.html"),name='employee_info'),
@@ -36,12 +45,21 @@ urlpatterns = [
     # EMPLOYEE DOCUMENT
     path('filename/',views.filename,name='filename'),
     path('add-document/<str:employee_id>/', views.add_document,name='add_document'),
-    path('delate-document/<str:employee_id>/<int:pk>/', views.delate_document,name='delate_document'),
+    path('delete-dependent/<str:employee_id>/<int:pk>/', views.deletedependent),
+    path('delate-document/<str:employee_id>/<int:pk>/', views.delate_document),
+
 
     path('add-dependants/<str:employee_id>/', views.add_dependants,name='add_dependants'),
+
     path('add-education/<str:employee_id>/',views.add_education,name='add_education'),
+    path('delete-education/<str:employee_id>/<int:pk>/', views.deleteEducation),
+
     path('add-membership/<str:employee_id>/',views.add_membership,name='add_membership'),
+    path('delete-membership/<str:employee_id>/<int:pk>/', views.deleteMembership),
+
     path('add-emploment/<str:employee_id>/',views.add_emploment,name='add_emploment'),
+    path('delete-emploment/<str:employee_id>/<int:pk>/', views.deleteEmployment),
+
 
 
     # APPLY FOR LEAVE

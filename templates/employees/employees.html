@@ -47,8 +47,10 @@
                 <div>
                   <select name="filter_emp" id="filter_emp" >
                     <option value="active">Active</option>
-                    <option value="sacked">Sacked</option>
-                    <option value="resign">Resign</option>
+                    <option value="terminated">Terminated</option>
+                    <option value="resigned">Resigned</option>
+                    <option value="dismised">Dismised</option>
+                    <option value="redundancy">Redundancy</option>
                     <option value="1">With Beneficiary</option>
                     <option value="0">Without Beneficiary</option>
                     <option value="Married">Married</option>
@@ -176,6 +178,7 @@
 
 <button type="submit" id="leave_detail" title="employee  leave details" class="btn btn-primary btn-lg">Leave Detail <span id="leave_detail_badge" class="badge badge-danger"></span> </button>
 <button type="button" id="leave_summary" title="employee leave summary" class="btn btn-danger btn-lg">Leave Summary <span id="leave_summary_badge" class="badge badge-primary"></span> </button>
+<button type="button" id="edit_employee" title="edit employee record" class="btn btn-danger btn-lg">Edit Record <span id="edit_employee_badge" class="badge badge-primary"></span> </button>
 
 <!-- <button type="button" class="btn btn-primary btn-lg">Danger</button> -->
 
@@ -286,8 +289,13 @@
               <select name="employee_status" id="employee_status_exit" class="form-select" required title="select if employee resigin date is now or have past">
                 <!-- <option>Employee Exit Now</option> -->
                 <option selected value="active">ACTIVE</option>
-                <option value="sacked">SACKED</option>
-                <option value="resign">RESIGN</option>
+                <option value="terminated">TERMINATED</option>
+                <option value="resigned">RESIGNED</option>
+                
+                <option value="dismised">DISMISED</option>
+
+                <option value="redundancy">REDUNDANCY</option>
+
 
               </select>
             </div>

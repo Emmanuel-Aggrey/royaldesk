@@ -62,7 +62,7 @@
 </tr>
 <tr>
 <!-- <td><div align="right"><img src="/static/images/faces/face17.jpg" width="111" height="151" alt=""></div></td> -->
-<td><div align="right"><img id="photo" src="{{employee.profile_exists}}" border="0" style="display:block;visibility:visible;" width="auto" height="151" />
+<td><div align="right"><img id="photo" src="{{employee.profile_exists}}" border="0" style="visibility:visible;object-fit: cover;margin-left: -3px;" width="150" height="150" />
 </div>
 {% if employee.applicant_cv_exists %}
 <div class="pulse" style="text-align:center;align-items: center;margin-top:9%">
@@ -283,7 +283,7 @@
         {% for dependant in dependants %}
         <tr class="text-center">
             
-            <td>{{dependant.first_name}} {{dependant.last_name}} {{dependant.other_name}}</td>
+            <td>{{dependant.first_name}} {{dependant.last_name}} {{dependant.other_name}} {{dependant.relation}}</td>
             <td>{{dependant.mobile}}</td>
             <td>{{dependant.gender}}</td>
             <td>{{dependant.address}}</td>
@@ -344,7 +344,9 @@
                 <tr class="text-center" style="align-items: center;">
                    
                     <td>{{membership.name}}</td>
-                    <td></td>
+                    <td>
+                        <a  href="{{membership.document_exists}}" target="_blank" rel="noopener noreferrer">Download</a>
+                    </td>
                 </tr>
                 {% endfor %}
                 <!-- PROFFESIONAL MEMBERSHIP -->
@@ -423,9 +425,9 @@
   });
 })
 </script>
-<!-- <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script></body> -->
-    
+<!-- <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script> -->
 </body>
+    
 </html>
 
 

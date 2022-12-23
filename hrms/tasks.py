@@ -25,12 +25,14 @@ def apply_for_leave_email(employee, start, end, diff, policy, department_email=[
 
     #GET HR EMAIL AND APPEND TO EMPLOYEE DEPARTMENT EMAIL
     hr_email = Department.objects.only('email').filter(shortname='HR').first()
-    emails = [hr_email.email,department_email,TEST_EMAIL]
-
+    emails =[hr_email.email,department_email,TEST_EMAIL]
+    emails = list(set(emails))
+    # print(emails)
+    
 
 
     msg = EmailMultiAlternatives(
-        subject_, html_content, email_from, [emails])  #emails  a list
+        subject_, html_content, email_from, emails)  #emails  a list
     msg.attach_alternative(html_content, "text/html")
     msg.send()
 
@@ -53,6 +55,24 @@ def send_email_new_helpdesk_employee(employee,employee_id,email,password):
     # print(html_content)
     msg.send()
 
+# send email to new employee that has an email
+@shared_task
+def send_email_new_employee(employee,employee_id,email,password):
+
+    # email_from = settings.EMAIL_HOST_USER
+
+    subject = 'Dear {}'.format(employee)
+    subject_ = subject.upper()
+    html_content = 'Welcome to Rock City Hotel, Your Employee ID  is <b>{}</b> ,And your password is <b>{}</b>, Please <a href="http://192.168.1.18/">Click Here</a> to login to view your employee infomation. <p>you will be redirected to change the default password to your own password. </p>  <p>Best Regards, <br>The Royaldesk Team.</p>  <br><hr> <br> <footer><b>POWERD BY <a href="http://192.168.1.18/"> ROYALDESK </a> RCH IT</b> </footer>'.format(
+        employee_id, password)
+    emails = [email,TEST_EMAIL]
+
+    msg = EmailMultiAlternatives(
+        subject_, html_content, email_from, emails)  #personal email address
+    msg.attach_alternative(html_content, "text/html")
+
+    # print(html_content)
+    msg.send()
 
 @shared_task
 def employee_on_leave():
@@ -159,6 +179,24 @@ def anviz_employee(name="leave_users"):
 def employee_exiting(employee_id,date_exited,employee_status,exit_check,reason_exiting=''):
     employee_id = Employee.objects.filter(employee_id=employee_id).update(date_exited=date_exited,status=employee_status,exit_check=exit_check,reason_exiting=reason_exiting)
     # print('employee_id',employee_id)
+
+
+
+ 
+# [Groupid] ,department_id
+# IDCard, any_unique_value
+@shared_task
+def create_anviz_employee(*args):
+    # print('server_not_connected',args)
+  
+    if sql_server.server_not_connected:
+        print('server_not_connected',args)
+    
+        sql = "INSERT INTO [anviz].[dbo].[Userinfo] VALUES {}".format(args)
+        # (Name,Sex,Deptid,Nation,Birthday,EmployDate,Telephone,Duty,NativePlace,IDCard,Address,Mobile);"
+        # print(sql)
+        # cursor = sql_server.cursor.execute(sql)
+        # cursor.commit()
 
 
 

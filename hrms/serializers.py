@@ -9,6 +9,8 @@ from .models import (Dependant, Education, Employee,PreviousEployment, Leave,
 class AllEmployeeSerializer(serializers.ModelSerializer):
     employee_id = serializers.CharField(read_only=True)
     department_name = serializers.CharField(source='department.name', read_only=True)
+
+    designation_name = serializers.CharField(source='designation.name', read_only=True)
     exit_check = serializers.CharField(read_only=True)
     date_exited = serializers.CharField(read_only=True)
     pk = serializers.CharField(read_only=True)
@@ -26,7 +28,7 @@ class AllEmployeeSerializer(serializers.ModelSerializer):
             'languages','country','department','designation','snnit_number',
             'bank_name','bank_branch','bank_ac','next_of_kin_name','next_of_kin_phone',
             'next_of_kin_address','next_of_kin_relationship','date_employed',
-            'address','applicant_id','anviz_id','profile','department_name',
+            'address','applicant_id','anviz_id','profile','department_name','designation_name',
             'exit_check','date_exited','pk','emp_uiid','status',
             'profile_exists','applicant_cv_exists','with_beneficiary',
         
@@ -68,42 +70,47 @@ class EmployeeSerializer(serializers.ModelSerializer):
 
 
 class DependantSerializer(serializers.ModelSerializer):
-    employee = serializers.CharField(read_only=True)
+    # employee = serializers.CharField(read_only=True)
+    employee_id = serializers.CharField(source='employee.emp_uiid',read_only=True)
 
     
     class Meta:
         model = Dependant
-        fields = ['employee','gender','first_name','last_name',
-        'other_name','dob','mobile','address','full_name']
+        fields = ['id','employee_id','gender','first_name','last_name','full_name',
+        'other_name','dob','mobile','address','relation','is_beneficiary']
 
 
 class EducationSerializer(serializers.ModelSerializer):
-    employee = serializers.CharField(read_only=True)
+    # employee = serializers.CharField(read_only=True)
+    employee_id = serializers.CharField(source='employee.emp_uiid',read_only=True)
 
     
     class Meta:
         model = Education
-        fields = ['employee','school_name','course','certificate',
+        fields = ['id','employee_id','school_name','course','certificate',
         'date_completed']
 
 
 class PreviousMembershipSerializer(serializers.ModelSerializer):
-    employee = serializers.CharField(read_only=True)
+    # employee = serializers.CharField(read_only=True)
+    employee_id = serializers.CharField(source='employee.emp_uiid',read_only=True)
 
     
     class Meta:
         model = ProfessionalMembership
-        fields = ['employee','name']
+        fields = ['id','employee_id','name','document']
 
 
 
 class PreviousEploymentSerializer(serializers.ModelSerializer):
-    employee = serializers.CharField(read_only=True)
+    # employee = serializers.CharField(read_only=True)
+    employee_id = serializers.CharField(source='employee.emp_uiid',read_only=True)
+
 
     
     class Meta:
         model = PreviousEployment
-        fields = ['employee','company','job_title','date']
+        fields = ['id','employee_id','company','job_title','date']
 
 
 class DocumentSerializer(serializers.ModelSerializer):

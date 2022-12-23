@@ -16,45 +16,40 @@ $("#appicant_form").submit( (e)=> {
         },
         success: function (data) {
             
-
-
-           const department = `Department:  ${data.department}`
+          // console.log(data.status,data.message)
+           const department = `${data.department_name} ${data.designation_name}`
            $("#department").text(department)
 
-           const  designation = `Designation: ${data.designation}`
-            $("#designation").text(designation)
+          //  const  designation = `Designation: ${data.designation}`
+            $("#status").text(data.status).css('display','block').css('color','#6566C3')
+            $("#text_message").text(data.message)
 
 
-            if(data.status==='selected'){
-
-                $("#status").text(data.status).css('color','#6566C3')
-                $("#fiarwell").text('CONGRATULATION').css('color','#6566C3')
-                $(".succesText").css('display','block')
-                $("#link").attr('href',`/offer-letter/${unique_id}`).text('Download Your Acceptance Letter')
+            if(data.status=='selected'){
+                
+                $("#link").attr('href',`/offer-letter/${unique_id}`).text('Download Your Offer Letter').removeClass('d-none')
+                // $("#rch_message").text('We at {{company_name}} Wish You Best Of Luck and meet you soon.')
 
             }
             else{
-                $("#status").text(data.status).css('color','red')
+              $("#link").addClass('d-none')
 
-                $(".succesText").css('display','none')
-                // console.log('status', status)
             }
+           
                 
 
-            if (data.status =='not selected') {
-              $("#comment").text(data.comment)
-            }
-        //    setTimeout(() => {
+           
+            // setTimeout(() => {
             seeker_name = data.full_name.toUpperCase()
-            showModal(seeker_name)
-        //    }, 3000);
+            showModal('model',seeker_name)
+            // }, 3000);
 
         },
 
         
         error: function (jqXHR, textStatus, errorThrown) {
-            // Swal.fire('ID NOT FOUND TRY AGAIN')
-            $('#message').text('ID NOT FOUND TRY AGAIN').css('color', 'red','display, block')
+            Swal.fire('ID NOT FOUND TRY AGAIN')
+            // $('#message').text('ID NOT FOUND TRY AGAIN').css('color', 'red','display, block')
             // alert('ID NOT FOUND TRY AGAIN')
         }
 
@@ -62,11 +57,55 @@ $("#appicant_form").submit( (e)=> {
 })
 
 
+$("#btn_letter").click(function(e) {
+  $("#offter_div").removeClass('d-none')
+  showModal('offter_div','UPLOAD OFFER LETTER')
+})
 
-const showModal = (title) => {
-    $('#model').dialog({
-      height: 580,
-      width: 400,
+
+
+
+// NEW APPLICANT
+$('#offter_letter_form').submit(function (event) {
+  event.preventDefault();
+  
+  $.ajax({
+    url: '/FileUploadView/ENARTEYT-2022/',
+    type: 'POST',
+    data: new FormData(this),
+    enctype: 'multipart/form-data',
+    processData: false,
+    contentType: false,
+    cache: false,
+    csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+
+    success: function (data) {
+      console.log(data);
+      // show_alert(5000, "success", 'Record' + '  saved')
+ 
+
+      // $(".ui-dialog-titlebar-close").click();
+
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+
+      error = `applicant exist ${textStatus} ${errorThrown}`
+
+      console.log(error)
+      // show_alert(5000, "error", error + '')
+      // Swal.fire(error);
+
+    }
+
+  })
+})
+
+
+
+const showModal = (model_id,title) => {
+    $(`#${model_id}`).dialog({
+      height: 'auto',
+      width: 'auto',
       title: title,
       buttons: [
         {

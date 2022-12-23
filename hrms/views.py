@@ -22,29 +22,36 @@ from rest_framework.response import Response
 from django.contrib.auth.models import Group
 from . import partials
 from .import tasks
+from django.views.decorators.csrf import csrf_exempt, csrf_protect
+from rest_framework import mixins, generics
+
 from .models import (Department, Dependant, Designation, Education, Employee,
                      Leave, LeavePolicy, PreviousEployment,
                      ProfessionalMembership, Documente, File)
 from helpdesk.models import User
+from HRMSPROJECT import sql_server
 
 from .serializers import (EmployeeSerializer, AllEmployeeSerializer,
-                        DependantSerializer,EducationSerializer,PreviousMembershipSerializer,
-                        PreviousEploymentSerializer,LeaveSerializer, DocumentSerializer)
+                          DependantSerializer, EducationSerializer, PreviousMembershipSerializer,
+                          PreviousEploymentSerializer, LeaveSerializer, DocumentSerializer)
 
 
 default_password = config('DEFAULT_PASSWORD')
 
+
 def date_value(value):
     return value if value else None
+
 
 @api_view(['GET', 'POST'])
 def allemployees(request):
 
     if request.method == 'GET':
 
-        employees = Employee.employees.select_related('designation')#.exclude(for_management=True)
+        employees = Employee.employees.select_related(
+            'designation')  # .exclude(for_management=True)
         serializer = AllEmployeeSerializer(employees, many=True)
-
+        # print(serializer.data)
         data = {
             'employees': serializer.data,
 
@@ -55,19 +62,19 @@ def allemployees(request):
     if request.method == 'POST':
         serializer = AllEmployeeSerializer(data=request.data)
 
-        if serializer.is_valid():   
+        if serializer.is_valid():
 
             helpdesk_user = bool(int(request.data.get('helpdesk_user')))
-            applicant=date_value(request.data.get('applicant'))
+            applicant = date_value(request.data.get('applicant'))
 
             try:
                 employee = serializer.save(applicant_id=applicant)
-                employee_key = employee.employee_id
+                employee_key = employee.emp_uiid
+
+                pk = employee.pk
                 user = User(username=employee.employee_id, first_name=employee.first_name, last_name=employee.last_name, is_head=employee.is_head,
-                    email=employee.email, department_id=employee.department_id, designation_id=employee.designation_id, profile=employee.profile)
+                            email=employee.email, department_id=employee.department_id, designation_id=employee.designation_id, profile=employee.profile)
                 user.set_password(default_password)
-                # user.has_usable_password(user.password)
-            
 
                 # GET DEPARTMENT SHORTNAME
                 department = employee.department.shortname
@@ -75,13 +82,14 @@ def allemployees(request):
                 # CREATE HELPDESK USER AND ADD TO GROUP
                 group = Group.objects.prefetch_related().filter(name=department).last()
                 if user and helpdesk_user and group:
-                    user.is_staff=True
+                    user.is_staff = True
                     user.save()
                     user.groups.add(group)
 
-                # CREATE HELPDESK USER
+                # CREATE HELPDESK USER WITH NO EMAIL ADDRESS
                 if user and helpdesk_user:
                     user.save()
+                
 
             # SEND USERNAME AND PASSEORD  TO THE NEW EMPLOYEE VIA EMAIL
                 if user and user.email and helpdesk_user:
@@ -89,65 +97,99 @@ def allemployees(request):
                     employee = user.full_name
                     employee_email = user.email
                     employee_password = default_password
-                    
+
                     # SEND EMAIL TO NEW USER  VIA CELERY
-                    tasks.send_email_new_helpdesk_employee(
-                    employee, employee_id, employee_email, employee_password)
 
-
-                data ={
-                    'data':employee_key
-                }
-                return Response(data=data,status=status.HTTP_201_CREATED)
-
-            
-            except IntegrityError as e:
+                    # tasks.send_email_new_helpdesk_employee(
+                    # employee, employee_id, employee_email, employee_password)
+                if user and not helpdesk_user:
+                    user.is_normal_user =True
+                    user.save()
                 
+                if user and  user.email and  not helpdesk_user:
+                    employee_id = user.username
+                    employee = user.full_name
+                    employee_email = user.email
+                    employee_password = default_password
+                    # SEND EMAIL TO NEW USER VIA CELERY
+                    
+                    # tasks.send_email_new_employee(
+                    # employee, employee_id, employee_email, employee_password)
+                    
+
+                 # CREATE ANVIZ USER
+                # if not request.user.is_applicant:
+
+                #     tasks.create_anviz_employee.delay(employee.full_name, employee.gender, 'Deptid', employee.country, employee.dob,
+                #                             employee.date_employed, employee.mobile, employee.designation.name,
+                #                             employee.place_of_birth, employee.employee_id, employee.address, employee.mobile)
+
                 data = {
-                'unique_contraints': 'Employee Already Exists',
+                    'data': employee_key,
+                }
+                return Response(data=data, status=status.HTTP_201_CREATED)
+
+            except IntegrityError as e:
+
+                data = {
+                    'unique_contraints': 'Employee Already Exists',
                 }
                 return Response(data=data)
 
         if serializer.errors:
-            
+
             data = {
-            'errors': serializer.errors
-                }
+                'errors': serializer.errors
+            }
             return Response(data)
 
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
+@api_view(['GET', 'POST'])
+def updateEmployee(request, employee_id):
+    employee = get_object_or_404(Employee, emp_uiid=employee_id)
+    if request.method == 'GET':
+        serializer = AllEmployeeSerializer(instance=employee)
+        return Response(serializer.data)
 
+    if request.method == 'POST':
+        serializer = AllEmployeeSerializer(employee,request.data)
+        if serializer.is_valid():
+            serializer.save()
+        
+        return Response(serializer.data,status=status.HTTP_200_OK)
+    
 
 
 # @group_required('HR', 'MNG')
 @api_view(['GET', 'POST'])
 def employees(request):
-
     if request.method == 'GET':
 
-        employees = Employee.employees.select_related('designation')#.exclude(for_management=True)
+        employees = Employee.employees.select_related(
+            'designation')  # .exclude(for_management=True)
         serializer = EmployeeSerializer(employees, many=True)
 
-
-        on_leave = employees.values('leave_employees__from_leave','leave_employees__hr_manager').aggregate(
-        on_leave=(
-            Count('id', filter=Q(leave_employees__from_leave=False,leave_employees__hr_manager=True))
-        ),
-        not_on_leave=(
-            Count('id', filter=Q(leave_employees__from_leave=True,leave_employees__hr_manager=True))
-        ),
+        on_leave = employees.values('leave_employees__from_leave', 'leave_employees__hr_manager').aggregate(
+            on_leave=(
+                Count('id', filter=Q(leave_employees__from_leave=False,
+                      leave_employees__hr_manager=True))
+            ),
+            not_on_leave=(
+                Count('id', filter=Q(leave_employees__from_leave=True,
+                      leave_employees__hr_manager=True))
+            ),
         )
 
         # print(on_leave)
 
-        employees_on_leave = employees.filter(leave_employees__from_leave=False,leave_employees__hr_manager=True).count()
-        employees_exceed_leave = employees.filter(leave_employees__from_leave=False, leave_employees__hr_manager=True,leave_employees__resuming_date__gt=datetime.now()).count()
-    
-        # employees_requested_leave = employees.filter(leave_employees__from_leave=False,).count()
-        
+        employees_on_leave = employees.filter(
+            leave_employees__from_leave=False, leave_employees__hr_manager=True).count()
+        employees_exceed_leave = employees.filter(
+            leave_employees__from_leave=False, leave_employees__hr_manager=True, leave_employees__resuming_date__gt=datetime.now()).count()
 
+        # employees_requested_leave = employees.filter(leave_employees__from_leave=False,).count()
         data = {
             'employees': serializer.data,
             'employees_on_leave': employees_on_leave,
@@ -158,38 +200,7 @@ def employees(request):
 
 
 
-@group_required('HR', 'MNG')
-@api_view(['GET'])
-def employee(request, emp_uiid):
-    '''
-    GET EMPLOYEE DETAIL API
-
-    '''
-
-    if request.method == 'GET':
-        employee = get_object_or_404(
-            Employee.objects.select_related('designation'), emp_uiid=emp_uiid)
-        # employee = Employee.objects.select_related('designation').get(employee_id=employee_id)
-        dependants = employee.beneficiarys.values()
-        educations = employee.educations.values()
-        memberships = employee.memberships.values()
-        employments = employee.employments.values()
-        serializer = AllEmployeeSerializer(employee)
-
-        data = {
-            'employee': serializer.data,
-            'dependants': dependants,
-            'educations': educations,
-            'memberships': memberships,
-            'employments': employments,
-        }
-
-        # print(data)
-        return Response(data)
-
-        # return Response(serializer.data,dependants)
-
-@group_required('HR', 'MNG')
+@group_required('HR')
 def employee_data(request, emp_uiid):
     '''
     GET EMPLOYEE DETAIL
@@ -197,16 +208,16 @@ def employee_data(request, emp_uiid):
     '''
 
     employee = get_object_or_404(
-        Employee.objects.select_related('designation'), emp_uiid=emp_uiid)
+        Employee.objects.select_related('designation'), Q(emp_uiid=emp_uiid) | Q(employee_id=emp_uiid))
 
     dependants = employee.beneficiarys.values()
     educations = employee.educations.values()
-    memberships = employee.memberships.values()
+    memberships = employee.memberships.all()
     employments = employee.employments.values()
     serializer = AllEmployeeSerializer(employee)
 
     context = {
-        'employee': employee,#serializer.data,
+        'employee': employee,  # serializer.data,
         'dependants': dependants,
         'educations': educations,
         'memberships': memberships,
@@ -219,94 +230,159 @@ def employee_data(request, emp_uiid):
 @api_view(['POST', 'GET'])
 def add_dependants(request, employee_id):
 
-    employee = Employee.objects.get(employee_id=employee_id)
-    serializer = DependantSerializer(data=request.data)
+    if request.method == 'GET':
+        # print('employee',employee_id)
+        dependant = Dependant.objects.filter(employee__emp_uiid=employee_id)
+        serializer = DependantSerializer(dependant, many=True)
 
-    if serializer.is_valid():
-        dependant = serializer.save(employee=employee)
-        print(serializer.data)
-        dependant = dependant.full_name
-        return Response(data=dependant,status=status.HTTP_201_CREATED)
+        return Response(serializer.data)
+    if request.method == 'POST':
+        employee = Employee.objects.get(emp_uiid=employee_id)
+        print(employee)
+        serializer = DependantSerializer(data=request.data)
+        if serializer.is_valid():
 
-    if serializer.errors:
-        data = {
+            serializer.save(employee=employee)
+            # print(serializer.data)
+        return Response(data=serializer.data, status=status.HTTP_201_CREATED)
+
+        if serializer.errors:
+            data = {
                 'errors': serializer.errors
             }
-        print(serializer.errors)
-        return Response(data)
-    return Response(status=status.HTTP_400_BAD_REQUEST)
+            print(serializer.errors)
+            return Response(data)
+
+    Response(status=status.HTTP_400_BAD_REQUEST)
 
 
+@csrf_exempt
+def deletedependent(request, employee_id, pk):
+    if request.method == 'DELETE':
+        dependant = get_object_or_404(
+            Dependant, pk=pk, employee__emp_uiid=employee_id)
+        key = dependant.id
+        dependant.delete()
+        return JsonResponse({'data': 'record deleted'})
 
 
 @api_view(['POST', 'GET'])
 def add_education(request, employee_id):
+    if request.method == 'GET':
+        education = Education.objects.filter(employee__emp_uiid=employee_id)
+        serializer = EducationSerializer(education, many=True)
+        # print(serializer.data)
+        return Response(serializer.data)
 
-    employee = Employee.objects.get(employee_id=employee_id)
-    serializer = EducationSerializer(data=request.data)
+    if request.method == 'POST':
+        employee = Employee.objects.get(emp_uiid=employee_id)
 
-    if serializer.is_valid():
-        school = serializer.save(employee=employee)
-        print(serializer.data)
-        school_name = school.school_name
-        return Response(data=school_name,status=status.HTTP_201_CREATED)
+        serializer = EducationSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save(employee=employee)
+            # print(serializer.data)
+            # school_name = school.school_name
+            return Response(data=serializer.data, status=status.HTTP_201_CREATED)
 
-    if serializer.errors:
-        data = {
+        if serializer.errors:
+            data = {
                 'errors': serializer.errors
             }
-        print(serializer.errors)
-        return Response(data)
+            print(serializer.errors)
+            return Response(data)
     return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
+@csrf_exempt
+def deleteEducation(request, employee_id, pk):
+    if request.method == 'DELETE':
+        education = get_object_or_404(
+            Education, pk=pk, employee__emp_uiid=employee_id)
+        # key = education.id
+        education.delete()
+        return JsonResponse({'data': 'record deleted'})
 
 
 @api_view(['POST', 'GET'])
 def add_membership(request, employee_id):
 
-    employee = Employee.objects.get(employee_id=employee_id)
-    serializer = PreviousMembershipSerializer(data=request.data)
+    if request.method == 'GET':
 
-    if serializer.is_valid():
-        membership = serializer.save(employee=employee)
-        print(serializer.data)
-        membership = membership.name
-        return Response(data=membership,status=status.HTTP_201_CREATED)
+        membership = ProfessionalMembership.objects.filter(
+            employee__emp_uiid=employee_id)
+        serializer = PreviousMembershipSerializer(membership, many=True)
 
-    if serializer.errors:
-        data = {
+        return Response(serializer.data)
+
+    if request.method == 'POST':
+        employee = Employee.objects.get(emp_uiid=employee_id)
+
+        serializer = PreviousMembershipSerializer(data=request.data)
+
+        if serializer.is_valid():
+            membership = serializer.save(employee=employee)
+            # print(serializer.data)
+            # membership = membership.name
+            return Response(data=serializer.data, status=status.HTTP_201_CREATED)
+
+        if serializer.errors:
+            data = {
                 'errors': serializer.errors
             }
-        print(serializer.errors)
-        return Response(data)
+            # print(serializer.errors)
+            return Response(data)
     return Response(status=status.HTTP_400_BAD_REQUEST)
 
+
+@csrf_exempt
+def deleteMembership(request, employee_id, pk):
+    if request.method == 'DELETE':
+        membership = get_object_or_404(
+            ProfessionalMembership, pk=pk, employee__emp_uiid=employee_id)
+        # key = education.id
+        membership.delete()
+        return JsonResponse({'data': 'record deleted'})
 
 
 @api_view(['POST', 'GET'])
 def add_emploment(request, employee_id):
 
-    employee = Employee.objects.get(employee_id=employee_id)
-    serializer = PreviousEploymentSerializer(data=request.data)
+    if request.method == 'GET':
+        employment = PreviousEployment.objects.filter(
+            employee__emp_uiid=employee_id)
+        serializer = PreviousEploymentSerializer(employment, many=True)
+        return Response(serializer.data)
 
-    if serializer.is_valid():
-        employment = serializer.save(employee=employee)
-        print(serializer.data)
-        employment = str(employment)
-        return Response(data=employment,status=status.HTTP_201_CREATED)
+    if request.method == 'POST':
+        employee = Employee.objects.get(emp_uiid=employee_id)
+        serializer = PreviousEploymentSerializer(data=request.data)
 
-    if serializer.errors:
-        data = {
+        if serializer.is_valid():
+            employment = serializer.save(employee=employee)
+            # print(serializer.data)
+            # employment = str(employment)
+            return Response(data=serializer.data, status=status.HTTP_201_CREATED)
+
+        if serializer.errors:
+            data = {
                 'errors': serializer.errors
             }
-        print(serializer.errors)
-        return Response(data)
+            print(serializer.errors)
+            return Response(data)
     return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
-@group_required('HR', 'MNG')
+@csrf_exempt
+def deleteEmployment(request, employee_id, pk):
+    if request.method == 'DELETE':
+        emploment = get_object_or_404(
+            PreviousEployment, pk=pk, employee__emp_uiid=employee_id)
+        # key = education.id
+        emploment.delete()
+        return JsonResponse({'data': 'record deleted'})
 
+
+@group_required('HR')
 @api_view(['POST', 'GET'])
 def filename(request):
     if request.method == 'GET':
@@ -321,7 +397,7 @@ def filename(request):
 
 
 # DOCUMENT MANAGEMENT
-@group_required('HR', 'MNG')
+# @group_required('HR')
 @api_view(['GET', 'POST'])
 def add_document(request, employee_id):
     if request.method == 'GET':
@@ -342,6 +418,8 @@ def add_document(request, employee_id):
         date = request.data.get('date')
         filename = request.data.get('document_id')
 
+        # print(file,description,date,filename)
+
         document = Documente.objects.create(
             employee=employee, description=description, date=date, file=file, filename_id=filename)
 
@@ -351,9 +429,8 @@ def add_document(request, employee_id):
 
 
 # EMPLOYEE EXIT ENDPOINT
-@api_view(['POST','GET'])
-@group_required('HR', 'MNG')
-
+@api_view(['POST', 'GET'])
+@group_required('HR')
 def exit_employee(request, employee_id):
     employee = Employee.objects.get(employee_id=employee_id)
 
@@ -361,24 +438,22 @@ def exit_employee(request, employee_id):
 
         data = {
             'employee': employee_id,
-            'employee_status':employee.status,
+            'employee_status': employee.status,
             'date_exited': employee.date_exited,
             'exit_check': employee.exit_check,
-            'reason_exiting':employee.reason_exiting,
+            'reason_exiting': employee.reason_exiting,
         }
-
-        
 
         return Response(data)
 
     if request.method == 'POST':
-        employee_status = request.data.get('employee_status','active')
+        employee_status = request.data.get('employee_status', 'active')
         date_exited = request.data.get('date_exited')
 
         reason_exiting = request.data.get('reason_exiting')
 
-            
-        exit_check = partials.bool_values(request.data.get('exit_check', False))
+        exit_check = partials.bool_values(
+            request.data.get('exit_check', False))
 
         # print('employee_status',employee_status,exit_status,date_exited,exit_check)
 
@@ -386,18 +461,16 @@ def exit_employee(request, employee_id):
         # employee.date_exited = date_exited
         # employee.exit_check = exit_check
         # employee.reason_exiting = reason_exiting
-        
-        
-       
-        date = datetime.strptime(date_exited,'%Y-%m-%d')
-        tasks.employee_exiting.apply_async(eta=date,args=(employee_id, date_exited, employee_status, exit_check,reason_exiting))
 
+        date = datetime.strptime(date_exited, '%Y-%m-%d')
+        tasks.employee_exiting.apply_async(eta=date, args=(
+            employee_id, date_exited, employee_status, exit_check, reason_exiting))
 
         # employee.save()
 
         if employee:
             data = {
-                    'status': employee.status,
+                'status': employee.status,
                 'employee_id': employee_id
             }
             return Response(data=data, status=status.HTTP_202_ACCEPTED)
@@ -408,8 +481,7 @@ def exit_employee(request, employee_id):
 
 
 @api_view(['POST'])
-@group_required('HR', 'MNG')
-
+@group_required('HR')
 def delate_document(request, employee_id, pk):
     document = get_object_or_404(
         Documente, employee__employee_id=employee_id, pk=pk)
@@ -423,9 +495,13 @@ def delate_document(request, employee_id, pk):
 @api_view(['POST', 'GET'])
 def apply_leave(request, employee_id):
 
-    employee = get_object_or_404(Employee.activeemployees, Q(employee_id=employee_id) | Q(email=employee_id))
+    employee = get_object_or_404(Employee.activeemployees, Q(
+        employee_id=employee_id) | Q(email=employee_id))
 
     leave_policies = list(LeavePolicy.objects.values('pk', 'name', 'days'))
+
+    last_on_leave = employee.leave_employees.values(
+        'start__year', 'start__month').filter(start__isnull=False).last()
 
     on_leave = employee.leave_employees.filter(
         from_leave=False, employee__employee_id=employee_id).exists()
@@ -438,9 +514,10 @@ def apply_leave(request, employee_id):
             'email': employee.email,
             'leave_policies': leave_policies,
             'on_leave': on_leave,
+            'last_on_leave': last_on_leave
         }
 
-        return Response({'data': leave_data})
+        return Response(leave_data)
 
     elif request.method == 'POST':
         data = request.data
@@ -469,12 +546,11 @@ def apply_leave(request, employee_id):
         on_leave = leave.from_leave
         leave_days = leave.leavedays
 
-        # SEND EMAIL TO HOD AND HR
+        # # SEND EMAIL TO HOD AND HR
         tasks.apply_for_leave_email(
             employee, start, end, leave_days, policy, department_email)
 
         return Response({'data': str(leave_data), 'on_leave': on_leave})
-
 
 
 # DISPLAY LEAVE BASED ON USER RIGHTS
@@ -483,8 +559,8 @@ def leaves(request, employee_id):
     """
     DISPLAY USER LEAVE
     """
-    employee = get_object_or_404(Employee.activeemployees,employee_id=employee_id)
-
+    employee = get_object_or_404(
+        Employee.activeemployees, employee_id=employee_id)
 
     leave = Leave.objects.select_related(
         'employee').filter(employee__status='active')
@@ -512,6 +588,7 @@ def leaves(request, employee_id):
     }
     # print(user_group)
     return Response({'data': serializer.data, 'user_type': user_group})
+
 
 @api_view(['POST'])
 def update_leave(request, leave_id):
@@ -594,7 +671,6 @@ def update_leave(request, leave_id):
     return Response(data)
 
 
-
 # GET EMPLOYEE LEAVE HISTORY
 
 
@@ -647,7 +723,6 @@ def employee_leave(request, employee_id):
 def getleave(request, pk):
     leave = get_object_or_404(Leave, pk=pk)
 
-
     policies = LeavePolicy.objects.values('pk', 'name', 'days')
     # employee_id
 
@@ -668,7 +743,7 @@ def getleave(request, pk):
         'on_leave': leave.from_leave,
         'policies': policies,
         'employee_id': leave.employee.employee_id,
-    
+
 
     }
 
@@ -676,11 +751,12 @@ def getleave(request, pk):
 
 
 def leave_application_detail(request, employee, leave_id):
-    employee_leave = Leave.objects.select_related('employee').filter(employee__employee_id=employee)
-    leave =  get_object_or_404(employee_leave,pk=leave_id)# employee_leave.get(pk=leave_id)
+    employee_leave = Leave.objects.select_related(
+        'employee').filter(employee__employee_id=employee)
+    # employee_leave.get(pk=leave_id)
+    leave = get_object_or_404(employee_leave, pk=leave_id)
     # policy = leave.policy.name
     leave_year = leave.end.strftime('%Y')
-
 
     last_date_on_leave = employee_leave.values_list('resuming_date', flat=True).filter(
         employee__employee_id=employee, hr_manager=True).last()
@@ -690,23 +766,24 @@ def leave_application_detail(request, employee, leave_id):
                                               out_standing=F(
             'policy__days') - F('total_spent')).order_by('-start__year')
 
-
-    out_standing_days = leave_per_year.filter(policy__has_days=True).aggregate(out_standing_days=Sum('out_standing'))
+    out_standing_days = leave_per_year.filter(
+        policy__has_days=True).aggregate(out_standing_days=Sum('out_standing'))
 
     # available_days  = leavedays - sum of previous + current
-    prev_issue = leave_per_year.filter(id__lt=leave_id).exclude(id=leave_id).order_by('-id').aggregate(prev_issue=Sum('leavedays'))
+    prev_issue = leave_per_year.filter(id__lt=leave_id).exclude(
+        id=leave_id).order_by('-id').aggregate(prev_issue=Sum('leavedays'))
 
     # prev_issue = leave_per_year.exclude(id=leave_id).order_by('-id').aggregate(prev_issue=Sum('leavedays'))
 
     policy_days = leave.policy.days
-    prev_issue  =  prev_issue.get('prev_issue') if prev_issue.get('prev_issue') else 0
+    prev_issue = prev_issue.get(
+        'prev_issue') if prev_issue.get('prev_issue') else 0
     current = leave.leavedays
-
 
     available_days = policy_days-(prev_issue+current)
 
     # print(available_days)
-  
+
     # next_issue = (leave_per_year
     # .filter(id__gt=leave_id)
     # .exclude(id=leave_id)
@@ -718,7 +795,7 @@ def leave_application_detail(request, employee, leave_id):
         'last_date_on_leave': last_date_on_leave,
         'out_standing_days': out_standing_days.get('out_standing_days'),
         'leave_per_year': leave_per_year,
-        'available_days':available_days if leave.policy.has_days else 'N/A'
+        'available_days': available_days if leave.policy.has_days else 'N/A'
     }
 
     return render(request, 'leave/leave_application_detail.html', context)
