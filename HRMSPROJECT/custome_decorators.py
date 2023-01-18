@@ -61,7 +61,7 @@ def manager_required(function=None, redirect_field_name=REDIRECT_FIELD_NAME, log
 
 
 
-
+# BELOWE DECORATORS ARE IN USE ONLY
 
 
 def help_desk_user(function=None, redirect_field_name=REDIRECT_FIELD_NAME, login_url='login'):
@@ -82,7 +82,7 @@ def help_desk_user(function=None, redirect_field_name=REDIRECT_FIELD_NAME, login
     return actual_decorator
 
 
-def applicant_user(function=None, redirect_field_name=REDIRECT_FIELD_NAME, login_url='hrms:register_staff'):
+def applicant_user(function=None, redirect_field_name=REDIRECT_FIELD_NAME, login_url='hrms:register_employee'):
     '''
     Decorator for views that checks that the logged in user is an applicant,
     redirects to the applicant page if necessary.

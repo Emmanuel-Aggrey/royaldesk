@@ -1,35 +1,23 @@
-{% load static %} {% include 'partials/nav.html' %}
+{% extends "base.html" %}
+{% load static %} 
 
-<!DOCTYPE html>
-<html lang="en">
+{% block content %}
+
+
 
 <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    {% block title %}
     <title>APPLY-LEAVE</title>
-
-    <script src="{% static 'js/jquery-3.5.1.js' %}"></script>
-    <script src="{% static 'js/sweetalert2.all.min.js' %}"></script>
-    <script src="{% static 'js/bootstrap.min.js' %}"></script>
-    <script src="{% static 'js/jquery-ui.js' %}"></script>
-    <script src="{% static 'js/datepicker.min.js' %}"></script>
-    <link rel="stylesheet" href="{% static 'css/jquery-ui.css' %}" />
-
-    <!-- <script src="{% static 'js/jquery.dataTables.min.js' %}"></script> -->
-
-    <link rel="stylesheet" type="text/css" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
-
-    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />
-    <link rel="stylesheet" href="{% static 'css/education/partials.css' %}" />
-
-    <link rel="stylesheet" href="{% static 'css/datepicker.min.css' %}" />
-    <!-- <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}" /> -->
+    
+    {% endblock  %}
 </head>
 
+
+
+
 <body onload="employee_is_login()">
-    <div class="container px-1 py-5 mx-auto">
-        <div class="row d-flex justify-content-center">
+    <div class="container px-1 py-5 mx-auto ">
+        <div class="row d-flex justify-content-center mt-4">
             <div class="col-xl-12 col-lg-12 col-md-12 col-12 text-center">
                 <div class="card px-0 pb-0 mt-3 mb-3">
                     <!-- <h3 id="heading">Leave Application Form</h3> -->
@@ -42,7 +30,7 @@
 
                     <br />
 
-                    <hr class="bg-dark" />
+                    <hr class="bg-dark mt-5 " />
                     <h5 id="heading" style="font: bold 100% sans-serif; letter-spacing: 0.5em;" >Leave Application Form</h5>
 
                     <!-- APPLY FOR LEAVE START -->
@@ -366,4 +354,5 @@
     </style>
 </body>
 
-</html>
+
+{% endblock content %}

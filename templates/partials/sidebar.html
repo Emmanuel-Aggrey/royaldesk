@@ -47,20 +47,25 @@
     </li>
     
     <li class="nav-item">
-      <a class="nav-link" href="/register-staff">
+      <a class="nav-link" href="/register-employee">
         <i class="menu-icon typcn typcn-th-large-outline"></i>
-        <span class="menu-title">Add Employee</span>
+        <span class="menu-title">Register Employee</span>
       </a>
     </li>
 
    
     
-    <!-- <li class="nav-item">
-      <a class="nav-link" href="pages/tables/basic-table.html">
+    {% if user.department.shortname == 'HR'  %}
+
+      
+     <li class="nav-item" id="change_request">
+      <a class="nav-link" href="#">
         <i class="menu-icon typcn typcn-bell"></i>
-        <span class="menu-title">Tables</span>
+        <span class="menu-title" id="change_request_span">Change Requests</span>
       </a>
-    </li> -->
+    </li> 
+    {% endif %}
+      
     <!-- <li class="nav-item">
       <a class="nav-link" href="pages/icons/font-awesome.html">
         <i class="menu-icon typcn typcn-user-outline"></i>
@@ -95,3 +100,11 @@
     </li> -->
   </ul>
 </nav>
+
+<script>
+
+  location.pathname != '/employee/' ? document.getElementById('change_request').remove() :'' 
+  
+  // console.log(location.pathname)
+
+</script>

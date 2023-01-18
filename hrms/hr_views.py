@@ -4,7 +4,7 @@ import subprocess
 from datetime import datetime, timedelta
 
 from decouple import config
-from django.db.models import Count, F, FloatField, Q, Sum
+from django.db.models import Count, F, FloatField, Q, Sum, IntegerField
 from django.shortcuts import get_object_or_404, render
 from django.http import JsonResponse
 from django.utils import timezone
@@ -24,7 +24,7 @@ from .models import (Department, Dependant, Designation, Education, Employee,
                      ProfessionalMembership)
 
 
-@group_required('HR', 'MNG')
+@group_required('HR')
 def hr_dashborad(request):
 
     return render(request, 'hr/hr_dashborad.html')
@@ -35,7 +35,7 @@ def hr_dashborad(request):
 def hr_reports(request, data_value=None):
 
     qs = Employee.employees.select_related(
-        'designation')#.exclude(for_management=True)
+        'designation')  # .exclude(for_management=True)
 
     # ACTIVE EMPLOYEES
     active_employees = qs.filter(
@@ -65,10 +65,10 @@ def hr_reports(request, data_value=None):
 
     age = active_employees.only('dob__year').annotate(age=datetime.now().year - F('dob__year'))\
         .aggregate(
-        above=(
+        above_30=(
             Count('dob__year', filter=Q(age__gte=30))
         ),
-        below=(
+        below_30=(
             Count('dob__year', filter=Q(age__lt=30))
         ),
     )
@@ -84,10 +84,14 @@ def hr_reports(request, data_value=None):
         ),
     )
 
-    hods = active_employees.filter(is_head=True).values(
-        'first_name', 'last_name', 'department__name')
+    birthdays = []
+    for day, month in partials.twenty_one_days:
+        birthdays += active_employees.values('first_name', 'last_name', 'department__name', 'dob').filter(
+            dob__day=day,
+            dob__month=month
+        )
 
-    country = qs.values('country').annotate(emp_count=Count('country'))
+    country = active_employees.values('country').annotate(emp_count=Count('country'))
     this_year = datetime.now().year
 
     # print(this_year-1)
@@ -96,7 +100,7 @@ def hr_reports(request, data_value=None):
         'leave_employees__start__month').annotate(emp_onleave_this_month=Count('leave_employees__start'))
 
     leave_applications = qs.filter(leave_employees__start__isnull=False).values(
-        'leave_employees__start__year').annotate(leave_applications=Count('id'))
+        'leave_employees__start__year').annotate(leave_applications=Count('id')).reverse()[:5]
 
     emp_exceed_leave = qs.filter(leave_employees__from_leave=False, leave_employees__hr_manager=True, leave_employees__resuming_date__gt=timezone.now()).values(
         'leave_employees__employee__first_name', 'leave_employees__employee__last_name', 'leave_employees__end')
@@ -108,17 +112,36 @@ def hr_reports(request, data_value=None):
         'leave_employees__employee__first_name', 'leave_employees__employee__last_name', 'leave_employees__end').reverse()[:5]
 
     employment_rate = qs.values(
-        'date_employed__year').annotate(employee_count=Count('date_employed'))
+        'date_employed__year').annotate(employee_count=Count('date_employed')).order_by('date_employed__year').reverse()[:5]
 
-    turn_over_rate = qs.values(
-        'status', 'date_employed__year').annotate(employee_count=Count('date_employed'))
+    employement_status = qs.values(
+        'status', 'date_employed__year').annotate(employee_count=Count('date_employed')).order_by('date_employed__year').reverse()[:5]
+
+    # RE CALCULATE EMPLOYMENT RATE
+    year = datetime.now().year
+    active_employees_rate = qs.only('status','date_departure','designation').filter(date_employed__year__lte=year,status='active').count()
+
+    seperattion_employees = qs.only('status','date_departure','designation').filter(Q(date_departure__isnull=False,date_departure__year=year)&~Q(status='active')).count()
+
+    active_employees_rate = active_employees_rate+seperattion_employees
+    
+    ''' PREVENTING ZeroDivisionError''' 
+    seperattion_employees = 0 if active_employees_rate == 0 else (seperattion_employees/active_employees_rate)*100
+
+    turn_over = "{:.2f}".format(seperattion_employees) 
+
+
+    print('turn_over',turn_over)
+
+    turn_over_rate = {'year':year,'rate':turn_over}
+
+
+
 
     department_count = active_employees.values('department__name').annotate(
         employee_count=Count('department__name'))
 
-    # print(dpeartment_count)
-
-    # employment_rate_quarter = employment_rate.filter(date_employed__quarter=2)
+   
 
     emp_beneficiary = active_employees.distinct().values('id').aggregate(
         with_beneficiary=(
@@ -137,10 +160,11 @@ def hr_reports(request, data_value=None):
         'emp_beneficiary': emp_beneficiary,
         'leave': on_leave,
         'country': country,
-        'department_heads': hods,
+        'birthdays': birthdays,
         'department_count': department_count,
         'active_employees_count': active_employees.count(),
-
+        'in_active_employees_count': qs.filter(~Q(status='active')).count(),
+        'turn_over_rate':turn_over_rate,
         # 'active_employees_merried': active_employees.filter(is_merried=True).count(),
 
         'leave_this_year': leave_this_year,
@@ -150,7 +174,7 @@ def hr_reports(request, data_value=None):
         'emp_on_leave': emp_on_leave,
         'emp_from_leave_recent': emp_from_leave_recent,
         'employment_rate': employment_rate,
-        'turn_over_rate': turn_over_rate,
+        'employement_status': employement_status,
     }
 
     # print(data_value)
@@ -167,10 +191,10 @@ def hr_reports(request, data_value=None):
 @api_view(['GET'])
 def employment_rate(request, quarter):
 
-    employment_rate = Employee.objects.values(
-        'date_employed__year').annotate(employee_count=Count('date_employed')).exclude(id=4)
+    employment_rate = Employee.employees.values(
+        'date_employed__year').annotate(employee_count=Count('date_employed'))
 
-    if quarter not in ['1', '2', '3']:
+    if quarter not in ['1', '2', '3', '4']:
         return Response(employment_rate)
 
     else:
@@ -192,8 +216,8 @@ def emp_on_leave(request, pk):
     data = {
         'from_leave': leave.from_leave
     }
-    return JsonResponse(data,safe=False)
-    
+    return JsonResponse(data, safe=False)
+
     # return Response(data=data,status=status.HTTP_200_OK)
 
 
@@ -330,16 +354,16 @@ def clockins(request):
 
         # cursor =sql_server.connection.cursor()
     else:
-        sql_today = "SELECT  [StatusText] ,  Count(case StatusText when 'In' then 1 end) as Count_In, Count(case StatusText when 'Out' then 1 end) as Count_Out FROM [dbo].[V_Record] WHERE [StatusText] in ('In', 'Out') AND CAST(CheckTime AS DATE) ='{}' AND DeptName IS NOT NULL GROUP BY [StatusText] ORDER BY [StatusText]".format(today_)
+        # sql_today = "SELECT  [StatusText] ,  Count(case StatusText when 'In' then 1 end) as Count_In, Count(case StatusText when 'Out' then 1 end) as Count_Out FROM [dbo].[V_Record] WHERE [StatusText] in ('In', 'Out') AND CAST(CheckTime AS DATE) ='{}' AND DeptName IS NOT NULL GROUP BY [StatusText] ORDER BY [StatusText]".format(today_)
         sql_yesterday = "SELECT  [StatusText] ,  Count(case StatusText when 'In' then 1 end) as Count_In, Count(case StatusText when 'Out' then 1 end) as Count_Out FROM [dbo].[V_Record] WHERE [StatusText] in ('In', 'Out') AND CAST(CheckTime AS DATE) ='{}' AND DeptName IS NOT NULL GROUP BY [StatusText] ORDER BY [StatusText]".format(yesterday)
         sql_week = "SELECT  [StatusText] ,  Count(case StatusText when 'In' then 1 end) as Count_In, Count(case StatusText when 'Out' then 1 end) as Count_Out FROM [dbo].[V_Record] WHERE [StatusText] in ('In', 'Out') AND CAST(CheckTime AS DATE) BETWEEN '{}' AND '{}' AND DeptName IS NOT NULL GROUP BY [StatusText] ORDER BY [StatusText]".format(week, today_)
         sql_department_yesterday = "SELECT  [DeptName] AS Department,  Count(case StatusText when 'In' then 1 end) as Count_In, Count(case StatusText when 'Out' then 1 end) as Count_Out FROM [dbo].[V_Record] WHERE [StatusText] in ('In', 'Out') AND CAST(CheckTime AS DATE) = '{}' AND DeptName IS NOT NULL GROUP BY [DeptName] ORDER BY [DeptName]".format(
             yesterday)
 
-        cursor = sql_server.cursor.execute(sql_today)
-        rows = cursor.fetchall()
-        columns = [column[0] for column in cursor.description]
-        result_today = [dict(zip(columns, row)) for row in rows]
+        # cursor = sql_server.cursor.execute(sql_today)
+        # rows = cursor.fetchall()
+        # columns = [column[0] for column in cursor.description]
+        # result_today = [dict(zip(columns, row)) for row in rows]
 
         cursor = sql_server.cursor.execute(sql_yesterday)
         rows = cursor.fetchall()
@@ -357,7 +381,7 @@ def clockins(request):
         result_department_yesterday = [dict(zip(columns, row)) for row in rows]
 
         data = {
-            'sql_today': result_today,
+            # 'sql_today': result_today,
             'sql_yesterday': result_yesterday,
             'sql_week': result_week,
             'result_department_yesterday': result_department_yesterday,
@@ -426,6 +450,7 @@ def update_anviz_user(request):
 
         new_path = f'{new_location}//{anviz_employee}.jpg'
 
+
         sql = "UPDATE [anviz].[dbo].[Userinfo] SET Picture =(SELECT  BulkColumn FROM OPENROWSET(BULK  N'C:/Users/Public/Profiles/{}',SINGLE_BLOB) AS Picture) WHERE Userid ='{}'".format(
             profile, anviz_id)
 
@@ -437,7 +462,7 @@ def update_anviz_user(request):
         # sql_server.pyodbc.pooling=False
 
         shutil.move(old_path, new_path)
-        # img.show(new_path)
+        img.show(new_path)
 
         # print(cursor)
 
@@ -447,7 +472,7 @@ def update_anviz_user(request):
 @group_required('IT')
 @api_view(['GET'])
 def daemons_service(request, service_name=None):
-    
+
     status = subprocess.call(['systemctl', 'is-active', service_name])
 
     # subprocess.call(['systemctl', 'restart', 'flower'])
@@ -457,3 +482,5 @@ def daemons_service(request, service_name=None):
         'service_name': service_name,
     }
     return Response(data)
+
+    # 0559 160 090

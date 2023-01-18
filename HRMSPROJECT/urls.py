@@ -7,6 +7,21 @@ from django.urls import include, path
 from django.views.generic import TemplateView
 from django.contrib.auth.decorators import login_required
 from .custome_decorators import default_passeord,applicant_user
+from rest_framework import permissions
+
+from drf_yasg.views import get_schema_view
+from drf_yasg import openapi
+schema_view = get_schema_view(
+   openapi.Info(
+      title="Tourists API Endpoint",
+      default_version='v1',
+      description="A Test Exam for Backend Developer Role",
+      license=openapi.License(name="BSD License"),
+   ),
+   public=True,
+   permission_classes=[permissions.AllowAny],
+)
+
 
 urlpatterns = [
     path('back-office/', admin.site.urls,name='back_office'),
@@ -20,7 +35,11 @@ urlpatterns = [
     # path('accounts/password_change/',login_required(TemplateView.as_view(template_name="registration/password_change.html")),name="password_change"),
 
     # path('accounts/password_change', include('allauth.urls')),
+    # path('ckeditor/', include('ckeditor_uploader.urls')),
+
     path('debug/', include('debug_toolbar.urls')),
+    path("docs", schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+
 
 ]
 

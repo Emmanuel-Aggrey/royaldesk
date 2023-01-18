@@ -159,10 +159,11 @@
         <table class="address">
 <tbody>
 <tr>
-    {% if employee.date_exited %}
+    {% if employee.employee_exit %}
         
    
     <td style="background-color: brown"><div class="grphead text-info" style="color: white"><strong class="">EXIT INFORMATION </strong></div></td>
+    
 </tr>
 </tbody>
 </table>
@@ -175,13 +176,15 @@
 <tbody>
 <tr>
 <th>Date:</th>
-<td style="color: brown">{{employee.date_exited}}</td>
-<th>Checks Done</th>
-<td style="color: brown">{{employee.exit_check|yesno:"YES,NO"}}</td>
+<td style="color: brown">{{employee.employee_exit.data.date_departure}}</td>
+<th>HR Representative</th>
+<td style="color: brown">{{employee.employee_exit.data.date_departure}}</td>
+<!-- <th>Hr Representative</th> -->
+<td style="color: brown;cursor: pointer;"><a title="click to view details" id="view_detail" href="{% url 'hrms:employee_exit_form'  employee.employee_id %}" target="_blank" rel="noopener noreferrer">view details</a></td>
 </tr>
-<th>Note:</th>
+<th>Comment:</th>
 <td style="color: brown;text-transform: none !important;" colspan="3"><div>
-   {{employee.reason_exiting|default:"Not Provided" }}
+   {{employee.employee_exit.data.comments|default:"Not Provided" }}
 </div> </td>
 </tbody>
 </table>
@@ -400,13 +403,32 @@
         align-items: center;
     }
     @media print {
-        #cv{
+        #cv,#view_detail{
             display: none;
         }
+        
 
     }
         
     
+    body {
+        /* color: #000; */
+        /* overflow-x: hidden; */
+        /* height: 100%; */
+        /* background-image: url("/media/IMG_20190917_222921_531.jpg");  */
+        background-image: url("/static/images/logo/PSX_20211004_102855.jpg");
+        background-repeat: no-repeat;
+
+        /* background-color: #999; */
+        /* background: linear-gradient(to bottom right, rgb(94, 94, 238), rgb(134, 104, 109)); */
+        height: 100vh;
+        /* Fallback for browsers that do not support Custom Properties */
+        height: calc(var(--vh, 1vh) * 100);
+        background-size: 100% 100%;
+        
+    }
+
+
 </style>
 
 

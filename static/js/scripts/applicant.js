@@ -1,11 +1,19 @@
 
 
+  const applicant_name = JSON.parse(document.getElementById('applicant_name').textContent)
+
+$(document).ready(function() {
+
+  $("#check_status_next,#offer_letter_next_btn").fadeOut();
+})
+
+
 document.getElementById('unique_id').focus();
 
-$("#appicant_form").submit( (e)=> {
+$("#applicant_form").submit( (e)=> {
     e.preventDefault();
     const unique_id = $("#unique_id").val()
-
+    sessionStorage.setItem('unique_id',unique_id)
     $.ajax({
         url: `/update_applicant/${unique_id}/`,
         type: "GET",
@@ -16,7 +24,24 @@ $("#appicant_form").submit( (e)=> {
         },
         success: function (data) {
             
-          // console.log(data.status,data.message)
+          // console.log(data)
+            data.status =='selected' ?  $("#check_status_next").fadeIn(): $("#check_status_next").fadeOut();
+            data.applicant_offer_letters.length >0 ?  $("#offer_letter_next_btn").fadeIn(): $("#offer_letter_next_btn").fadeOut();
+
+            if(data.applicant_offer_letters.length>0){
+              
+              data.applicant_offer_letters.forEach(function(value){
+
+               const letter_name= value.offer_letter.substring(value.offer_letter.lastIndexOf('/') + 1)
+               const letters =  `<a  href=${value.offer_letter} target="_blank">${letter_name}</a>`
+
+                $("#offer_letters_docs").append(`<li>${letters}</li>`)
+              })
+              
+            }
+
+
+
            const department = `${data.department_name} ${data.designation_name}`
            $("#department").text(department)
 
@@ -68,9 +93,9 @@ $("#btn_letter").click(function(e) {
 // NEW APPLICANT
 $('#offter_letter_form').submit(function (event) {
   event.preventDefault();
-  
+  unique_id = sessionStorage.getItem('unique_id');
   $.ajax({
-    url: '/FileUploadView/ENARTEYT-2022/',
+    url: `/upload-offer-letter/${unique_id}/`,
     type: 'POST',
     data: new FormData(this),
     enctype: 'multipart/form-data',
@@ -80,9 +105,13 @@ $('#offter_letter_form').submit(function (event) {
     csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
 
     success: function (data) {
-      console.log(data);
-      // show_alert(5000, "success", 'Record' + '  saved')
- 
+      // console.log(data);
+        
+      // data.applicant_offer_letters.length >0 ?  $("#check_status_next").fadeIn(): $("#check_status_next").fadeOut();
+
+     
+      show_alert(5000, "success", 'Record' + ' SAVED')
+      $('#offer_letter_next_btn').click()
 
       // $(".ui-dialog-titlebar-close").click();
 
@@ -90,7 +119,7 @@ $('#offter_letter_form').submit(function (event) {
     error: function (jqXHR, textStatus, errorThrown) {
 
       error = `applicant exist ${textStatus} ${errorThrown}`
-
+      show_alert(5000, "success", error)
       console.log(error)
       // show_alert(5000, "error", error + '')
       // Swal.fire(error);

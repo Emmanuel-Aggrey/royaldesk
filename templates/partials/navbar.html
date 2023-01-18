@@ -1,15 +1,18 @@
 {% load static %}
 
+{{user.employee_uuid|json_script:'employee_user'}}
+
+
 <nav class="navbar default-layout col-lg-12 col-12 p-0 fixed-top d-flex flex-row ">
   <div class="text-center navbar-brand-wrapper d-flex align-items-top justify-content-center">
     <a class="navbar-brand brand-logo" href="/">
-      <!-- <img src="{% static 'images/logo.svg' %}" alt="logo" /> </a> -->
-      <p class="badge badge-pill text-white">Dashboard</p>
+      <img class="rounded-circle img-xs logo cover" style="height: 100%; width: 100%;" src="{% static 'images/logo/Rock-City-Logo.png' %}" alt="logo" /> </a>
+      <!-- <p class="badge badge-pill   text-primary">Dashboard</p> -->
     <a class="navbar-brand brand-logo-mini" href="/">
       
-      <img src="{% static 'images/logo-mini.svg' %}" alt="logo" /> </a>
+      <img class="rounded-circle img-md logo rounded"  src="{% static 'images/logo/Rock-City-Logo.png' %}" alt="logo" /> </a>
   </div>
-  <div class="navbar-menu-wrapper d-flex align-items-center">
+  <div class="navbar-menu-wrapper d-flex align-items-center ">
 
     <div id="small-nav"></div>
 
@@ -151,16 +154,18 @@
             <p class="mb-1 mt-3 font-weight-semibold">{{user.full_name}}</p>
             <p class="font-weight-light text-muted mb-0">{{user.email}}</p>
           </div>
-          <a class="dropdown-item">My Profile <span class="badge badge-pill badge-danger">1</span><i class="dropdown-item-icon ti-dashboard"></i></a>
-          <a class="dropdown-item">Messages<i class="dropdown-item-icon ti-comment-alt"></i></a>
           <a class="dropdown-item">FAQ<i class="dropdown-item-icon ti-location-arrow"></i></a>          
           
           {% if user.is_authenticated %}
-            <a class="dropdown-item" href="/back-office">Back Office<i class="dropdown-item-icon ti-help-alt"></i></a>
+          {% comment %} <a class="dropdown-item" href="{% url 'hrms:employee_exit_form' request.user.username  %}">Exit Form<i class="dropdown-item-icon ti-comment-alt"></i></a> {% endcomment %}
 
-          <a href="{% url 'logout'  %}" class="dropdown-item">Sign Out<i class="dropdown-item-icon ti-power-off"></i></a>
+          <a  href="{% url 'hrms:update_employee' request.user.employee_uuid %}" class="dropdown-item">My Profile <span class="badge badge-pill badge-danger"></span><i class="dropdown-item-icon ti-dashboard"></i></a>
 
-          {% if request.user.department.shortname == 'IT'  or request.user.is_superuser %}
+            <a id="back_office" class="dropdown-item" href="/back-office">Back Office<i class="dropdown-item-icon ti-help-alt"></i></a>
+
+          <a href="#" id="logout" class="dropdown-item">Sign Out<i class="dropdown-item-icon ti-power-off"></i></a>
+
+          {% if request.user.department.shortname == 'IT'  or request.user.is_superuser  %}
           
                     
           <a href="/upload-anviz-user-profile" class="dropdown-item" id={{conntected_to_server}}>IT<i class="dropdown-item-icon ti-help-alt"></i></a>
@@ -185,29 +190,7 @@
 
 <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
 
-<script>
-  if (location.pathname==="/helpdesk/"){
-    console.log(true)
-    $("#small-nav").append(`
-    <ul class="nav justify-content-center">
-      <li class="nav-item ">
-        <a class="nav-link  profile-text font-weight-medium d-none d-md-block" href="/">Home</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link profile-text font-weight-medium d-none d-md-block" href="/hr-dashborad">Dashboard</a>
-      </li>
-      <!-- <li class="nav-item">
-        <a class="nav-link text-light" href="#">Link</a>
-      </li> -->
-      <li class="nav-item">
-        <a class="nav-link disabled profile-text font-weight-medium d-none d-md-block active" href="#">Help Desk</a>
-      </li>
-    </ul>
-    `)
-  }
- 
- $('#False').addClass('pulse').attr('title', 'not conntected to anviz server')
-</script>
+
 
 <style>
   #False{
@@ -215,3 +198,5 @@
 
   }
 </style>
+
+<script src="{% static 'js/scripts/navbar.js' %}"></script>

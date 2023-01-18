@@ -1,0 +1,19 @@
+<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>RCH</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table>
+                        <caption>
+                          <div class="float-right my-3" id="total_checkin"></div>
+                          <div class="float-left my-3" id="days"></div>
+
+                        </caption>
+
+                        <thead>
+                          <tr>
+                            <th>Name</th>
+                            <th>In</th>
+                          </tr>
+                        </thead>
+                        <tbody id="department_body">
+
+
+
+                        </tbody>
+                      </table></body></html>

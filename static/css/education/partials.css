@@ -1,16 +1,22 @@
 
   /* EMPLOYEE FORMS CSS START */
 
+
+  
   body {
     color: #000;
     overflow-x: hidden;
     /* height: 100%; */
-    /* background-image: url("/media/IMG_20190917_222921_531.jpg"); */
-    /* background-repeat: no-repeat; */
-    background: linear-gradient(to bottom right, rgb(94, 94, 238), rgb(134, 104, 109));
+    /* background-image: url("/media/IMG_20190917_222921_531.jpg");  */
+    background-image: url("/static/images/logo/PSX_20211004_102855.jpg"); 
+    background-repeat: no-repeat;
+
+    
+    /* background: linear-gradient(to bottom right, rgb(94, 94, 238), rgb(134, 104, 109)); */
     height: 100vh; /* Fallback for browsers that do not support Custom Properties */
-    /* height: calc(var(--vh, 1vh) * 100); */
+    height: calc(var(--vh, 1vh) * 100);
     background-size: 100% 100%;
+    
     
 }
 

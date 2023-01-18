@@ -1,5 +1,8 @@
    /* reset */
 
+
+
+
    *
    {
        border: 0;
@@ -48,7 +51,7 @@
    /* page */
    
    html { font: 16px/1 'Open Sans', sans-serif; overflow: auto; padding: 0.5in; }
-   html { background: #999; cursor: default; }
+   html { cursor: default; }
    
    page {
        display: block;

@@ -4,15 +4,30 @@ import csv
 from django.contrib import admin
 from django.http import HttpResponse
 from helpdesk.models import Issue
+from django.utils.safestring import mark_safe
+
 from .models import (Department, Dependant,
-                     Designation, Education, Employee, Leave, LeavePolicy,
-                     PreviousEployment, ProfessionalMembership,Contribution,Documente,File)
+                     Designation, Education, Employee, Leave, LeavePolicy,EmployeeExit,
+                     PreviousEployment, ProfessionalMembership,Contribution,Documente,File,RequestChange)
 
 admin.site.site_header = "ROCK CITY HOTEL"  # Add this
 admin.site.site_title = "ROCK CITY HOTEL"
 
 
 admin.site.register([File])
+
+
+@admin.register(RequestChange)
+class ContributionAdmin(admin.ModelAdmin):
+    list_display = ['employee','status']
+    list_editable = ['status']
+    list_filter = ['status']
+    search_fields = ['employee__first_name','employee__last_name','employee__employee_id']
+    
+    # not working
+    def enter_bio_safe(self, obj):
+        return mark_safe(obj.text)
+    enter_bio_safe.s = 'Description'
 
 @admin.register(Contribution)
 class ContributionAdmin(admin.ModelAdmin):
@@ -38,7 +53,8 @@ class DesignationInline(admin.TabularInline):
 
 
 class DepartmentAdmin(admin.ModelAdmin):
-    list_display = ['name','shortname','email','designations']
+    list_display = ['name','shortname','email','designations','for_management','anviz_department']
+    list_editable = ['anviz_department']
     search_fields = ['name']
     inlines = [
         DesignationInline,IssueInline
@@ -67,6 +83,10 @@ class PreviousEploymentInline(admin.TabularInline):
 class DocumentInline(admin.TabularInline):
     model = Documente
 
+class EmployeeExitInline(admin.TabularInline):
+    model = EmployeeExit
+
+
 
 
 
@@ -93,7 +113,7 @@ class EmployeeAdmin(admin.ModelAdmin):
                     'designation', 'mobile', 'email', 'date_employed', 'address', 'emergency_name', 'emergency_phone','anviz_id']
     search_fields = ['first_name', 'last_name',
                      'other_name', 'mobile', 'employee_id',]
-    list_filter = ['is_head','department', 'designation', 'status', 'is_merried','date_employed','exit_check','date_exited']
+    list_filter = ['is_head','department', 'designation', 'status', 'is_merried','date_employed','exit_check','date_departure']
     list_editable = ['status', 'is_merried','is_head', 'anviz_id']
     # exclude = ['age', ]
     actions = [export_employees]
@@ -104,7 +124,7 @@ class EmployeeAdmin(admin.ModelAdmin):
         }),
 
         ('WORK RELATED INFOMATION', {
-            'fields': ('status','department', 'designation','is_head', 'date_employed','anviz_id','salary','exit_check','date_exited','reason_exiting')
+            'fields': ('status','department', 'designation','is_head', 'date_employed','anviz_id','salary','exit_check','date_departure','reason_exiting','user','applicant','request_change')
         }),
 
          ('COUNTRY / REGION INFOMATION', {
@@ -137,6 +157,7 @@ class EmployeeAdmin(admin.ModelAdmin):
         ProfessionalMembershipInline,
         PreviousEploymentInline,
         DocumentInline,
+        EmployeeExitInline,
     ]
 
 

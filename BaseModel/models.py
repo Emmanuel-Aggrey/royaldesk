@@ -8,14 +8,24 @@ class BaseModel(models.Model):
         abstract = True
 
 
+class DepartmentsManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(for_management=False)
+
+
 class Department(BaseModel, models.Model):
     name = models.CharField(max_length=70, null=False, blank=False)
     email = models.EmailField(null=True, blank=True)
     shortname = models.CharField(max_length=5, null=True, blank=True)
     for_management = models.BooleanField(default=False)
+    anviz_department=models.PositiveSmallIntegerField(null=True,blank=True,help_text="ID from anviz department")
 
     def __str__(self):
         return self.name
+
+
+    # objects = models.Manager() 
+    # departments = DepartmentsManager() 
 
     # def get_absolute_url(self):
     #     return reverse("hrms:dept_detail", kwargs={"pk": self.pk})

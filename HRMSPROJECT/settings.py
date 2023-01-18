@@ -59,7 +59,9 @@ INSTALLED_APPS = [
 
     # 3RD PARTY APPS
     'rest_framework',
+    'drf_yasg',
     'debug_toolbar',
+    'ckeditor',
 
     'django_celery_results',
     'djcelery_email',
@@ -79,6 +81,7 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    # 'HRMSPROJECT.applicantUserMiddleware.ApplicantUserMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'auditlog.middleware.AuditlogMiddleware',
@@ -200,8 +203,14 @@ MEDIA_URL = config('MEDIA_URL')
 # os.path.join(BASE_DIR, 'media') #This is the folder the image will be uploaded
 MEDIA_ROOT = config('MEDIA_ROOT')
 
-# django_heroku.settings(locals())
+CKEDITOR_UPLOAD_PATH = "uploads/"
 
+
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'full',
+    },
+}
 
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'login'
@@ -214,26 +223,29 @@ LOGOUT_REDIRECT_URL = 'login'
 # CELERY_EMAIL_BACKEND =  'djcelery_email.backends.CeleryEmailBackend'
 
 EMAIL_BACKEND = 'djcelery_email.backends.CeleryEmailBackend'
-# CELERY_EMAIL_CHUNK_SIZE = 1
+CELERY_EMAIL_CHUNK_SIZE = 1
 DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL')
 EMAIL_HOST = config('EMAIL_HOST')
 EMAIL_USE_TLS = True
 EMAIL_PORT = config('EMAIL_PORT', cast=int)
 EMAIL_HOST_USER = config('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
+HR_EMAIL = config('HR_EMAIL')
+
+
 
 # email used for testing in production
 TEST_EMAIL = config('TEST_EMAIL')
 
 # ERROR MAILS SENT TO ADMINS EMAIL
-SERVER_EMAIL = config('EMAIL_HOST_USER')
+SERVER_EMAIL = config('TEST_EMAIL')
 
 
 # SETTING UP CELERY
-# CELERY_BROKER_URL = 'redis://localhost:6379/0'
-CELERY_BROKER_URL = 'amqp://localhost'
-CELERY_RESULT_BACKEND = 'amqp://localhost'
-# CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+CELERY_BROKER_URL = 'redis://localhost:6379/0'
+# CELERY_BROKER_URL = 'amqp://localhost'
+# CELERY_RESULT_BACKEND = 'amqp://localhost'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_TIMEZONE = 'UTC'
@@ -242,7 +254,8 @@ CELERY_TIMEZONE = 'UTC'
 CELERY_RESULT_BACKEND = 'django-db'
 CELERY_CACHE_BACKEND = 'django-cache'
 # celery setting.
-CELERY_CACHE_BACKEND = 'default'
+# CELERY_CACHE_BACKEND = 'default'
+BROKER_POOL_LIMIT=0
 
 
 # CACHE setting.

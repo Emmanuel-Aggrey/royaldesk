@@ -1,11 +1,11 @@
 
 {% extends 'base.html' %}
 {% block content %}
-    <div class="container-scrodller">
+    <div class="container-scrodller ">
 
-      <div class="container-fluid page-body-wrapper full-page-wrapper ">
+      <div class="container-fluid page-body-wrapper full-page-wrapper">
         
-        <div class="content-wrapper  align-items-center auth register-bg-1 theme-one ">
+        <div class="content-wrapper  align-items-center auth register-bg-1 theme-one">
             <h1 class="text-center text-primary mt-5" style="font-weight: 100px;">ROCK CITY HOTEL ROYAL DESK</h1>
 
           <div class="row w-100 mt-0" style="padding-top: 3cm !important;">
@@ -83,10 +83,16 @@
       </div>
       <!-- page-body-wrapper ends -->
     </div>
+
+    {% comment %} {% include  'partials/employee_request_changes.html' %} {% endcomment %}
    
     <style>
       .FALSE{
         background-color: red;
         }
+
+        
     </style>
+
+  
 {% endblock content %}

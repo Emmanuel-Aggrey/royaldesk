@@ -32,7 +32,7 @@ change_user_password.short_description = 'Change Password'
 # admin.site.register(User)
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
-    list_display = ['username','first_name','last_name','email','department','designation','is_head','password']
+    list_display = ['username','first_name','last_name','email','department','designation','is_head','password','is_applicant']
     list_editable = ['is_head','password']
     search_fields = ['username','first_name','last_name','email']
     list_filter = ['is_head', 'department', 'designation']

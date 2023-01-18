@@ -1,0 +1,157 @@
+<form>
+    {% csrf_token %}
+    <div id="request_change_model">
+
+        <table class="table">
+            <caption id="request_change_caption"></caption>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Department</th>
+                    <th colspan="3">Request</th>
+                    <th>Date</th>
+                    <th colspan="3">Action</th>
+                </tr>
+            </thead>
+            <tbody id='request_change_table' class="text-uppercase">
+            </tbody>
+        </table>
+    </div>
+</form>
+
+
+
+<script>
+    $(document).ready(function () {
+        path = location.pathname
+
+        get_request()
+
+
+
+
+
+    })
+
+
+
+    const get_request = () => {
+
+        $.ajax({
+            url: '/grant-request/',
+            method: 'GET',
+            success: function (data) {
+                // console.log(' data ',data)
+                const records = `${data.length} Record(s)`;
+
+                data.length >0 ? $("#request_change_caption").text(records): $("#request_change_caption").text('No data available')
+
+                if (data.length > 0) {
+                    $("#change_request_span").addClass('pulse')
+                    var count = 0
+                    $("#request_change_table").empty()
+
+                    data.forEach(element => {
+
+                        $("#request_change_table").append(
+
+                            `<tr>
+                <td>${count += 1}</td>
+                <td>${element.employee}</td>
+                <td>${element.department}</td>
+                <td colspan="3">${element.text}</td>
+                <td>${new Date(element.created_at).toUTCString()}</td>
+                <td> 
+                    <span title="grant request"  data-grant=${element.pk} style="curser:pointer" class="btn bg-primary text-light" onclick=grant_request(this)>grant</span>    
+                    <span title="revoke request" data-revoke=${element.pk} style="curser:pointer" class="btn bg-danger text-light" onclick=revoke_request(this)>revoke</span>    
+                </td>
+                </tr>`
+                        )
+                    });
+
+
+                    $("#request_change_model").dialog({
+                        title: "EMPLOYEE INFO CHANGE REQUEST FORM",
+                        autoOpen:false, //path == '/',
+                        width: 'auto',
+                        height: 600,
+                    });
+
+                 
+
+                }
+
+
+
+
+            },
+            error:function(){
+                $("#request_change_model").dialog();
+               $("#request_change_model").dialog('close')
+               $("#request_change_caption").text('No data available')
+               $("#change_request_span").removeClass('pulse')
+
+            }
+
+        });
+
+    }
+
+
+
+    const grant_request = (request_id) => {
+        const data_grant = request_id.getAttribute('data-grant')
+
+        console.log('data_grant ', data_grant)
+        $.ajax({
+            url: `/grant-request/${data_grant}/`,
+            type: 'POST',
+            data: {
+                status: 'approved',
+                csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+            },
+            csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+
+            success: function (data) {
+                // console.log(data)
+                get_request()
+                show_alert(1000, "info", 'request granted')
+
+            },
+            error: function (error) {
+                console.log(error)
+            }
+
+        })
+    }
+
+    const revoke_request = (request_id) => {
+        const data_revoke = request_id.getAttribute('data-revoke')
+        console.log('revoke ', data_revoke)
+
+        $.ajax({
+            url: `/grant-request/${data_revoke}/`,
+            type: 'POST',
+            data: {
+                status: 'unapproved',
+                csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+            },
+            csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+
+            success: function (data) {
+                console.log(data)
+                show_alert(1000, "info", 'request revoked')
+
+                get_request()
+            },
+            error: function (error) {
+                console.log(error)
+            }
+
+        })
+    }
+
+
+
+</script>

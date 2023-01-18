@@ -60,7 +60,7 @@
                     <option value="widower">widower</option>
 
                   </select>
-                  <a class="btn btn-primary toolbar-item float-right mx-3 pulse" id="add_employee" href="/register-staff" title="Register New Employee" style="height: 43px;">New
+                  <a class="btn btn-primary toolbar-item float-right mx-3 pulse" id="add_employee" href="/register-employee" title="Register New Employee" style="height: 43px;">New
                     Employee</a>
                   <input class="float-right" type="search" name="" id="emp_search" placeholder="search">
                 </div>
@@ -192,8 +192,8 @@
     <div class="container" id="doc_container">
       <div class="row">
         <!-- row-cols-10 -->
-        <div class="col">
-          <form id="file_form" autocomplete="off">
+        <div class="col w-100">
+          <form id="file_form">
             {% csrf_token %}
 
             <div class="form-group">
@@ -225,10 +225,20 @@
               
               
             </tbody>
+          
           </table>
+        
         </div>
-   
+       
+        <div class="col">
+         
+          <div>Applciant Document</div>
+          <ul id="cv_file"></ul>
+             <!-- <a target="_blank" id="cv_file"></a> -->
+        </div>
+     
       </div>
+       
     </div>
 
 
@@ -276,7 +286,7 @@
 
 
     <!-- empoyee status start -->
-
+{% comment %} 
 
     <div>
       <div class="container" id="employee_status_view">
@@ -315,11 +325,9 @@
 
 
             <div class="form-group">
-              {% comment %} <label  for="reason_exiting">Reason Exiting {% endcomment %}
-             {% comment %} <input type="text" name="reason_exiting" id="reason_exiting"> {% endcomment %}
+
              <textarea placeholder="Reason or a simple note" name="reason_exiting" id="reason_exiting" cols="30" rows="5"></textarea>
 
-            {% comment %} </label> {% endcomment %}
             </div>
 
 
@@ -332,12 +340,13 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> {% endcomment %}
     <!-- employee status end -->
      </div>
 
 
     <!-- document view end -->
+    {% include  'partials/employee_request_changes.html' %}
 
 
     
@@ -359,12 +368,14 @@
 }
 
 
+
 </style>
 
 <script>
 function fadeOutProfile(){
   $(".employees_image").toggle()
 } 
+
 
 </script>
 

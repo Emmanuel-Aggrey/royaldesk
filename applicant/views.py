@@ -16,8 +16,8 @@ from hrms.models import Department, Designation, Employee
 from HRMSPROJECT.custome_decorators import group_required
 
 from . import tasks
-from .models import Applicant
-from .serializers import AcceptanceSerializer, ApplicantSerializer,ApplicantOfferLetterSerializer,FileUploadSerializer,FileUploadDisplaySerializer
+from .models import Applicant, OfferLetter,ApplicantOfferLeter
+from .serializers import AcceptanceSerializer, ApplicantSerializer, ApplicantOfferLetterSerializer
 
 # Create your views here.
 
@@ -30,12 +30,12 @@ def applicantView(request):
 
 @group_required('HR')
 @api_view(['GET', 'POST'])
-def applicant(request):
-    employees = Employee.objects.values_list('pk', flat=True)
+def applicants(request):
+    # employees = Employee.objects.values_list('pk', flat=True)
 
     # print(Applicant.objects.filter(applicant__in=employees))
 
-    applicant = Applicant.objects.exclude(applicant__in=employees)
+    applicant = Applicant.objects.filter(is_applicant=True)
 
     if request.method == 'GET':
         serializer = ApplicantSerializer(applicant, many=True)
@@ -45,8 +45,10 @@ def applicant(request):
     if request.method == 'POST':
         serializer = ApplicantSerializer(data=request.data)
         if serializer.is_valid():
+          
 
             applicant = serializer.save()
+            print(serializer.data)
 
             applicantid = "<b>{}</b>".format(applicant.applicant_id)
             candidatename = applicant.full_name
@@ -65,36 +67,46 @@ def applicant(request):
 
             subject = f'Your interview with {company} for {job}'
 
-            
             note = '<p>Please note: Do not reply to this email. This email is sent from an unattended mailbox. Replies will not be read</p>'
 
+            
             if applicant_email:
                 message = applicant.comment.format(candidatename=candidatename, company=company, link=link,
                                                    applicantid=applicantid, hrname=hrname, hrposition=hrposition, hremail=hremail)
 
-            message = f'{message} {note}'
+                message = f'{message} {note}'
 
-            tasks.send_applicant_email.delay(
-                applicant_email, subject, message)
+                tasks.send_applicant_email.delay(
+                    applicant_email, subject, message)
             # print(applicant_id, name, email, department,designation,resuming_date)
 
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
+
 default_password = config('DEFAULT_PASSWORD', default='changeme')
 
 # FOR APPLCANTS VIEW
+
+
 @api_view(['GET', 'POST'])
 def update_applicant(request, applicant_id):
     applicant = get_object_or_404(Applicant, Q(
         applicant_id=applicant_id) | Q(phone=applicant_id))
+    
+    # print('applicant_id',applicant_id)
+
+        
 
     if request.method == 'GET':
         serializer = ApplicantSerializer(applicant)
+        # print(serializer.data)
 
         # print(serializer.data)
         return Response(serializer.data)
 
     if request.method == 'POST':
+        # applicant = get_object_or_404(Applicant,applicant_id=applicant_id)
+
         serializer = ApplicantSerializer(applicant, data=request.data)
         if serializer.is_valid():
             applicant = serializer.save()
@@ -121,7 +133,7 @@ def update_applicant(request, applicant_id):
             # department = applicant.department.name
             subject = f'Your interview with {company} for {job}'
 
-            print(applicant.status)
+            # print(applicant.status)
 
             if applicant.status == 'selected' and applicant.email:
 
@@ -129,24 +141,27 @@ def update_applicant(request, applicant_id):
                                                    salary=salary, startdate=startdate, hrname=hrname,
                                                    hremail=hremail, hrposition=hrposition, link=link, company=company)
 
-                
                 message = f'{message} {note}'
                 tasks.send_applicant_email.delay(
                     applicant_email, subject, message)
 
-            user_exists = User.objects.filter(
-                username=applicant.applicant_id).exists()
+            # user_exists = User.objects.filter(username=applicant.user.username).exists()
 
-            if applicant.status == 'selected' and not user_exists:
+            # print('user_exists', user_exists)
+            if applicant.status == 'selected' and not applicant.user:
                 # print('user_exists creating user', user_exists)
 
                 # print('selected application')
                 user = User(username=applicant.applicant_id, first_name=applicant.first_name,
                             last_name=applicant.last_name, email=applicant.email, department=applicant.department,
-                            designation=applicant.designation, is_applicant=True)
+                            designation=applicant.designation)
 
                 user.set_password(default_password)
                 user.save()
+
+                # JOIN USER TO APPLICANT WHEN SELECTED
+                applicant.user = user
+                applicant.save()
 
                 group = Group.objects.prefetch_related().filter(
                     name=applicant.department.shortname).last()
@@ -171,13 +186,12 @@ def update_applicant(request, applicant_id):
 
 
 @api_view(['GET', 'POST'])
-def upload_offer_letter(request,applicant_id):
-    applicant = get_object_or_404(Applicant,applicant_id=applicant_id)
+def upload_offer_letter(request, applicant_id):
+    applicant = get_object_or_404(Applicant, applicant_id=applicant_id)
 
     if request.method == 'GET':
         for files in applicant.offer_letter:
-            
-        
+
             return Response(files)
 
     if request.method == 'POST':
@@ -189,55 +203,50 @@ def upload_offer_letter(request,applicant_id):
             applicant.save()
             offer_letters.append(files)
 
+        return Response({'offer_letters': f'{offer_letters}'})
 
-        return Response({'offer_letters':f'{offer_letters}'})
-
-
-
-class FileUploadView(generics.ListCreateAPIView):
-    # from rest_framework.permissions import AllowAny
-    # permission_classes = [AllowAny]
-    # serializer_class = FileUploadDisplaySerializer
-    def post(self, request, applicant_id,format=None): 
-        queryset = get_object_or_404(Applicant,applicant_id=applicant_id)
-        serializer = FileUploadSerializer(instance=queryset,data=request.data)
-        if serializer.is_valid():    #validate the serialized data to make sure its valid       
-            qs = serializer.save()                     
-            message = {'detail':qs, 'status':True}
-            return Response(message, status=status.HTTP_201_CREATED)
-        else: #if the serialzed data is not valid, return erro response
-            data = {"detail":serializer.errors, 'status':False}            
-            return Response(data, status=status.HTTP_400_BAD_REQUEST)
-    def get_queryset(self):
-        return Applicant.objects.all()
-
-class ApplicantOfferLetterSerializers(APIView):
-    
-
-    def post(self, request, applicant_id,*args, **kwargs):
-        queryset = get_object_or_404(Applicant,applicant_id=applicant_id)
-        serializer = ApplicantOfferLetterSerializer(queryset,data=request.data)
+class ApplicantOfferLetterView(APIView):
+    def post(self, request, applicant_id, *args, **kwargs):
+        applicant = get_object_or_404(Applicant, applicant_id=applicant_id)
+        serializer = ApplicantOfferLetterSerializer(instance=applicant, data=request.data)
+        offer_letter = []
         if serializer.is_valid():
             files = serializer.validated_data['offer_letter']
+           
             for files in files:
-                applicant
-            # serializer.save()
-            # Do something with the files
-            print(files)
-            return Response(status=status.HTTP_201_CREATED)
+                letters = ApplicantOfferLeter.objects.create(appliant=applicant, offer_letter=files)
+                offer_letter.append(letters.offer_letter.url)
+                         
+            data = {
+                'files':offer_letter
+            }
+            return Response(data=data,status=status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            
+  
 
 # OFFER LETTER  DJANGO TEMPLATE
 def acceptance_view(request, applicant_id):
     applicant = get_object_or_404(Applicant, Q(
         applicant_id=applicant_id) | Q(phone=applicant_id))
 
-    # serializer = AcceptanceSerializer(applicant)
+    # print(applicant.full_name)
 
-    # print(serializer.data)
+    letter = OfferLetter.objects.only('content').last()
+
+    updated_at = applicant.updated_at.strftime('%d %B, %Y')
+    report_to = f'{applicant.department.name} {applicant.designation.name}'
+    resuming_date = applicant.resuming_date.strftime('%d %B, %Y')
+
+    offerletter = letter.content.format(
+        updated_at, applicant.full_name, applicant.address,\
+        applicant.first_name, applicant.position, applicant.salary,
+        resuming_date,report_to)
+
     context = {
-        'applicant': applicant
+        # 'applicant': applicant,
+        "offerletter": offerletter
     }
     # return Response(serializer.data)
     return render(request, 'applicant/offerl_letter.html', context)

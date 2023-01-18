@@ -1,9 +1,10 @@
-from django.urls import path
+from django.urls import path,include
 from . import views
 from django.views.generic import TemplateView
 from django.contrib.auth.decorators import login_required
 from . import hr_views
 from HRMSPROJECT.custome_decorators import group_required
+from HRMSPROJECT.custome_decorators import default_passeord,applicant_user
 
 app_name = 'hrms'
 
@@ -21,7 +22,15 @@ urlpatterns = [
     # path('hr/',  login_required(TemplateView.as_view(template_name="hr/hr_dashborad.html")),name='hr'),
     path('hr-dashborad',hr_views.hr_dashborad,name='hr_dashborad'),
     path('employee/', login_required(TemplateView.as_view(template_name="employees/employees.html")),name='employee'),
-    path('register-staff/',  login_required(TemplateView.as_view(template_name="employees/add_employee.html")),name='register_staff'),
+
+    path('register-employee/',  login_required(TemplateView.as_view(template_name="employees/register_employee.html")),name='register_employee'),
+    path('update-employee/<str:employee_id>/',  login_required(TemplateView.as_view(template_name="employees/update_employee.html")),name='update_employee'),
+
+    # REQUEST FOR CHANGE 
+    path('request-changes/<str:employee_id>/',views.request_changes),
+    # HR VIEW , GRANT REQUEST
+    path('grant-request/',views.grant_request),
+    path('grant-request/<int:request_id>/',views.grant_request),
     
 
     # GET EMPLOYEEs
@@ -31,15 +40,17 @@ urlpatterns = [
 
     path('employee-api/<str:employee_id>/',views.updateEmployee),
 
-    # path('employees/', views.employees,name='employees'),
+    path('verify-data/<str:employee_id>/', views.verify_data),
 
 
     # path('employee-api/<str:employee_id>/',views.employee_api),
     path('employee-data/<str:emp_uiid>/',views.employee_data,name='employee_data'),
-    # path('employee-info/',login_required(TemplateView(template_name="employees/employee_info.html")),name='employee_info'),
     path('employee-info/<str:emp_uiid>/',  TemplateView.as_view(template_name="employees/employee_info.html"),name='employee_info'),
     #check if employee exit conditions are met
-    path('exit_employee/<str:employee_id>/', views.exit_employee), 
+
+    path('employee-exit-form/<str:employee_id>/',login_required(TemplateView.as_view(template_name="employees/employee_exit_form.html")),name='employee_exit_form'),
+
+    path('exit-employee/<str:employee_id>/', views.exit_employee), 
 
 
     # EMPLOYEE DOCUMENT
@@ -76,6 +87,8 @@ urlpatterns = [
 
     # GET DEPARTMENT AND DESIGNATION
     path('designation/',views.designation,name='designation'),
+    # GET ANVIZ DEPARTMENT FROM JSON FILE
+    path('anviz-department/',views.anviz_department),
 
 
     # HR REPORTS
@@ -98,12 +111,13 @@ urlpatterns = [
     path('time-attendance/',hr_views.time_attendance,name='time_attendance'),
     path('get-department/<str:department>/',hr_views.get_department,name='get_department'),
     path('clockins/',hr_views.clockins,name='clockins'),
-    path('upload-anviz-user-profile/', TemplateView.as_view(template_name="attendance/update_anviz_user.html")),
+    path('upload-anviz-user-profile/', applicant_user(TemplateView.as_view(template_name="attendance/update_anviz_user.html"))),
     path('update-anviz-user/',hr_views.update_anviz_user),
-    path('daemons_service/<str:service_name>/',hr_views.daemons_service)
+    path('daemons_service/<str:service_name>/',hr_views.daemons_service),
 
 
-
+    # HR REPORT TABLES VIEW
+    path('hr-table/',include('hrms.hr_views_report_urls'))
 ]
 
 

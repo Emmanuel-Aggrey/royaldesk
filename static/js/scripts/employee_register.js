@@ -3,129 +3,110 @@
 
 
 
-// CHECK IF EMPLOYEE ID EXIST IN SESSION
-var DEPENDANTS = []
-var EDUCATION = []
-var PROFFESIONAL_MEMBERSHIPS = []
-var PREVIOUS_EMPLOYMENT = []
+// GET NUMBER OF BENEFICIARIES FROM ENVIRONMENT VARIABLES
 const no_beneficiaries = JSON.parse(document.getElementById('no_beneficiaries').textContent)
-// GET employee_id from django session and use for employee dependencies eg previosEmployeement etc
-
-
+const IS_APPLICANT = JSON.parse(document.getElementById('is_applicant').textContent)
+const EMPLOYEE_UUID = JSON.parse(document.getElementById('employee_uuid').textContent)
+const CONNECTED_TO_ANVIZ = JSON.parse(document.getElementById('conntected_to_server').textContent)
 
 
 $(document).ready(function () {
 
+
+// console.log(IS_APPLICANT,EMPLOYEE_UUID,'CONNECTED_TO_ANVIZ',CONNECTED_TO_ANVIZ)
+// REDIRECT TO UPDATE EMPLOYEE IS IS APPLICANT AND HAVE EMPLOYEE RECORDS
+IS_APPLICANT && EMPLOYEE_UUID !='' && EMPLOYEE_UUID !='admin' ? location.href =`/update-employee/${EMPLOYEE_UUID}`:''
+CONNECTED_TO_ANVIZ ? '':$("#anviz_user").attr('disabled',true)
+
     load_designation()
 
-    cancel_transfer()
-
-    // employee_date('dob','date_employed','date_completed','dob_dependant')
+    // date from jquary datetime plugin settings
     employee_date()
 
+    // APPLICANT SELF RESIGSTRATION
+    if(IS_APPLICANT){
+        const APPLICANT_NAME = JSON.parse(document.getElementById('applicant_name').textContent)
 
+        get_applicant(APPLICANT_NAME) 
 
-
-    // CHECK IF EMP_ID IS AVAILABLE BEFOR LOADING DATA
-    if(sessionStorage.getItem('EMP_ID')!==null){
-        const EMP_ID = sessionStorage.getItem('EMP_ID')
-        // $('#employee_id').val(employee_id).attr('disabled', 'disabled')
-        getdependants(EMP_ID)
-        getEducation(EMP_ID)
-        getMembership(EMP_ID)
-        getEmployment(EMP_ID)
-        employee_edit_mode(EMP_ID)
+        // sessionStorage.setItem('EMP_ID',EMPLOYEE_UUID)
     }
-   
 
-})
+    if (sessionStorage.getItem('applicant') !== null) {
+        set_applicant()
+    }
+    
+}) //END OF READY
 
 
+    // ADD EMPLOYEE
+    $('#add_employee').on('submit', function (ev) {
+        ev.preventDefault();
 
-
- if (sessionStorage.getItem('EMP_ID') !== null) {
-    $('#add_employee').on('submit', function(event){
-        event.preventDefault()
-        const EMP_ID = sessionStorage.getItem('EMP_ID')
 
         $.ajax({
-            url: `/employee-api/${EMP_ID}/`,
-            type: 'post',
+            url: '/allemployees/',
+            type: "POST",
             data: new FormData(this),
             enctype: 'multipart/form-data',
             processData: false,
             contentType: false,
             cache: false,
             csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
-            success: function(data){
+
+            success: function (data) {
                 // console.log(data)
-                $('#add_employee_next').click()
+                // console.log('applicant_id create ',data.is_applicant)
 
-            }
-        })
-    })
- }
- else{
-// ADD EMPLOYEE
-$('#add_employee').on('submit', function (ev) {
-    ev.preventDefault();
+                data.is_applicant ? $("#verify_btn").removeClass('d-none'):''
 
-    $.ajax({
-        url: '/allemployees/',
-        type: "POST",
-        data: new FormData(this),
-        enctype: 'multipart/form-data',
-        processData: false,
-        contentType: false,
-        cache: false,
-        csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+                
+                if (data.errors) {
+                    for (let [key, value] of Object.entries(data.errors)) {
+                        // console.log(key,value)
+                        errors = `${value}`
+                        //  Swal.fire('error',errors)
 
-        success: function (data) {
-            // console.log(data)
-            if (data.errors) {
-                for (let [key, value] of Object.entries(data.errors)) {
-                    // console.log(key,value)
-                    errors = `${value}`
-                    //  Swal.fire('error',errors)
+                        show_alert(5000, "error", errors)
 
-                    show_alert(5000, "error", errors)
+                    }
+                }
+                if (data.unique_contraints) {
+                    show_alert(5000, "error", data.unique_contraints)
 
                 }
+
+                if (data.data) {
+                    sessionStorage.setItem('EMP_ID', data.data)
+                    $('#add_employee_next').click()
+                    // console.log(data)
+                    show_alert(5000, "success", 'Record' + ' SAVED')
+                    // $("#add_employee").attr('id','update_employee')   
+
+                    sessionStorage.removeItem('applicant')
+                    $("#cancel_transfer").css('display', 'none')
+
+
+                    // $("#add_employee")[0].reset()
+
+                    // $("#department").empty()
+                    // load_designation()
+
+                }
+
+
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log(jqXHR, textStatus, errorThrown)
+                show_alert(9000, "error", 'ERROR: Unknown error occurred Contact Administrator')
+                // console.log(jqXHR.responseText,);
             }
-            if (data.unique_contraints) {
-                show_alert(5000, "error", data.unique_contraints)
 
-            }
-
-            if (data.data) {
-                sessionStorage.setItem('EMP_ID', data.data)
-                $('#add_employee_next').click()
-                // console.log(data)
-                show_alert(5000, "success", 'Record' + ' SAVED')
-                // $("#add_employee").attr('id','update_employee')   
-            
-                sessionStorage.removeItem('applicant')
-                $("#cancel_transfer").css('display', 'none')
-
-                // $("#add_employee")[0].reset()
-
-                $("#department").empty()
-                load_designation()
-
-            }
+        });
+    })
 
 
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-            console.log(jqXHR, textStatus, errorThrown)
-            show_alert(9000, "error", 'ERROR: Unknown error occurred Contact Administrator')
-            // console.log(jqXHR.responseText,);
-        }
 
-    });
-})
-  
-} //end of if
 
 
 
@@ -217,7 +198,7 @@ const getdependants = (employee_id) => {
         success: function (response) {
             // console.log(response);
 
-                    // console.log(count_beneficiary.length)
+            // console.log(count_beneficiary.length)
 
             response.length < 1 ? $("#dependant_body").append(`<div class="text-center">no data</div>`) :
                 response.forEach(function (dependant, index) {
@@ -237,11 +218,11 @@ const getdependants = (employee_id) => {
                     )
 
                 })
-                $("#is_beneficiary").prop('checked', false)
-                // check if no_beneficiaries is equal to the number of beneficiaries of the employee and disable  is_beneficiary btn
-                const count_beneficiary =response.filter(is_beneficiary=>is_beneficiary.is_beneficiary===true)
-                no_beneficiaries  <= count_beneficiary.length   ? $('#is_beneficiary').attr('disabled',true) :$('#is_beneficiary').attr('disabled',false);
-          
+            $("#is_beneficiary").prop('checked', false)
+            // check if no_beneficiaries is equal to the number of beneficiaries of the employee and disable  is_beneficiary btn
+            const count_beneficiary = response.filter(is_beneficiary => is_beneficiary.is_beneficiary === true)
+            no_beneficiaries <= count_beneficiary.length ? $('#is_beneficiary').attr('disabled', true) : $('#is_beneficiary').attr('disabled', false);
+
         },
         error: function (jqXHR, textStatus) {
             console.log(jqXHR.responseText, textStatus)
@@ -590,7 +571,7 @@ $('#emp_employment').on('submit', function (ev) {
 
 
         success: function (data) {
-            
+
 
             if (data.errors) {
                 for (let [key, value] of Object.entries(data.errors)) {
@@ -687,22 +668,61 @@ const deleteEmployment = (value) => {
 // save file
 
 const reg_finished = () => {
+    // show_alert(3000, "info", 'submiting your request')
+  
+     
     EMP_ID = sessionStorage.getItem('EMP_ID');
-    url=`http://${location.host}/employee-data/${EMP_ID}`
+    url = `http://${location.host}/employee-data/${EMP_ID}`
     $("#record_link").attr('href', url).text('view your infomation').removeClass('d-none')
     Swal.fire(
         'VIEW RECORD',
         `<a href=${url}>EMPLOYEE RECORD</a>`,
         'info'
-     )
-        sessionStorage.removeItem('EMP_ID');
-        
+    )
+    sessionStorage.removeItem('EMP_ID');
+
+ setInterval(() => {
+    window.close();
+ }, 2500);
+
+//    setTimeout(() => {
+//     location.reload();
+
+// }, 5000);
+}
+
+
+const verify_data =(e)=>{
+    EMP_ID = sessionStorage.getItem('EMP_ID');
+    url = `http://${location.host}/employee-data/${EMP_ID}`
+
+    $.ajax({
+        url: `/verify-data/${EMP_ID}/`,
+        type: 'POST',
+        beforeSend: function(data) {
+            show_alert(3000, "info", 'submiting request')
+
+        },
+        success: function(data) {
+            sessionStorage.removeItem('EMP_ID');
+            Swal.fire(
+                'VIEW RECORD',
+                `<a href=${url}>EMPLOYEE RECORD</a>`,
+                'info'
+            )
+            
+            setInterval(() => {
+                window.close();
+            }, 5000);
+            
+
+        }
+     })
 }
 
 
 
-
-const designation = () => {
+const load_designation = () => {
 
     // $(".inputUnit").css('width', '370', 'height', '200').addClass('form-control')
     $.get("/designation/", function (data) {
@@ -768,15 +788,54 @@ const designation = () => {
 };
 
 
+// $("#anviz_user").change(function(){
+//     // console.log(this.value)
+//     if(this.value ==1){
+//         return $("#anviz_department").attr('required', true)
+//     }  
+//     else{
+//         return $("#anviz_department").attr("required", false); 
+//     }
+// })
+
+// const load_anviz_department = ()=>{
+    
+//        $.get("/anviz-department/", function (data) {
+
+//         for (const [key, value] of Object.entries(data)) {
+//             // console.log(key);
+
+//             $("#anviz_department").append(
+//                 '<option class="option" value="' +
+//                 value +
+//                 '">' +
+//                 key +
+//                 "</option>"
+
+//             );
+//           }
+
+      
+//     });
+
+// }
 
 
 // GET TRANSFERED APPLICANT TO EMPLOYEE FORM
 
 const set_applicant = () => {
 
+
+
     if (sessionStorage.getItem('applicant') !== null) {
-        applicant = JSON.parse(sessionStorage.getItem('applicant'))
+      const  applicant = JSON.parse(sessionStorage.getItem('applicant'))
         // console.log(applicant)
+        // helpdesk_div is_applicant
+        $("#department").empty()
+
+        applicant.applicant ?  '':  $("#helpdesk_div").remove()
+       
+
         $('#applicant').val(applicant.id)
 
         $('#fname').val(applicant.first_name)
@@ -787,139 +846,59 @@ const set_applicant = () => {
         $('#p_phone').val(applicant.phone)
         $('#date_employed').val(applicant.resuming_date)
         $("#res_address").val(applicant.address)
-        $("#salary").val(applicant.applicant_salary)
+        $("#salary").val(applicant.applicant_salary).attr('readonly', true)
+
 
         $("#department").append(
             '<option value="' +
-            applicant.department_id +
-            '">' +
             applicant.department +
+            '">' +
+            applicant.department_name +
             "</option>"
         );
 
         $("#designation").append(
             '<option class="option" value="' +
-            applicant.designation_id +
-            '">' +
             applicant.designation +
+            '">' +
+            applicant.designation_name +
             "</option>"
         );
 
 
     }
     else {
+        $("#applicant").val('')
         // console.log('applicant not available')
     }
 }
 
 
-// LOAD DESIGNATION IF applicant Not AVAILABLE IN SESSION
-const load_designation = () => {
-    if (sessionStorage.getItem('applicant') !== null) {
-        set_applicant()
+
+
+
+
+
+$("#is_merried").change(function(){
+    console.log(this.value)
+    if(this.value=='married'){
+        $("#is_married_selected").removeClass('d-none').fadeIn('slow').effect("slide");
+        $("#is_merried_relation,#is_merried_f_name,#is_merried_phone,#is_merried_l_name").attr('required',true)
+    }
+    else{
+        $("#is_married_selected").addClass('d-none').fadeOut('slow')
+        $("#is_merried_relation,#is_merried_f_name,#is_merried_phone,#is_merried_l_name").attr('required',false)
 
     }
-    else {
-        designation()
-        $("#applicant").val('')
+})
 
-    }
-
+function img_increase() {
+    document.getElementById("profile_image").style.width = "300px";
 }
 
-
-
-// ENETER EDITING MODE
-
-// $(document).ready(function(){
-//     if(sessionStorage.getItem('employee_name')){
-//         const employee = sessionStorage.getItem('employee_name')
-//         employee_edit_mode(employee)
-//     }
-// })
-
-
-
-// edit employee data
-const employee_edit_mode = (employee_id) => {
-    // employee = sessionStorage.getItem('employee_name')
-    $.ajax({
-        url: `/employee-api/${employee_id}/`,
-        method: 'GET',
-        success: function (response) {
-            // console.log(response)
-
-            $(`#title option[value=${response.title}]`).attr("selected", true)
-            $('#fname').val(response.first_name)
-            $("#country").val(response.country)
-            $('#lname').val(response.last_name)
-            $("#languages").val(response.languages)
-            $('#oname').val(response.other_name)
-            $('#email').val(response.email)
-            $('#p_phone').val(response.mobile)
-            $(`#sex option[value=${response.sex}]`).attr("selected", true)
-            $('#nia').val(response.nia)
-            $('#emergency_name').val(response.emergency_name)
-            $('#emergency_phone').val(response.emergency_phone)
-            $('#emergency_address').val(response.emergency_address)
-            $('#dob').val(response.dob)
-            $('#date_employed').val(response.date_employed)
-            $('#res_address').val(response.address)
-            $('#place_of_birth').val(response.place_of_birth)
-            $(`#is_merried option[value=${response.is_merried}]`).attr("selected", true)
-            $(`#department option[value=${response.department}]`).attr("selected", true)
-
-            $("#designation").append(
-                `
-                 <option value="${response.designation}"> ${response.designation_name} </option> 
-                  `
-            )
-            $(`#hod option[value=${option(response.is_head)}]`).attr("selected", true)
-
-            $('#nationality').val(response.nationality)
-            $('#salary').val(response.salary)
-            $('#snnit_number').val(response.snnit_number)
-            $('#bank_name').val(response.bank_name)
-            $('#bank_branch').val(response.bank_branch)
-            $('#bank_ac').val(response.bank_ac)
-            $('#next_of_kin_name').val(response.next_of_kin_name)
-            $('#next_of_kin_phone').val(response.next_of_kin_phone)
-            $('#next_of_kin_address').val(response.next_of_kin_address)
-            $('#next_of_kin_relationship').val(response.next_of_kin_relationship)
-            $('#profile_image').attr('src', response.profile_exists).removeClass('d-none')
-
-            // console.log(response.profile)
-
-            if(response.profile){
-                const element = document.getElementById('profile_div');
-                return element.remove(); // Removes the div with the 'div-02' id
-                
-            }
-            else{
-                const element = document.getElementById('profile_image');
-                return element.remove(); // Removes the div with the 'div-02' id
-                
-                
-            }
-            
-            // $(`#helpdesk_user option:contains('${option(response.employee.helpdesk_user)}')`).prop("selected", true)
-                
-                
-        }
-    })
-
+function img_decrease() {
+    document.getElementById("profile_image").style.width = "150px";
 }
-
-
-function img_increase()
-        {
-            document.getElementById("profile_image").style.width="300px";
-        } 
-
-        function img_decrease()
-        {
-           document.getElementById("profile_image").style.width="150px";
-        }
 
 
 
@@ -928,15 +907,73 @@ function option(value) {
 
 }
 
+
+// APPLICANT UPDATEING PERSONAL RECORD
+const get_applicant = (applicant) => {
+    // console.log(applicant)
+
+    $.ajax({
+        url: `/update_applicant/${applicant}/`,
+        type: 'GET',
+        beforeSend: function () {
+            show_alert(1000, "info", 'getting applicant data')
+
+        },
+        success: function (data) {
+
+            
+            $('#applicant').val(data.id)
+
+            $('#fname').val(data.first_name)//.attr('readonly', true)
+            $('#lname').val(data.last_name)
+            $('#oname').val(data.other_name)
+            $('#email').val(data.email)
+            $('#p_phone').val(data.phone)
+            $('#date_employed').val(data.resuming_date).attr('readonly',true)
+            $("#res_address").val(data.address)
+            $("#salary").val(data.applicant_salary).attr('readonly',true)
+
+            $("#department,#designation").empty()
+
+            $("#department").empty()
+            
+            $("#department").append(
+                '<option value="' +
+                data.department +
+                '">' +
+                data.department_name +
+                "</option>"
+            );
+
+            $("#designation").append(
+                '<option class="option" value="' +
+                data.designation +
+                '">' +
+                data.designation_name +
+                "</option>"
+            );
+
+        }
+    })
+
+}
+
+
+
+
 // resturn to applicants page if transfer cancelled
 const cancel_transfer = () => {
-    if (sessionStorage.getItem('applicant') !== null) {
+    if (sessionStorage.getItem('transfer') != null) {
         $("#cancel_transfer").css('display', 'block')
 
         $("#cancel_transfer").on("click", () => {
             sessionStorage.removeItem('applicant')
-            location.href = '/applicants/'
+            window.close()
+
+
         })
+
+
     }
 
 }
@@ -963,6 +1000,7 @@ const employee_date = () => {
 
     });
 }
+
 
 
 

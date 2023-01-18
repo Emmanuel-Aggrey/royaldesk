@@ -1,0 +1,308 @@
+{% load humanize %}
+
+<!DOCTYPE html
+	PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>RCH-CONTRACT LETTER</title>
+	<script src="/cdn-cgi/apps/head/i-lAwau9_PGB_kvkxfaHap92AMs.js"></script>
+	<style type="text/css">
+
+	</style>
+	<link href="/static/css/education/partials.css" rel="stylesheet" type="text/css" />
+
+</head>
+<body id="offer_letter_body" onLoad="window.print()">
+<page size="A4">
+	<!-- <div id="topbanner"><img src="./static/images/logo/rch.jpg" /> -->
+	</div>
+	<div id="headerpersonnel">
+		<div id="photo">
+			<div style="width: 310px; height: 160px; display: block;"><img src="/static/images/logo/Rock-City-Logo.png"
+					border="0" width="200px" height="160px" /></div>
+		</div>
+		
+		<div id="nssno">
+			<h4>
+				{{applicant.applicant_id}}<br />
+				{{applicant.full_name|upper}} <br>
+				
+				{% if  applicant.address%}
+						{{applicant.address}}
+						{% else %} {{applicant.phone}}
+				{% endif %}
+					
+				</h4>
+
+				
+		</div>
+		{% if applicant.status != 'selected' %}
+
+				<h2 id="qrcode" style="color:red;font-weight: bold;">APPLICANT NOT SELECTED</h2>
+				
+				<style>
+					#letterbody,#letter{
+						display:none;
+					}
+				</style>
+				{% endif %}
+
+		<!-- <div id="qrcode">
+<img src="./static/images/logo/Rock-City-Logo.png" width="100%" />
+</div> -->
+
+	</div>
+
+	<div id="letter"> <br>
+		<h3 style="margin-bottom: 20px">{{ applicant.resuming_date}}</h3>
+
+		<h4 style="margin-bottom: 20px">Dear {{applicant.first_name|capfirst}},</h4>
+		<h3><u>CONTRACT OF EMPLOYMENT</u></h3>
+	</div>
+
+	<div id="letterbody">
+
+		
+		<ul>
+			<li>
+				This document constitutes the terms employment between <b>Rock City Hotel Limited</b> (hereinafter
+				referred to as 'The Organization')
+				and Emmanuel Teye as the (hereinafter as the employee) and supersede all previous representations,
+				negotiations,commitments and communication
+				whether oral or written,between the parties.
+			</li>
+			<li>
+				In signing this agreement, you accept all the conditions of employment as contained in the agreement.
+			</li>
+			<li>
+				<b>ROCK CITY HOTEL LIMITED</b> is please to offer you a job as {{applicant.designation.name}}.
+				We trust that the knowledge.skills and experience will be among our most valuable assets.
+
+			</li>
+			<li>
+				<b>You will be entitled to:</b>
+				<ul>
+					<li>
+						a) Net monthly salary of GHC {{applicant.applicant_salary|intcomma}} subject to employees Provident Fund Contribution.
+					</li>
+					<li>
+						b) You will contribute to SNNIT fund as prescribed by law. Your condition will be {{applicant.designation.snnit_amount}}% of your
+						Monthly Basic salary whilst the company will also contribute {{applicant.designation.snnit_amount_company}}% on your behalf.
+					</li>
+					<li>
+						c) You will contribute {{applicant.designation.provedent_amont}}% of your Basic Net salary as Provident Fund and the company will also
+						contribute {{applicant.designation.provedent_amont_company}}%.
+					</li>
+					<li>
+						d) Paid annual leaves of Fifteen (15) days.
+
+					</li>
+				</ul>
+			<li> <b>It is a condition of this offer that:</b>
+				<ul>
+					<li>
+						a) Your references are satisfied to the organization.
+					</li>
+					<li>
+						b) You supply certificates to prove that your qualifications are as stated
+						in your application
+					</li>
+					<li>
+						c) Your are free from obligations owend to a third party, which might prevent you from
+						starting work on the date mentioned below or from properly performing the duties
+						of your position.
+					</li>
+			</li>
+		</ul>
+		<li>If these preceding conditions are satisfied you will commence work on the {{applicant.resuming_date}}.</li>
+		<li>You will report directly to the <b>{{applicant.department.name}}  {{applicant.designation.report_to.name}}</b>.</li>
+		<li>
+			Your place of work will be at Kwahu or any other locations that the organization may
+			require you to work from. Please note that, the obligations upon you may vary and develop.
+			The organization reserves the right to ask you to reasonably perform order duties that
+			may fall outside your normal role or responsibilities but which are within your capabilities.
+		</li>
+		</li>
+
+		</ul>
+	</div>
+	<div id="footer">
+		<div id="salutation">&nbsp;</div>
+	</div>
+</page>
+<page size="A4">
+	<div id="letterbody" class="">
+		<ul>
+			<li><b>PROBATIONARY PERIOD AND NOTICE PERIOD FOR YOUR TERMINATION</b>
+				<ul>
+					<li>
+						a) The first three (3) months of your employment will be a probationary period before
+						your permanent employment will be confirmed. During the probationary period two (2)
+						weeks notice of termination or two weeks salary in lieu of termination will apply.
+
+					</li>
+					<li>
+						b. The required notice of termination, by either party, after Confirmation of Employment is a
+						minimum of at least one (1)
+						month notice or salary in lieu of notice.
+
+					</li>
+					<li>
+						c) Notice of termination must be in writing.</li>
+					<li>
+						d) If you are summarily dismissed for gross misconduct you may be dismissed without notice and
+						and without a payment in lieu of notice. Should you be summarily dismissed, you will not be
+						entitled
+						to
+						any benefits.
+					</li>
+					<li>e) If you are summarily dismissed, for Gross Misconduct on but not limited to any of the
+						following:
+						<ul>
+							<li>
+								a. Disclosure of the organization operation to any anualized persons.
+							</li>
+							<li>
+								b. Refusal to discharge your duties in a professional and efficient manner.
+							</li>
+							<li>c. Insubordination.</li>
+							<li>
+								d. Exhibiting any behavior or tendencies that put the organization and its staff or
+								reputation at risk.
+							</li>
+							<li>
+								e. Breach of any security regulations of the organization.
+							</li>
+							<li> f. Upon receipt of two written warnings for misconduct.</li>
+							<li>
+								g. Falsifying or misrepresenting any information about your self to the organization.
+
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</li>
+			<li>
+				Your are reminded that the <b>Terms</b> of your <b>Employment</b> are strictly confidential between
+				youself and the
+				<b>ORGANIZATION</b> and it is not to be disclosed with anyone.
+			</li>
+			<li>
+				While your render services to the organization, you agree that you will not engage in any
+				other employment. Consulting or other business activity without the written consent of the organization.
+			</li>
+			<li>
+				In addition, while you render services to the Organization, you will not assist any other person
+				or entity in competing with the organization, in preparing of compete with the Organization
+				or in hiring any employees or consultants of the Organization.
+			</li>
+			<li> <b>To Accept this job, offer:</b></li>
+			<li>1. Sign and date this job offer letter where indicated below.</li>
+			<li>2. Sign and date the enclosed Employee Data Form</li>
+			<li>3. Submit all pages of the signed and dated document listed above back to us.</li>
+			<li>We at <b>ROCK CITY HOTEL LIMITED</b> hope that you'll assept this job offer and
+				look forward to welcome you on board.</li>
+			<li>
+				If you agree to the Terms and Conditions outlined above, please initial all pages of
+				this letter, sign as indicated, and return a copy for filling</li>
+		</ul>
+		<br>
+
+		<h4>FOR: ROCK CITY HOTEL LIMITED<br /><br />
+			<img src="https://nss-assets.s3.eu-west-1.amazonaws.com/assets/signature-antwi.png" width="117" height="67"
+				alt="" /><br />
+			ISAAC AMO-BANING<br />
+
+			(HUMAN RESOURCES AND ADMINISTRATIVE MANAGER)<br /> <br>
+			CC:GROUP HUMAN RESOURCES AMD ADMINISTRATIVE MANAGER<br />
+
+		</h4>
+	</div>
+	<div id="footer1">
+		<div id="salutation1">
+			<P>
+				<br />
+				<br />
+		</div>
+		<!-- <div id="barcode1"><img src="inc/barcode.php?f=png&s=code-39&d=NSSGAP4985321" /></div> -->
+	</div>
+</page>
+<page size="A4">
+
+	<div id="letter">
+		<H2 style="border-bottom-color: #fff;">Accept Job Offer </h2>
+	</div>
+
+	<div id="letterbody">
+		<h2>
+			<ul>
+				<li>
+						By signing and dating this letter below, I, <u class="uname"><em>{{applicant.full_name|upper}}</em></u>, Accept
+									
+						the job offer as 
+				</li>
+				<li>
+					<u class="uname"><em>{{applicant.designation.name|upper}}</em></u> by <b>ROCK CITY HOTEL LIMITED</b>
+				</li>
+
+			
+				<li>
+					Signnature: ________________________________  Date: ____________________________
+
+				</li>
+			</ul>
+
+
+		</h2>
+	</div>
+			<hr id="hr_footer">
+
+	<div id="letter">
+		<H2 style="border-bottom-color: #fff;">Decline job Offer
+		</h2>
+	</div>
+	
+	
+	<div id="letterbody">
+		<h2>
+			<ul>
+				<li>
+						By signing and dating this letter below, I, <u class="uname"><em>{{applicant.full_name|upper}}</em></u>, Decline
+									
+						the job offer as 
+				</li>
+				<li>
+					<u class="uname"><em>{{applicant.designation.name|upper}}</em></u> by <b>ROCK CITY HOTEL LIMITED</b>
+				</li>
+
+			
+				<li>
+					Signnature: ________________________________  Date: ____________________________
+
+				</li>
+			</ul>
+
+
+		</h2>
+		<!-- <hr id="hr_footer"> -->
+		<!-- <img id="footer" src="/statiwc/images/logo/logofooter.png" alt=""> -->
+		
+	</div>
+</page>
+<style>
+	@media print {
+		#offer_letter_body{
+		background-image: none;
+	}
+	}
+</style>
+
+
+
+</body>
+
+</html>
+
+

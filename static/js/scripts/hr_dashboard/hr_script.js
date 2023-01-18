@@ -7,8 +7,9 @@ var employee_rate_count = []
 
 
 // EMPLOYEE TURN OVER RATE
-var employee_turnover_rate_year = []
-var employee_turnover_count = []
+
+var employement_status_year = []
+var employement_status_count = []
 
 // NUMSBER OF LEAVES APPLICATIONS FOR THIS YEAR
 var leave_applications_month_this_year = []
@@ -25,10 +26,13 @@ var country_count = []
 var department_name = []
 var departmen_count = []
 
+
+var employee_age_name = []
+var employee_age_count = []
+
 var result_department_week_Count_In = []
 var result_department_week_name = []
 var result_department_week_Count_Out = []
-
 
 
 $(document).ready(function () {
@@ -39,9 +43,10 @@ $(document).ready(function () {
     type: 'GET',
     success: function (data) {
       // console.log(data['dpeartment_count'])
-      // console.log(data.emp_exceed_leave)
-    
 
+      // console.log(data.turn_over_rate)
+      const turn_over_rate = `Year ${data.turn_over_rate.year}   Rate ${data.turn_over_rate.rate}%`
+      $("#turn_over_rate").text(turn_over_rate)
       $("#gender_male").text(`Male: ${data.gender.male}`)
       $("#gender_female").text(`Female: ${data.gender.female}`)
 
@@ -59,12 +64,24 @@ $(document).ready(function () {
       $("#emp_without_beneficiary").text(emp_without_beneficiary)
       $("#emp_without_beneficiary_progressbar").css('width', emp_without_beneficiary, 'aria-valuenow', emp_without_beneficiary, 'aria-valuemin', 0, 'aria-valuemax', emp_without_beneficiary)
 
-      $('#active_employees_count').text(`Total ${data.active_employees_count}`)
+      // $('#active_employees_count').text(`${data.active_employees_count}`)
+
+
+      employee_animate_counter(data.active_employees_count)
+
+
+      // $('#in_active_employees_count').text(`${data.in_active_employees_count}`)
+      
 
       // $('#active_employees_married').text(`Married ${data.active_employees_merried}`)
 
-      $("#age_above").text(`Above 30: ${data.age.above}`)
-      $("#age_below").text(`Below 30: ${data.age.below}`)
+      $("#age_above").text(`Above 30: ${data.age.above_30}`)
+      $("#age_below").text(`Below 30: ${data.age.below_30}`)
+
+      employee_age_name = ['Above 30', 'Below 30']
+      employee_age_count = [data.age.above_30,data.age.below_30]
+
+
 
       // console.log(data.on_leave)
 
@@ -106,17 +123,18 @@ $(document).ready(function () {
       });
 
 
-      // HEADS OF DEPARTMENTS
-      data.department_heads.forEach(element => {
-        // console.log('department_heads ',element)
+      // UPCOMING BIRTHDAYS
+      data.birthdays.forEach(element => {
         full_name = `${element.first_name} ${element.last_name}`
         // `<div></div>`;
-        $('#department_heads').append(`
+        $('#birthdays').append(`
 
         <li class="timeline-item">
 
         <p class="mb-n1 font-weight-semibold text-uppercase">${full_name}</p>
         <small >${element.department__name}</small>
+        <br>
+        <small class="font-weight-semibold">${element.dob}</small>
         </li>
 
     
@@ -170,10 +188,10 @@ $(document).ready(function () {
 
 
       // EMPLOYEE TURN OVER RATE
-      data.turn_over_rate.forEach(element => {
+      data.employement_status.forEach(element => {
         var label = `${element.date_employed__year} : ${element.status}`
-        employee_turnover_rate_year.push(label)
-        employee_turnover_count.push(element.employee_count)
+        employement_status_year.push(label)
+        employement_status_count.push(element.employee_count)
 
         // console.log(employee_turnover_rate_year)
         // console.log(employee_turnover_count)
@@ -609,6 +627,7 @@ const employment_rate = () => {
       }
     });
 
+
     // UPDATE EMPLOYMENT NUMBER PER YEAR 
     $("#emp_year").change(function () {
 
@@ -649,6 +668,7 @@ const employment_rate = () => {
 }
 
 
+
 // EMPLOYEE TURN OVER RATE
 
 const loadChart = function () {
@@ -677,20 +697,20 @@ const loadChart = function () {
 
     }
 
-    // Employees Turn Over Rate Start
-    if ($('#sales-statistics-overview').length) {
-      var salesChartCanvas = $("#sales-statistics-overview").get(0).getContext("2d");
+    // EMPLOYEE STATUS START
+    if ($('#employement_status').length) {
+      var salesChartCanvas = $("#employement_status").get(0).getContext("2d");
       // var gradientStrokeFill_1 = salesChartCanvas.createLinearGradient(0, 100, 200, 0);
       // gradientStrokeFill_1.addColorStop(0, '#fa5539');
       // gradientStrokeFill_1.addColorStop(1, '#fa3252');
-      var data_1_1 = employee_turnover_count;
+      var data_1_1 = employement_status_count;
 
       var areaData = {
-        labels: employee_turnover_rate_year,
+        labels: employement_status_year,
 
         datasets: [{
           
-          label: 'Employees Turn Over Rate',
+          label: 'Employement Status',
           data: data_1_1,
           // backgroundColor: gradientStrokeFill_1,
           backgroundColor: [
@@ -793,7 +813,14 @@ const loadChart = function () {
       
     }
 
-// Employees Turn Over Rate End
+
+
+
+
+
+    
+
+    // EMPLOYEE STATUS START
 
     // ALL YEAR
     if ($("#leave-application").length) {
@@ -910,7 +937,14 @@ const loadChart = function () {
         options: areaOptions
       });
     }
-   
+
+
+
+    
+
+
+
+
 //LEAVE APPLICATION THIS YEAR START
     if ($('#leave_application_month').length) {
       var currentYear = new Date().getFullYear();
@@ -1026,6 +1060,124 @@ const loadChart = function () {
     }
 
     // LEAVE APPLICATION THIS YEAR END
+
+
+
+
+    //EMPLOYEE AGE START
+    if ($('#employee_age').length) {
+      var departmentChartCanvas = $("#employee_age").get(0).getContext("2d");
+ 
+      var data_1_1 = employee_age_count;
+
+      var areaData = {
+        labels: employee_age_name,
+
+        datasets: [{
+          
+          label: 'EMPLOYEES AGE', 
+          data: data_1_1,
+          borderWidth: 0,
+          pointRadius: 7,
+          pointBorderWidth: 3,
+          pointBorderColor: '#fff',
+          pointHoverRadius: 7,
+          pointHoverBackgroundColor: "#fa394e",
+          pointHoverBorderColor: "#fa394e",
+          pointHoverBorderWidth: 2,
+          pointHitRadius: 7,
+
+         
+          borderWidth: 2,
+          hoverOffset: 4,
+
+          backgroundColor: [
+            'rgba(255, 99, 132, 0.2)',
+            'rgba(54, 162, 235, 0.2)',
+            'rgba(255, 206, 86, 0.2)',
+            'rgba(75, 192, 192, 0.2)',
+            'rgba(153, 102, 255, 0.2)',
+            'rgba(255, 159, 64, 0.2)'
+          ],
+          borderColor: [
+            'rgba(255, 99, 132, 1)',
+            'rgba(54, 162, 235, 1)',
+            'rgba(255, 206, 86, 1)',
+            'rgba(75, 192, 192, 1)',
+            'rgba(153, 102, 255, 1)',
+            'rgba(255, 159, 64, 1)'
+          ],
+          borderWidth: 3,
+
+        },
+
+          
+        ]
+      };
+      var areaOptions = {
+
+        responsive: true,
+        animation: {
+         
+          animateScale: true,
+          animateRotate: true
+        },
+
+       
+        elements: {
+          point: {
+            radius: 3,
+            backgroundColor: "#fff"
+          },
+          
+        },
+        layout: {
+          padding: {
+            left: 0,
+            right: 0,
+            top: 0,
+            bottom: 0
+          }
+
+        },
+
+
+        legend: true,
+
+        scales: {
+
+          xAxes: [{
+            display: true,
+            ticks: {
+              display: true,
+              beginAtZero: true,
+            },
+            gridLines: {
+              drawBorder: false
+            }
+          }],
+          yAxes: [{
+            ticks: {
+              max: 200,
+              min: 0,
+              stepSize: 50,
+              fontColor: "#858585",
+              beginAtZero: false
+            },
+           
+          }]
+        }
+      }
+      var departmentChart = new Chart(departmentChartCanvas, {
+        type: 'bar',//'line',
+        plugins: [ChartDataLabels],
+
+        data: areaData,
+        options: areaOptions
+      });
+    }
+
+    // EMPLOYEE AGE END
 
 
 
@@ -1427,7 +1579,7 @@ const loadChart = function () {
             }]
           },
          legend: {
-            display: true,
+            display: false,
           },
           elements: {
             point: {
@@ -1611,4 +1763,19 @@ const file = (file) =>{
 
 function fileExist(file) {
   return (file ? file : '#');
+}
+
+
+
+const employee_animate_counter=(total)=>{
+  let counts=setInterval(updated);
+        let upto=0;
+        function updated(){
+            var count= document.getElementById("active_employees_count");
+            count.innerHTML=++upto;
+            if(upto===total)
+            {
+                clearInterval(counts);
+            }
+        }
 }

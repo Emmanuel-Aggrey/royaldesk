@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        EMPLOYEE EXIT FORM
+    </title>
+    <link rel="icon" href="/static/js/royal_desk.ico" />
+    <script src="/static/js/jquery-3.5.1.js"></script>
+    <script src="/static/js/sweetalert2.all.min.js"></script>
+
+
+</head>
+
+<body onLoad="window.print()" id="exit_form_body">
+    <page size="A4">
+
+
+        <!-- Create Form -->
+        <form id="employee_exit_status_form">
+            {% csrf_token %}
+
+            <h2 style=" justify-content: center;display:flex;font: bolder 120% sans-serif; letter-spacing: 0.5em;background:black;color:white" >Exit Interview Form</h2>
+            <p>Rock City Hotel requests that you take the time to answer the questions below. Your honesty is
+                appreciated, and all responses will be held in confidence.</p>
+            <!-- Details -->
+           <div class="card">
+            <div class="form-control">
+                <label style="font-weight: bolder;font-style: oblique;" for="name" id="emp_name">
+                   
+                </label>
+            </div>
+            <div class="form-control">
+                <label  style="font-weight: bolder;font-style: oblique;"for="name" id="emp_title">
+                  
+                </label>
+            </div>
+            
+            <div class="form-control">
+                <label style="font-weight: bolder;font-style: oblique;" id="hr_representative" >
+                    HR Representative: {{request.user.get_full_name}}
+                </label>
+            </div>
+           </div>
+
+
+           <div class="form-control">
+            <label for="date_departure" >
+                Date of Departure.
+            </label>
+            <input type="date" id="date_departure" name="date_departure" required/>
+        </div>
+
+        <div class="form-control">
+            <label for="status" >
+                Status.
+            </label>
+
+         <select name="status" id="status">
+            <option selected value="active">ACTIVE</option>
+            <option value="terminated">TERMINATED</option>
+            <option value="resigned">RESIGNED</option>
+            
+            <option value="dismised">DISMISED</option>
+
+            <option value="redundancy">REDUNDANCY</option>
+
+         </select>
+        </div>
+
+
+        
+
+            <div class="form-control">
+                <label for="employement_length" >
+                    What was the length of your employment?
+                </label>
+
+                <!-- Input Type Text -->
+                <input type="text" id="employement_length" name="employement_length" readonly/>
+            </div>
+
+            <div class="form-control">
+                <label  id="label-email">
+                    What was the particular event or series of events that prompted your departure?
+                </label>
+
+                <!-- Input Type Email-->
+                <textarea name="prompt_departure" id="prompt_departure">
+                </textarea>
+            </div>
+
+            <div class="form-control">
+                <label for="primary_duties">
+                    What were your primary duties?
+                </label>
+
+                <!-- Input Type Text -->
+                <input type="text" id="primary_duties" name="primary_duties" />
+            </div>
+
+            <div class="form-control">
+                <label for="is_duty_change" id="label-role">
+                    Did your duties change or become unsavoury throughout your employment?
+                </label>
+                <input type="text" id="is_duty_change"  name="is_duty_change"/>
+
+            </div>
+
+
+            <div class="form-control">
+                <label for="like_about_job" >
+                    What did you like about your job?
+                </label>
+
+                <!-- Input Type Text -->
+                <input type="text" id="like_about_job" name="like_about_job" />
+            </div>
+
+            <div class="form-control">
+                <label for="dilike_about_job" >
+                    What did you dislike about your job?
+                </label>
+
+                <!-- Input Type Text -->
+                <input type="text" id="dilike_about_job" name="dilike_about_job"/>
+            </div>
+
+            <div class="form-control">
+                <label for="change_about_job" >
+                    What would you change about your job?
+                </label>
+
+                <!-- Input Type Text -->
+                <input type="text" id="change_about_job" name="change_about_job"/>
+            </div>
+
+
+            <div class="form-control">
+                <label for="satisfied_career" >
+                    Were you satisfied with your career progression? If not, why?
+                </label>
+
+                <!-- Input Type Text -->
+                <input type="text" id="satisfied_career" name="satisfied_career"/>
+            </div>
+
+
+
+            <div class="form-control">
+                <label for="satisfied_salary" >
+                    Were you satisfied with your salary/benefits?
+                </label>
+
+                <!-- Input Type Text -->
+                <input type="text" id="satisfied_salary" name="satisfied_salary"/>
+            </div>
+
+            <div class="form-control">
+                <label for="supervisor_satisfied" >
+                    Were you satisfied with your supervisor or quality of supervision?
+                </label>
+
+                <!-- Input Type Text -->
+                <input type="text" id="supervisor_satisfied" name="supervisor_satisfied"/>
+            </div>
+
+            <div class="form-control">
+                <label for="working_relationship" >
+                    How would you describe your working relationship with your supervisor?
+                </label>
+
+                <!-- Input Type Text -->
+                <input type="text" id="working_relationship" name="working_relationship"/>
+            </div>
+
+            <div class="form-control">
+                <label for="supervisor_improvement" >
+                    How could your supervisor improve his/her leading style?   
+                </label>
+
+                <!-- Input Type Text -->
+                <!-- <input type="text" id="name" /> -->
+                <textarea name="supervisor_improvement" id="supervisor_improvement" ></textarea>
+            </div>
+
+            <div class="form-control">
+                <label for="performace_hindered" >
+                    Was your performance hindered by any company policies or procedures?
+                </label>
+
+                <!-- Input Type Text -->
+                <input type="text" id="performace_hindered" name="performace_hindered"/>
+            </div>
+
+            <div class="form-control">
+                <label for="relationship_co_workers" >
+                    How would you describe your working relationship with your co-workers?
+                </label>
+
+                <!-- Input Type Text -->
+                <input type="text" id="relationship_co_workers" name="relationship_co_workers"/>
+            </div>
+            <div class="form-control">
+                <label for="job_contributory" >
+                    Do you feel that your job was contributory to the company’s success?
+                </label>
+
+                <!-- Input Type Text -->
+                <input type="text" id="job_contributory" name="job_contributory"/>
+            </div>
+            <div class="form-control">
+                <label for="working_conditions" >
+                    Are there any working conditions at this company that you feel are detrimental?
+                </label>
+
+                <!-- Input Type Text -->
+                <input type="text" id="working_conditions" name="working_conditions"/>
+            </div>
+
+            <div class="form-control">
+                <label for="improve_work_conditions" >
+                    Do you have you any suggestions on how to improve working conditions here?
+                </label>
+
+                <!-- Input Type Text -->
+                <input type="text" id="improve_work_conditions" name="improve_work_conditions"/>
+            </div>
+
+            <div class="form-control">
+                <label for="working_condition_detrimental" >
+                    Are there any working conditions at this company that you feel are detrimental?
+                </label>
+
+                <!-- Input Type Text -->
+                <input type="text" id="working_condition_detrimental" name="working_condition_detrimental"/>
+            </div>
+
+            <div class="form-control">
+                <label for="comments" >
+                    Do you have any other comments you wish to make?
+                </label>
+
+                <!-- Input Type Text -->
+                <!-- <input type="text" id="name" /> -->
+                <textarea name="comments" id="comments" >
+                </textarea>
+            </div>
+
+            <!-- <div class="form-control">
+            <label>
+                Would you recommend GeeksforGeeks
+                to a friend?
+            </label>
+
+            <label for="recommed-1">
+                <input type="radio" id="recommed-1" name="recommed">Yes</input>
+            </label>
+            <label for="recommed-2">
+                <input type="radio" id="recommed-2" name="recommed">No</input>
+            </label>
+            <label for="recommed-3">
+                <input type="radio" id="recommed-3" name="recommed">Maybe</input>
+            </label>
+        </div> -->
+
+
+            <!-- <div class="form-control">
+            <label for="comment">
+                Any comments or suggestions
+            </label>
+
+            <textarea name="comment" id="comment" placeholder="Enter your comment here">
+			</textarea>
+        </div> -->
+
+            <!-- Multi-line Text Input Control -->
+            <button type="submit" value="submit" id="submit_btn">
+                Submit
+            </button>
+        </form>
+    </page>
+
+
+<style>
+    /* Styling the Body element i.e. Color,
+		Font, Alignment */
+    body {
+        color: #000;
+        overflow-x: hidden;
+        /* height: 100%; */
+        /* background-image: url("/media/IMG_20190917_222921_531.jpg");  */
+        background-image: url("/static/images/logo/PSX_20211004_102855.jpg");
+        background-repeat: no-repeat;
+
+        background-color: #999;
+        /* background: linear-gradient(to bottom right, rgb(94, 94, 238), rgb(134, 104, 109)); */
+        /* Fallback for browsers that do not support Custom Properties */
+        height: calc(var(--vh, 1vh) * 100);
+        background-size: 100% 100%;
+
+
+
+    }
+
+    /* Styling the Form (Color, Padding, Shadow) */
+    form {
+        background-color:white;
+        max-width: 800px;
+        margin: 50px auto;
+        margin-top: 5px;
+        padding: 30px 20px;
+        box-shadow: 2px 5px 10px rgba(0, 0, 0, 0.5);
+    }
+
+    /* Styling form-control Class */
+    .form-control {
+        text-align: left;
+        margin-bottom: 25px;
+    }
+
+    /* Styling form-control Label */
+    .form-control label {
+        display: block;
+        margin-bottom: 10px;
+    }
+
+    /* Styling form-control input,
+		select, textarea */
+    .form-control input,
+    .form-control select,
+    .form-control textarea {
+        border: 1px solid #777;
+        border-radius: 2px;
+        font-family: inherit;
+        padding: 10px;
+        display: block;
+        width: 95%;
+        font-size: 20px; 
+    }
+
+    /* Styling form-control Radio
+		button and Checkbox */
+    .form-control input[type="radio"],
+    .form-control input[type="checkbox"] {
+        display: inline-block;
+        width: auto;
+    }
+
+    /* Styling Button */
+    button {
+        background-color: #3f3b3e;
+        border: 1px solid #fff;
+        color: white;
+        border-radius: 2px;
+        font-family: inherit;
+        font-size: 25px;
+        display: block;
+        width: 100%;
+        margin-top: 50px;
+        margin-bottom: 20px;
+    }
+    button:hover{
+        background-color: #1a1518;
+        font-size: 30px;
+        cursor: pointer;
+    }
+    .card{
+    
+    padding: 20px 20px;
+    transition: 0.3s;
+    /* font-weight:small; */
+    /* font-size: 23px; */
+    }
+   
+    /* input[type='text'] { font-size: 15px; font-family: monospace; } */
+
+
+    @media print {
+        #submit_btn{
+            display:none;
+        }
+        #exit_form_body{
+            background-image: none;
+            background: none;
+        }
+
+    }
+      
+</style>
+
+<script>
+    $(document).ready(function () {
+
+        get_employee()
+})
+
+
+const get_employee=()=>{
+
+    const employee = window.location.pathname.split("/")[2]
+
+  $.ajax({
+    url: `/exit-employee/${employee}/`,
+    type: "GET",
+    success: function (response) {
+
+        
+        console.log(response)
+
+        const employee_name = `Employee’s Name: ${response.employee_name}`
+        $("#emp_name").text(employee_name)
+
+        const emp_title =`Employee’s Title: ${response.position}`
+
+        $("#emp_title").text(emp_title)
+
+        
+        const employement_length = `${response.employement_length} year(s)`
+        $("#employement_length").val(employement_length)
+
+
+        if(response.data){
+            const data = response.data
+            // hr_representative
+            // HR Representative: {{request.user.get_full_name}}
+        // $("#status").val(data.status)
+        const hr_representative =`HR Representative: ${data.hr_representative}`
+        $("#hr_representative").text(hr_representative)
+        $(`#status option[value=${data.status}]`).attr("selected", true)
+        $("#date_departure").val(data.date_departure)
+        $("#change_about_job").val(data.change_about_job)
+        $("#comments").val(data.comments)
+        $("#dilike_about_job").val(data.dilike_about_job)
+       
+        $('#improve_work_conditions').val(data.improve_work_conditions)
+        $("#is_duty_change").val(data.is_duty_change)
+        $("#job_contributory").val(data.job_contributory)
+        $("#like_about_job").val(data.like_about_job)
+        $("#performace_hindered").val(data.performace_hindered)
+        $('#primary_duties').val(data.primary_duties)
+        $("#prompt_departure").val(data.prompt_departure)
+        $('#relationship_co_workers').val(data.relationship_co_workers)
+        $("#satisfied_career").val(data.satisfied_career)
+        $("#satisfied_salary").val(data.satisfied_salary)
+        $("#supervisor_improvement").val(data.supervisor_improvement)
+        $("#supervisor_satisfied").val(data.supervisor_satisfied)
+        $("#working_condition_detrimental").val(data.working_condition_detrimental)
+        $('#working_conditions').val(data.working_conditions)
+        $("#working_relationship").val(data.working_relationship)
+
+        }
+       
+
+
+      
+      
+    }
+  })
+}
+
+
+
+$("#employee_exit_status_form").on("submit", function (event) {
+//   var employee = sessionStorage.getItem('employee_name')
+  event.preventDefault();
+  const employee = window.location.pathname.split("/")[2]
+  $.ajax({
+    url: `/exit-employee/${employee}/`,
+    type: "POST",
+    data: new FormData(this),
+    processData: false,
+    contentType: false,
+    cache: false,
+    csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+    success: function (response) {
+    //   console.log(response);
+
+    //   show_alert(6000, "success", 'saved successfully')
+      Swal.fire('saved successfully', '', 'success')
+
+
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      // console.log(jqXHR, textStatus, errorThrown);
+      Swal.fire('error occurred try again', '', 'info')
+
+    }
+
+  });
+})
+</script>
+</body>
+
+</html>

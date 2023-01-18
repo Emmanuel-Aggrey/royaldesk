@@ -22,24 +22,25 @@
     <div class="main-panel">
       <div class="content-wrapper">
         <!-- Page Title Header Starts-->
-        <div class="row page-title-header">
+        <!-- <div class="row page-title-header">
 
-          <!-- <div class="col-md-12">
+             <div class="col-md-12">
                 <div class="page-header-toolbar">
                   <div class="btn-group toolbar-item" role="group" aria-label="Basic example">
                     <button type="button" class="btn btn-secondary">03/02/2019 - 20/08/2019</button>
                   </div>
                   
                 </div>
-              </div> -->
-        </div>
-        <!-- Page Title Header Ends-->
-        <div class="row">
+              </div> 
+        </div>  -->
+
+
+        <div class="row mt-5">
           <div class="col-md-12 grid-margin">
             <div class="card">
-              <div class="card-body">
+              <div class="card-body1">
                 <div class="row">
-                  <div class="col-lg-3 col-md-6">
+                  <div class="col-lg-3 col-md-6 mt-md-0">
                     <div class="d-flex">
                       <div class="wrapper">
                         <h3 class="mb-0 font-weight-semibold">Sex</h3>
@@ -72,6 +73,7 @@
                       </div>
                       <div class="wrapper my-auto ml-auto ml-lg-4">
                         <!-- <canvas height="50" width="100" id="stats-line-graph-3"></canvas> -->
+                        <!-- <canvas  height="100" width="100"  id="turn_over_rate"></canvas> -->
                       </div>
                     </div>
                   </div>
@@ -94,11 +96,14 @@
           </div>
         </div>
         <div class="row">
+
           <div class="col-md-8 grid-margin stretch-card">
             <div class="card">
               <div class="card-body">
+
                 <!-- <h4 class="card-title mb-0">EMPLOYEES TURNOVER RATE</h4> -->
                 <div class="d-flex flex-column flex-lg-row">
+
                   <!-- <p>Lorem ipsum is placeholder text commonly used</p> -->
                   <ul class="nav nav-tabs sales-mini-tabs ml-lg-auto mb-4 mb-md-0" role="tablist">
                     <li class="nav-item">
@@ -117,45 +122,254 @@
                 </div>
                 <div class="d-flex flex-column flex-lg-row">
                   <div class="data-wrapper d-flex mt-2 mt-lg-0">
-                    <!-- <div class="wrapper pr-5">
-                          <h5 class="mb-0">Total Cost</h5>
-                          <div class="d-flex align-items-center">
-                            <h4 class="font-weight-semibold mb-0">15,263</h4>
-                            <small class="ml-2 text-gray d-none d-lg-block"><b>89.5%</b> of 20,000 Total</small>
+                    <div class="wrapper pr-5">
+                      <h5 class="mb-0 font-weight-bold text-monospace">Active Employees</h5>
+                      <div class="d-flex align-items-center">
+                        <h4 class="font-weight-semibold mb-0" id="active_employees_count"></h4>
+                        <!-- <small class="ml-2 text-gray d-none d-lg-block"><b>89.5%</b> of 20,000 Total</small> -->
+                      </div>
+                    </div>
+                    <div class="wrapper">
+                      <h5 class="mb-0 text-monospace">Turn Over <small class="btn-sm text-primary" id="turn_over_rate_btn"
+                          style="cursor:pointer">FILTER</small></h5>
+                      <div class="d-flex align-items-center">
+                        <h4 class="font-weight-semibold mb-0" id="turn_over_rate"></h4>
+
+                        <!-- <small class="ml-2 text-gray d-none d-lg-block"><b>10.5%</b> of 20,000 Total</small> -->
+
+
+
+                        <!-- turn_over_rate START -->
+
+                        <div class="d-none" id="turn_over_rate_div">
+                          <form id="run_turn_over_rate_action_form">
+
+                           <div class="mb-4">
+
+                            <label for="date_end">Start</label>
+                            <input class="dob" type="text" name="date_from" id="turn_over_rate_date_start"  required
+                              autocomplete="off" placeholder="Date">
+
+
+                            <label for="date_start">End</label>
+                            <input class="dob" type="text" name="date_to" id="turn_over_rate_date_end" required
+                              autocomplete="off" placeholder="Date">
+                              <button type="submit">Run</button>
+
+                           </div>
+
+                           <div style="cursor:pointer" class="toolbar-item float-right btn-sm mt-2"
+                           onclick="printresult('turn_over_rate_print','EMPLOYEES TURNOVER RATE')" title="print">
+                           <i class="fa fa-print" aria-hidden="true"></i>
+                         </div>
+
+
+                            <!-- <p id="caption_turn_over_rate"></p> -->
+                          <div id="turn_over_rate_print">
+                            <table class="table table-active">
+                              <caption id="caption_turn_over_rate"></caption>
+                              <thead lass="thead-light">
+                                <tr>
+                                  <th>From</th>
+                                  <th>To</th>
+                                  <th>Rate</th>
+                                </tr>
+                              </thead>
+                              <tbody id="caption_turn_over_rate_body">
+
+                              </tbody>
+                            </table>
                           </div>
-                        </div> -->
-                    <!-- <div class="wrapper">
-                          <h5 class="mb-0">Total Revenue</h5>
-                          <div class="d-flex align-items-center">
-                            <h4 class="font-weight-semibold mb-0">$753,098</h4>
-                            <small class="ml-2 text-gray d-none d-lg-block"><b>10.5%</b> of 20,000 Total</small>
-                          </div>
-                        </div> -->
+                            <!-- <h4 class="text-center font-weight-bold" id="turn_over_rate_content"></h4> -->
+                            <!-- content -->
+
+                          </form>
+                        </div>
+
+                        <!-- turn_over_rate END -->
+
+                      </div>
+                    </div>
+
+
                   </div>
                   <div class="ml-lg-auto" id="sales-statistics-legend"></div>
                 </div>
-                <canvas class="mt-5" height="120" id="sales-statistics-overview"></canvas>
+                <button id="employement_status_btn" class="float-right">FILTER</button>
+                <canvas class="mt-5" height="120" id="employement_status"></canvas>
+
+                <!-- <canvas  height="20" id="turn_over_rate"></canvas> -->
+
+
+
+
+                <!-- EMPLOYEE STATUS START -->
+
+                <div class="d-none" id="employement_status_stats_div">
+
+                  <form id="employement_status_action_form">
+                    <label for="">Department</label>
+                    <select class="dropdown" name="department" id="employement_status_department">
+
+                    </select>
+
+                    <label for="date_start">Start</label>
+                    <select name="year" id="year_field"></select>
+                    <!-- <input id="year_field" type="text" name="date_start" id="employement_status_date_start" required
+                        autocomplete="off" placeholder="Date"> -->
+                    <!-- <label for="date_end">End</label> -->
+                    <!-- <input class="dob" type="text" name="date_end" id="employement_status_date_end" required
+                        autocomplete="off" placeholder="Date"> -->
+
+                    <label for="">Status</label>
+                    <select class="dropdown" name="status" id="employement_status_status">
+                      <option value="active">Active</option>
+                      <option value="terminated">Terminated</option>
+                      <option value="resigned">RESIGNED</option>
+                      <option value="dismised">DISMISED</option>
+                      <option value="redundancy">REDUNDANCY</option>
+                    </select>
+                    <button type="submit">Run</button>
+                  </form>
+
+                  <div style="cursor:pointer" class="toolbar-item float-right btn-sm mt-2"
+                    onclick="printresult('employement_status_print','EMPLOYMENT RATE')" title="print">
+                    <i class="fa fa-print" aria-hidden="true"></i>
+                  </div>
+                 
+                  <div class="table-responsive table-responsive-sm table-responsive-md mt-4" id="employement_status_print">
+
+
+
+                    <table class="table table-stretched table-hover">
+                      <caption class="text-dark" id="employement_status_caption"></caption>
+
+                      <thead>
+                        <tr>
+                          <th>#</th>
+                          <th>NAME</th>
+                          <th>DEPARTMENT</th>
+                          <th>Date Employed</th>
+                          <th>Date Exited</th>
+                        </tr>
+                      </thead>
+                      <tbody id="employement_status_stats_body">
+
+
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+                <!-- EMPLOYEE STATUS END -->
+
               </div>
             </div>
+
           </div>
+
+
           <div class="col-md-4 grid-margin stretch-card">
             <div class="card">
               <div class="card-body d-flex flex-column">
                 <div class="wrapper">
+                  <button  id="leave_btn" class="float-right">FILTER</button>
+
                   <h5 class="card-title text-center">LEAVE APPLICATIONS</h5>
                   <div class="mb-4" id="leave-application-legend"></div>
                 </div>
+
                 <canvas class="my-auto mx-auto" height="220" id="leave-application"></canvas>
               </div>
+
+
+
+
+ <!-- EMPLOYEE LEAVE START-->
+
+ <div class="d-none" id="leave_stats_div">
+  <form id="leave_action_form">
+    <label for="">Departemnt</label>
+    <select class="dropdown" name="department" id="leave_department">
+    
+    </select>
+
+    <label for="date_start">Start</label>
+    <input class="dob" type="text" name="date_start" id="leave_date_start" required
+      autocomplete="off" placeholder="Date">
+    <label for="date_end">End</label>
+    <input class="dob" type="text" name="date_end" id="leave_date_end" required autocomplete="off"
+      placeholder="Date">
+
+    <label for="">Status</label>
+    <select class="dropdown" name="status" id="leave_status">
+      <option value="pending">PENDING</option>
+      <option value="approved">APPROVED</option>
+      <option value="unapproved">UNAPPROVED</option>
+    </select>
+    
+    <h5 class="font-weight-bold mt-4">Approvals</h5>
+    <label for="on_leave">From Leave</label>
+    <input class="mr-4" type="checkbox" name="on_leave" id="is_on_leave">
+    <label for="supervisor">Supervisor</label>
+    <input class="mr-4" type="checkbox" name="supervisor" id="supervisor">
+    <label for="line_manager">Line Manager</label>
+    <input class="mr-4" type="checkbox" name="line_manager" id="line_manager">
+    <label for="hr_manager">HR Manager</label>
+    <input class="mr-4" type="checkbox" name="hr_manager" id="hr_manager">
+
+    <button  type="submit" id="run_leave_stats">Run</button>
+  </form>
+
+
+  <div style="cursor:pointer" class="toolbar-item float-right btn-sm mt-2"
+    onclick="printresult('leave_stats_print','EMPLOYEE LEAVE')" title="print">
+    <i class="fa fa-print" aria-hidden="true"></i>
+  </div>
+
+  <div class="table-responsive table-responsive-sm table-responsive-md mt-4"  id="leave_stats_print">
+
+
+
+    <table class="table table-stretched table-hover">
+      <caption class="text-dark" id="leave_caption"></caption>
+
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>NAME</th>
+          <th>DEPARTMENT</th>
+          <th>STATUS</th>
+          <th>POLICY</th>
+          <th>FROM LEAVE</th>
+          <th>RESUMING DATE</th>
+          <th>DATE APPLIED</th>
+        </tr>
+      </thead>
+      <tbody id="leave_stats_body">
+
+
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- EMPLOYEE LEAVE END-->
+
+
+
             </div>
           </div>
         </div>
         <div class="row">
           <div class="col-md-8">
             <div class="row">
+
               <div class="col-md-6 grid-margin stretch-card">
                 <div class="card">
+
                   <div class="card-body pb-0">
+                    <!-- <button class="float-right">FILTER</button> -->
 
                     <!-- <h3 class="font-weight-medium mb-4">184.42K</h3> -->
                   </div>
@@ -179,6 +393,7 @@
                   <div class="card-body">
                     <!-- <h4 class="card-title mb-0" style="display: none;">EMPLOYMENT RATE</h4> -->
                     <div class="d-flex align-items-center justify-content-between w-100">
+
                       <!-- <p class="mb-0">years of employees</p> -->
                       <div class="dropdown"> <small class="text muted">FILTER RESULT</small>
                         <select class="btn btn-outline-secondary" name="emp_year" id="emp_year">
@@ -186,9 +401,11 @@
                           <option class="dropdown-item" value="1">FIRST QUARTER</option>
                           <option class="dropdown-item" value="2">SECOND QUARTER</option>
                           <option class="dropdown-item" value="3">THIRD QUARTER</option>
+                          <option class="dropdown-item" value="4">FOURTH QUARTER</option>
                         </select>
 
                       </div>
+                      <button id="employement_stats_btn">FILTER</button>
                     </div>
                     <div class="d-flex align-items-end">
                       <!-- <h3 class="mb-0 font-weight-semibold">$36,2531.00</h3>
@@ -198,6 +415,70 @@
                     <canvas class="mt-4" height="100" id="market-overview-chart"></canvas>
                   </div>
                 </div>
+
+
+
+                <!-- EMPLOYEMENT  RATE START -->
+
+                <div class="d-none" id="employement_stats_div">
+                  <form id="employement_action_form">
+                    <label for="">Quarter</label>
+                    <select class="dropdown" name="qaurter" id="employement_qaurter">
+                      <option class="dropdown-item" value="">Select</option>
+                      <option class="dropdown-item" value="1">FIRST QUARTER</option>
+                      <option class="dropdown-item" value="2">SECOND QUARTER</option>
+                      <option class="dropdown-item" value="3">THIRD QUARTER</option>
+                      <option class="dropdown-item" value="4">FOURTH QUARTER</option>
+                    </select>
+
+                    <label for="date_start">Start</label>
+                    <input class="dob" type="text" name="date_start" id="employement_date_start" required
+                      autocomplete="off" placeholder="Date">
+                    <label for="date_end">End</label>
+                    <input class="dob" type="text" name="date_end" id="employement_date_end" required autocomplete="off"
+                      placeholder="Date">
+
+                    <label for="">Status</label>
+                    <select class="dropdown" name="status" id="employement_status_stats">
+                      <option value="active">Active</option>
+                      <option value="terminated">Terminated</option>
+                      <option value="resigned">RESIGNED</option>
+                      <option value="dismised">DISMISED</option>
+                      <option value="redundancy">REDUNDANCY</option>
+                    </select>
+                    <button type="submit" id="run_employement_stats">Run</button>
+                  </form>
+
+                  <div style="cursor:pointer" class="toolbar-item float-right btn-sm mt-2"
+                    onclick="printresult('employement_rate_print','EMPLOYMENT RATE')" title="print">
+                    <i class="fa fa-print" aria-hidden="true"></i>
+                  </div>
+                 
+                  <div class="table-responsive table-responsive-sm table-responsive-md mt-4" id="employement_rate_print">
+
+
+
+                    <table class="table table-stretched table-hover">
+                      <caption class="text-dark" id="employement_caption"></caption>
+
+                      <thead>
+                        <tr>
+                          <th>#</th>
+                          <th>NAME</th>
+                          <th>DEPARTMENT</th>
+                          <th>STATUS</th>
+                        </tr>
+                      </thead>
+                      <tbody id="employement_stats_body">
+
+
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+                <!-- EMPLOYEMENT RATE END -->
+
               </div>
               <div class="col-md-12 grid-margin">
                 <div class="card" style="background-color: aliceblue;">
@@ -278,8 +559,55 @@
               <div class="col-md-8 grid-margin stretch-card">
                 <div class="card">
                   <div class="card-body">
+                    <button id="department_stats_btn" class="float-right">FILTER</button>
                     <div class="row">
                       <canvas height="200" id="department_statistics"></canvas>
+
+                      <!-- DEPARTMENT TABLE START -->
+
+                      <div class="d-none" id="department_stats_div">
+                        <select class="department" name="department" id="department_name">
+                          <!-- <option value="all">ALL</option> -->
+                        </select>
+
+                        <select name="status" id="department_status">
+                          <option value="active">Active</option>
+                          <option value="terminated">Terminated</option>
+                          <option value="resigned">RESIGNED</option>
+                          <option value="dismised">DISMISED</option>
+                          <option value="redundancy">REDUNDANCY</option>
+                        </select>
+                        <button id="run_department_stats">Run</button>
+
+                        <div style="cursor:pointer" class="toolbar-item float-right btn-sm mt-2"
+                          onclick="printresult('department_stats_print','EMPLOYEES BY DEPARTMENT')" title="print">
+                          <i class="fa fa-print" aria-hidden="true"></i>
+                        </div>
+                        
+                        <div class="table-responsive table-responsive-sm table-responsive-md mt-4" id="department_stats_print">
+
+
+
+                          <table class="table table-stretched table-hover">
+                            <caption class="text-dark" id="department_caption"></caption>
+
+                            <thead>
+                              <tr>
+                                <th>#</th>
+                                <th>NAME</th>
+                                <th>STATUS</th>
+                              </tr>
+                            </thead>
+                            <tbody id="department_stats_body">
+
+
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+
+                      <!-- DEPARTMENT TABLE END -->
+
 
 
 
@@ -310,21 +638,80 @@
                   </div>
                 </div>
               </div>
-              <div class="col-md-4 grid-margin stretch-card average-price-card">
-                <div class="card text-white">
+              <div class="col-md-4 grid-margin stretch-card">
+                <div class="card">
                   <div class="card-body">
-                    <div class="d-flex justify-content-between pb-2 align-items-center">
-                      <h2 class="font-weight-semibold mb-0" id="active_employees_count"></h2>
+                    <button id="employee_age_btn" class="float-right mb-4">FILTER</button>
 
-                      <!-- <h2 class="font-weight-semibold mb-0" id="active_employees_married"></h2> -->
-                      <div class="icon-holder">
-                        <i class="mdi mdi-briefcase-outline"></i>
+                    <canvas height="400" id="employee_age"></canvas>
+
+
+                    <!-- EMPLOYEE  AGE START -->
+
+                    <div class="d-none" id="employee_age_stats_div">
+
+                      <form id="employee_age_action_form">
+
+
+                        <div class="col">
+                          <label class="mb-3 text-center">Filter Age</label>
+                          <p style="width: 300px;" id="slider"></p>
+                          <label class="text-center" id="age_indicator"></label>
+                          <!-- <p id="age_indicator"></p> -->
+                        </div>
+
+
+                        <div class="col">
+                          <label> Status</label>
+                          <select name="status" id="employee_age_status">
+                            <option value="active">Active</option>
+                            <option value="terminated">Terminated</option>
+                            <option value="resigned">RESIGNED</option>
+                            <option value="dismised">DISMISED</option>
+                            <option value="redundancy">REDUNDANCY</option>
+                          </select>
+                          <button type="submit" id="run_employee_age">Run</button>
+                        </div>
+
+
+
+
+                      </form>
+
+                      <div style="cursor:pointer" class="toolbar-item float-right btn-sm mt-2"
+                        onclick="printresult('age_table_print','EMPLOYEES BY AGE')" title="print">
+                        <i class="fa fa-print" aria-hidden="true"></i>
+                      </div>
+                      
+                      <div class="table-responsive table-responsive-sm table-responsive-md mt-4" id="age_table_print">
+
+
+                     
+                        <table class="table table-stretched table-hover">
+                          <caption class="text-dark" id="employee_age_caption"></caption>
+
+                          <thead>
+                            <tr>
+                              <th>#</th>
+                              <th>NAME</th>
+                              <th>DEPARTMENT</th>
+                              <th>DOB</th>
+                              <th>AGE</th>
+                            </tr>
+                          </thead>
+                          <tbody id="employee_age_body">
+
+
+                          </tbody>
+                        </table>
                       </div>
                     </div>
-                    <div class="d-flex justify-content-between">
-                      <h5 class="font-weight-semibold mb-0">Active Employees</h5>
-                      <!-- <p class="text-white mb-0">Since last month</p> -->
-                    </div>
+
+                    <!-- EMPLOYEE AGE END -->
+
+
+
+
                   </div>
                 </div>
               </div>
@@ -380,6 +767,7 @@
               <div class="col-md-12 grid-margin">
                 <div class="card">
                   <div class="card-body">
+                    <button class="float-right" id="country_stats_btn">FILTER</button>
                     <h5 class="card-title mb-4 text-center">COUNTRY STATISTICS</h5>
                     <!-- <div id="employees_country" class="vector-map"></div> -->
                     <canvas class="mt-4 vector-map" height="100" id="employees_country"></canvas>
@@ -404,16 +792,59 @@
                     </div>
                   </div>
                 </div>
+
+                <div class="d-none" id="country_stats_div">
+                  <select class="country" name="country" id="country_names">
+                    <!-- <option value="ghana">Ghana</option>
+                    <option value="gh">South Africa</option> -->
+                  </select>
+
+                  <select name="status" id="country_status">
+                    <option value="active">Active</option>
+                    <option value="terminated">Terminated</option>
+                    <option value="resigned">RESIGNED</option>
+                    <option value="dismised">DISMISED</option>
+                    <option value="redundancy">REDUNDANCY</option>
+                  </select>
+                  <button id="run_country_stats">Run</button>
+
+                  <div style="cursor:pointer" class="toolbar-item float-right btn-sm mt-2"
+                    onclick="printresult('country_stats_print','COUNTRY STATISTICS')" title="print">
+                    <i class="fa fa-print" aria-hidden="true"></i>
+                  </div>
+                 
+                  <div class="table-responsive table-responsive-sm table-responsive-md" id="country_stats_print">
+
+
+
+                    <table class="table table-stretched table-hover">
+                      <caption class="text-dark" id="caption_country"></caption>
+
+                      <thead>
+                        <tr>
+                          <th>#</th>
+                          <th>NAME</th>
+                          <th>STATUS</th>
+                        </tr>
+                      </thead>
+                      <tbody id="country_stats_body">
+
+
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
               </div>
               <div class="col-md-12 grid-margin">
                 <div class="card">
                   <div class="card-body">
-                    <h4 class="card-title mb-0">HEADS OF DEPARTMENT</h4>
+                    <h4 class="card-title mb-0">UPCOMMING BIRTHDAY(S)</h4>
                     <hr>
                     <!-- <hr class="bg-primary"> -->
-                    <div class="d-flex mt-3 py-2 border-bottom">
+                    <div style="height: 400px; overflow: auto"class="d-flex mt-3 py-2 border-bottom">
                       <!-- <img class="img-sm rounded-circle" src="{% static 'images/faces/face3.jpg' %}" alt="profile image"> -->
-                      <ul class="wrapper ml-2 timeline" id="department_heads">
+                      <ul  class="wrapper ml-2 timeline" id="birthdays">
 
                       </ul>
                       <!-- <small class="text-muted ml-auto">1 Hours ago</small> -->
@@ -435,7 +866,7 @@
                 <div style="height:500px;overflow:auto;">
                   <div class="d-flex py-2 border-bottom">
 
-                    <ul class="wrapper timeline ml-1" id="emp_from_leave">
+                    <ul  class="wrapper timeline ml-1" id="emp_from_leave">
 
 
                     </ul>
@@ -566,7 +997,7 @@
       <script src="{% static 'js/scripts/attendance.js' %}"></script>
 
       <script src="{% static 'js/scripts/hr_dashboard/hr_script.js' %}"></script>
-      <!-- <script src="{% static 'js/dashboard.js' %}"></script> -->
+      <script src="{% static 'js/scripts/hr_dashboard/hr_script_report.js' %}"></script>
 
       <script>
         function scroolDown() {
@@ -602,6 +1033,20 @@
             position: absolute;
             right: 20px;
           }
+        }
+
+
+        #turn_over_rate{
+
+          font-size: 30px;
+          display: block;
+          font-weight: bold;
+        }
+        #active_employees_count {
+          font-size: 100px;
+          display: block;
+          font-weight: bold;
+          /* color: #fff; */
         }
       </style>
 

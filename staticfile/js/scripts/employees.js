@@ -116,6 +116,18 @@ $(document).ready(function () {
 
 
 
+$(document).ready(function () {
+$("#edit_employee").on('click', function () {
+
+  employee_name = sessionStorage.getItem('EMP_ID')
+  console.log(employee_name)
+  window.open('/register-staff/','Edit Staff','width=auto,height=auto')
+
+})
+})
+
+
+
 
 
 
@@ -125,11 +137,14 @@ const get_employee = (employee) => {
   emp_uiid = $(employee).attr('data-emp_uiid');
   employee = employee.id
 
+  console.log(employee,emp_uiid)
   
 
   model_dialog('d_model', employee)
     sessionStorage.setItem('employee_name',employee)
 
+    sessionStorage.setItem('EMP_ID',emp_uiid)
+    
  
 
   $.ajax({
@@ -306,7 +321,7 @@ const documents_data = (employee) => {
         var doc_id = e.target.id
         // $("#document_id").val(doc_id)
         document.getElementById('document_id').value = doc_id
-        // console.log(doc_id)
+        console.log(doc_id)
         sessionStorage.setItem('document_name',e.target.innerHTML)
         // sessionStorage.setItem('employee_name',employee)
         $("#document_table_body").empty();

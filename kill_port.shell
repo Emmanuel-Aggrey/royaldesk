@@ -38,3 +38,7 @@ s = subprocess.call(['systemctl','is-active','flower'])
 #VIEW SERVICES
 systemctl list-unit-files
 
+
+#PING CELERY
+celery inspect ping -d celery@${HOSTNAME}
+

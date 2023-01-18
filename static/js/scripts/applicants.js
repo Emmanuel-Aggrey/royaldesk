@@ -44,7 +44,8 @@ const applicants = () => {
       
       applicants_data.forEach(element => {
         file = element.cv_exists.substring(element.cv_exists.lastIndexOf('/') + 1)
-
+        applicant_transfer_id = element.employee_uuid ? element.employee_uuid : element.applicant_id
+        // console.log(element.employee_uuid )
         $("#applicants_table").append(`
     
         <tr>
@@ -59,8 +60,8 @@ const applicants = () => {
                 <td scope="row"> <button type="button" class="btn btn-primary" title='update application' id="${element.applicant_id}" onClick=get_applicant(this)>
                 <i class="fa fa-pencil-square" aria-hidden="true"></i> 
                 </button>
-                ${set_applicant(element.status,element.applicant_id)} 
-                ${is_selected(element.status,element.applicant_id)}
+                ${transfer_applicant_btn(element.status,applicant_transfer_id,element.employee_uuid)} 
+                ${offer_letter(element.status,element.applicant_id)}
                 </td>
                 </tr>
         `)
@@ -70,12 +71,24 @@ const applicants = () => {
        var value = this.value
        $('#applicants_table').empty();
 
+       if(this.value=='all'){
+        
+        applicants_data= applicants_data= data.filter((applicant) => {
+          return applicant.status != value
+  
+        })
+       }
+       else{
+
        applicants_data= applicants_data= data.filter((applicant) => {
         return applicant.status ==value
 
       })
+    }
 
       applicants_data.forEach((element) => {
+        applicant_transfer_id = element.employee_uuid ? element.employee_uuid : element.applicant_id
+
         $("#applicants_table").append(`
     
         <tr>
@@ -90,8 +103,8 @@ const applicants = () => {
                 <td scope="row"> <button type="button" class="btn btn-primary" title='update application' id="${element.applicant_id}" onClick=get_applicant(this)>
                 <i class="fa fa-pencil-square" aria-hidden="true"></i> 
                 </button>
-                ${set_applicant(element.status,element.applicant_id)} 
-                ${is_selected(element.status,element.applicant_id)}
+                ${transfer_applicant_btn(element.status,applicant_transfer_id,element.employee_uuid)} 
+                ${offer_letter(element.status,element.applicant_id)}
                 </td>
                 </tr>
         `)
@@ -226,7 +239,7 @@ const get_applicant = (applicant_id) => {
   // console.log(applicant_id)
   // $('#applicant_heading').text('UPDATE  REGISTRATION')
 
-  $("#department_edit, #designation_edit").empty()
+  $("#department_edit, #designation_edit,#offer_letters_docs").empty()
   designation('department_edit', 'designation_edit')
   getStatus('status_edit')
 
@@ -237,7 +250,7 @@ const get_applicant = (applicant_id) => {
     url: `/update_applicant/${applicant_id.id}/`,
     type: 'GET',
     success: function (data) {
-      console.log(data);
+      // console.log(data);
       $("#fname_edit").val(data.first_name);
       $("#lname_edit").val(data.last_name);
       $("#oname_edit").val(data.other_name);
@@ -255,8 +268,23 @@ const get_applicant = (applicant_id) => {
       $(`#status_edit option:contains('${status_}')`).prop("selected", true)
       $(`#department_edit option:contains('${data.department_name}')`).prop("selected", true)
       $(`#designation_edit option:contains('${data.designation_name}')`).prop("selected", true)
+     
 
-      $("#cv_url").attr('href', data.cv_exists).text(fileName(data.cv_exists)).attr('title', data.cv_exists.substring(data.cv_exists.lastIndexOf('/') +1)).css('color','#0078F5')
+      
+      $("#cv_url").attr('href', data.cv_exists).text(`${fileName(data.cv_exists)}`).attr('title', data.cv_exists.substring(data.cv_exists.lastIndexOf('/') +1)).css('color','#0078F5')
+     
+      if(data.applicant_offer_letters.length>0){
+        // $(`<p>Offer Letter</p>`).insertAfter( "#cv_url" );
+        data.applicant_offer_letters.forEach(function(value){
+
+         const letter_name= value.offer_letter.substring(value.offer_letter.lastIndexOf('/') + 1)
+         const letters =  `<a style="color:#0078F5" href=${value.offer_letter} title=${letter_name} target="_blank">${letter_name}</a>`
+
+          $("#offer_letters_docs").append(`<li>${letters}</li>`)
+        })
+        
+      }
+
       // $("#cv_url").text(data.cv_exists.substring(data.cv_exists.lastIndexOf('/') +1)).css('color','#0078F5')
 
       // $('#department_edit').prop('checked', data.department)
@@ -389,7 +417,7 @@ $(`#${status}`).change(function () {
 
 
 // ADD URL TO APPLICANT PAGE IF SELECTED
-function is_selected(status,applicant) {
+function offer_letter(status,applicant) {
   
   if (status !=='selected') {
     
@@ -404,18 +432,25 @@ function is_selected(status,applicant) {
   }
 
 }
+// TRANSFER APPLICANT
 
-
-function set_applicant(status,applicant) {
+function transfer_applicant_btn(status,applicant,has_employee_record) {
   
   if (status !=='selected') {
     
    return ''
   }
-  else{
-    return `<button id="${applicant}" class="btn btn-outline-info" title="transer applicant" onclick=transfer_applicant(this)>➚</button>`
-    
-  }
+  if(has_employee_record===null ){
+  
+    return `<button id="${applicant}" class="btn btn-outline-light text-light bg-danger" title="transer applicant ${applicant}" onclick=transfer_unregistered_applicant(this)>➚</button>`
+}
+else{
+
+  return     `<button id="${applicant}" class="pulse btn btn-outline-info" title="transer applicant ${applicant}" onclick=transfer_registered_applicant(this)>➚</button>`
+
+}
+
+  
 }
 
 
@@ -432,22 +467,37 @@ function set_applicant(status,applicant) {
 // }
 
 
+const transfer_registered_applicant =(applicant)=>{
 
-const transfer_applicant = (applicant)=> {
+  // sessionStorage.setItem('EMP_ID',applicant.id)
+  //  sessionStorage.setItem('transfer',true)
+
+  // console.log(employee_name)
+  sessionStorage.removeItem('applicant')
+
+  window.open(`/update-employee/${applicant.id}/`,'Register Applicant','width=auto,height=auto')
+
+}
+
+
+const transfer_unregistered_applicant = (applicant)=> {
   // console.log(applicant.id)
+  sessionStorage.removeItem('EMP_ID')
+  // sessionStorage.setItem('transfer',true)
+
   $.ajax({
     url: `/update_applicant/${applicant.id}/`,
     type:'GET',
     beforeSend: function(){
             show_alert(5000, "info", 'prepairing the transfer')
-
-
     },
     success: function (data) {    
       if(data.id){
         sessionStorage.setItem('applicant', JSON.stringify(data))
     show_alert(5000, "success", 'starting the transfer ...')
-    location.href = '/register-staff/'
+    // location.href = '/register-staff/'
+    window.open('/register-employee/','Register Applicant','width=auto,height=auto')
+
 
       }  
       else{
@@ -466,7 +516,7 @@ function fileExist(file) {
 }
 
 function fileName(file) {
-  return (file ? 'download' : '');
+  return (file ? 'download cv' : '');
 }
 
 

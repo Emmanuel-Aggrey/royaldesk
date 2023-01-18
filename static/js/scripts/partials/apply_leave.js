@@ -22,6 +22,7 @@ const date_setup = (start, end, resuming_date, days) => {
     clearBtn: true,
 
   }).on("change", function () {
+    $('#policy').prop('selectedIndex',0)
 
     // $(`#${policy}`).prop('selectedIndex',0)
 
@@ -30,6 +31,7 @@ const date_setup = (start, end, resuming_date, days) => {
     next_day.setDate(next_day.getDate() + 1)
     // console.log(new Date(selected))
     start_date = new Date(selected)
+    
     // console.log('month ',start_date.getMonth()+1)
     // console.log('year ',start_date.getFullYear())
     // console.log(last_on_leave_year,last_on_leave_month)
@@ -270,7 +272,7 @@ $("#leave_form").on("submit", function (event) {
     },
     error: function (jqXHR, textStatus, errorThrown) {
       console.log(jqXHR, textStatus, errorThrown);
-      Swal.fire("EROR TRY AGAIN OR CHECK THE APPLICATION DATE");
+      Swal.fire("ERROR TRY AGAIN OR CHECK THE APPLICATION DATE");
 
     },
   });
@@ -283,11 +285,14 @@ $("#policy").change(function () {
   const policy_days = parseInt($('select[name="policy"]').find(':selected').attr('data-days'))
  const days2 =  $("#days").text()
  const clean_days = parseInt(days2.replace('No. of days applied for:',''))
-  //  console.log(policy_days,clean_days,typeof(policy_days),typeof clean_days)
+  //  console.log('policy_days ',policy_days,'clean_days ',clean_days)
+  //  console.log(clean_days-policy_days)
+  //  console.log(clean_days>policy_days)
 
  if(clean_days>policy_days){
-  Swal.fire('more than policy days')
-  $('#start').val('')
+  $('#start,#end').val('')
+ return Swal.fire('more than policy days')
+  
  }
 //  days1 > clean_days ? Swal.fire('more than policy days'):''
   // console.log(days1,clean_days)
@@ -440,10 +445,10 @@ const leave_table = () => {
           <td class="text-uppercase leave_status ${leave_status(element.status, element.from_leave)}"> ${element.status}</td>
           <td>
           <div class="edit_product btn text-info btn-outline-dark" title="edit items" onclick="getLeave(${element.id})">
-          <i class="fa fa-pencil"  style="cursor:pointer;"  aria-hidden="true">edit</i>
+          <i class="fa fa-pencil"  style="cursor:pointer;"  aria-hidden="true"></i>
           </div>
           <a href='${element.url}' class="btn text-primary btn-outline-dark">
-          <i class="fa fa-pencil"  style="cursor:pointer;"  aria-hidden="true">view</i>
+          <i class="fa fa-eye"  style="cursor:pointer;"  aria-hidden="true"></i>
           </a>
         </td>
         </tr>
@@ -513,11 +518,11 @@ const leave_table = () => {
             <td class="text-uppercase leave_status ${leave_status(element.status, element.from_leave)}"> ${element.status}</td>
             <td>
               <div class="edit_product btn text-info btn-outline-dark" title="edit items" onclick="getLeave(${element.id})">
-              <i class="fa fa-pencil"  style="cursor:pointer;"  aria-hidden="true">edit</i>
+              <i class="fa fa-eye"  style="cursor:pointer;"  aria-hidden="true"></i>
               </div>
 
               <a href='${element.url}' class="btn text-primary btn-outline-dark">
-              <i class="fa fa-pencil"  style="cursor:pointer;"  aria-hidden="true">view</i>
+              <i class="fa fa-pencil"  style="cursor:pointer;"  aria-hidden="true"></i>
               </a>
             </td>
   

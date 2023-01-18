@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        Build a Survey Form using HTML and CSS
+    </title>
+
+
+</head>
+
+<body>
+    <!-- <h1>GeeksforGeeks Survey Form</h1> -->
+
+    <!-- Create Form -->
+    <form id="form">
+        <h3 style=" justify-content: center;display:flex">Exit Interview Form</h3>
+        <p>Rock City Hotel requests that you take the time to answer the questions below. Your honesty is
+            appreciated, and all responses will be held in confidence.</p>
+        <!-- Details -->
+        <div class="form-control">
+            <label for="name" id="label-name">
+                What was the length of your employment?
+            </label>
+
+            <!-- Input Type Text -->
+            <input type="text" id="name"  />
+        </div>
+
+        <div class="form-control">
+            <label for="email" id="label-email">
+                What was the particular event or series of events that prompted your departure?
+            </label>
+
+            <!-- Input Type Email-->
+            <input type="text" id="email" />
+        </div>
+
+        <div class="form-control">
+            <label for="age" id="label-age">
+                What were your primary duties?
+            </label>
+
+            <!-- Input Type Text -->
+            <input type="text" id="age" placeholder="Enter your age" />
+        </div>
+
+        <div class="form-control">
+            <label for="role" id="label-role">
+                Did your duties change or become unsavoury throughout your employment?
+            </label>
+            <input type="text" id="age"  />
+
+            <!-- Dropdown options -->
+            <!-- <select name="role" id="role">
+                <option value="student">Student</option>
+                <option value="intern">Intern</option>
+                <option value="professional">
+                    Professional
+                </option>
+                <option value="other">Other</option>
+            </select> -->
+        </div>
+
+        <div class="form-control">
+            <label>
+                Would you recommend GeeksforGeeks
+                to a friend?
+            </label>
+
+            <!-- Input Type Radio Button -->
+            <label for="recommed-1">
+                <input type="radio" id="recommed-1" name="recommed">Yes</input>
+            </label>
+            <label for="recommed-2">
+                <input type="radio" id="recommed-2" name="recommed">No</input>
+            </label>
+            <label for="recommed-3">
+                <input type="radio" id="recommed-3" name="recommed">Maybe</input>
+            </label>
+        </div>
+
+        <div class="form-control">
+            <label>Languages and Frameworks known
+                <small>(Check all that apply)</small>
+            </label>
+            <!-- Input Type Checkbox -->
+            <label for="inp-1">
+                <input type="checkbox" name="inp">C</input></label>
+            <label for="inp-2">
+                <input type="checkbox" name="inp">C++</input></label>
+            <label for="inp-3">
+                <input type="checkbox" name="inp">C#</input></label>
+            <label for="inp-4">
+                <input type="checkbox" name="inp">Java</input></label>
+            <label for="inp-5">
+                <input type="checkbox" name="inp">Python</input></label>
+            <label for="inp-6">
+                <input type="checkbox" name="inp">JavaScript</input></label>
+            <label for="inp-7">
+                <input type="checkbox" name="inp">React</input></label>
+            <label for="inp-7">
+                <input type="checkbox" name="inp">Angular</input></label>
+            <label for="inp-7">
+                <input type="checkbox" name="inp">Django</input></label>
+            <label for="inp-7">
+                <input type="checkbox" name="inp">Spring</input></label>
+        </div>
+
+        <div class="form-control">
+            <label for="comment">
+                Any comments or suggestions
+            </label>
+
+            <!-- multi-line text input control -->
+            <textarea name="comment" id="comment" placeholder="Enter your comment here">
+			</textarea>
+        </div>
+
+        <!-- Multi-line Text Input Control -->
+        <button type="submit" value="submit">
+            Submit
+        </button>
+    </form>
+</body>
+
+</html>
+
+<style>
+    /* Styling the Body element i.e. Color,
+		Font, Alignment */
+    body {
+        color: #000;
+        overflow-x: hidden;
+        /* height: 100%; */
+        /* background-image: url("/media/IMG_20190917_222921_531.jpg");  */
+        background-image: url("/static/images/logo/PSX_20211004_102855.jpg");
+        background-repeat: no-repeat;
+
+        background-color: #999;
+        /* background: linear-gradient(to bottom right, rgb(94, 94, 238), rgb(134, 104, 109)); */
+        height: 100vh;
+        /* Fallback for browsers that do not support Custom Properties */
+        height: calc(var(--vh, 1vh) * 100);
+        background-size: 100% 100%;
+
+
+    }
+
+    /* Styling the Form (Color, Padding, Shadow) */
+    form {
+        background-color: #fff;
+        max-width: 800px;
+        margin: 50px auto;
+        padding: 30px 20px;
+        box-shadow: 2px 5px 10px rgba(0, 0, 0, 0.5);
+    }
+
+    /* Styling form-control Class */
+    .form-control {
+        text-align: left;
+        margin-bottom: 25px;
+    }
+
+    /* Styling form-control Label */
+    .form-control label {
+        display: block;
+        margin-bottom: 10px;
+    }
+
+    /* Styling form-control input,
+		select, textarea */
+    .form-control input,
+    .form-control select,
+    .form-control textarea {
+        border: 1px solid #777;
+        border-radius: 2px;
+        font-family: inherit;
+        padding: 10px;
+        display: block;
+        width: 95%;
+    }
+
+    /* Styling form-control Radio
+		button and Checkbox */
+    .form-control input[type="radio"],
+    .form-control input[type="checkbox"] {
+        display: inline-block;
+        width: auto;
+    }
+
+    /* Styling Button */
+    button {
+        background-color: #05c46b;
+        border: 1px solid #777;
+        border-radius: 2px;
+        font-family: inherit;
+        font-size: 21px;
+        display: block;
+        width: 100%;
+        margin-top: 50px;
+        margin-bottom: 20px;
+    }
+</style>

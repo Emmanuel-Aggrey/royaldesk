@@ -10,7 +10,7 @@ import random
 from django.utils import timezone
 from django.dispatch import receiver
 from BaseModel.models import BaseModel,Department,Designation
-
+from django.core.exceptions import ObjectDoesNotExist
 
 
 PRIORITY = (('critical','CRITICAL'),('normal','NORMAL'))
@@ -26,11 +26,11 @@ class ActiveUsersManager(models.Manager):
 class User(AbstractUser):
     
     profile = models.ImageField(blank=True, null=True)
-    department = models.ForeignKey(Department,on_delete=models.CASCADE,null=True)
-    designation = models.ForeignKey(Designation,on_delete=models.CASCADE, null=True)
+    department = models.ForeignKey(Department,on_delete=models.CASCADE,null=True,db_index=True)
+    designation = models.ForeignKey(Designation,on_delete=models.CASCADE, null=True,db_index=True)
     is_head = models.BooleanField(default=False,help_text='tick if user is HOD')
-    is_applicant = models.BooleanField(default=False,help_text='tick if user is an applicant')
-    is_normal_user = models.BooleanField(default=False,help_text='tick if user will not use help desk')
+    # is_applicant = models.BooleanField(default=False,help_text='tick if user is an applicant')
+    is_normal_user = models.BooleanField(default=True,help_text='tick if user will not use help desk')
     for_management = models.BooleanField(default=False)
     
 
@@ -57,7 +57,36 @@ class User(AbstractUser):
     def get_absolute_url(self):
         return reverse("hrms:employee")
 
+    
+    @property
+    def is_applicant(self):
  
+        try:
+            if self.applicant_user.is_applicant is None:
+                return False
+            elif self.applicant_user.is_applicant is not None:
+                return self.applicant_user.is_applicant
+            elif self.applicant_user.is_applicant:
+                return self.applicant_user.is_applicant
+
+        except ObjectDoesNotExist:
+            return False
+
+    @property
+    def employee_uuid(self):
+ 
+        try:
+            if self.employee_user.emp_uiid is None:
+                return 'admin'
+            elif self.employee_user.emp_uiid is not None:
+                return f"{self.employee_user.emp_uiid}"
+            elif self.employee_user.emp_uiid:
+                return f"{self.employee_user.emp_uiid}"
+
+        except ObjectDoesNotExist:
+            return 'admin'
+            
+       
 
 
     def __str__(self):
@@ -68,6 +97,9 @@ class User(AbstractUser):
         if self.profile:
             self.profile.delete()
         super().delete(*args, **kwargs)
+
+
+
 
     # def save(self, *args, **kwargs):
     #     if self.password:

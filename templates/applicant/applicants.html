@@ -12,7 +12,7 @@
 
 <!-- align-items-center auth register-bg-1 theme-one -->
 <!-- auth auth-bg-1 theme-one -->
-<div class="container-scroller ">
+<div class="container-scroller -4">
     <div class="container-fluid page-body-wrapper ">
         <!-- sidebar start -->
 
@@ -78,13 +78,15 @@
                                         required class="form-control">
                                         <option value="in review">IN REVIEW</option>
                                         <option value="not selected">NOT SELECTED</option>
-                                        <option value="selected">SELECTED</option>
+                                        <!-- <option value="selected">SELECTED</option> -->
+                                       
 
-                                    </select>
+                                        </select>
                                 </div>
 
                             </div>
 
+                            
                             <!-- SECOND ROW END-->
 
                             <div class="row justify-content-between text-left w-100 mt-0">
@@ -291,7 +293,11 @@
 
                                  
                                     <input type="file" name="cv" id="file_edit" onchange="file_input_change()">
-                                    <a id="cv_url" href="">download</a>
+                                    <a  id="cv_url" href="#" target="_blank">download</a>
+                                    <ol id="offer_letters_docs">
+                                        
+                                    </ol>
+                                
 
                                 </div>
 
@@ -309,7 +315,7 @@
                     <!-- update applicant end -->
                 </div>
                 <!-- table -->
-                <div class="col">
+                <div class="col mt-5">
                     <div class="card">
                         <section>
                             <h2 style="font: bold 100% sans-serif; letter-spacing: 0.5em;"
@@ -359,6 +365,7 @@
                                     <option value="selected">SELECTED</option>
                                     <option value="not selected">NOT SELECTED</option>
                                     <option value="in review">IN REVIEW</option>
+                                    <option value="all">ALL</option>
                                 </select>
                                 <button id="message_btn" class="btn-small">message</button>
                             </div>

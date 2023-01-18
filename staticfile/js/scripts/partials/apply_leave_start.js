@@ -16,13 +16,13 @@ $('#leave_form').on('submit', function (event) {
         
         success: function (data) {
             // TERNARY OPERATOR FOR EMAIL OR USER ID
-            var emp_key = data.data.employee_id
-            var employee_id  = emp_key ? emp_key : data.data.email
+            var emp_key = data.employee_id
+            var employee_id  = emp_key ? emp_key : data.email
 
             // console.log('MYDATA ',emp_key);
             sessionStorage.setItem('emp_key',employee_id);
 
-                 Swal.fire('WELCOME REDIRECTING',data.data.user_name.toUpperCase());
+                 Swal.fire('WELCOME REDIRECTING',data.user_name.toUpperCase());
                  setInterval(() => {
                   location=`http://${location.host}/apply-leave/`
 
@@ -46,7 +46,7 @@ $('#leave_form').on('submit', function (event) {
 const swalRedirect =(user)=> {
     let timerInterval
 Swal.fire({
-  title: `$WELCOME {user} REDIRECTING ...`,
+  title: `WELCOME ${user} REDIRECTING ...`,
   html: 'will complete  in <b></b> milliseconds.',
   timer: 2000,
   timerProgressBar: true,

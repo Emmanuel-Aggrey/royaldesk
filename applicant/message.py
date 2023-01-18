@@ -1,8 +1,8 @@
 
 
 message = {
-    'selected': "After you have download  and printed your offer letter, upload \
-        a scan copy of the letter and upload on the next step. Congratulations.",
+    'selected': "After you have downloaded  and printed your offer letter, upload \
+        a scan copy of the signed letter and upload on the next step. Congratulations.",
 
     'in_review': "Your Application is under review by our recruitment team,\
         keep checking your status for any changes, also you will be notified via \

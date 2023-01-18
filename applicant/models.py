@@ -5,6 +5,9 @@ from django.db.models.signals import post_save, pre_save
 from datetime import datetime
 from BaseModel.models import BaseModel, Department, Designation
 import json
+from ckeditor.fields import RichTextField
+# from helpdesk.models import User
+from django.conf import settings
 from . import message
 STATUS = (('selected', 'SELECTED'), ('not selected',
           'NOT SELECTED'), ('in review', 'IN REVIEW'))
@@ -12,7 +15,7 @@ STATUS = (('selected', 'SELECTED'), ('not selected',
 
 # Create your models here.
 class Applicant(BaseModel):
-    applicant_id = models.CharField(max_length=20, unique=True)
+    applicant_id = models.CharField(max_length=20, unique=True,db_index=True)
     first_name = models.CharField(max_length=200)
     last_name = models.CharField(max_length=200)
     other_name = models.CharField(max_length=200, null=True, blank=True)
@@ -30,8 +33,11 @@ class Applicant(BaseModel):
     address = models.CharField(max_length=200, null=True, blank=True)
     salary = models.CharField(
         'net month salary', max_length=200, null=True, blank=True)
-    offer_letter = models.FileField(
-        upload_to='offerletter/%Y-%m-%d', blank=True, null=True)
+    # offer_letter = models.FileField(upload_to='offerletter/%Y-%m-%d', blank=True, null=True)
+    is_applicant = models.BooleanField(default=True)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL,null=True,blank=True,related_name='applicant_user')
+
+
 
     def __str__(self):
         return f'{self.first_name} {self.last_name}: {self.designation.name}'
@@ -40,11 +46,16 @@ class Applicant(BaseModel):
     def position(self):
         return f'{self.department.name} {self.designation.name}'
 
+
     @property
     def cv_exists(self):
         if self.cv:
             return self.cv.url
         return ''
+
+    @property
+    def employee_uuid(self):
+        return self.employee.emp_uiid
 
     @property
     def full_name(self):
@@ -81,10 +92,33 @@ class Applicant(BaseModel):
         else:
             return message.message.get('not_selected')
     class Meta:
-        ordering = ('updated_at',)
+        ordering = ('-updated_at',)
+    
+class ApplicantOfferLeter(models.Model):
+    appliant = models.ForeignKey(Applicant, on_delete=models.CASCADE,related_name='applicant_offer_letters')
+    offer_letter = models.FileField(upload_to='offerletter/%Y-%m-%d', blank=True, null=True)
+
+    class Meta:
+        verbose_name = 'Offer Letter'
+        verbose_name_plural = 'Offer Letters'
+    
+    
+    @property
+    def offer_letter_exist(self):
+        if self.appliant:
+            namess= []
+            namess.append(self.offer_letter.url)
+            return namess
+        return False
+
+    def __str__(self):
+        return f"{self.appliant}"
 
 
-# CREATE DEFAULT USER IF FOR EMPLOYEE
+
+
+
+# CREATE DEFAULT APPICANT ID
 def save_profile(sender, instance, **kwargs):
 
     if not instance.applicant_id:
@@ -92,8 +126,22 @@ def save_profile(sender, instance, **kwargs):
         last_name = instance.last_name
         year = date = datetime.now().year
         initials = f'{first_name[0]}{last_name}-{year}'.upper()
-        employee_id = initials.replace(' ', '')
-        instance.applicant_id = employee_id
+        applicant_id = initials.replace(' ', '')
+        instance.applicant_id = applicant_id
 
 
 pre_save.connect(save_profile, sender=Applicant)
+
+
+
+
+class OfferLetter(models.Model):
+    content = RichTextField()
+
+    def __str__(self):
+        return 'Offer Letter'
+    
+
+    class Meta:
+        verbose_name = ('offer letter')
+        verbose_name_plural = ('offer letter')

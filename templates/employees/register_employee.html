@@ -16,13 +16,20 @@
 
 <!-- no of beneficiaries -->
 {{no_beneficiaries|json_script:'no_beneficiaries'}}
+{{conntected_to_server|json_script:'conntected_to_server'}}
+{{user.is_applicant|json_script:'is_applicant'}}
+{{user.employee_uuid|json_script:'employee_uuid'}}
+
+<!-- applicant self service -->
+{{user.username|json_script:'applicant_name'}}
+
 
 
 <div class="container px-1 py-5 mx-auto">
   <div class="row d-flex justify-content-center">
-    <div class="col-xl-12 col-lg-12 col-md-12 col-12 text-center">
+    <div class="col-xl-12 col-lg-12 col-md-12 col-12 text-center mt-2">
       <div class="card px-0 pb-0 mt-3 mb-3">
-        <h3 id="heading">USER REGISTRATION </h3>
+        <h3 id="heading">EMPLOYEE REGISTRATION </h3>
         <p class="text-muted">Fill all form field to go to next step forms marked <span class="text-danger">*</span> are
           compulsory</p>
         <fieldset id="msform">
@@ -49,7 +56,7 @@
             transfer</div>
 
 
-          <form class="form-card" id="add_employee" enctype="multipart/form-data">
+          <form class="form-card card" id="add_employee" enctype="multipart/form-data">
 
             {% csrf_token %}
             <!-- FIRST ROW -->
@@ -102,7 +109,7 @@
               </div>
               <div class="form-group col-sm-3 flex-column d-flex">
               
-                <img class="img-fluid d-none text-center" id="profile_image" src="" alt="" height="100" width="150" onmouseenter="img_increase()" onmouseleave="img_decrease()">
+                <img class="img-fluid d-none text-center" id="profile_image" src="" alt="" height="80" width="120" onmouseenter="img_increase()" onmouseleave="img_decrease()">
 
                   <div id="profile_div" >
                     <label for="profile">Profile </label>
@@ -190,28 +197,41 @@
                     *</span></label> <input type="text" id="languages" required name="languages" placeholder=""></div>
               <div class="form-group col-sm-3 flex-column d-flex"> <label class="form-control-label px-3">Country<span
                     class="text-danger">
-                    *</span></label> <input type="text" id="country" name="country" required placeholder=""></div>
+                    *</span></label> 
+                    <select name="country" id="country" class="country form-controls" style="height:400% !important" required>
+               
+                    </select>
+                    <!-- <input type="text" id="country" name="country" required placeholder=""> -->
+                  
+                  </div>
 
             </div>
             <!-- marrird row start -->
-            <!-- <div class="row justify-content-between text-left d-nones" id="is_married_selected">
-              <div class="form-group col-sm-2 flex-column d-flex"> <label
+            
+            <div class="row justify-content-between text-left d-none" id="is_married_selected">
+              <p>RELATION</p>
+              <div class="form-group col-sm-3 flex-column d-flex"> <label
                 class="form-control-label px-3">Relation<span class="text-danger">
-                  *</span></label> <select name="relation" id="relation" >
+                  *</span></label> <select name="is_merried_relation" id="is_merried_relation" >
+                    <option value="">Select</option>
                     <option value="Wife">WIFE</option>
                     <option value="Husband">HUSBAND</option>
                    
                   </select>
             </div>
-              <div class="form-group col-sm-5 flex-column d-flex"> <label
-                class="form-control-label px-3">Name<span class="text-danger">
-                  *</span></label> <input type="text" id="is_merried_f_name"  name="nationality" placeholder="">
+              <div class="form-group col-sm-3 flex-column d-flex"> <label
+                class="form-control-label px-3">First Name<span class="text-danger">
+                  *</span></label> <input type="text" id="is_merried_f_name"  name="is_merried_f_name" >
             </div>
-              <div class="form-group col-sm-5 flex-column d-flex"> <label
-                  class="form-control-label px-3">Phone<span class="text-danger">
-                    *</span></label> <input type="text" id="is_merried_phone"  name="nationality" placeholder="">
+              <div class="form-group col-sm-3 flex-column d-flex"> <label
+                  class="form-control-label px-3">Last Name<span class="text-danger">
+                    *</span></label> <input type="text" id="is_merried_l_name"  name="is_merried_l_name" >
               </div>
-            </div> -->
+              <div class="form-group col-sm-3 flex-column d-flex"> <label
+                class="form-control-label px-3">Phone<span class="text-danger">
+                  *</span></label> <input type="text" id="is_merried_phone"  name="is_merried_phone">
+            </div>
+            </div>
             <!-- married row end -->
             <hr class="bg-primary">
             <!-- 5TH ROW END -->
@@ -293,11 +313,11 @@
 
 
             </div>
-            {% if not user.is_applicant %}
             <hr class="bg-primary">
-            <p>OTHER INFOMATION</p>
+        
 
-            <div class="row justify-content-between text-left">
+            <div class="row justify-content-between text-left" id="helpdesk_div">
+              <p>OTHER INFOMATION</p>
               <div class="form-group col-sm-6 flex-column d-flex" title="employee can use helpdesk"> <label
                   class="form-control-label px-3">Helpdesk User<span class="text-danger">
                   </span></label> <select name="helpdesk_user" id="helpdesk_user">
@@ -305,11 +325,29 @@
                   <option value="1">YES</option>
                 </select>
               </div>
+
+              <div class="form-group col-sm-6 flex-column d-flex" title="register on time attendance"> <label
+                class="form-control-label px-3">Anviz User<span class="text-danger">
+                  {% if not conntected_to_server %}
+                      <small class="text-danger">not connected</small>
+                  {% endif %}
+                </span></label> <select name="anviz_user" id="anviz_user">
+                <option value="0">NO</option>
+                <option value="1">YES</option>
+              </select>
+            </div>
+
+            <!-- <div class="form-group col-sm-4 flex-column d-flex" title="employee can use helpdesk"> <label
+              class="form-control-label px-3">Anviz Department<span class="text-danger">
+              </span></label> <select name="anviz_department" id="anviz_department">
+             <option value="">select </option>
+          
+            </select>
+          </div> -->
              
               <hr class="bg-primary">
 
             </div>
-            {% endif %}
            
 
             <!-- 7TH ROW END -->
@@ -326,7 +364,7 @@
           <!-- NEXT AND PREVIOUS BUTTONS END -->
           <!-- STEP TWO START -->
 
-          <form class="form-card" id="emp_dependant">
+          <form class="form-card card" id="emp_dependant">
             {% csrf_token %}
             <div class="row justify-content-between text-left">
 
@@ -428,7 +466,7 @@
           </form>
           <!-- STEP TWO END -->
           <!-- STEP THREE START -->
-          <form class="form-card" id="emp_education">
+          <form class="form-card card" id="emp_education">
             {% csrf_token %}
             <!-- FIRST ROW -->
             <hr class="bg-primary" />
@@ -498,7 +536,7 @@
           </form>
           <!-- STEP THREE END -->
           <!-- STEP FOUR START -->
-          <form class="form-card" id="emp_membership">
+          <form class="form-card card" id="emp_membership">
             {% csrf_token %}
             <!-- FIRST ROW -->
             <hr class="bg-primary" />
@@ -552,7 +590,7 @@
           </form>
           <!-- STEP FOUR END -->
           <!-- STEP FIVE START -->
-          <form class="form-card" id="emp_employment">
+          <form class="form-card card" id="emp_employment">
             {% csrf_token %}
             <!-- FIRST ROW -->
             <hr class="bg-primary" />
@@ -590,10 +628,27 @@
 
             <!-- <input type="button" name="next" class="next action-button" id="membership_next_btn" style="width: 100px" value="Next" /> -->
             <!-- <button type="button" class="btn btn-primary action-button submit-btn" onClick="reg_finished()" id="save-continue-btn">Finish</button> -->
-            <input type="submit" name="next" class="next action-button submit-btn" onclick="reg_finished()"
-            value="Finish" /> 
 
-            <button type="submit" class="btn btn-primary action-button submit-btn">Save and add another</button>
+            {% if user.department.shortname == 'HR' and not user.is_applicant or user.is_superuser %}
+           
+           <input type="button" name="next" class="next action-button submit-btn d-none" onclick="verify_data()" id="verify_btn" value="Verify" /> 
+           
+           <input type="button" name="next" class="next action-button submit-btn" onclick="reg_finished()"
+           value="Finish" /> 
+           
+           {% else %}
+
+               
+           <input type="button" name="next" class="next action-button submit-btn" onclick="reg_finished()"
+           value="Finish" /> 
+       
+           {% endif %} 
+
+
+         
+      
+
+            <button type="submit" class="btn btn-primary action-button submit-btn">Save</button>
 
             <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
             <table class="table">
@@ -620,7 +675,10 @@
 
 <script src="{% static 'js/scripts/employee_register.js' %}"></script>
 
+<script>
+   IS_APPLICANT ? $("#my_profile,#back_office,#helpdesk_div").fadeOut('fast'): ''
 
+</script>
 
 
 {% endblock content %}

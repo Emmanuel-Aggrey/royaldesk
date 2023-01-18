@@ -1,8 +1,8 @@
-from datetime import datetime,date
+from datetime import datetime,date,timedelta
 import numpy as np
 import random
 from django.contrib.auth.hashers import  check_password
-
+import json
 
 def days_difference(d1, d2):
     """Difference between two datetimes: end-start date"""
@@ -103,3 +103,32 @@ def hashed_employee(session,value):
     else:  return  None
 
 
+
+
+def day_tuple(day_offset):
+    today = datetime.now().date()
+    date = today + timedelta(day_offset)
+    return (date.day, date.month)
+
+three_weeks = timedelta(weeks=1)
+
+twenty_one_days = [
+    day_tuple(day)
+    for day
+    in range(three_weeks.days)
+]
+
+
+# birthdays = []
+# for day, month in twenty_one_days:
+#     birthdays += Person.objects.filter(
+#         birthday__day=day,
+#         birthday__month=month
+#     )
+# print(birthdays)
+
+
+def anviz_department():
+    with open('HRMSPROJECT/anviz_departments.json', 'r') as openfile:
+
+            return json.load(openfile)

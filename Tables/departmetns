@@ -1,8 +1,0 @@
-id,created_at,updated_at,name,email,shortname,for_management
-1,2022-07-22 11:48:38.511114,2022-11-19 16:50:57.757547,Rock City Hotel,,RCH,1
-2,2022-07-22 12:26:19.400216,2022-11-04 22:59:56.229036,Human Resource,hr@rockcityhotelgh.com,HR,0
-3,2022-07-22 12:27:00.762909,2022-11-04 23:00:16.830472,Information Technology,it@rockcityhotelgh.com,IT,0
-4,2022-07-22 12:28:03.038798,2022-11-04 23:00:09.286170,Mentanance,mentanance@rockcityhotelgh.com,,0
-5,2022-07-22 12:28:41.598881,2022-08-11 11:01:09.210061,Food & Beverage,fnb@rockcityhotelgh.com,,0
-6,2022-07-22 12:29:16.534431,2022-08-11 11:04:57.090433,Accounts,accounts@rockcityhotelgh.com,,0
-7,2022-08-11 11:02:13.134963,2022-11-04 23:00:53.212260,Management,gm@rockcityhotelgh.com,MNG,0

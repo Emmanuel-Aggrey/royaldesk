@@ -10,13 +10,13 @@ urlpatterns = [
     path('applicant/',TemplateView.as_view(template_name="applicant/applicant.html"),name="applicant"),
     # path('offerl_letter/',TemplateView.as_view(template_name="applicant/offerl_letter.html"),name="offerl_letter"),
 
-    path('FileUploadView/<str:applicant_id>/',views.FileUploadView.as_view()),
+    path('upload-offer-letter/<str:applicant_id>/',views.ApplicantOfferLetterView.as_view()),
 
-    path('upload-offer-letter/<str:applicant_id>/',views.upload_offer_letter),
+    # path('upload-offer-letter/<str:applicant_id>/',views.upload_offer_letter),
 
 
 
-    path('applicants-api/',views.applicant,name="applicants_api"),
+    path('applicants-api/',views.applicants,name="applicants_api"),
     path('update_applicant/<str:applicant_id>/',views.update_applicant),
 
     path('offer-letter/<str:applicant_id>/',views.acceptance_view,name="acceptance_view"),
