@@ -218,7 +218,7 @@ def anviz_employee(name="leave_users"):
             # employee = employee_ids.employee.employee_id
             resuming_date = employee_ids.resuming_date
 
-            sql = "SELECT DISTINCT [Userid]  FROM [dbo].[Checkinout] WHERE [Userid]  ='{}' AND CAST(CheckTime AS DATE) >= '{}'  ".format(
+            sql = "SELECT DISTINCT [IDCard]  FROM  [anviz].[dbo].[V_Record] WHERE [IDCard]  ='{}' AND CAST(CheckTime AS DATE) >= '{}'  ".format(
                 anviz_ids, resuming_date)
             # print(sql,'\n')
 
