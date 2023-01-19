@@ -120,7 +120,7 @@ def employement_status(request):
     employment_rate = Employee.employees.select_related('department').values(
         'department__name', 'first_name', 'last_name', 'other_name', 'date_employed','date_departure')
 
-    print('department ', department, year, status)
+    print('department here', department, year, status)
 
     if department == 'all':
 

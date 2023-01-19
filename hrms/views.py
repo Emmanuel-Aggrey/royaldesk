@@ -715,12 +715,11 @@ def exit_employee(request, employee_id):
 
             print('old_task_id ', old_task_id)
 
+            # EMPLOYEE EXITING TASK IN UPDATE POST REQUEST
             tasks_id = tasks.employee_exiting.apply_async(eta=date, args=(
-                employee_id, date_departure, exit_status,old_task_id),countdown=5)
+                employee_id, date_departure, exit_status,old_task_id))
 
-            # tasks_id = tasks.employee_exiting.apply_async(eta=date, args=(
-            #     employee_id, date_departure, exit_status, old_task_id), countdown=10)
-
+   
       
 
             # print('new_tasks_id', tasks_id)
@@ -735,8 +734,7 @@ def exit_employee(request, employee_id):
             EmployeeExit.objects.create(employee=employee, data=data)
             date = datetime.strptime(date_departure, '%Y-%m-%d')
 
-            # transaction.on_commit(tasks.employee_exiting.apply_async(
-            #     eta=date).delay(employee_id, date_departure, exit_status))
+       
 
             tasks_id = tasks.employee_exiting.apply_async(eta=date, args=(
                 employee_id, date_departure, exit_status))
@@ -928,12 +926,12 @@ def apply_leave(request, employee_id):
         leave_id = str(leave.id)
 
         # SEND EMAIL TO HOD AND HR
-        # tasks.apply_for_leave_email(
-        #     employee, start, end, leave_days, policy, department_email)
+        tasks.apply_for_leave_email(
+            employee, start, end, leave_days, policy, department_email)
 
         # SEND REMIBER EMAIL IF NOT APPROVED WITHIN LEAVE_REMINDER_HOURS
         # LEAVE_REMINDER_HOURS
-        hours_latter = datetime.now() + timedelta(minutes=10)
+        hours_latter = datetime.now() + timedelta(minutes=LEAVE_REMINDER_HOURS)
 
         tasks.applied_leave_reminder.apply_async(eta=hours_latter, args=(
             employee, start, end, leave_days, policy, leave_id,department_email
@@ -1054,6 +1052,22 @@ def update_leave(request, leave_id):
     # print(leave.supervisor_approval)
 
     leave.save()
+
+    employee = leave.employee.full_name
+    start = leave.start
+    end = leave.end
+    policy = leave.policy.name
+    department_email = leave.employee.department.email
+    on_leave = leave.from_leave
+    leave_days = str(leave.leavedays)
+    leave_id = str(leave.id)
+
+    approved = True if leave.supervisor and leave.line_manager and not leave.hr_manager else False
+    # print('approved approved',approved)
+    if approved:
+
+        tasks.apply_for_leave_email(
+            employee, start, end, leave_days, policy, HR_EMAIL)
 
     data = {
         'leave_id': leave_id,

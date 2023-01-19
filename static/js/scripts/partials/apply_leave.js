@@ -1,10 +1,17 @@
 var last_on_leave_year = ''
 var last_on_leave_month = ''
 
+const EMPLOYEE_NAME = window.location.pathname.split("/")[2]
+
+
 $(document).ready(function () {
+
+  // console.log(EMPLOYEE_NAME)
   // var today = new Date();
   leave_filter()
-  $("#leave_user").val(sessionStorage.getItem('emp_key'))
+  // $("#leave_user").val(sessionStorage.getItem('emp_key'))
+  $("#leave_user").val(EMPLOYEE_NAME)
+  fancyTable()
 
 }); //end ready
 
@@ -165,10 +172,9 @@ $(document).ready(function () {
 
   leave_table()
 
+  // emp_id = sessionStorage.getItem("emp_key");
 
-  emp_id = sessionStorage.getItem("emp_key");
-
-  url = `/apply-leave/${emp_id}/`;
+  url = `/apply-leave-api/${EMPLOYEE_NAME}/`;
 
   $.get(url, function (data) {
     // console.log(data)
@@ -207,6 +213,7 @@ $(document).ready(function () {
     });
 
     // console.log(data.data.leave_policies)
+
   });
 });
 
@@ -217,8 +224,8 @@ $("#leave_form").on("submit", function (event) {
 
   event.preventDefault();
   // alert('Please enter')
-  emp_id = sessionStorage.getItem("emp_key");
-  url = `/apply-leave/${emp_id}/`;
+  // emp_id = sessionStorage.getItem("emp_key");
+  url = `/apply-leave-api/${EMPLOYEE_NAME}/`;
   $.ajax({
     url: url,
     type: "POST",
@@ -241,13 +248,13 @@ $("#leave_form").on("submit", function (event) {
 
 
 
-      const emp_key = sessionStorage.getItem('emp_key');
+      // const emp_key = sessionStorage.getItem('emp_key');
       $("#leave_filter").empty();
 
       leave_filter()
       $("#leave_filter").prepend(
         `
-         <option value="${emp_key}">MY DATA</option> 
+         <option value="${EMPLOYEE_NAME}">MY DATA</option> 
           `
       )
 
@@ -358,13 +365,13 @@ $("#edit_leave_form").on("submit", function (event) {
 const leave_table = () => {
   // $("#leave_filter").empty();
 
-  const emp_key = sessionStorage.getItem('emp_key');
+  // const emp_key = sessionStorage.getItem('emp_key');
   $("#leave_filter").empty();
 
   leave_filter()
   $("#leave_filter").prepend(
     `
-     <option value="${emp_key}">MY DATA</option> 
+     <option value="${EMPLOYEE_NAME}">MY DATA</option> 
       `
   )
 
@@ -373,7 +380,7 @@ const leave_table = () => {
   $(`#leave_filter option:contains('${'MY DATA'}')`).prop("selected", true)
 
   $.ajax({
-    url: `/my-leaves/${emp_key}/`,
+    url: `/my-leaves/${EMPLOYEE_NAME}/`,
     type: "GET",
     success: function (response) {
 
@@ -420,7 +427,7 @@ const leave_table = () => {
       let desig = {}
 
       desig = response.data.filter(function (item) {
-        return item.employee_id === emp_key
+        return item.employee_id === EMPLOYEE_NAME
 
       })
 
@@ -470,7 +477,7 @@ const leave_table = () => {
             return item
           })
         }
-        else if (depart === emp_key) {
+        else if (depart === EMPLOYEE_NAME) {
           // console.log(depart,desig)
           // my leaves
           desig = response.data.filter(function (item) {

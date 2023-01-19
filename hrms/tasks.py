@@ -16,21 +16,22 @@ TEST_EMAIL = settings.TEST_EMAIL
 HR_EMAIL = settings.HR_EMAIL
 from celery import current_app
 @shared_task
-def apply_for_leave_email(employee, start, end, diff, policy, department_email=[]):
+def apply_for_leave_email(employee, start, end, diff, policy, department_email):
 
     # email_from = settings.EMAIL_HOST_USER
 
     subject = 'New Leave For {}'.format(employee)
     subject_ = subject.upper()
-    html_content = '{} Have Applied  For {} from {} to {} making {} day(s) , Please <a href="http://192.168.1.18/apply-leave/">Click Here</a> to approve Thank you <p>Best Regards,</p>The Royal Desk Team.</p> <br><hr> <br> <footer><b>POWERD BY <a href="http://192.168.1.18/"> ROYALDESK </a> RCH IT</b> </footer>'.format(
+    html_content = '{} Have Applied  For {} from {} to {} making {} day(s) , Please <a href="http://192.168.1.18/apply-leave-start/">Click Here</a> to approve Thank you <p>Best Regards,</p>The Royal Desk Team.</p> <br><hr> <br> <footer><b>POWERD BY <a href="http://192.168.1.18/"> ROYALDESK </a> RCH IT</b> </footer>'.format(
         employee, policy, start, end, diff)
 
 
 
-    # emails = [HR_EMAIL, department_email, TEST_EMAIL]
+    emails = [department_email, TEST_EMAIL]
 
-    emails = [TEST_EMAIL]
+    # emails = department_email.append(TEST_EMAIL)
     emails = list(set(emails))
+    # print(emails,'TEST_EMAIL',department_email)
     
 
     # print(emails)
@@ -42,19 +43,19 @@ def apply_for_leave_email(employee, start, end, diff, policy, department_email=[
 
 
 @shared_task
-def applied_leave_reminder(employee, start, end, diff, policy, leave_id,department_email=[]):
+def applied_leave_reminder(employee, start, end, diff, policy, leave_id,department_email):
     leave = Leave.objects.filter(pk=leave_id,supervisor=False,line_manager=False).exists()
     if leave:
         subject = 'Leave Reminder For {}'.format(employee)
         subject_ = subject.upper()
-        html_content = '{} Have Applied  For {} from {} to {} making {} day(s) , Please <a href="http://192.168.1.18/apply-leave/">Click Here</a> to approve Thank you <p>Best Regards,</p>The Royal Desk Team.</p> <br><hr> <br> <footer><b>POWERD BY <a href="http://192.168.1.18/"> ROYALDESK </a> RCH IT</b> </footer>'.format(
+        html_content = '{} Have Applied  For {} from {} to {} making {} day(s) , Please <a href="http://192.168.1.18/apply-leave-start/">Click Here</a> to approve Thank you <p>Best Regards,</p>The Royal Desk Team.</p> <br><hr> <br> <footer><b>POWERD BY <a href="http://192.168.1.18/"> ROYALDESK </a> RCH IT</b> </footer>'.format(
         employee, policy, start, end, diff)
 
         # GET HR EMAIL AND APPEND TO EMPLOYEE DEPARTMENT EMAIL
         # hr_email = Department.objects.only('email').filter(shortname='HR').first()
 
         # department_email
-        emails =  [TEST_EMAIL]
+        emails =  [TEST_EMAIL,department_email]
         # emails = [TEST_EMAIL]
         emails = list(set(emails))
         # print(emails)
@@ -68,13 +69,13 @@ def applied_leave_reminder(employee, start, end, diff, policy, leave_id,departme
     if leave:
         subject = 'New Leave For {}'.format(employee)
         subject_ = subject.upper()
-        html_content = '{} Have Applied  For {} from {} to {} making {} day(s) , Please <a href="http://192.168.1.18/apply-leave/">Click Here</a> to approve Thank you <p>Best Regards,</p>The Royal Desk Team.</p> <br><hr> <br> <footer><b>POWERD BY <a href="http://192.168.1.18/"> ROYALDESK </a> RCH IT</b> </footer>'.format(
+        html_content = '{} Have Applied  For {} from {} to {} making {} day(s) , Please <a href="http://192.168.1.18/apply-leave-start/">Click Here</a> to approve Thank you <p>Best Regards,</p>The Royal Desk Team.</p> <br><hr> <br> <footer><b>POWERD BY <a href="http://192.168.1.18/"> ROYALDESK </a> RCH IT</b> </footer>'.format(
         employee, policy, start, end, diff)
 
         # GET HR EMAIL AND APPEND TO EMPLOYEE DEPARTMENT EMAIL
-        hr_email = Department.objects.only('email').filter(shortname='HR').first()
-        emails = [hr_email.email, TEST_EMAIL]
-        emails = [TEST_EMAIL]
+        # hr_email = Department.objects.only('email').filter(shortname='HR').first()
+        emails = [HR_EMAIL, TEST_EMAIL]
+        # emails = [TEST_EMAIL]
         emails = list(set(emails))
         # print(emails)
 
@@ -241,15 +242,22 @@ def anviz_employee(name="leave_users"):
 @shared_task
 def employee_exiting(employee_id, date_departure, status,old_task_id=None):
 
-    employee = Employee.objects.filter(employee_id=employee_id).update(
-        date_departure=date_departure, status=status)
+    employee = Employee.objects.get(employee_id=employee_id)
+    #.update(
+    #    date_departure=date_departure, status=status)
+    
+    employee.date_departure = date_departure
+    employee.status = status
 
-    print('old_task_id ', old_task_id)
+    status  = True if status =='active' else False
+    employee.user.is_active = status
+    employee.save()
+
 
     # REVOKE ANY OLD TASK
     if old_task_id is not None:
         current_app.control.revoke(old_task_id)
-        
+        # terminate=True
 
 # IDCard, any_unique_value to link anviz user to employee
 @shared_task

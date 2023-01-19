@@ -217,12 +217,12 @@ LOGOUT_REDIRECT_URL = 'login'
 
 # LOGIN_URL = 'login'
 
-# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 # CELERY_EMAIL_BACKEND =  'djcelery_email.backends.CeleryEmailBackend'
 
-EMAIL_BACKEND = 'djcelery_email.backends.CeleryEmailBackend'
+# EMAIL_BACKEND = 'djcelery_email.backends.CeleryEmailBackend'
 CELERY_EMAIL_CHUNK_SIZE = 1
 DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL')
 EMAIL_HOST = config('EMAIL_HOST')

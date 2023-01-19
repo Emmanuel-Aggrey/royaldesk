@@ -75,10 +75,10 @@ urlpatterns = [
 
     # APPLY FOR LEAVE
     path('apply-leave-start/', TemplateView.as_view(template_name="leave/apply_leave_start.html")),
-    path('apply-leave/', TemplateView.as_view(template_name="leave/apply_leave.html")),
+    path('apply-leave/<str:employee_id>/', TemplateView.as_view(template_name="leave/apply_leave.html")),
     path('employee-leave/<str:employee_id>/',views.employee_leave),
     path('leave-detail/<str:employee>/<int:leave_id>/',views.leave_application_detail,name="leave_application_detail"),
-    path('apply-leave/<str:employee_id>/',views.apply_leave,name='apply_leave'),
+    path('apply-leave-api/<str:employee_id>/',views.apply_leave,name='apply_leave'),
     path('my-leaves/<str:employee_id>/',views.leaves,name='my_leaves'),
     path('getleave/<int:pk>/',views.getleave,name='getleave'),
     path('update-leave/<int:leave_id>/',views.update_leave,name='update_leave'),

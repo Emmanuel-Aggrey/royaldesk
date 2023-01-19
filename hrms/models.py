@@ -5,40 +5,40 @@ from datetime import datetime
 from email import policy
 from ssl import CertificateError
 
+from ckeditor.fields import RichTextField
+from django.conf import settings
+from django.core.exceptions import ValidationError
 from django.db import models
-from django.db.models import F,Q
+from django.db.models import F, Q
 from django.db.models.signals import post_save, pre_save
 from django.dispatch import receiver
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.utils import timezone
-from datetime import datetime
-from . import partials
-from BaseModel.models import BaseModel,Department,Designation
-from applicant.models import Applicant
-from django.conf import settings
-from ckeditor.fields import RichTextField
 
-from django.core.exceptions import ValidationError
+from applicant.models import Applicant
+from BaseModel.models import BaseModel, Department, Designation
+
+from . import partials
+
 # from applicant.models import Applicant
 # from django.contrib.auth.models import Group
 GENDER = (('male', 'MALE'), ('female', 'FEMALE'))
 TITLE = (('mr', 'MR'), ('mrs', 'MRS'), ('doc', 'DOCTOR'), ('prof',
          'PROFESSOR'), ('miss', 'MISS'), ('sir', 'SIR'), ('hon', 'HONARABLE'))
 EMPLOYEE_STATUS = (('active', 'ACTIVE'), ('terminated',
-                   'TERMINATED'), ('resigned', 'RESIGNED'),('dismised', 'DISMISED'),('management', 'FOR MANAGEMENT'))
+                   'TERMINATED'), ('resigned', 'RESIGNED'), ('dismised', 'DISMISED'), ('management', 'FOR MANAGEMENT'))
 
 STATUS = (('approved', 'APPROVED'), ('unapproved',
-          'UNAPPROVED'), ('pending', 'PENDING'),('done', 'DONE'),)
+          'UNAPPROVED'), ('pending', 'PENDING'), ('done', 'DONE'),)
 
-MARRITAL_STATUS = (('married','MARRIED'),('not_married','NOT MARRIED'),('divorced','Divorced'),('widow','WIDOW'),('widower','WIDOWER'),)
+MARRITAL_STATUS = (('married', 'MARRIED'), ('not_married', 'NOT MARRIED'),
+                   ('divorced', 'Divorced'), ('widow', 'WIDOW'), ('widower', 'WIDOWER'),)
 
 # RELATION = (('mother','MOTHER'),('father',''),('divorced','Divorced'),('widow','WIDOW'),('widower','WIDOWER'),)
 
 
-
 # Create your models here.
-
 
 
 class Contribution(BaseModel):
@@ -51,8 +51,8 @@ class Contribution(BaseModel):
     provedent_amont_company = models.DecimalField(
         'provedent amont rch', default=5, decimal_places=2, max_digits=5, help_text='value in percentage eg 5%')
 
-
     # UPDATE CONTRIBUTIONS IN DESIGNATION
+
     @receiver(post_save, sender='hrms.Contribution')
     def _post_save_receiver_on(sender, instance, created, **kwargs):
 
@@ -64,30 +64,38 @@ class Contribution(BaseModel):
         Designation.objects.update(snnit_amount=snnit_amount, snnit_amount_company=snnit_amount_company,
                                    provedent_amont=provedent_amont, provedent_amont_company=provedent_amont_company)
 
-     
+
 # NOT USING TNIS REPLACED BY is_head in EMPLOYEE MODEL
-
-
 
 
 class ActiveEmployeesManager(models.Manager):
     def get_queryset(self):
-        return super().get_queryset().filter(department__for_management=False,status='active').exclude(status='done')
+        return super().get_queryset().filter(department__for_management=False, status='active').exclude(status='done')
+
+
+class InActiveEmployeesManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(Q(department__for_management=False) & ~Q(status='active')).exclude(status='done')
+
 
 class EmployeesManager(models.Manager):
     def get_queryset(self):
-        return super().get_queryset().filter(Q(department__for_management=False,applicant__is_applicant=False)|Q(applicant__isnull=True)).exclude(status='management').exclude(status='done')
+        return super().get_queryset().filter(Q(department__for_management=False, applicant__is_applicant=False) | Q(applicant__isnull=True)).exclude(status='management').exclude(status='done')
 
 
 class Employee(BaseModel, models.Model):
     status = models.CharField(
-        max_length=10, choices=EMPLOYEE_STATUS, default='active', blank=True,db_index=True)
-    exit_check = models.BooleanField(default=False,help_text='checks to see if the employee exit checks are successful')
-    date_departure = models.DateField(null=True,blank=True,help_text='shows the date when the employee exited from the company')
-    reason_exiting = models.TextField(null=True,blank=True,help_text='reason of exiting')
+        max_length=10, choices=EMPLOYEE_STATUS, default='active', blank=True, db_index=True)
+    exit_check = models.BooleanField(
+        default=False, help_text='checks to see if the employee exit checks are successful')
+    date_departure = models.DateField(
+        null=True, blank=True, help_text='shows the date when the employee exited from the company')
+    reason_exiting = models.TextField(
+        null=True, blank=True, help_text='reason of exiting')
     employee_id = models.CharField(
-        max_length=200,null=True, blank=True, unique=True, help_text='system generated (leave blank)',db_index=True)
-    profile = models.ImageField(upload_to='employees/%Y-%m-%d',null=True,blank=True)
+        max_length=200, null=True, blank=True, unique=True, help_text='system generated (leave blank)', db_index=True)
+    profile = models.ImageField(
+        upload_to='employees/%Y-%m-%d', null=True, blank=True)
     title = models.CharField(max_length=20, choices=TITLE, null=True)
     first_name = models.CharField(max_length=50, null=False)
     last_name = models.CharField(max_length=50, null=False)
@@ -107,9 +115,10 @@ class Employee(BaseModel, models.Model):
     country = models.CharField(max_length=200, null=True, blank=True)
     gender = models.CharField(choices=GENDER, max_length=10)
     snnit_number = models.CharField(max_length=15, null=True, blank=True)
-    is_merried = models.CharField('marital_status', max_length=20, null=True, blank=True,choices=MARRITAL_STATUS)
+    is_merried = models.CharField(
+        'marital_status', max_length=20, null=True, blank=True, choices=MARRITAL_STATUS)
     department = models.ForeignKey(
-        Department, on_delete=models.SET_NULL, null=True,related_name='employees_department')
+        Department, on_delete=models.SET_NULL, null=True, related_name='employees_department')
     designation = models.ForeignKey(
         Designation, on_delete=models.SET_NULL, null=True)
     bank_name = models.CharField(max_length=50, blank=True, null=True)
@@ -127,23 +136,26 @@ class Employee(BaseModel, models.Model):
         max_length=200, blank=True, null=True)
     next_of_kin_relationship = models.CharField(
         max_length=20, null=True, blank=True)
-    emp_uiid = models.UUIDField(default=uuid.uuid4, null=True, editable=True,db_index=True)
-    anviz_id = models.CharField(max_length=20,null=True, blank=True)
-    applicant = models.OneToOneField(Applicant, on_delete=models.SET_NULL, null=True, blank=True,db_index=True)
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL,null=True, blank=True,related_name='employee_user')
-    request_change = models.BooleanField(default=False,null=True,help_text='requested for data changes')
+    emp_uiid = models.UUIDField(
+        default=uuid.uuid4, null=True, editable=True, db_index=True)
+    anviz_id = models.CharField(max_length=20, null=True, blank=True)
+    applicant = models.OneToOneField(
+        Applicant, on_delete=models.SET_NULL, null=True, blank=True, db_index=True)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL,
+                                null=True, blank=True, related_name='employee_user')
+    request_change = models.BooleanField(
+        default=False, null=True, help_text='requested for data changes')
 
-    objects = models.Manager() 
-    activeemployees = ActiveEmployeesManager() 
-    employees = EmployeesManager() 
-
+    objects = models.Manager()
+    activeemployees = ActiveEmployeesManager()
+    employees = EmployeesManager()
+    inactiveemployees = InActiveEmployeesManager()
 
     def __str__(self):
-        return f'{self.first_name} {self.last_name}' 
+        return f'{self.first_name} {self.last_name}'
 
     def get_absolute_url(self):
         return reverse("hrms:employee")
-        
 
     @property
     def full_name(self):
@@ -151,7 +163,6 @@ class Employee(BaseModel, models.Model):
             return f'{self.first_name} {self.other_name} {self.last_name}'
         else:
             return f'{self.first_name} {self.last_name}'
-
 
     @property
     def my_group(self):
@@ -184,7 +195,6 @@ class Employee(BaseModel, models.Model):
     def age(self):
         today = datetime.today()
         return today.year - int(self.dob.strftime('%Y'))
-
 
     @property
     def position(self):
@@ -220,13 +230,10 @@ class Employee(BaseModel, models.Model):
             # print('me3')
             return False
         return False
-    
-
-   
 
     class Meta:
         unique_together = ('employee_id', 'mobile')
-        ordering = ('-updated_at','-created_at')
+        ordering = ('-updated_at', '-created_at')
 
 
 # CREATE DEFAULT USER IF FOR EMPLOYEE
@@ -236,7 +243,7 @@ def save_profile(sender, instance, **kwargs):
         last_name = instance.last_name
         year = instance.date_employed.strftime('%Y')
         initials = f'{first_name[0]}{last_name}-{year}'.upper()
-        employee_id = initials.replace(' ','')
+        employee_id = initials.replace(' ', '')
         instance.employee_id = employee_id
         instance.anviz_id = employee_id
         # instance.age = age_calendar(instance.dob)
@@ -254,7 +261,7 @@ def save_profile(sender, instance, **kwargs):
     #     instance.anviz_id = employee_id
 
         # print('employee_id not set')
-        
+
         # instance.age = age_calendar(instance.dob)
 
         # instance.save()
@@ -265,44 +272,42 @@ pre_save.connect(save_profile, sender=Employee)
 
 # DISBALE OR ENABLE USER FROM LOGGING IN
 def disbale_enable_login_user(sender, instance, **kwargs):
-    if instance.status =='active':
+    if instance.status == 'active':
         user = instance.user
-        user.is_active=True
+        user.is_active = True
         user.save()
+        # print('EMALE-2023 >  ACTIVE')
     else:
+        # print('EMALE-2023 NOT ACTIVE')
         user = instance.user
-        user.is_active=False
+        user.is_active = False
         user.save()
+
 
 pre_save.connect(disbale_enable_login_user, sender=Employee)
 
 
-
-class EmployeeExit(BaseModel,models.Model):
+class EmployeeExit(BaseModel, models.Model):
     employee = models.OneToOneField(
         Employee, on_delete=models.CASCADE, related_name='employee_exit')
-    data = models.JSONField(default=dict,null=True,blank=True) 
+    data = models.JSONField(default=dict, null=True, blank=True)
 
     def __str__(self):
         return f'{self.employee}'
-
 
     class Meta:
         verbose_name = 'Employee Edit Form'
         verbose_name_plural = 'Employee Edit Form'
 
 
-
-
-class RequestChange(BaseModel,models.Model):
-    employee = models.ForeignKey(Employee,on_delete=models.CASCADE,related_name='request_changes')
-    status = models.CharField(max_length=20,choices=STATUS,default='pending')
+class RequestChange(BaseModel, models.Model):
+    employee = models.ForeignKey(
+        Employee, on_delete=models.CASCADE, related_name='request_changes')
+    status = models.CharField(max_length=20, choices=STATUS, default='pending')
     text = RichTextField()
 
     def __str__(self):
         return f'{self.employee}'
-
-
 
 
 class Dependant(models.Model):
@@ -316,7 +321,7 @@ class Dependant(models.Model):
     dob = models.DateField(null=True)
     mobile = models.CharField(max_length=15, null=True, blank=True)
     address = models.TextField(max_length=100, null=True, blank=True)
-    relation= models.CharField(blank=True,null=True, max_length=20)
+    relation = models.CharField(blank=True, null=True, max_length=20)
     is_beneficiary = models.BooleanField(default=False)
     # image = models.ImageField(null=True, blank=True)
 
@@ -328,7 +333,7 @@ class Dependant(models.Model):
             return f'{self.first_name} {self.last_name}'
 
     def __str__(self):
-        return self.first_name #f'{self.first_name} {self.last_name}'
+        return self.first_name  # f'{self.first_name} {self.last_name}'
 
     def get_absolute_url(self):
         return reverse("hrms:employee_view", kwargs={'pk': self.employee.pk})
@@ -336,9 +341,6 @@ class Dependant(models.Model):
     class Meta:
         pass
         # unique_together = ('first_name', 'last_name', 'address')
-
-
-   
 
 
 class Education(BaseModel, models.Model):
@@ -362,9 +364,8 @@ class ProfessionalMembership(BaseModel, models.Model):
     employee = models.ForeignKey(
         Employee, on_delete=models.CASCADE, related_name='memberships')
     name = models.CharField(max_length=200)
-    document = models.FileField(null=True, blank=True,upload_to='memberships/%Y-%m-%d')
-
-
+    document = models.FileField(
+        null=True, blank=True, upload_to='memberships/%Y-%m-%d')
 
     # date_completed = models.DateField(null=True,blank=True)
 
@@ -380,6 +381,7 @@ class ProfessionalMembership(BaseModel, models.Model):
         if self.document:
             return self.document.url
         return ''
+
 
 class PreviousEployment(BaseModel, models.Model):
     employee = models.ForeignKey(
@@ -399,8 +401,7 @@ class PreviousEployment(BaseModel, models.Model):
 class LeavePolicy(BaseModel, models.Model):
     name = models.CharField(max_length=70)
     days = models.PositiveSmallIntegerField(default=0)
-    has_days= models.BooleanField(default=True)
-    
+    has_days = models.BooleanField(default=True)
 
     def __str__(self):
         return f'{self.name} : {self.days} days'
@@ -409,7 +410,8 @@ class LeavePolicy(BaseModel, models.Model):
 class Leave(BaseModel, models.Model):
     employee = models.ForeignKey(
         Employee, on_delete=models.CASCADE, related_name='leave_employees')
-    leave_number = models.IntegerField(default=partials.generated_ticket_number)
+    leave_number = models.IntegerField(
+        default=partials.generated_ticket_number)
     start = models.DateField(db_index=True)
     end = models.DateField()
     status = models.CharField(
@@ -421,32 +423,28 @@ class Leave(BaseModel, models.Model):
     resuming_date = models.DateField(null=True, blank=False)
     file = models.FileField(null=True, blank=True, upload_to='leave/%Y-%m-%d')
 
-    supervisor = models.BooleanField('supervisor',default=False)
-    line_manager = models.BooleanField('hod',default=False)
+    supervisor = models.BooleanField('supervisor', default=False)
+    line_manager = models.BooleanField('hod', default=False)
     hr_manager = models.BooleanField(default=False)
     on_leave = models.BooleanField(default=False)
     from_leave = models.BooleanField(default=False)
-    leavedays = models.IntegerField(default=0,editable=True) #using this because sqlite doesn't support calculations with datefieds
-    supervisor_approval = models.JSONField(default=dict,null=True,blank=True) #{'name':'date'}
-    line_manager_approval = models.JSONField(default=dict,null=True,blank=True)
-    hr_manager_approval = models.JSONField(default=dict,null=True,blank=True)
-
-
-
+    # using this because sqlite doesn't support calculations with datefieds
+    leavedays = models.IntegerField(default=0, editable=True)
+    supervisor_approval = models.JSONField(
+        default=dict, null=True, blank=True)  # {'name':'date'}
+    line_manager_approval = models.JSONField(
+        default=dict, null=True, blank=True)
+    hr_manager_approval = models.JSONField(default=dict, null=True, blank=True)
 
     def __str__(self):
         return self.employee.full_name
 
-
     def get_absolute_url(self):
-        return reverse("hrms:leave_application_detail", kwargs={"employee": self.employee.employee_id,"leave_id": self.pk})
+        return reverse("hrms:leave_application_detail", kwargs={"employee": self.employee.employee_id, "leave_id": self.pk})
     # @property
     # def leave_days(self):
 
     #     return self.leavedays
-
-
-
 
     @property
     def file_exists(self):
@@ -456,8 +454,6 @@ class Leave(BaseModel, models.Model):
 
     class Meta:
         ordering = ['-updated_at']
-
-
 
     # def save(self, *args, **kwargs):
     #     # If new instance created
@@ -485,15 +481,12 @@ class Leave(BaseModel, models.Model):
     #         raise ValidationError('Choose another date')
 
     #     super(Leave, self).save(*args, **kwargs)
-   
-    
-
-
 
 
 def update_leave_status(sender, instance, **kwargs):
 
-    instance.leavedays =partials.days_difference_weekdays(instance.start,instance.end)  #save the leave days
+    instance.leavedays = partials.days_difference_weekdays(
+        instance.start, instance.end)  # save the leave days
 
     if instance.line_manager == True and instance.hr_manager == True:
         instance.status = 'approved'
@@ -509,38 +502,31 @@ def update_leave_status(sender, instance, **kwargs):
         # instance.on_leave = True
     elif instance.hr_manager == False:
         instance.status = 'pending'
-        instance.from_leave =False
+        instance.from_leave = False
 
     # APPROVALS LOGGING
     # partials.approvlas(instance.supervisor, instance.line_manager, instance.hr_manager, instance.employee.full_name)
 
+
 pre_save.connect(update_leave_status, sender=Leave)
 
 
-
-
-
-
 class File(BaseModel):
-    name = models.CharField(max_length=200,unique=True)
-    
+    name = models.CharField(max_length=200, unique=True)
+
     def __str__(self):
         return self.name
 
 
 class Documente(BaseModel):
-    employee = models.ForeignKey(Employee, on_delete=models.CASCADE,null=True,related_name='employee_documents')
-    description =models.CharField(max_length=200,blank=True)
-    filename = models.ForeignKey(File, on_delete=models.CASCADE,related_name='filenames')
-    date = models.DateField(null=True, blank=True,default=timezone.now)
-    file = models.FileField(upload_to='documents/%Y-%m-%d',null=True,blank=True)
-
-
-
-
+    employee = models.ForeignKey(
+        Employee, on_delete=models.CASCADE, null=True, related_name='employee_documents')
+    description = models.CharField(max_length=200, blank=True)
+    filename = models.ForeignKey(
+        File, on_delete=models.CASCADE, related_name='filenames')
+    date = models.DateField(null=True, blank=True, default=timezone.now)
+    file = models.FileField(
+        upload_to='documents/%Y-%m-%d', null=True, blank=True)
 
     def __str__(self):
         return f'{self.filename.name}'
-
-    
-
