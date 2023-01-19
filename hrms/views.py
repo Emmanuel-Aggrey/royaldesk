@@ -931,7 +931,7 @@ def apply_leave(request, employee_id):
 
         # SEND REMIBER EMAIL IF NOT APPROVED WITHIN LEAVE_REMINDER_HOURS
         # LEAVE_REMINDER_HOURS
-        hours_latter = datetime.now() + timedelta(minutes=LEAVE_REMINDER_HOURS)
+        hours_latter = datetime.now() + timedelta(hours=LEAVE_REMINDER_HOURS)
 
         tasks.applied_leave_reminder.apply_async(eta=hours_latter, args=(
             employee, start, end, leave_days, policy, leave_id,department_email
