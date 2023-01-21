@@ -50,7 +50,7 @@ def applicants(request):
         if serializer.is_valid():
 
             applicant = serializer.save()
-            print(serializer.data)
+            # print(serializer.data)
 
             applicantid = "<b>{}</b>".format(applicant.applicant_id)
             candidatename = "{}, <br>".format(applicant.full_name)

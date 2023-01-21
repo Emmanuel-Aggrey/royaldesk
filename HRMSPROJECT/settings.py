@@ -62,6 +62,7 @@ INSTALLED_APPS = [
     'drf_yasg',
     'debug_toolbar',
     'ckeditor',
+    "corsheaders",
 
     'django_celery_results',
     'djcelery_email',
@@ -78,6 +79,7 @@ MIDDLEWARE = [
     "debug_toolbar.middleware.DebugToolbarMiddleware",
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    "corsheaders.middleware.CorsMiddleware",
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -142,6 +144,9 @@ DATABASES = {
 
 AUTH_USER_MODEL = 'helpdesk.User'
 # Production
+
+
+
 
 
 # this will update settings datbase configuration automatically from heroku and let us local config also
@@ -286,3 +291,12 @@ AUDITLOG_INCLUDE_ALL_MODELS= config('AUDITLOG_MODELS', default=False, cast=bool)
 
 # DJANGO DEBUG TOOLBAR
 INTERNAL_IPS = ('127.0.0.1',)
+
+CORS_ORIGIN_ALLOW_ALL = True
+
+
+# CORS_ALLOWED_ORIGINS = [
+# "http://localhost:8000",
+# "http://127.0.0.1:8000",
+# "http://192.168.1.18",
+# ]

@@ -170,7 +170,7 @@ $('#applicant_form_edit').submit(function (event) {
     csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
     
     success: function (data) {
-      console.log(data);
+      // console.log(data);
 
       show_alert(5000, "success", data.full_name + ' Record Updated')
       // $("#applicant_form_edit")[0].reset()
@@ -245,7 +245,7 @@ const get_applicant = (applicant_id) => {
 
   $("#applicant_id").text(applicant_id.id)
   showModal('model_edit', 'UPDATE  REGISTRATION')
-  console.log('applicant_id',applicant_id.id)
+  // console.log('applicant_id',applicant_id.id)
   $.ajax({
     url: `/update_applicant/${applicant_id.id}/`,
     type: 'GET',
