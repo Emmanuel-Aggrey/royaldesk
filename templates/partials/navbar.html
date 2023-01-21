@@ -156,13 +156,19 @@
           </div>
           <a class="dropdown-item">FAQ<i class="dropdown-item-icon ti-location-arrow"></i></a>          
           
-          {% if user.is_authenticated %}
-          {% comment %} <a class="dropdown-item" href="{% url 'hrms:employee_exit_form' request.user.username  %}">Exit Form<i class="dropdown-item-icon ti-comment-alt"></i></a> {% endcomment %}
+          {% if user.is_authenticated and not user.is_applicant %}
 
           <a  href="{% url 'hrms:update_employee' request.user.employee_uuid %}" class="dropdown-item">My Profile <span class="badge badge-pill badge-danger"></span><i class="dropdown-item-icon ti-dashboard"></i></a>
 
-            <a id="back_office" class="dropdown-item" href="/back-office">Back Office<i class="dropdown-item-icon ti-help-alt"></i></a>
+          <a id="back_office" class="dropdown-item" href="/back-office">Back Office<i class="dropdown-item-icon ti-help-alt"></i></a>
 
+              
+          {% endif %}
+
+          {% if user.is_authenticated %}
+          {% comment %} <a class="dropdown-item" href="{% url 'hrms:employee_exit_form' request.user.username  %}">Exit Form<i class="dropdown-item-icon ti-comment-alt"></i></a> {% endcomment %}
+
+         
           <a href="#" id="logout" class="dropdown-item">Sign Out<i class="dropdown-item-icon ti-power-off"></i></a>
 
           {% if request.user.department.shortname == 'IT'  or request.user.is_superuser  %}
