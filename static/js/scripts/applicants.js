@@ -245,7 +245,7 @@ const get_applicant = (applicant_id) => {
 
   $("#applicant_id").text(applicant_id.id)
   showModal('model_edit', 'UPDATE  REGISTRATION')
-  // console.log(applicant_id.id)
+  console.log('applicant_id',applicant_id.id)
   $.ajax({
     url: `/update_applicant/${applicant_id.id}/`,
     type: 'GET',

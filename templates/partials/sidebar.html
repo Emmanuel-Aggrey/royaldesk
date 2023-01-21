@@ -102,8 +102,11 @@
 </nav>
 
 <script>
-
-  location.pathname != '/employee/' ? document.getElementById('change_request').remove() :'' 
+  // alert(location.pathname)
+  if(location.pathname !='/employee/'){
+    document.getElementById('change_request').remove()
+  }
+  // location.pathname != '/employee/' ? document.getElementById('change_request').remove() :'' 
   
   // console.log(location.pathname)
 
