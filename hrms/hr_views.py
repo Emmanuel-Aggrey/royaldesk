@@ -84,12 +84,20 @@ def hr_reports(request, data_value=None):
         ),
     )
 
-    birthdays = []
-    for day, month in partials.twenty_one_days:
-        birthdays += active_employees.values('first_name', 'last_name', 'department__name', 'dob').filter(
-            dob__day=day,
-            dob__month=month
-        )
+    # birthdays = []
+    # for day, month in partials.twenty_one_days:
+    #     birthdays += active_employees.values('first_name', 'last_name', 'department__name', 'dob').filter(
+    #         dob__day=day,
+    #         dob__month=month
+    #     )
+    today = datetime.today().date()
+    next_week = today + timedelta(days=7)
+    # Query for employees whose birthday is between today and the next 7 days
+    birthdays = active_employees.values('first_name', 'last_name', 'department__name', 'dob').filter(
+    dob__range=[today, next_week]
+    )
+
+
 
     country = active_employees.values('country').annotate(emp_count=Count('country'))
     this_year = datetime.now().year
@@ -354,16 +362,16 @@ def clockins(request):
 
         # cursor =sql_server.connection.cursor()
     else:
-        # sql_today = "SELECT  [StatusText] ,  Count(case StatusText when 'In' then 1 end) as Count_In, Count(case StatusText when 'Out' then 1 end) as Count_Out FROM [dbo].[V_Record] WHERE [StatusText] in ('In', 'Out') AND CAST(CheckTime AS DATE) ='{}' AND DeptName IS NOT NULL GROUP BY [StatusText] ORDER BY [StatusText]".format(today_)
+        sql_today = "SELECT  [StatusText] ,  Count(case StatusText when 'In' then 1 end) as Count_In, Count(case StatusText when 'Out' then 1 end) as Count_Out FROM [dbo].[V_Record] WHERE [StatusText] in ('In', 'Out') AND CAST(CheckTime AS DATE) ='{}' AND DeptName IS NOT NULL GROUP BY [StatusText] ORDER BY [StatusText]".format(today_)
         sql_yesterday = "SELECT  [StatusText] ,  Count(case StatusText when 'In' then 1 end) as Count_In, Count(case StatusText when 'Out' then 1 end) as Count_Out FROM [dbo].[V_Record] WHERE [StatusText] in ('In', 'Out') AND CAST(CheckTime AS DATE) ='{}' AND DeptName IS NOT NULL GROUP BY [StatusText] ORDER BY [StatusText]".format(yesterday)
         sql_week = "SELECT  [StatusText] ,  Count(case StatusText when 'In' then 1 end) as Count_In, Count(case StatusText when 'Out' then 1 end) as Count_Out FROM [dbo].[V_Record] WHERE [StatusText] in ('In', 'Out') AND CAST(CheckTime AS DATE) BETWEEN '{}' AND '{}' AND DeptName IS NOT NULL GROUP BY [StatusText] ORDER BY [StatusText]".format(week, today_)
         sql_department_yesterday = "SELECT  [DeptName] AS Department,  Count(case StatusText when 'In' then 1 end) as Count_In, Count(case StatusText when 'Out' then 1 end) as Count_Out FROM [dbo].[V_Record] WHERE [StatusText] in ('In', 'Out') AND CAST(CheckTime AS DATE) = '{}' AND DeptName IS NOT NULL GROUP BY [DeptName] ORDER BY [DeptName]".format(
             yesterday)
 
-        # cursor = sql_server.cursor.execute(sql_today)
-        # rows = cursor.fetchall()
-        # columns = [column[0] for column in cursor.description]
-        # result_today = [dict(zip(columns, row)) for row in rows]
+        cursor = sql_server.cursor.execute(sql_today)
+        rows = cursor.fetchall()
+        columns = [column[0] for column in cursor.description]
+        result_today = [dict(zip(columns, row)) for row in rows]
 
         cursor = sql_server.cursor.execute(sql_yesterday)
         rows = cursor.fetchall()
@@ -381,7 +389,7 @@ def clockins(request):
         result_department_yesterday = [dict(zip(columns, row)) for row in rows]
 
         data = {
-            # 'sql_today': result_today,
+            'sql_today': result_today,
             'sql_yesterday': result_yesterday,
             'sql_week': result_week,
             'result_department_yesterday': result_department_yesterday,
