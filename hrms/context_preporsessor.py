@@ -1,5 +1,8 @@
 
 from HRMSPROJECT.sql_server import conntected_to_server
+from menu.api import CAPS_CONNECTION
+
+# CAPS_CONNECTION
 from decouple import config
 
 def sql_server_is_connected(request):

@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
-import pyodbc
+#import pyodbc
 from datetime import datetime
 from decouple import config
 from django.core import management
@@ -34,8 +34,7 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=False, cast=bool)
 
-ALLOWED_HOSTS = ['*', '9ccf-154-160-6-247.eu.ngrok.io/',
-                 '9ccf-154-160-6-247.eu.ngrok.io']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -57,6 +56,10 @@ INSTALLED_APPS = [
     'helpdesk',
     'applicant',
 
+    # CAPS PC MENU AND OPERA
+    'menu',
+    'opera',
+
     # 3RD PARTY APPS
     'rest_framework',
     'drf_yasg',
@@ -75,6 +78,12 @@ INSTALLED_APPS = [
 
 ]
 
+
+# Allow secure http developer server in debug mode
+
+#if DEBUG:
+#    INSTALLED_APPS.append('sslserver')
+    
 MIDDLEWARE = [
     "debug_toolbar.middleware.DebugToolbarMiddleware",
     'django.middleware.security.SecurityMiddleware',

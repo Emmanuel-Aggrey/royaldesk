@@ -31,6 +31,9 @@ urlpatterns = [
     path('', include('hrms.urls', namespace = 'hrms')),
     path('', include('helpdesk.urls', namespace = 'helpdesk')),
     path('', include('applicant.urls', namespace = 'applicant')),
+    path('api/menu/',include('menu.urls', namespace = 'menu')),
+
+    path('api/reservations/',include('opera.urls', namespace = 'reservations')),
 
     path('accounts/', include('django.contrib.auth.urls')),
     # path('accounts/password_change/',login_required(TemplateView.as_view(template_name="registration/password_change.html")),name="password_change"),

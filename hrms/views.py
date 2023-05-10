@@ -45,6 +45,7 @@ HR_EMAIL = config('HR_EMAIL')
 LEAVE_REMINDER_HOURS = config('LEAVE_REMINDER_HOURS', cast=int)
 
 
+
 def date_value(value):
     return value if value else None
 

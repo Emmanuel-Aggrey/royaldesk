@@ -1,0 +1,310 @@
+"PK","CATEGORY","NAME","PRICE"
+201,STARTERS                      ,Chicken Wings                 ,65.0000
+201,STARTERS                      ,Gizzard                       ,45.0000
+201,STARTERS                      ,Kelewele                      ,25.0000
+201,STARTERS                      ,Rock City Platter             ,100.0000
+202,SALADS                        ,Chicken Caesar Salad          ,70.0000
+202,SALADS                        ,Garden Salad                  ,45.0000
+203,SANDWICHES                    ,Beef Wrap                     ,70.0000
+203,SANDWICHES                    ,Chicken Wrap                  ,70.0000
+203,SANDWICHES                    ,Club Sandwich Chicken         ,70.0000
+203,SANDWICHES                    ,Club Sandwich Tuna            ,70.0000
+203,SANDWICHES                    ,Fish & Chips                  ,60.0000
+203,SANDWICHES                    ,Fish Pie                      ,25.0000
+203,SANDWICHES                    ,Fries                         ,35.0000
+203,SANDWICHES                    ,Meat Pie                      ,25.0000
+203,SANDWICHES                    ,Meatballs                     ,35.0000
+203,SANDWICHES                    ,Mini Burger                   ,35.0000
+203,SANDWICHES                    ,Pancake                       ,35.0000
+203,SANDWICHES                    ,Pulled Pork Wrap              ,70.0000
+203,SANDWICHES                    ,Rock City Burger              ,70.0000
+203,SANDWICHES                    ,Sweet Potatoes & Meat Balls   ,40.0000
+203,SANDWICHES                    ,Tuna Wrap                     ,70.0000
+204,PIZZA                         ,All Season Calzone            ,110.0000
+204,PIZZA                         ,All Season Pizza              ,110.0000
+204,PIZZA                         ,Bacon & Mushroom              ,110.0000
+204,PIZZA                         ,Bacon & Mushroom Calzone      ,110.0000
+204,PIZZA                         ,Chicken Calzone               ,105.0000
+204,PIZZA                         ,Chicken Pizza                 ,105.0000
+204,PIZZA                         ,Hawaiian                      ,110.0000
+204,PIZZA                         ,Hawaiian Calzone              ,110.0000
+204,PIZZA                         ,Margarita Calzone             ,80.0000
+204,PIZZA                         ,Margarita Pizza               ,80.0000
+204,PIZZA                         ,Meat Lovers                   ,110.0000
+204,PIZZA                         ,Meat Lovers Calzone           ,110.0000
+204,PIZZA                         ,Pulled Pork Caramelized Onion ,95.0000
+204,PIZZA                         ,"Pulled Pork, Caramelized Onion",95.0000
+204,PIZZA                         ,Rocky Sausage Calzone         ,110.0000
+204,PIZZA                         ,RockySausage                  ,110.0000
+204,PIZZA                         ,Sardine & Tuna                ,115.0000
+204,PIZZA                         ,Sardine & Tuna Calzone        ,115.0000
+204,PIZZA                         ,Vegetarian Pizza              ,95.0000
+205,BURGER                        ,Beef Burger                   ,70.0000
+205,BURGER                        ,Cheese Burger Beef            ,75.0000
+205,BURGER                        ,Cheese Burger Chicken         ,75.0000
+205,BURGER                        ,Chicken Burger                ,70.0000
+206,LOCAL DISH                    ,"1/2 Grilled Chicken           ",95.0000
+206,LOCAL DISH                    ,Beef Khebab                   ,30.0000
+206,LOCAL DISH                    ,Beef Stew                     ,75.0000
+206,LOCAL DISH                    ,Chicken Khebab                ,40.0000
+206,LOCAL DISH                    ,Fried Goat                    ,75.0000
+206,LOCAL DISH                    ,Fried Pork                    ,75.0000
+206,LOCAL DISH                    ,Gizzard Khebab                ,30.0000
+206,LOCAL DISH                    ,Goat Khebab                   ,30.0000
+206,LOCAL DISH                    ,Goat Light Soup               ,75.0000
+206,LOCAL DISH                    ,Grill Beef Easter             ,185.0000
+206,LOCAL DISH                    ,Grill Chicken Easter          ,85.0000
+206,LOCAL DISH                    ,Grill Fish Easter             ,170.0000
+206,LOCAL DISH                    ,Grill Goat Easter             ,50.0000
+206,LOCAL DISH                    ,Grill Pork Easter             ,235.0000
+206,LOCAL DISH                    ,Grilled Chicken Pieces        ,30.0000
+206,LOCAL DISH                    ,Grilled Tilapia               ,105.0000
+206,LOCAL DISH                    ,Kids New Year Brunch          ,85.0000
+206,LOCAL DISH                    ,Kids Xmas Day Brunch          ,150.0000
+206,LOCAL DISH                    ,Meal Platter for 4            ,240.0000
+206,LOCAL DISH                    ,Meal Platter for 6            ,350.0000
+206,LOCAL DISH                    ,Pork Khebab                   ,30.0000
+206,LOCAL DISH                    ,Samosa                        ,25.0000
+206,LOCAL DISH                    ,Spring Rolls                  ,25.0000
+206,LOCAL DISH                    ,Sunday Brunch Food            ,150.0000
+206,LOCAL DISH                    ,Tilapia Soup                  ,85.0000
+207,DESSERT                       ,Birthday Cake Chocolate 30cm  ,600.0000
+207,DESSERT                       ,Birthday Cake Vanilla 30cm    ,350.0000
+207,DESSERT                       ,Chocolate Cake                ,250.0000
+207,DESSERT                       ,Red Velvet Cake               ,45.0000
+207,DESSERT                       ,Rock City Fruit Salad         ,50.0000
+207,DESSERT                       ,Vanilla Cake                  ,150.0000
+207,DESSERT                       ,Vanilla or Chocolate Cupcake  ,20.0000
+301,HOT BEVERAGES                 ,Americano                     ,30.0000
+301,HOT BEVERAGES                 ,Café Latte                    ,30.0000
+301,HOT BEVERAGES                 ,Cappuccino                    ,30.0000
+301,HOT BEVERAGES                 ,Double Espresso               ,50.0000
+301,HOT BEVERAGES                 ,Espresso                      ,30.0000
+301,HOT BEVERAGES                 ,Ginger & Lemon Tea            ,30.0000
+301,HOT BEVERAGES                 ,Hot Chocolate                 ,30.0000
+301,HOT BEVERAGES                 ,Mint Tea                      ,20.0000
+301,HOT BEVERAGES                 ,Tea                           ,20.0000
+302,SOFT DRINKS                   ,Alvaro Pet                    ,20.0000
+302,SOFT DRINKS                   ,Bel-Aqua Water                ,15.0000
+302,SOFT DRINKS                   ,Ceres                         ,65.0000
+302,SOFT DRINKS                   ,Coke Canned                   ,20.0000
+302,SOFT DRINKS                   ,Coke Zero                     ,20.0000
+302,SOFT DRINKS                   ,Don Simon                     ,65.0000
+302,SOFT DRINKS                   ,Fanta Canned                  ,20.0000
+302,SOFT DRINKS                   ,Malt Canned                   ,20.0000
+302,SOFT DRINKS                   ,Meridean Water                ,15.0000
+302,SOFT DRINKS                   ,Pellegrino Sparkling Water -75,40.0000
+302,SOFT DRINKS                   ,Red Bull                      ,35.0000
+302,SOFT DRINKS                   ,Soda Water                    ,15.0000
+302,SOFT DRINKS                   ,Sprite Canned                 ,20.0000
+302,SOFT DRINKS                   ,Sprite Zero                   ,20.0000
+302,SOFT DRINKS                   ,Tonic Water                   ,15.0000
+302,SOFT DRINKS                   ,Voltic Water                  ,15.0000
+303,JUICES                        ,Fresh Mango Juice             ,35.0000
+303,JUICES                        ,Fresh Orange Juice            ,35.0000
+303,JUICES                        ,Fresh Pineapple Juice         ,35.0000
+303,JUICES                        ,Fresh Watermelon Juice        ,35.0000
+304,SMOOTHIES                     ,Appletini Smoothie            ,65.0000
+304,SMOOTHIES                     ,Mango Smoothie                ,65.0000
+304,SMOOTHIES                     ,Passion Fruit Smoothie        ,65.0000
+304,SMOOTHIES                     ,Peach & Mango Smoothie        ,60.0000
+304,SMOOTHIES                     ,Peach Smoothie                ,60.0000
+304,SMOOTHIES                     ,Raspberry Smoothie            ,60.0000
+304,SMOOTHIES                     ,Strawberry Smoothie           ,60.0000
+305,NA COCKTAILS                  ,Chapman                       ,40.0000
+305,NA COCKTAILS                  ,Colada                        ,40.0000
+305,NA COCKTAILS                  ,King-Fisher                   ,40.0000
+305,NA COCKTAILS                  ,Virgin Mojito                 ,40.0000
+401,BEERS                         ,Club Mini                     ,25.0000
+401,BEERS                         ,Club Shandy                   ,25.0000
+401,BEERS                         ,Eagle Beer                    ,20.0000
+401,BEERS                         ,Guiness Stout                 ,25.0000
+401,BEERS                         ,Heineken                      ,35.0000
+401,BEERS                         ,Orijin Mini                   ,20.0000
+401,BEERS                         ,Stella Artois                 ,30.0000
+402,CIDERS                        ,Hunter's Gold                 ,35.0000
+402,CIDERS                        ,Kiss Cider                    ,35.0000
+402,CIDERS                        ,Savanna Dry                   ,35.0000
+402,CIDERS                        ,Smirnoff Black                ,25.0000
+402,CIDERS                        ,Smirnoff Pineapple            ,25.0000
+403,RED WINE                      ,Chateau MW Cabernet Sauvignon ,215.0000
+403,RED WINE                      ,Chateauneuf du Pape           ,900.0000
+403,RED WINE                      ,Frontera Cabernet Sauvignon   ,275.0000
+403,RED WINE                      ,House Red                     ,150.0000
+403,RED WINE                      ,Mouton Cadet Bordeaux         ,450.0000
+403,RED WINE                      ,Namaqua Cabernet Sauvignon    ,275.0000
+403,RED WINE                      ,Nederburg Cabernet Sauvignon  ,350.0000
+403,RED WINE                      ,Tall Horse Cabernet Sauvignon ,275.0000
+403,RED WINE                      ,Trivinto Tribu Cabernet Sauvig,265.0000
+404,WHITE WINE                    ,Cotes du Rhône La Fiole       ,600.0000
+404,WHITE WINE                    ,Laroche Chablis               ,450.0000
+404,WHITE WINE                    ,Long Mountain Chardonnay      ,215.0000
+404,WHITE WINE                    ,Long Mountain Sauvignon Blanc ,215.0000
+404,WHITE WINE                    ,Lupe Cholet Chablis           ,900.0000
+404,WHITE WINE                    ,Namaqua Sauvignon Blanc       ,200.0000
+404,WHITE WINE                    ,Nederburg Chardonnay          ,350.0000
+404,WHITE WINE                    ,Nederburg Sauvignon Blanc     ,350.0000
+404,WHITE WINE                    ,Saxenburg Guinea Fowl Chenin B,300.0000
+404,WHITE WINE                    ,Tall Horse Chardonnay         ,275.0000
+404,WHITE WINE                    ,Tall Horse Merlot             ,100.0000
+405,SWEET WINE                    ,Don Emilio Sweet Red          ,120.0000
+405,SWEET WINE                    ,Don Emilio Sweet Red GLASS    ,45.0000
+405,SWEET WINE                    ,Drostdy Hof Natural Sweet Red ,225.0000
+405,SWEET WINE                    ,Namaqua Sweet Red             ,195.0000
+405,SWEET WINE                    ,Namaqua Sweet Rose            ,195.0000
+405,SWEET WINE                    ,Scavi & Ray Rosso Al Ciocolata,215.0000
+406,CHAMPAGNE                     ,Bottega Gold Prosecco Magnum  ,250.0000
+406,CHAMPAGNE                     ,Dom Perignon 75 CL            ,4000.0000
+406,CHAMPAGNE                     ,Dom Perignon Rose 75 CL       ,6500.0000
+406,CHAMPAGNE                     ,Freixenet Prosecco Cordon Negr,250.0000
+406,CHAMPAGNE                     ,Freixenet Prosecco Doc        ,300.0000
+406,CHAMPAGNE                     ,JP Chenet Pink 75 CL          ,300.0000
+406,CHAMPAGNE                     ,JP Chenet White 75 CL         ,300.0000
+406,CHAMPAGNE                     ,Moet Imperial 75 CL           ,1500.0000
+406,CHAMPAGNE                     ,Moet Imperial Brut 75CL       ,2500.0000
+406,CHAMPAGNE                     ,Moet Nectar Imperial 75 CL    ,1000.0000
+406,CHAMPAGNE                     ,Moet Nectar Imperial Rose 75 C,1500.0000
+406,CHAMPAGNE                     ,Sandara Sparkling 37.5 CL     ,135.0000
+406,CHAMPAGNE                     ,Senac Blue                    ,125.0000
+406,CHAMPAGNE                     ,Veuve Clicquot Yellow Label 75,1500.0000
+407,ALCOHOL SHOTS                 ,Absolut Citron SHOT           ,15.0000
+407,ALCOHOL SHOTS                 ,Absolut Vodka SHOT            ,15.0000
+407,ALCOHOL SHOTS                 ,Adonko Ginger SHOT            ,7.0000
+407,ALCOHOL SHOTS                 ,Agavita SHOT                  ,10.0000
+407,ALCOHOL SHOTS                 ,Alomo Bitters SHOT            ,7.0000
+407,ALCOHOL SHOTS                 ,Alomo Gold SHOT               ,7.0000
+407,ALCOHOL SHOTS                 ,Alomo Silver SHOT             ,7.0000
+407,ALCOHOL SHOTS                 ,Bacardi White SHOT            ,15.0000
+407,ALCOHOL SHOTS                 ,Baileys SHOT                  ,15.0000
+407,ALCOHOL SHOTS                 ,Ballantines SHOT              ,20.0000
+407,ALCOHOL SHOTS                 ,Beefeater SHOT                ,20.0000
+407,ALCOHOL SHOTS                 ,Bombay Sapphire SHOT          ,15.0000
+407,ALCOHOL SHOTS                 ,Campari SHOT                  ,15.0000
+407,ALCOHOL SHOTS                 ,Captain Morgan SHOT           ,15.0000
+407,ALCOHOL SHOTS                 ,Ciroc Pine SHOT               ,25.0000
+407,ALCOHOL SHOTS                 ,Cointreau SHOT                ,30.0000
+407,ALCOHOL SHOTS                 ,Courvoisier VS SHOT           ,20.0000
+407,ALCOHOL SHOTS                 ,Don Julio Anejo SHOT          ,50.0000
+407,ALCOHOL SHOTS                 ,Don Julio Blanco SHOT         ,25.0000
+407,ALCOHOL SHOTS                 ,Glenmorangie SHOT             ,25.0000
+407,ALCOHOL SHOTS                 ,Gordon's Gin SHOT             ,15.0000
+407,ALCOHOL SHOTS                 ,Grand Marnier SHOT            ,35.0000
+407,ALCOHOL SHOTS                 ,Grey Goose SHOT               ,25.0000
+407,ALCOHOL SHOTS                 ,Herb Afrik SHOT               ,7.0000
+407,ALCOHOL SHOTS                 ,Jack Daniels SHOT             ,30.0000
+407,ALCOHOL SHOTS                 ,John Jameson SHOT             ,20.0000
+407,ALCOHOL SHOTS                 ,Johnnie Walker Black Label SHO,40.0000
+407,ALCOHOL SHOTS                 ,Johnnie Walker Blue Label SHOT,40.0000
+407,ALCOHOL SHOTS                 ,Johnnie Walker Red Label SHOT ,20.0000
+407,ALCOHOL SHOTS                 ,Kpoo Keke SHOT                ,7.0000
+407,ALCOHOL SHOTS                 ,Mandingo SHOT                 ,7.0000
+407,ALCOHOL SHOTS                 ,Martell  VS SHOT              ,30.0000
+407,ALCOHOL SHOTS                 ,Martell  VSOP SHOT            ,40.0000
+407,ALCOHOL SHOTS                 ,Martini Bitter SHOT           ,10.0000
+407,ALCOHOL SHOTS                 ,Martini Blanco SHOT           ,10.0000
+407,ALCOHOL SHOTS                 ,Martini Rosso SHOT            ,10.0000
+407,ALCOHOL SHOTS                 ,Olmeca Tequila SHOT           ,15.0000
+407,ALCOHOL SHOTS                 ,Orijin Bitters SHOT           ,7.0000
+407,ALCOHOL SHOTS                 ,Patron Silver SHOT            ,45.0000
+407,ALCOHOL SHOTS                 ,Patron XO Cafe SHOT           ,35.0000
+407,ALCOHOL SHOTS                 ,Patron XO SHOT                ,45.0000
+407,ALCOHOL SHOTS                 ,Smirnoff Blue Vodka SHOT      ,15.0000
+407,ALCOHOL SHOTS                 ,Smirnoff Red Vodka SHOT       ,15.0000
+408,ALCOHOL BOTTLES               , Chevalier Brandy 70cl        ,600.0000
+408,ALCOHOL BOTTLES               ,Absolut Blue 1L               ,150.0000
+408,ALCOHOL BOTTLES               ,Absolut Citron 1L             ,450.0000
+408,ALCOHOL BOTTLES               ,Absolut Mandarin              ,450.0000
+408,ALCOHOL BOTTLES               ,Absolut Raspberry 1L          ,450.0000
+408,ALCOHOL BOTTLES               ,Adonko Ginger 70CL            ,70.0000
+408,ALCOHOL BOTTLES               ,Alomo Bitters 75CL            ,70.0000
+408,ALCOHOL BOTTLES               ,Alomo Gold 75CL               ,70.0000
+408,ALCOHOL BOTTLES               ,Alomo Silver 75CL             ,70.0000
+408,ALCOHOL BOTTLES               ,Amarula 75CL                  ,200.0000
+408,ALCOHOL BOTTLES               ,Bacardi Black 1L              ,450.0000
+408,ALCOHOL BOTTLES               ,Bacardi Gold 1L               ,450.0000
+408,ALCOHOL BOTTLES               ,Bacardi White 1L              ,300.0000
+408,ALCOHOL BOTTLES               ,Baileys Irish Cream 1L        ,400.0000
+408,ALCOHOL BOTTLES               ,Ballantine 1L                 ,400.0000
+408,ALCOHOL BOTTLES               ,Beefeater GIN 1L              ,500.0000
+408,ALCOHOL BOTTLES               ,Belvedere 1L                  ,1200.0000
+408,ALCOHOL BOTTLES               ,Bombay Sapphire Gin 1L        ,600.0000
+408,ALCOHOL BOTTLES               ,Bottega Sambucca 70cl         ,250.0000
+408,ALCOHOL BOTTLES               ,Campari 1L                    ,300.0000
+408,ALCOHOL BOTTLES               ,Campo Azul Blanco 75CL        ,1000.0000
+408,ALCOHOL BOTTLES               ,Chivas Regal Gold 1L          ,1500.0000
+408,ALCOHOL BOTTLES               ,Ciroc Blue 1L                 ,1000.0000
+408,ALCOHOL BOTTLES               ,Ciroc Pine 1L                 ,1000.0000
+408,ALCOHOL BOTTLES               ,Cointreau 1L                  ,800.0000
+408,ALCOHOL BOTTLES               ,Courvoisier VS 1L             ,1500.0000
+408,ALCOHOL BOTTLES               ,Don Julio Anejo 75CL          ,1300.0000
+408,ALCOHOL BOTTLES               ,Don Julio Blanco              ,1500.0000
+408,ALCOHOL BOTTLES               ,Gentlemens Jack 70CL          ,300.0000
+408,ALCOHOL BOTTLES               ,Glenfiddich  12YEARS 1L       ,1500.0000
+408,ALCOHOL BOTTLES               ,Glenfiddich 12 YRS 1L         ,850.0000
+408,ALCOHOL BOTTLES               ,Glenfiddich 12 YRS 75CL       ,700.0000
+408,ALCOHOL BOTTLES               ,Glenfiddich 12YEARS 75CL      ,1200.0000
+408,ALCOHOL BOTTLES               ,Glenfiddich 18 YRS 75CL       ,3000.0000
+408,ALCOHOL BOTTLES               ,Glenfiddich 21 YRS 70CL       ,4500.0000
+408,ALCOHOL BOTTLES               ,Glenfiddich 21 YRS 76CL       ,4000.0000
+408,ALCOHOL BOTTLES               ,Glenfiddich Select Cask 1L    ,1200.0000
+408,ALCOHOL BOTTLES               ,Glenlivet 12 YRS 1L           ,800.0000
+408,ALCOHOL BOTTLES               ,Glenmorangie 10 YRS 1L        ,1000.0000
+408,ALCOHOL BOTTLES               ,Glenmorangie 12 YRS 75CL      ,1800.0000
+408,ALCOHOL BOTTLES               ,Gordon Gin 1L                 ,300.0000
+408,ALCOHOL BOTTLES               ,Grand Marnier 1L              ,1000.0000
+408,ALCOHOL BOTTLES               ,Grey Goose 1L                 ,900.0000
+408,ALCOHOL BOTTLES               ,Hennessey Black 1L            ,1500.0000
+408,ALCOHOL BOTTLES               ,Hennessey Paradis 1L          ,25000.0000
+408,ALCOHOL BOTTLES               ,Hennessey VS 70 CL            ,1300.0000
+408,ALCOHOL BOTTLES               ,Hennessey VSOP 1L             ,3000.0000
+408,ALCOHOL BOTTLES               ,Hennessey VSOP 70 CL          ,2500.0000
+408,ALCOHOL BOTTLES               ,Hennessey XO 70CL             ,4300.0000
+408,ALCOHOL BOTTLES               ,Hennessey XO 70CL shot        ,45.0000
+408,ALCOHOL BOTTLES               ,Herb Afrik 70CL               ,80.0000
+408,ALCOHOL BOTTLES               ,Jack Daniels 1L               ,900.0000
+408,ALCOHOL BOTTLES               ,Jack Daniels 70LC             ,350.0000
+408,ALCOHOL BOTTLES               ,Jack Daniels Honey 70CL       ,700.0000
+408,ALCOHOL BOTTLES               ,John Jameson 1L               ,500.0000
+408,ALCOHOL BOTTLES               ,Johnnie Walker 18 1L          ,700.0000
+408,ALCOHOL BOTTLES               ,Johnnie Walker 28 YRS         ,12000.0000
+408,ALCOHOL BOTTLES               ,Johnnie Walker Black 1L       ,900.0000
+408,ALCOHOL BOTTLES               ,Johnnie Walker Black 75CL     ,400.0000
+408,ALCOHOL BOTTLES               ,Johnnie Walker Blue Label 75CL,4500.0000
+408,ALCOHOL BOTTLES               ,Johnnie Walker Gold Reserve 75,1200.0000
+408,ALCOHOL BOTTLES               ,Johnnie Walker Red Label 1L   ,500.0000
+408,ALCOHOL BOTTLES               ,Justin & Brooks Scotch 1L     ,300.0000
+408,ALCOHOL BOTTLES               ,Kpoo Keke 70CL                ,30.0000
+408,ALCOHOL BOTTLES               ,Macallan Reflexion 1L         ,30000.0000
+408,ALCOHOL BOTTLES               ,Madingo 70CL                  ,70.0000
+408,ALCOHOL BOTTLES               ,Malibu 1L                     ,250.0000
+408,ALCOHOL BOTTLES               ,Martell VS 1L                 ,1000.0000
+408,ALCOHOL BOTTLES               ,Martell VSOP 1L               ,1500.0000
+408,ALCOHOL BOTTLES               ,Martell XO 70CL               ,3200.0000
+408,ALCOHOL BOTTLES               ,Martini Bitter 1L             ,300.0000
+408,ALCOHOL BOTTLES               ,Martini Blanco 1L             ,300.0000
+408,ALCOHOL BOTTLES               ,Martini Extra Dry 1L          ,300.0000
+408,ALCOHOL BOTTLES               ,Martini Rosso 1L              ,300.0000
+408,ALCOHOL BOTTLES               ,Monkey Shoulder 1L            ,1000.0000
+408,ALCOHOL BOTTLES               ,Orijin Bitters 75CL           ,70.0000
+408,ALCOHOL BOTTLES               ,Patron Silver 75CL            ,1600.0000
+408,ALCOHOL BOTTLES               ,Patron XO Cafe 75CL           ,1000.0000
+408,ALCOHOL BOTTLES               ,Remy Martin Accord Royal 1738 ,2000.0000
+408,ALCOHOL BOTTLES               ,Remy Martin Accord Royal 70cl ,1500.0000
+408,ALCOHOL BOTTLES               ,Remy Martin VSOP 1L           ,1500.0000
+408,ALCOHOL BOTTLES               ,Remy Martin XO 1L             ,4000.0000
+408,ALCOHOL BOTTLES               ,Remy Martin XO Limited Edition,5000.0000
+408,ALCOHOL BOTTLES               ,Sierra Reposado 75CL          ,300.0000
+408,ALCOHOL BOTTLES               ,Smirnoff Blue Vodka 1L        ,150.0000
+408,ALCOHOL BOTTLES               ,Smirnoff Red Vodka 1L         ,300.0000
+408,ALCOHOL BOTTLES               ,Tanqueray No. 10 70CL         ,750.0000
+409,COCKTAILS                     ,Blue Lagoon                   ,50.0000
+409,COCKTAILS                     ,Cosmopolitan                  ,50.0000
+409,COCKTAILS                     ,Eastside Cocktail             ,50.0000
+409,COCKTAILS                     ,Galaxy Cocktail               ,50.0000
+409,COCKTAILS                     ,Hurricane                     ,50.0000
+409,COCKTAILS                     ,Jamaican Sunrise              ,60.0000
+409,COCKTAILS                     ,Kwahu Colada                  ,50.0000
+409,COCKTAILS                     ,Long Island Ice Tea           ,70.0000
+409,COCKTAILS                     ,Margarita                     ,60.0000
+409,COCKTAILS                     ,Mojito                        ,60.0000
+409,COCKTAILS                     ,Paridise Cocktail             ,50.0000
