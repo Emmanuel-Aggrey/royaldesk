@@ -4,6 +4,7 @@
 <script src="{% static 'js/scripts/employees.js' %}"></script>
 
 
+
 <div class="container-scroller">
 
   <div class="container-fluid page-body-wrapper">
@@ -16,7 +17,7 @@
 
       <div class="content-wrapper">
 
-        
+
 
 
         <div class="row my-5">
@@ -28,7 +29,8 @@
               <div class="card-body ">
 
                 <div>
-                  <div title='fadeout profile' class="toolbar-item float-right btn" onclick="fadeOutProfile()"> <i class="fa fa-pencil-square" aria-hidden="true"></i></div>
+                  <div title='fadeout profile' class="toolbar-item float-right btn" onclick="fadeOutProfile()"> <i
+                      class="fa fa-pencil-square" aria-hidden="true"></i></div>
 
                   <div class="toolbar-item float-right btn" onclick="createPDF('EMPLOYEES')" title="print">
                     <i class="fa fa-print" aria-hidden="true"></i>
@@ -41,32 +43,61 @@
                   <!-- <a class="btn btn-primary toolbar-item float-right btn" id="add_employee" href="/register-staff">New
                     Employee</a> -->
 
-                  <h2  style="font: bold 100% sans-serif; letter-spacing: 0.5em;" class="card-title text-center">EMPLOYEES</h2>
+                  <h2 style="font: bold 100% sans-serif; letter-spacing: 0.5em;" class="card-title text-center">
+                    EMPLOYEES</h2>
                 </div>
                 <hr>
-                <div>
-                  <select name="filter_emp" id="filter_emp" >
-                    <option value="active">Active</option>
-                    <option value="terminated">Terminated</option>
-                    <option value="resigned">Resigned</option>
-                    <option value="dismised">Dismised</option>
-                    <option value="redundancy">Redundancy</option>
-                    <option value="1">With Beneficiary</option>
-                    <option value="0">Without Beneficiary</option>
-                    <option value="Married">Married</option>
-                    <option value="not_married">Not Married</option>
-                    <option value="divorced">Divorced</option>
-                    <option value="widow">Widow</option>
-                    <option value="widower">widower</option>
+                <form id="search_form">
+                  <div>
+                    <select name="filter_status" id="filter_status">
+                      <option value="active">Filter Status</option>
+                      <option value="active">Active</option>
+                      <option value="terminated">Terminated</option>
+                      <option value="resigned">Resigned</option>
+                      <option value="dismised">Dismised</option>
+                      <option value="redundancy">Redundancy</option>
+                      <option value="1">With Beneficiary</option>
+                      <option value="0">Without Beneficiary</option>
 
-                  </select>
-                  <a class="btn btn-primary toolbar-item float-right mx-3 pulse" id="add_employee" href="/register-employee" title="Register New Employee" style="height: 43px;">New
-                    Employee</a>
-                  <input class="float-right" type="search" name="" id="emp_search" placeholder="search">
-                </div>
-                <div class="table-responsive table-responsive-sm table-responsive-md">
+                    </select>
 
-                  <form>
+
+                    <select name="filter_department" id="filter_department">
+                      <!-- <option value="">Filter Department</option> -->
+
+
+                    </select>
+
+                    <select name="marital_status" id="marital_status">
+                      <option value="all">Filter Married</option>
+                      <option value="Married">Married</option>
+                      <option value="not_married">Not Married</option>
+                      <option value="divorced">Divorced</option>
+                      <option value="widow">Widow</option>
+                      <option value="widower">widower</option>
+
+                    </select>
+
+                    <select name="filter_gender" id="filter_gender">
+                      <option value="all">Filter Gender</option>
+                      <option value="male">Male</option>
+                      <option value="female">Female</option>
+
+                    </select>
+                    <button type="submit"><i class="fa fa-search-plus" aria-hidden="true"></i></button>
+
+                    <a class="btn btn-primary toolbar-item float-right mx-3 pulse" id="add_employee"
+                      href="/register-employee" title="Register New Employee" style="height: 43px;">New
+                      Employee</a>
+                    <input class="float-right" type="search" name="" id="emp_search" placeholder="search">
+                  </div>
+                  <div class="table-responsive table-responsive-sm table-responsive-md">
+
+                    <div id="loading">
+                      <i class="fa fa-spinner fa-spin"></i> Loading...
+                    </div>
+
+
                     {% csrf_token %}
                     <div id="tab">
                       <table class="table table-stretched table-hover" id="sampleTable">
@@ -96,32 +127,32 @@
                         </tbody>
                       </table>
                     </div>
-                  </form>
-                </div>
-
-
+                </form>
               </div>
+
+
             </div>
           </div>
         </div>
-<div class="leave_table" style="display: none">
+      </div>
+      <div class="leave_table" style="display: none">
 
 
-  <div class="card"> 
+        <div class="card">
 
-  </div>
+        </div>
 
-  <!-- DETAIL LEAVE TABLE START -->
-  <div class="table-responsive-sm">
-    
+        <!-- DETAIL LEAVE TABLE START -->
+        <div class="table-responsive-sm">
 
-    <table id="leave_table" class="table table-striped table-bordered table-hover">
 
-      <caption class="font-weight-bold leave_summary_caption"> </caption>
+          <table id="leave_table" class="table table-striped table-bordered table-hover">
 
-        <thead>
-            <tr>
-               
+            <caption class="font-weight-bold leave_summary_caption"> </caption>
+
+            <thead>
+              <tr>
+
                 <th>Policy</th>
                 <th>Start</th>
                 <th>End</th>
@@ -132,251 +163,268 @@
                 <th>HOD</th>
                 <th>HR</th>
                 <th>Status</th>
-            </tr>
-        </thead> 
-        <tbody id="leave_table_body">
-          
-
-        </tbody>
-    </table>
-</div>
-<!-- DETAIL LEAVE TABLE END-->
-
-    <!-- SUMMARY LEAVE TABLE START -->
-
-    <table class="table table-striped table-bordered table-hover" id="leave_summary_table">
-      <caption class="font-weight-bold leave_summary_caption"> </caption>
-
-      <thead>
-        <tr>
-          <th>Policy</th>
-          <th>Applied Year</th>
-          <th>Policy Days</th>
-          <th>Days Applied For</th>
-          <th>Outstanding</th>
-          <th>Num Of Application</th>
-
-        </tr>
-      </thead>
-      <tbody id="leave_summary_body">
-
-       
-       
-      </tbody>
-    </table>
-
-    <!-- SUMMARY LEAVE TABLE END -->
-
-    <!-- model view start-->
-
-      
-  <div id="d_model">
-    <button type="button" id="emp_reocord" title="employee details" class="btn btn-info btn-lg">Emp Record</button>
-    <button type="button" id="emp_document" title="employee documents" class="btn btn-success btn-lg ">Emp Document(s)<span id="emp_document_badge" class="mx-1 badge badge-danger"></span> </button>
-
-    <button type="button" onclick="employee_exit_model()" id="employee_status" title="employee status change" class="btn btn-danger btn-lg">Exit Process <span  class="badge badge-primary"></span> </button>
-
-<button type="submit" id="leave_detail" title="employee  leave details" class="btn btn-primary btn-lg">Leave Detail <span id="leave_detail_badge" class="badge badge-danger"></span> </button>
-<button type="button" id="leave_summary" title="employee leave summary" class="btn btn-danger btn-lg">Leave Summary <span id="leave_summary_badge" class="badge badge-primary"></span> </button>
-<button type="button" id="edit_employee" title="edit employee record" class="btn btn-danger btn-lg">Edit Record <span id="edit_employee_badge" class="badge badge-primary"></span> </button>
-
-<!-- <button type="button" class="btn btn-primary btn-lg">Danger</button> -->
-
-<!-- <input type="text" hiddenw id="emp_id"> -->
-</div>
-    <!-- model view end -->
-
-    <!-- document view start -->
-
-
-    <div class="container" id="doc_container">
-      <div class="row">
-        <!-- row-cols-10 -->
-        <div class="col w-100">
-          <form id="file_form">
-            {% csrf_token %}
-
-            <div class="form-group">
-              <div class="input-group">
-                  <input type="text" id='filename' name="filename" class="form-control" placeholder="create new file" required >
-                  <span> <button class="btn btn-block text-info btn-outline-primary">save</button></span>
-
-               </div>
-          </div>
-
- 
-        </form>
-        
-          <ul id="filenames" class="list-unstyled ">
-           
-          </ul>
-        </div>
-        <div class="col">
-          <button class="btn btn-block text-info btn-outline-primary text-uppercase" id="create_document">New Document</button>
-          <table class="table table-bordered">
-            <thead>
-              <tr>
-                <th scope="col">Name</th>
-                <th scope="col">Date</th>
               </tr>
             </thead>
-            <tbody id="document_table_body">
-              
-              
-              
+            <tbody id="leave_table_body">
+
+
             </tbody>
-          
           </table>
-        
         </div>
-       
-        <div class="col">
-         
-          <div>Applciant Document</div>
-          <ul id="cv_file"></ul>
-             <!-- <a target="_blank" id="cv_file"></a> -->
+        <!-- DETAIL LEAVE TABLE END-->
+
+        <!-- SUMMARY LEAVE TABLE START -->
+
+        <table class="table table-striped table-bordered table-hover" id="leave_summary_table">
+          <caption class="font-weight-bold leave_summary_caption"> </caption>
+
+          <thead>
+            <tr>
+              <th>Policy</th>
+              <th>Applied Year</th>
+              <th>Policy Days</th>
+              <th>Days Applied For</th>
+              <th>Outstanding</th>
+              <th>Num Of Application</th>
+
+            </tr>
+          </thead>
+          <tbody id="leave_summary_body">
+
+
+
+          </tbody>
+        </table>
+
+        <!-- SUMMARY LEAVE TABLE END -->
+
+        <!-- model view start-->
+
+
+        <div id="d_model">
+          <button type="button" id="emp_reocord" title="employee details" class="btn btn-info btn-lg">Emp
+            Record</button>
+          <button type="button" id="emp_document" title="employee documents" class="btn btn-success btn-lg ">Emp
+            Document(s)<span id="emp_document_badge" class="mx-1 badge badge-danger"></span> </button>
+
+          <button type="button" onclick="employee_exit_model()" id="employee_status" title="employee status change"
+            class="btn btn-danger btn-lg">Exit Process <span class="badge badge-primary"></span> </button>
+
+          <button type="submit" id="leave_detail" title="employee  leave details" class="btn btn-primary btn-lg">Leave
+            Detail <span id="leave_detail_badge" class="badge badge-danger"></span> </button>
+          <button type="button" id="leave_summary" title="employee leave summary" class="btn btn-danger btn-lg">Leave
+            Summary <span id="leave_summary_badge" class="badge badge-primary"></span> </button>
+          <button type="button" id="edit_employee" title="edit employee record" class="btn btn-danger btn-lg">Edit
+            Record <span id="edit_employee_badge" class="badge badge-primary"></span> </button>
+
+          <!-- <button type="button" class="btn btn-primary btn-lg">Danger</button> -->
+
+          <!-- <input type="text" hiddenw id="emp_id"> -->
         </div>
-     
-      </div>
-       
-    </div>
+        <!-- model view end -->
+
+        <!-- document view start -->
 
 
-    <!-- document model start-->
-    <div>
-      <div class="container" id="file_container">
-        <div class="row">
-          <div class="col">
-            <form id="new_file_form" enctype="multipart/form-data">
-              {% csrf_token %}
-            <div class="form-group">
-           
-              <label for="description">Description</label>
+        <div class="container" id="doc_container">
+          <div class="row">
+            <!-- row-cols-10 -->
+            <div class="col w-100">
+              <form id="file_form">
+                {% csrf_token %}
 
-              <input id="description" 
-               class="form-control-file" type="text" name="description" required>
+                <div class="form-group">
+                  <div class="input-group">
+                    <input type="text" id='filename' name="filename" class="form-control" placeholder="create new file"
+                      required>
+                    <span> <button class="btn btn-block text-info btn-outline-primary">save</button></span>
+
+                  </div>
+                </div>
+
+
+              </form>
+
+              <ul id="filenames" class="list-unstyled ">
+
+              </ul>
+            </div>
+            <div class="col">
+              <button class="btn btn-block text-info btn-outline-primary text-uppercase" id="create_document">New
+                Document</button>
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Date</th>
+                  </tr>
+                </thead>
+                <tbody id="document_table_body">
+
+
+
+                </tbody>
+
+              </table>
+
             </div>
 
-            <div class="form-group">
-              <label for="date">Date</label>
-              <input id="date"
-               class="form-control-file" type="date" name="date" required>
+            <div class="col">
+
+              <div>Applciant Document</div>
+              <ul id="cv_file"></ul>
+              <!-- <a target="_blank" id="cv_file"></a> -->
             </div>
 
-            <div class="form-group">
-              <label for="document">Document</label>
-              <input id="document"
-               class="form-control-file" type="file" name="document" required>
-            </div>
-            <input type="text" value="" name="document_id" id="document_id" hidden>
-            <button type="submit" class="btn btn-primary btn-block">Submit</button>
+          </div>
 
-          </form>
+        </div>
+
+
+        <!-- document model start-->
+        <div>
+          <div class="container" id="file_container">
+            <div class="row">
+              <div class="col">
+                <form id="new_file_form" enctype="multipart/form-data">
+                  {% csrf_token %}
+                  <div class="form-group">
+
+                    <label for="description">Description</label>
+
+                    <input id="description" class="form-control-file" type="text" name="description" required>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="date">Date</label>
+                    <input id="date" class="form-control-file" type="date" name="date" required>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="document">Document</label>
+                    <input id="document" class="form-control-file" type="file" name="document" required>
+                  </div>
+                  <input type="text" value="" name="document_id" id="document_id" hidden>
+                  <button type="submit" class="btn btn-primary btn-block">Submit</button>
+
+                </form>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
+
+
+
+        <!-- document model end -->
 
 
 
 
-    <!-- document model end -->
+        <!-- empoyee status start -->
+        {% comment %}
+
+        <div>
+          <div class="container" id="employee_status_view">
+            <div class="row">
+              <div class="col text-centers">
+                <form id="employee_exit_status_form">
+                  {% csrf_token %}
+                  <div class="form-group">
+
+                    <select name="employee_status" id="employee_status_exit" class="form-select" required
+                      title="select if employee resigin date is now or have past">
+                      <!-- <option>Employee Exit Now</option> -->
+                      <option selected value="active">ACTIVE</option>
+                      <option value="terminated">TERMINATED</option>
+                      <option value="resigned">RESIGNED</option>
+
+                      <option value="dismised">DISMISED</option>
+
+                      <option value="redundancy">REDUNDANCY</option>
+
+
+                    </select>
+                  </div>
+
+
+                  <div class="form-group">
+                    <label for="date">Date</label>
+                    <input class="form-control-file" type="date" name="date_exited" id="date_exited" required>
+                  </div>
+
+                  <div class="form-group">
+                    <label title="check if all checks have been completed eg handling over" for="exit_check">Select
+                      Completed Conditions
+                      <input type="checkbox" name="exit_check" id="exit_check">
+                    </label>
+                  </div>
+
+
+                  <div class="form-group">
+
+                    <textarea placeholder="Reason or a simple note" name="reason_exiting" id="reason_exiting" cols="30"
+                      rows="5"></textarea>
+
+                  </div>
 
 
 
+                  <!-- <input type="hidden" name="employee" readonly id="employee"> -->
 
-    <!-- empoyee status start -->
-{% comment %} 
+                  <button type="submit" class="btn btn-primary btn-block">Submit</button>
 
-    <div>
-      <div class="container" id="employee_status_view">
-        <div class="row">
-          <div class="col text-centers">
-            <form id="employee_exit_status_form">
-              {% csrf_token %}
-            <div class="form-group">
-           
-              <select name="employee_status" id="employee_status_exit" class="form-select" required title="select if employee resigin date is now or have past">
-                <!-- <option>Employee Exit Now</option> -->
-                <option selected value="active">ACTIVE</option>
-                <option value="terminated">TERMINATED</option>
-                <option value="resigned">RESIGNED</option>
-                
-                <option value="dismised">DISMISED</option>
-
-                <option value="redundancy">REDUNDANCY</option>
-
-
-              </select>
+                </form>
+              </div>
             </div>
-           
-
-            <div class="form-group">
-              <label for="date">Date</label>
-              <input 
-               class="form-control-file" type="date" name="date_exited" id="date_exited" required>
-            </div>
-
-            <div class="form-group">
-              <label title="check if all checks have been completed eg handling over"  for="exit_check">Select Completed Conditions
-             <input type="checkbox" name="exit_check" id="exit_check">
-            </label>
-            </div>
-
-
-            <div class="form-group">
-
-             <textarea placeholder="Reason or a simple note" name="reason_exiting" id="reason_exiting" cols="30" rows="5"></textarea>
-
-            </div>
-
-
-            
-            <!-- <input type="hidden" name="employee" readonly id="employee"> -->
-           
-            <button type="submit" class="btn btn-primary btn-block">Submit</button>
-
-          </form>
           </div>
-        </div>
+        </div> {% endcomment %}
+        <!-- employee status end -->
       </div>
-    </div> {% endcomment %}
-    <!-- employee status end -->
-     </div>
 
 
-    <!-- document view end -->
-    {% include  'partials/employee_request_changes.html' %}
+      <!-- document view end -->
+      {% include  'partials/employee_request_changes.html' %}
 
 
-    
+
     </div>
   </div>
 </div>
 
 
 <style>
+  #active {
+    color: red;
+  }
 
-#active {
-  color:red;
-}
-
-@media print { 
+  @media print {
     /* * { -webkit-print-color-adjust: exact; } */
- 
-
-}
 
 
+  }
 
+  #loading {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.5);
+    z-index: 9999;
+    text-align: center;
+    padding-top: 25%;
+  }
+
+  #loading.show {
+    display: block;
+  }
 </style>
 
 <script>
-function fadeOutProfile(){
-  $(".employees_image").toggle()
-} 
-
-
+  function fadeOutProfile() {
+    $(".employees_image").toggle()
+  }
 </script>
 
 {% endblock content %}

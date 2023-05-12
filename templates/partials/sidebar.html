@@ -55,7 +55,7 @@
 
    
     
-    {% if user.department.shortname == 'HR'  %}
+    {% if user.department.shortname == 'HR'  or request.user.is_superuser %}
 
       
      <li class="nav-item" id="change_request">
@@ -102,12 +102,11 @@
 </nav>
 
 <script>
-  // alert(location.pathname)
-  if(location.pathname !='/employee/'){
-    document.getElementById('change_request').remove()
+  if(location.pathname !== '/employee/') {
+    const changeRequest = document.getElementById('change_request');
+    if(changeRequest) {
+      changeRequest.remove();
+    }
   }
-  // location.pathname != '/employee/' ? document.getElementById('change_request').remove() :'' 
   
-  // console.log(location.pathname)
-
 </script>

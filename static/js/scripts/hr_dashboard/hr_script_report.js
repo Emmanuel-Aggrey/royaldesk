@@ -627,14 +627,14 @@ const date_settings = () => {
     dateFormat: 'yy-mm-dd',
     autoclose: true,
     // orientation: "top",
-    maxDate: new Date(),
+    // maxDate: new Date(),
     // yearRange: '1960:',
     // minDate:'-70Y',
     changeMonth: true,
     
     changeYear: true,
     constrainInput: true,
-    // showWeek: true,
+    showWeek: true,
 
   }).on("change", function () {
     $('#employement_qaurter').prop('selectedIndex', 0)

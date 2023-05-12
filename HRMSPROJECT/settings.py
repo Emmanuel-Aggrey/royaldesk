@@ -232,12 +232,12 @@ LOGOUT_REDIRECT_URL = 'login'
 
 # LOGIN_URL = 'login'
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 # CELERY_EMAIL_BACKEND =  'djcelery_email.backends.CeleryEmailBackend'
 
-# EMAIL_BACKEND = 'djcelery_email.backends.CeleryEmailBackend'
+EMAIL_BACKEND = 'djcelery_email.backends.CeleryEmailBackend'
 CELERY_EMAIL_CHUNK_SIZE = 1
 DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL')
 EMAIL_HOST = config('EMAIL_HOST')
@@ -253,14 +253,14 @@ HR_EMAIL = config('HR_EMAIL')
 TEST_EMAIL = config('TEST_EMAIL')
 
 # ERROR MAILS SENT TO ADMINS EMAIL
-SERVER_EMAIL = config('TEST_EMAIL')
+SERVER_EMAIL = TEST_EMAIL
 
 
 # SETTING UP CELERY
-CELERY_BROKER_URL = 'redis://localhost:6379/0'
-# CELERY_BROKER_URL = 'amqp://localhost'
-# CELERY_RESULT_BACKEND = 'amqp://localhost'
-CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+# CELERY_BROKER_URL = 'redis://localhost:6379/0'
+CELERY_BROKER_URL = 'amqp://localhost'
+CELERY_RESULT_BACKEND = 'amqp://localhost'
+# CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_TIMEZONE = 'UTC'
@@ -270,7 +270,7 @@ CELERY_RESULT_BACKEND = 'django-db'
 CELERY_CACHE_BACKEND = 'django-cache'
 # celery setting.
 # CELERY_CACHE_BACKEND = 'default'
-BROKER_POOL_LIMIT=0
+# BROKER_POOL_LIMIT=0
 
 
 # CACHE setting.

@@ -1,5 +1,6 @@
 
 # from demoapp.models import Widget
+from celery import current_app
 from datetime import datetime, timedelta
 
 import pandas as pd
@@ -7,72 +8,70 @@ from celery import shared_task
 from django.conf import settings
 from django.core import management
 from django.core.mail import EmailMultiAlternatives, send_mail, send_mass_mail
-from HRMSPROJECT import sql_server
-from datetime import datetime, timedelta
-from hrms.models import Leave, Employee, Department
 
-email_from = settings.DEFAULT_FROM_EMAIL
+from hrms.models import Department, Employee, Leave
+from HRMSPROJECT import sql_server
+
+EMAIL_FROM = settings.DEFAULT_FROM_EMAIL
 TEST_EMAIL = settings.TEST_EMAIL
 HR_EMAIL = settings.HR_EMAIL
-from celery import current_app
-@shared_task
-def apply_for_leave_email(employee, start, end, diff, policy, department_email):
 
-    # email_from = settings.EMAIL_HOST_USER
+
+@shared_task
+def apply_for_leave_email(employee, start, end, diff, policy, department_email,employee_email):
 
     subject = 'New Leave For {}'.format(employee)
     subject_ = subject.upper()
-    html_content = 'Dear Sir/Madam <br> \n {} Have Applied  For {} from {} to {} making {} day(s) , Please <a href="http://192.168.1.18/apply-leave-start/">Click Here</a> to approve Thank you <p>Best Regards,</p>The Royal Desk Team.</p> <br><hr> <br> <footer><b>POWERD BY <a href="http://192.168.1.18/"> ROYALDESK </a> RCH IT</b> </footer>'.format(
+    html_content = '<p>Hello, </p> <br> {} Have Applied  For {} from {} to {} making {} day(s) , Please <a href="http://192.168.1.18/apply-leave-start/">Click Here</a> to approve Thank you <p>Best Regards,</p>The Royal Desk Team.</p> <br><hr> <br> <footer><b>POWERD BY <a href="http://192.168.1.18/"> ROYALDESK </a> RCH IT</b> </footer>'.format(
         employee, policy, start, end, diff)
 
-
-
-    emails = [department_email, TEST_EMAIL]
+    emails = [TEST_EMAIL,department_email,employee_email] #department_email
 
     # emails = department_email.append(TEST_EMAIL)
     emails = list(set(emails))
     # print(emails,'TEST_EMAIL',department_email)
-    
 
     # print(emails)
 
     msg = EmailMultiAlternatives(
-        subject_, html_content, email_from, emails)  # emails  a list department_email
+        subject_, html_content, EMAIL_FROM, emails)  # emails  a list department_email
     msg.attach_alternative(html_content, "text/html")
     msg.send()
 
 
 @shared_task
-def applied_leave_reminder(employee, start, end, diff, policy, leave_id,department_email):
-    leave = Leave.objects.filter(pk=leave_id,supervisor=False,line_manager=False,hr_manager=False).exists()
+def applied_leave_reminder(employee, start, end, diff, policy, leave_id, department_email,employee_email):
+    leave = Leave.objects.filter(
+        pk=leave_id, supervisor=False, line_manager=False, hr_manager=False).exists()
     if leave:
         log_to_file('reminder')
         subject = 'Leave Reminder For {}'.format(employee)
         subject_ = subject.upper()
         html_content = '{} Have Applied  For {} from {} to {} making {} day(s) , Please <a href="http://192.168.1.18/apply-leave-start/">Click Here</a> to approve Thank you <p>Best Regards,</p>The Royal Desk Team.</p> <br><hr> <br> <footer><b>POWERD BY <a href="http://192.168.1.18/"> ROYALDESK </a> RCH IT</b> </footer>'.format(
-        employee, policy, start, end, diff)
+            employee, policy, start, end, diff)
 
         # GET HR EMAIL AND APPEND TO EMPLOYEE DEPARTMENT EMAIL
         # hr_email = Department.objects.only('email').filter(shortname='HR').first()
 
         # department_email
-        emails =  [TEST_EMAIL,department_email]
+        emails = [TEST_EMAIL,employee_email] #department_email
         # emails = [TEST_EMAIL]
         emails = list(set(emails))
         # print(emails)
 
         msg = EmailMultiAlternatives(
-        subject_, html_content, email_from, emails)  # emails  a list
+            subject_, html_content, EMAIL_FROM, emails)  # emails  a list
         msg.attach_alternative(html_content, "text/html")
         msg.send()
 
-    leave = Leave.objects.filter(pk=leave_id,supervisor=True,line_manager=True,hr_manager=False).exists()
+    leave = Leave.objects.filter(
+        pk=leave_id, supervisor=True, line_manager=True, hr_manager=False).exists()
     if leave:
         log_to_file('to hr')
         subject = 'New Leave For {}'.format(employee)
         subject_ = subject.upper()
         html_content = '{} Have Applied  For {} from {} to {} making {} day(s) , Please <a href="http://192.168.1.18/apply-leave-start/">Click Here</a> to approve Thank you <p>Best Regards,</p>The Royal Desk Team.</p> <br><hr> <br> <footer><b>POWERD BY <a href="http://192.168.1.18/"> ROYALDESK </a> RCH IT</b> </footer>'.format(
-        employee, policy, start, end, diff)
+            employee, policy, start, end, diff)
 
         # GET HR EMAIL AND APPEND TO EMPLOYEE DEPARTMENT EMAIL
         # hr_email = Department.objects.only('email').filter(shortname='HR').first()
@@ -82,16 +81,15 @@ def applied_leave_reminder(employee, start, end, diff, policy, leave_id,departme
         # print(emails)
 
         msg = EmailMultiAlternatives(
-        subject_, html_content, email_from, emails)  # emails  a list
+            subject_, html_content, EMAIL_FROM, emails)  # emails  a list
         msg.attach_alternative(html_content, "text/html")
         msg.send()
-
 
 
 @shared_task
 def send_email_new_helpdesk_employee(employee, employee_id, email, password):
 
-    # email_from = settings.EMAIL_HOST_USER
+    # EMAIL_FROM = settings.EMAIL_HOST_USER
 
     subject = 'Dear {}'.format(employee)
     subject_ = subject.upper()
@@ -100,7 +98,7 @@ def send_email_new_helpdesk_employee(employee, employee_id, email, password):
     emails = [email, TEST_EMAIL]
 
     msg = EmailMultiAlternatives(
-        subject_, html_content, email_from, emails)  # personal email address
+        subject_, html_content, EMAIL_FROM, emails)  # personal email address
     msg.attach_alternative(html_content, "text/html")
 
     # print(html_content)
@@ -112,7 +110,7 @@ def send_email_new_helpdesk_employee(employee, employee_id, email, password):
 @shared_task
 def send_email_new_employee(employee, employee_id, email, password):
 
-    # email_from = settings.EMAIL_HOST_USER
+    # EMAIL_FROM = settings.EMAIL_HOST_USER
 
     subject = 'Dear {}'.format(employee)
     subject_ = subject.upper()
@@ -121,7 +119,7 @@ def send_email_new_employee(employee, employee_id, email, password):
     emails = [email, TEST_EMAIL]
 
     msg = EmailMultiAlternatives(
-        subject_, html_content, email_from, emails)  # personal email address
+        subject_, html_content, EMAIL_FROM, emails)  # personal email address
     msg.attach_alternative(html_content, "text/html")
 
     # print(html_content)
@@ -130,17 +128,16 @@ def send_email_new_employee(employee, employee_id, email, password):
 
 # EMPLOYEE REQUEST DATA CHABGE
 @shared_task
-def send_email_request_data_change(subject, message,email='emmanuel.nartey@rockcityhotelgh.com'):
+def send_email_request_data_change(subject, message, email='emmanuel.nartey@rockcityhotelgh.com'):
 
-    # email_from = settings.EMAIL_HOST_USER
+    # EMAIL_FROM = settings.EMAIL_HOST_USER
     html_content = '{}  <p>Best Regards, <br>The Royaldesk Team.</p>  <br><hr> <br> <footer><b>POWERD BY <a href="http://192.168.1.18/"> ROYALDESK </a> RCH IT</b> </footer>'.format(
-       message)
+        message)
 
-    
     emails = [email, TEST_EMAIL,]
 
     msg = EmailMultiAlternatives(
-        subject, html_content, email_from, emails)  
+        subject, html_content, EMAIL_FROM, emails)
     msg.attach_alternative(html_content, "text/html")
 
     # print(html_content)
@@ -189,7 +186,7 @@ def employee_on_leave():
 
         # print(html_table)
 
-        # email_from = settings.EMAIL_HOST_USER
+        # EMAIL_FROM = settings.EMAIL_HOST_USER
         today = today.strftime("%B %d, %Y")
 
         subject = 'Employees On Leave'
@@ -201,7 +198,7 @@ def employee_on_leave():
         # print(department_email)
 
         msg = EmailMultiAlternatives(
-            subject_, html_content, email_from, department_email)  # department_email email is a list
+            subject_, html_content, EMAIL_FROM, department_email)  # department_email email is a list
         msg.attach_alternative(html_content, "text/html")
         msg.send()
 
@@ -240,21 +237,22 @@ def anviz_employee(name="leave_users"):
             except:
                 Leave.DoesNotExist()
 
-# SAVE EMPLOYEE EXITING EXIT STATUS DATA TO DB IF THE SPECIFIED DATE VALUE IS DUE ELSE HOLD THE DATA 
+# SAVE EMPLOYEE EXITING EXIT STATUS DATA TO DB IF THE SPECIFIED DATE VALUE IS DUE ELSE HOLD THE DATA
+
+
 @shared_task
-def employee_exiting(employee_id, date_departure, status,old_task_id=None):
+def employee_exiting(employee_id, date_departure, status, old_task_id=None):
 
     employee = Employee.objects.get(employee_id=employee_id)
-    #.update(
+    # .update(
     #    date_departure=date_departure, status=status)
-    
+
     employee.date_departure = date_departure
     employee.status = status
 
-    status  = True if status =='active' else False
+    status = True if status == 'active' else False
     employee.user.is_active = status
     employee.save()
-
 
     # REVOKE ANY OLD TASK
     if old_task_id is not None:
@@ -262,6 +260,8 @@ def employee_exiting(employee_id, date_departure, status,old_task_id=None):
         # terminate=True
 
 # IDCard, any_unique_value to link anviz user to employee
+
+
 @shared_task
 def create_anviz_employee(*args):
 

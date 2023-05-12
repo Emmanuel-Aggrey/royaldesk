@@ -44,14 +44,14 @@ class AllEmployeeSerializer(serializers.ModelSerializer):
 
 class EmployeeSerializer(serializers.ModelSerializer):
     # profile_exists = serializers.CharField('profile_exists')
-    # designation_name = serializers.CharField(source='designation')
+    designation = serializers.CharField(source='designation.name')
     department = serializers.CharField(source='department.name')
     # department = serializers.CharField(source='employee.department')
 
     class Meta:
         model = Employee
-        fields = ['pk', 'employee_id', 'is_head', 'full_name', 'emp_uiid', 'status', 'is_merried', 'date_employed',
-                  'mobile', 'email', 'address', 'profile_exists', 'with_beneficiary', 'department', ]
+        fields = ['pk', 'employee_id', 'is_head', 'full_name', 'emp_uiid', 'status', 'is_merried', 'gender','date_employed',
+                  'mobile', 'email', 'address', 'profile_exists', 'with_beneficiary', 'department','designation' ]
 
 
 # class ExitEployeeSerializer(serializers.ModelSerializer):

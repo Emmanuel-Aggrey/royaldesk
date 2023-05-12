@@ -45,7 +45,6 @@ HR_EMAIL = config('HR_EMAIL')
 LEAVE_REMINDER_HOURS = config('LEAVE_REMINDER_HOURS', cast=int)
 
 
-
 def date_value(value):
     return value if value else None
 
@@ -382,8 +381,40 @@ def verify_data(request, employee_id):
 def employees(request):
     if request.method == 'GET':
 
+        status = request.GET.get('filter_status', None)
+        department = request.GET.get('filter_department', None)
+        gender = request.GET.get('filter_gender', None)
+        marital_status = request.GET.get('marital_status', None)
+
         employees = Employee.employees.select_related(
             'designation')  # .exclude(for_management=True)
+
+        if status is not None:
+            if status.isdigit():
+                print('statusstatus ',status)
+                status = not bool(int(status)) #have to fix this and its strange
+                employees = Employee.objects.filter(Q(beneficiarys__isnull=status),Q(department__for_management=False, applicant__is_applicant=False) | Q(
+                        applicant__isnull=True)).exclude(status='management').exclude(status='done')
+                
+                print('status status',status)
+            else:
+                employees = employees.filter(status=status)
+                print('status str ', type(status), status)
+
+        if department is not None and department != 'all':
+            employees = employees.filter(department__id=department)
+            print('department call')
+
+        if gender is not None and gender != 'all':
+            employees = employees.filter(gender=gender)
+            print('gender call')
+
+        if marital_status is not None and marital_status != 'all':
+            employees = employees.filter(is_merried=marital_status)
+            print('marital_status call')
+
+        # print(employees)
+
         serializer = EmployeeSerializer(employees, many=True)
 
         on_leave = employees.values('leave_employees__from_leave', 'leave_employees__hr_manager').aggregate(
@@ -707,7 +738,7 @@ def exit_employee(request, employee_id):
         if EmployeeExit.objects.filter(employee=employee).exists():
             # print('YES')
             old_task_id = employee.employee_exit.data.get('task_id')
-            
+
             employee.employee_exit.data = data
             employee.employee_exit.save(update_fields=['data'])
 
@@ -718,13 +749,10 @@ def exit_employee(request, employee_id):
 
             # EMPLOYEE EXITING TASK IN UPDATE POST REQUEST
             tasks_id = tasks.employee_exiting.apply_async(eta=date, args=(
-                employee_id, date_departure, exit_status,old_task_id))
-
-   
-      
+                employee_id, date_departure, exit_status, old_task_id))
 
             # print('new_tasks_id', tasks_id)
-# 
+#
             employee.employee_exit.data._mutable = True
             employee.employee_exit.data.update({'task_id': tasks_id.id})
             employee.employee_exit.save(update_fields=['data'])
@@ -734,8 +762,6 @@ def exit_employee(request, employee_id):
             # CREATE IF IT DOES NOT EXIST
             EmployeeExit.objects.create(employee=employee, data=data)
             date = datetime.strptime(date_departure, '%Y-%m-%d')
-
-       
 
             tasks_id = tasks.employee_exiting.apply_async(eta=date, args=(
                 employee_id, date_departure, exit_status))
@@ -763,7 +789,6 @@ def delate_document(request, employee_id, pk):
 # REQUEST FOR PERSONAL DATA CHANGES
 @api_view(['GET', 'POST'])
 def request_changes(request, employee_id):
-
     ''' REQUEST FOR PERSONAL DATA CHANGES '''
 
     if request.method == 'GET':
@@ -797,8 +822,8 @@ def request_changes(request, employee_id):
             # SEND CHANGE REQUEST TO HR
             # tasks.send_email_request_data_change.delay(subject, message)
 
-            tasks.send_email_request_data_change.apply_async(args=(subject, message,HR_EMAIL),countdown=3)
-
+            tasks.send_email_request_data_change.apply_async(
+                args=(subject, message, HR_EMAIL), countdown=3)
 
             print(subject, message)
 
@@ -815,9 +840,8 @@ def request_changes(request, employee_id):
 @group_required('HR')
 # @csrf_exempt
 @api_view(['GET', 'POST'])
-
 def grant_request(request, request_id=None):
-    ''' HR GET REQUEST AND VERIFY OR REVOKE EMPLOYEE DATA CHANGE POST''' 
+    ''' HR GET REQUEST AND VERIFY OR REVOKE EMPLOYEE DATA CHANGE POST'''
 
     if request.method == 'GET':
         employee = get_list_or_404(RequestChange, status='pending')
@@ -843,27 +867,23 @@ def grant_request(request, request_id=None):
             'request_change': request_change.request_change
 
         }
-        email  =  employee_request.employee.email
-
+        email = employee_request.employee.email
 
         # SEND INFO TO EMPLOYEE IF HR APPROVE OR REVOKE
-        
-       
-   
 
         subject = 'Request For Data Change'
-        email  =  employee_request.employee.email   
-        change_status= employee_request.status
-        heading ='Dear %s' % employee_request.employee.full_name
+        email = employee_request.employee.email
+        change_status = employee_request.status
+        heading = 'Dear %s' % employee_request.employee.full_name
         emp_uiid = employee_request.employee.emp_uiid
 
-        link = f'<p>please <a href="http://192.168.1.18/update-employee/{emp_uiid}">Click Here</a> to update your records . </p>' 
-        approve_not_approved = link if change_status =='approved' else 'NB: please visit the HR depratement for clarity'
+        link = f'<p>please <a href="http://192.168.1.18/update-employee/{emp_uiid}">Click Here</a> to update your records . </p>'
+        approve_not_approved = link if change_status == 'approved' else 'NB: please visit the HR depratement for clarity'
 
         message = f'<p>{heading}</p> Your request for your infomation change on royaldesk have been <b>{employee_request.status}</b> {approve_not_approved}'
 
-
-        tasks.send_email_request_data_change.apply_async(args=(subject, message,email),countdown=3)
+        tasks.send_email_request_data_change.apply_async(
+            args=(subject, message, email), countdown=3)
 
         # tasks.send_email_request_data_change.delay(subject, message,email)
         return Response(data=data, status=status.HTTP_200_OK)
@@ -901,6 +921,7 @@ def apply_leave(request, employee_id):
     elif request.method == 'POST':
         data = request.data
         file = request.FILES.get('file')
+        email = data.get('email')
 
         leave_data = {
             'employee': employee,
@@ -922,20 +943,21 @@ def apply_leave(request, employee_id):
         end = leave.end
         policy = leave.policy.name
         department_email = leave.employee.department.email
+        employee_email = email if email else None
         on_leave = leave.from_leave
         leave_days = str(leave.leavedays)
         leave_id = str(leave.id)
 
         # SEND EMAIL TO HOD AND HR
-        tasks.apply_for_leave_email(
-            employee, start, end, leave_days, policy, department_email)
+        tasks.apply_for_leave_email.delay(
+            employee, start, end, leave_days, policy, department_email, employee_email)
 
         # SEND REMIBER EMAIL IF NOT APPROVED WITHIN LEAVE_REMINDER_HOURS
         # LEAVE_REMINDER_HOURS
         hours_latter = datetime.now() + timedelta(hours=LEAVE_REMINDER_HOURS)
 
         tasks.applied_leave_reminder.apply_async(eta=hours_latter, args=(
-            employee, start, end, leave_days, policy, leave_id,department_email
+            employee, start, end, leave_days, policy, leave_id, department_email, employee_email
         ))
 
         # print('leave_id',leave_id)
@@ -1063,12 +1085,13 @@ def update_leave(request, leave_id):
     leave_days = str(leave.leavedays)
     leave_id = str(leave.id)
 
-    approved = True if leave.supervisor and leave.line_manager and not leave.hr_manager else False
+    approved = True if leave.supervisor or leave.line_manager and leave.hr_manager else False
     # print('approved approved',approved)
     if approved:
-
+        employee_email = leave.employee.email if leave.employee.email else None
         tasks.apply_for_leave_email(
-            employee, start, end, leave_days, policy, HR_EMAIL)
+            employee, start, end, leave_days, policy, HR_EMAIL, employee_email
+        )
 
     data = {
         'leave_id': leave_id,
