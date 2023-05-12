@@ -9,6 +9,7 @@ from django.utils.safestring import mark_safe
 from .models import (Department, Dependant,
                      Designation, Education, Employee, Leave, LeavePolicy,EmployeeExit,
                      PreviousEployment, ProfessionalMembership,Contribution,Documente,File,RequestChange)
+from import_export.admin import ImportExportModelAdmin
 
 admin.site.site_header = "ROCK CITY HOTEL"  # Add this
 admin.site.site_title = "ROCK CITY HOTEL"
@@ -52,7 +53,7 @@ class DesignationInline(admin.TabularInline):
     model = Designation
 
 
-class DepartmentAdmin(admin.ModelAdmin):
+class DepartmentAdmin(ImportExportModelAdmin,admin.ModelAdmin):
     list_display = ['name','shortname','email','designations','for_management','anviz_department']
     list_editable = ['anviz_department']
     search_fields = ['name']
@@ -109,7 +110,7 @@ def export_employees(modeladmin, request, queryset):
 export_employees.short_description = 'Export to csv'
 
 
-class EmployeeAdmin(admin.ModelAdmin):
+class EmployeeAdmin(ImportExportModelAdmin,admin.ModelAdmin):
     list_display = ['employee_id', 'status', 'full_name', 'dob','is_head', 'is_merried', 'department',
                     'designation', 'mobile', 'email', 'date_employed', 'address', 'emergency_name', 'emergency_phone','anviz_id']
     search_fields = ['first_name', 'last_name',
@@ -163,6 +164,7 @@ class EmployeeAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Employee, EmployeeAdmin)
+
 
 
 

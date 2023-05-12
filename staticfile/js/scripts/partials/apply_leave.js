@@ -1,10 +1,17 @@
 var last_on_leave_year = ''
 var last_on_leave_month = ''
 
+const EMPLOYEE_NAME = window.location.pathname.split("/")[2]
+
+
 $(document).ready(function () {
+
+  // console.log(EMPLOYEE_NAME)
   // var today = new Date();
   leave_filter()
-  $("#leave_user").val(sessionStorage.getItem('emp_key'))
+  // $("#leave_user").val(sessionStorage.getItem('emp_key'))
+  $("#leave_user").val(EMPLOYEE_NAME)
+  fancyTable()
 
 }); //end ready
 
@@ -22,6 +29,7 @@ const date_setup = (start, end, resuming_date, days) => {
     clearBtn: true,
 
   }).on("change", function () {
+    $('#policy').prop('selectedIndex',0)
 
     // $(`#${policy}`).prop('selectedIndex',0)
 
@@ -30,6 +38,7 @@ const date_setup = (start, end, resuming_date, days) => {
     next_day.setDate(next_day.getDate() + 1)
     // console.log(new Date(selected))
     start_date = new Date(selected)
+    
     // console.log('month ',start_date.getMonth()+1)
     // console.log('year ',start_date.getFullYear())
     // console.log(last_on_leave_year,last_on_leave_month)
@@ -163,10 +172,9 @@ $(document).ready(function () {
 
   leave_table()
 
+  // emp_id = sessionStorage.getItem("emp_key");
 
-  emp_id = sessionStorage.getItem("emp_key");
-
-  url = `/apply-leave/${emp_id}/`;
+  url = `/apply-leave-api/${EMPLOYEE_NAME}/`;
 
   $.get(url, function (data) {
     // console.log(data)
@@ -205,6 +213,7 @@ $(document).ready(function () {
     });
 
     // console.log(data.data.leave_policies)
+
   });
 });
 
@@ -215,8 +224,8 @@ $("#leave_form").on("submit", function (event) {
 
   event.preventDefault();
   // alert('Please enter')
-  emp_id = sessionStorage.getItem("emp_key");
-  url = `/apply-leave/${emp_id}/`;
+  // emp_id = sessionStorage.getItem("emp_key");
+  url = `/apply-leave-api/${EMPLOYEE_NAME}/`;
   $.ajax({
     url: url,
     type: "POST",
@@ -239,13 +248,13 @@ $("#leave_form").on("submit", function (event) {
 
 
 
-      const emp_key = sessionStorage.getItem('emp_key');
+      // const emp_key = sessionStorage.getItem('emp_key');
       $("#leave_filter").empty();
 
       leave_filter()
       $("#leave_filter").prepend(
         `
-         <option value="${emp_key}">MY DATA</option> 
+         <option value="${EMPLOYEE_NAME}">MY DATA</option> 
           `
       )
 
@@ -270,7 +279,7 @@ $("#leave_form").on("submit", function (event) {
     },
     error: function (jqXHR, textStatus, errorThrown) {
       console.log(jqXHR, textStatus, errorThrown);
-      Swal.fire("EROR TRY AGAIN OR CHECK THE APPLICATION DATE");
+      Swal.fire("ERROR TRY AGAIN OR CHECK THE APPLICATION DATE");
 
     },
   });
@@ -283,11 +292,14 @@ $("#policy").change(function () {
   const policy_days = parseInt($('select[name="policy"]').find(':selected').attr('data-days'))
  const days2 =  $("#days").text()
  const clean_days = parseInt(days2.replace('No. of days applied for:',''))
-  //  console.log(policy_days,clean_days,typeof(policy_days),typeof clean_days)
+  //  console.log('policy_days ',policy_days,'clean_days ',clean_days)
+  //  console.log(clean_days-policy_days)
+  //  console.log(clean_days>policy_days)
 
  if(clean_days>policy_days){
-  Swal.fire('more than policy days')
-  $('#start').val('')
+  $('#start,#end').val('')
+ return Swal.fire('more than policy days')
+  
  }
 //  days1 > clean_days ? Swal.fire('more than policy days'):''
   // console.log(days1,clean_days)
@@ -353,13 +365,13 @@ $("#edit_leave_form").on("submit", function (event) {
 const leave_table = () => {
   // $("#leave_filter").empty();
 
-  const emp_key = sessionStorage.getItem('emp_key');
+  // const emp_key = sessionStorage.getItem('emp_key');
   $("#leave_filter").empty();
 
   leave_filter()
   $("#leave_filter").prepend(
     `
-     <option value="${emp_key}">MY DATA</option> 
+     <option value="${EMPLOYEE_NAME}">MY DATA</option> 
       `
   )
 
@@ -368,7 +380,7 @@ const leave_table = () => {
   $(`#leave_filter option:contains('${'MY DATA'}')`).prop("selected", true)
 
   $.ajax({
-    url: `/my-leaves/${emp_key}/`,
+    url: `/my-leaves/${EMPLOYEE_NAME}/`,
     type: "GET",
     success: function (response) {
 
@@ -415,7 +427,7 @@ const leave_table = () => {
       let desig = {}
 
       desig = response.data.filter(function (item) {
-        return item.employee_id === emp_key
+        return item.employee_id === EMPLOYEE_NAME
 
       })
 
@@ -440,10 +452,10 @@ const leave_table = () => {
           <td class="text-uppercase leave_status ${leave_status(element.status, element.from_leave)}"> ${element.status}</td>
           <td>
           <div class="edit_product btn text-info btn-outline-dark" title="edit items" onclick="getLeave(${element.id})">
-          <i class="fa fa-pencil"  style="cursor:pointer;"  aria-hidden="true">edit</i>
+          <i class="fa fa-pencil"  style="cursor:pointer;"  aria-hidden="true"></i>
           </div>
           <a href='${element.url}' class="btn text-primary btn-outline-dark">
-          <i class="fa fa-pencil"  style="cursor:pointer;"  aria-hidden="true">view</i>
+          <i class="fa fa-eye"  style="cursor:pointer;"  aria-hidden="true"></i>
           </a>
         </td>
         </tr>
@@ -465,7 +477,7 @@ const leave_table = () => {
             return item
           })
         }
-        else if (depart === emp_key) {
+        else if (depart === EMPLOYEE_NAME) {
           // console.log(depart,desig)
           // my leaves
           desig = response.data.filter(function (item) {
@@ -513,11 +525,11 @@ const leave_table = () => {
             <td class="text-uppercase leave_status ${leave_status(element.status, element.from_leave)}"> ${element.status}</td>
             <td>
               <div class="edit_product btn text-info btn-outline-dark" title="edit items" onclick="getLeave(${element.id})">
-              <i class="fa fa-pencil"  style="cursor:pointer;"  aria-hidden="true">edit</i>
+              <i class="fa fa-eye"  style="cursor:pointer;"  aria-hidden="true"></i>
               </div>
 
               <a href='${element.url}' class="btn text-primary btn-outline-dark">
-              <i class="fa fa-pencil"  style="cursor:pointer;"  aria-hidden="true">view</i>
+              <i class="fa fa-pencil"  style="cursor:pointer;"  aria-hidden="true"></i>
               </a>
             </td>
   

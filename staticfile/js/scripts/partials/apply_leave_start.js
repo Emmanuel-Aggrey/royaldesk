@@ -7,7 +7,7 @@ $('#leave_form').on('submit', function (event) {
     event.preventDefault();
     const apply_leave = $('#apply_leave').val()
 
-    url = `/apply-leave/${apply_leave}/`
+    url = `/apply-leave-api/${apply_leave}/`
 
     // console.log('url' ,url)
     $.ajax({
@@ -18,15 +18,18 @@ $('#leave_form').on('submit', function (event) {
             // TERNARY OPERATOR FOR EMAIL OR USER ID
             var emp_key = data.employee_id
             var employee_id  = emp_key ? emp_key : data.email
+            username = data.user_name.toUpperCase()
 
             // console.log('MYDATA ',emp_key);
-            sessionStorage.setItem('emp_key',employee_id);
+            // sessionStorage.setItem('emp_key',employee_id);
 
                  Swal.fire('WELCOME REDIRECTING',data.user_name.toUpperCase());
                  setInterval(() => {
-                  location=`http://${location.host}/apply-leave/`
+                  location=`http://${location.host}/apply-leave/${employee_id}`
 
                  }, 2000);
+                
+                //  swalRedirect(username,employee_id)
 
 
             $("#leave_form")[0].reset()
@@ -43,12 +46,12 @@ $('#leave_form').on('submit', function (event) {
 
 
 
-const swalRedirect =(user)=> {
+const swalRedirect =(user,employee_id)=> {
     let timerInterval
 Swal.fire({
   title: `WELCOME ${user} REDIRECTING ...`,
   html: 'will complete  in <b></b> milliseconds.',
-  timer: 2000,
+  timer: 1000,
   timerProgressBar: true,
   didOpen: () => {
     Swal.showLoading()
@@ -64,7 +67,7 @@ Swal.fire({
     clearInterval(timerInterval)
   }
 }).then((result) => {
-    location=`http://${location.host}/apply-leave/`
+    location=`http://${location.host}/apply-leave/${employee_id}`
 
   /* Read more about handling dismissals below */
   if (result.dismiss === Swal.DismissReason.timer) {

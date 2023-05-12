@@ -65,7 +65,9 @@ INSTALLED_APPS = [
     'drf_yasg',
     'debug_toolbar',
     'ckeditor',
-    "corsheaders",
+    'corsheaders',
+    'import_export',
+
 
     'django_celery_results',
     'djcelery_email',

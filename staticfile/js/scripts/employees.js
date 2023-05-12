@@ -6,6 +6,9 @@ var employee_objects={}
 
 $(document).ready(function () {
 
+  show_change_request()
+
+  load_department()
   search_employees_table()
   $.ajax({
     url: '/employees/',
@@ -14,7 +17,6 @@ $(document).ready(function () {
       // console.log(response)
   
 
-      employee_objects = Object.assign(response.employees);
       $("#count_on_leave").text(response.employees_on_leave).attr('title', 'employees on leave')
 
       response.employees_exceed_leave  ?
@@ -23,107 +25,132 @@ $(document).ready(function () {
       $("#count_exceed_leave").text(response.employees_exceed_leave).attr('title','exceeded leave')
 
 
-      // console.log(employee_objects);
 
-      let employees = {}
-      employees = employee_objects.filter(function (item) {
-        return item.status == 'active'
-      })
-
-      employees.forEach(function (element) {
-        // console.log(element)
-
-        $("#employees_table").append(`
-                
-            <tr>
-                                
-                                <td  class="font-weight-medium employees_image" title="view leave history"> <img  class='img' src="${element.profile_exists}" alt="employee prifile image"></td>
-                                <td class="font-weight-medium">${element.employee_id}</td>
-
-                                <td class="font-weight-medium">${element.full_name}</td>
-                                <td class="font-weight-medium">${element.department}</td>
-                                <td class="font-weight-medium">${element.mobile}</td>
-                                <td class="font-weight-medium">${element.email}</td>
-                                <td class="font-weight-medium">${element.address}</td>
-                                <td class="font-weight-medium">${element.date_employed}</td>
-
-                                <td class="text-primary font-weight-medium" class="">
-                               
-                                  <div  id="${element.employee_id}" onclick="get_employee(this)" data-emp_uiid=${element.emp_uiid} class="btn btn-info btn-outline-primary text-light" title="view employee  details"> 
-                                  <i class="fa fa-eye-slash" aria-hidden="true"></i>
-                                  </div>
-
-                                  
-                                </td>
-                               
-  
-                              </tr>
-            `)
-      })
-
-      //  fancyTable()
-      // employees = {}
-      $("#filter_emp").change(function () {
-        val = $(this).val()
-        $('#employees_table').empty();
-        // alert(val)
-        // console.log(val)
-        employees = employee_objects.filter(function (item) {
-          return item.status === val || item.with_beneficiary == val || item.is_merried === val;
-        })
-
-        // console.log(employees)
-        employees.forEach(element => {
-          $("#employees_table").append(`
-                
-                <tr>
-                                    
-                <td class="font-weight-medium employees_image" title="view leave history"> <img class='img' src="${element.profile_exists}" alt="employee prifile image"></td>
-                            
-                                    <td class="font-weight-medium">${element.employee_id}</td>
-                                    <td class="font-weight-medium">${element.full_name}</td>
-                                    <td class="font-weight-medium">${element.department}</td>
-
-                                    <td class="font-weight-medium">${element.mobile}</td>
-                                    <td class="font-weight-medium">${element.email}</td>
-                                    <td class="font-weight-medium">${element.address}</td>
-                                    <td class="font-weight-medium">${element.date_employed}</td>
-    
-                                    <td class="text-primary font-weight-medium" class="">
-                                  
-
-                                      <div  id="${element.employee_id}" onclick="get_employee(this)" data-emp_uiid=${element.emp_uiid} class="btn btn-info btn-outline-primary text-light" title="view employee details"> 
-                                      <i class="fa fa-eye " aria-hidden="true"></i>
-                                      </div>
-                                     
-                                      
-                                    </td>
-                                   
-      
-                                  </tr>
-                `)
-
-        });
-
-      })
+     
+      //table start
+      loadTable(response)
+      //table end
+     
       fancyTable()
+      add_document()
 
     }
 
-  })
+  }) //END OF JSON CALL
 
 });
 
 
 
+// LOAD TABLE START
+const loadTable=(object)=>{
+
+  employee_objects = Object.assign(object.employees);
+
+  let employees = {}
+  employees = employee_objects.filter(function (item) {
+    return item.status == 'active'
+  })
+  employees.forEach(function (element) {
+    
+    $("#employees_table").append(`
+            
+        <tr>
+                            
+                            <td  class="font-weight-medium employees_image" title="view leave history"> <img  class='img' src="${element.profile_exists}" alt="employee prifile image"></td>
+                            <td class="font-weight-medium"> ${element.employee_id}</td>
+
+                            <td class="font-weight-medium">${element.full_name}</td>
+                            <td class="font-weight-medium">${element.department}</td>
+                            <td class="font-weight-medium">${element.designation}</td>
+                            
+                            <td class="font-weight-medium">${element.mobile}</td>
+                            <td class="font-weight-medium">${element.email}</td>
+                            <td class="font-weight-medium">${element.address}</td>
+                            <td class="font-weight-medium">${element.date_employed}</td>
+
+                            <td class="text-primary font-weight-medium" class="">
+                           
+                              <div  id="${element.employee_id}" onclick="get_employee(this)" data-emp_uiid=${element.emp_uiid} class="btn btn-info btn-outline-primary text-light" title="view employee  details"> 
+                              <i class="fa fa-eye-slash" aria-hidden="true"></i>
+                              </div>
+
+                              
+                            </td>
+                           
+
+                          </tr>
+        `)
+        
+  })
+
+
+}
+// LOAD TABLE END
+
+
+// SEARCH TABLE START
+
+
+
+
+
+
+
+//SEACRH TABLE END
+
 $(document).ready(function () {
 $("#edit_employee").on('click', function () {
 
   employee_name = sessionStorage.getItem('EMP_ID')
-  console.log(employee_name)
-  window.open('/register-staff/','Edit Staff','width=auto,height=auto')
+  // console.log(employee_name)
+  window.open(`/update-employee/${employee_name}/`,'Edit Staff','width=auto,height=auto')
 
 })
+
+
+$("#search_form").on("submit", function (event) {
+  event.preventDefault();
+  $("#loadings").addClass("show");
+
+  var data = $(this).serialize();
+
+const filter_status = $("#filter_status").val()
+const filter_gender = $("#filter_gender").val()
+  const filter_department = $("#filter_department").val()
+  const marital_status = $("#marital_status").val()
+  
+
+  $.ajax({
+    url: '/employees/',
+    type: 'GET',
+    data:data,
+    // data: {
+    //   'status':filter_status,'gender':filter_gender,'department':filter_department,'marital_status':marital_status
+    // },
+    beforeSend: function() {
+      console.log('loading');
+      // $('#loading-spinner').show(); // Show the spinner
+
+    },
+    success: function (response) {
+      console.log(response.employees);
+      $("#employees_table").empty()
+         //table start
+         loadTable(response)
+         $("#loading").removeClass("show");
+
+         //table end
+        
+    },
+    error: function (jqXHR, textStatus, errorThrown){
+      alert(errorThrown);
+      $("#loading").removeClass("show");
+
+    }
+  });
+});
+
 })
 
 
@@ -137,7 +164,7 @@ const get_employee = (employee) => {
   emp_uiid = $(employee).attr('data-emp_uiid');
   employee = employee.id
 
-  console.log(employee,emp_uiid)
+  // console.log(employee,emp_uiid)
   
 
   model_dialog('d_model', employee)
@@ -152,7 +179,7 @@ const get_employee = (employee) => {
     type: "GET",
     success: function (data) {
 
-
+      // console.log(data)
       $("#leave_detail_badge").text(data.employees.length)
       $("#leave_summary_badge").text(data.leave_per_year.length)
       $("#emp_document_badge").text(data.document_count)
@@ -269,23 +296,7 @@ const get_employee = (employee) => {
       })
 
 
-      $("#emp_document").on('click', function () {
-
-
-            filename('filenames') //populate the filenames
-
-
-            // display document data
-            documents_data(employee)
-
-
-
-          
-            model_dialog('doc_container', employee)
-
-      
-
-      })
+     
 
 
       // Swal.fire('Changes are not saved', '', 'info')
@@ -296,6 +307,24 @@ const get_employee = (employee) => {
 
 }
 
+// ADD DOCUMENT VIEW 
+const add_document=()=>{
+  
+  $("#emp_document").on('click', function () {
+
+    const employee = sessionStorage.getItem('employee_name')
+    filename('filenames') //populate the filenames
+
+
+    // display document data
+    documents_data(employee)
+  
+    model_dialog('doc_container', employee)
+
+
+
+})
+}
 
 // upload documents data to dom
 const documents_data = (employee) => {
@@ -304,14 +333,48 @@ const documents_data = (employee) => {
     url: `/add-document/${employee}/`,
     type: "GET",
     success: function (response) {
-      // console.log(response.document)
-
+     
+      documents_objects= {}
       documents_objects = Object.assign(response.document);
+
+      $("#cv_file").empty()
+
+    
+      try{
+        
+
+        // CV
+        if(response.cv){
+
+          const offer_letter= response.cv.substring(response.cv.lastIndexOf('/') + 1)
+  
+          const letters =  `<a  style="color:#6566C3" href=${response.cv} target="_blank">Download CV</a>`
+    
+          $("#cv_file").append(`<li title=${offer_letter}>${letters}</li>`)
+        }
+
+        
+        // OFFER LETTER
+        if(response.document!='undefined'){
+          response.document[0].offer_letter.forEach(function(letters){
+            const offer_letter_name= letters.offer_letter.substring(letters.offer_letter.lastIndexOf('/') + 1)
+            const element =  `<a  style="color:#6566C3" href=${letters.offer_letter} target="_blank">Download Offer Letter</a>`
+            // console.log(letters.offer_letter)
+            $("#cv_file").append(`<li title=${offer_letter_name}>${element}</li>`)
+          })
+        } 
+      }catch(e){
+        // console.log(e)
+      }
+
+     
+
 
       // documents_objects.push(response.document)
 
-      // console.log(documents_objects)
-
+      // console.log(response)
+      // const offerletter = response.document !='undefined' ? response.document[0]: false
+      // console.log(offerletter)
 
       $("#document_table_body").empty();
       $("#create_document").fadeOut('fast')
@@ -321,14 +384,15 @@ const documents_data = (employee) => {
         var doc_id = e.target.id
         // $("#document_id").val(doc_id)
         document.getElementById('document_id').value = doc_id
-        console.log(doc_id)
+        // console.log(doc_id)
         sessionStorage.setItem('document_name',e.target.innerHTML)
         // sessionStorage.setItem('employee_name',employee)
         $("#document_table_body").empty();
 
         $("#create_document").fadeIn('fast')
+        
 
-
+        
         const documents =documents_objects.filter((value)=>{
           return value.category_id == doc_id
         })
@@ -407,11 +471,14 @@ const filename = (filename) => {
     success: function (response) {
       $("#filenames").empty();
 
-      // console.log(response.data);
+      // console.log(response);
       response.data.forEach(function (element) {
 
         // console.log(element)
-        $(`#${filename}`).append(`<li  class="font-weight-bold  text-capitalize" style="cursor:pointer" id=${element.pk}> ${element.name}</li>`)
+        $(`#${filename}`).append(`
+        <li  class="font-weight-bold   text-capitalize" style="cursor:pointer" id=${element.pk}> ${element.name}
+       
+        </li>`)
       });
     }
 
@@ -423,73 +490,29 @@ const filename = (filename) => {
 const employee_exit_model =()=>{
   employee = sessionStorage.getItem('employee_name')
 
-  $.ajax({
-    url: `/exit_employee/${employee}/`,
-    type: "GET",
-    success: function (data) {
-      $("#employee_exit_status_form")[0].reset()
+  location.href = `/employee-exit-form/${employee}/`
 
-      if(data.date_exited != null){
-        // console.log(data)
-        $("#employee_status_exit").val(data.employee_status)
-        $("#date_exited").val(data.date_exited)
-        $("#exit_check").attr('checked', data.exit_check)
-        $("#reason_exiting").val(data.reason_exiting)
-      }
+  // $.ajax({
+  //   url: `/exit_employee/${employee}/`,
+  //   type: "GET",
+  //   success: function (data) {
+  //     $("#employee_exit_status_form")[0].reset()
+
+  //     if(data.date_exited != null){
+  //       // console.log(data)
+  //       $("#employee_status_exit").val(data.employee_status)
+  //       $("#date_exited").val(data.date_exited)
+  //       $("#exit_check").attr('checked', data.exit_check)
+  //       $("#reason_exiting").val(data.reason_exiting)
+  //     }
       
-      //here
-    }
-  })
+  //     //here
+  //   }
+  // })
 }
 
 
 
-$(document).ready(function () {
-
-  $("#employee_exit_status_form").on("submit", function (event) {
-    var employee = sessionStorage.getItem('employee_name')
-    event.preventDefault();
-
-    $.ajax({
-      url: `/exit_employee/${employee}/`,
-      type: "POST",
-      data: new FormData(this),
-      processData: false,
-      contentType: false,
-      cache: false,
-      csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
-      success: function (response) {
-        // console.log(response.employee_id);
-
-
-        employee_objects.map((employee) =>{
-          if (employee.employee_id == response.employee_id) {
-            // console.log(employee)
-
-           return employee.status = response.status
-          }
-          else return employee
-        })
-    
-        // console.log(employee_objects);
-
-        $("#employee_exit_status_form")[0].reset()
-        $('#employee_status_view').dialog("close");
-        
-
-        show_alert(6000, "success", 'saved successfully')
-
-      },
-      error: function (jqXHR, textStatus, errorThrown) {
-        // console.log(jqXHR, textStatus, errorThrown);
-        Swal.fire('error occurred try again', '', 'info')
-
-      }
-
-    });
-  })
-
-})
 
 
 $(document).ready(function () {
@@ -544,8 +567,6 @@ $(document).ready(function () {
     event.preventDefault()
     // var filename = sessionStorage.getItem('file_name')
     var employee = sessionStorage.getItem('employee_name')
-    // alert('New file')
-    // url = `/add-document/${employee.id}/${employee.name}/`
     $.ajax({
       url: `/add-document/${employee}/`,
       type: "POST",
@@ -606,7 +627,7 @@ const model_dialog = (element, title) => {
     title: title,
     height: 'auto',
     width: 'auto',
-    resizable: false,
+    // resizable: false,
     buttons: [
       {
         text: "Close",
@@ -665,5 +686,41 @@ const employee_name_available = () => {
     location.href = '/accounts/logout'
 
   }
+
+}
+
+
+
+const show_change_request =()=>{
+  $("#change_request").click(function(){
+    $("#request_change_model").dialog( "open" );
+})
+}
+
+
+
+
+const load_department = () => {
+
+  $("#filter_department").empty()
+  $.get("/designation/", function (data) {
+
+    // console.log(data)
+    for (var index in data.departments) {
+
+      const department_pk = data.departments[index].name.startsWith('Rock') ? `<option selected value=all> ${data.departments[index].name}</option>` : `<option value=${data.departments[index].pk}> ${data.departments[index].name}</option>`
+      // console.log(department_pk)
+
+
+      $("#filter_department").append(department_pk);
+
+
+    }//END OF DEPARTMENT DROPDOWN
+
+
+
+
+
+  })
 
 }
