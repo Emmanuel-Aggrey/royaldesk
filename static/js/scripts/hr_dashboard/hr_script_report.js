@@ -291,15 +291,40 @@ $('#leave_status').change(function () {
   console.log(value)
   if (value == 'approved') {
     $("#hr_manager").attr('checked', true)
-    $("#supervisor").attr('checked', true)
+    $("#is_supervisor").attr('checked', true)
     $("#line_manager").attr('checked', true)
   }
   else{
     $("#hr_manager").attr('checked', false)
-    $("#supervisor").attr('checked', false)
+    $("#is_supervisor").attr('checked', false)
     $("#line_manager").attr('checked', false)
   }
 })
+
+
+
+$('#is_awaiting_leave').change(function () {
+  const awaiting_leave = $('#is_awaiting_leave').is(':checked')  
+  if (awaiting_leave) {
+    $("#hr_manager").attr('checked', true)
+    $("#is_supervisor").attr('checked', true)
+    $("#line_manager").attr('checked', true)
+    $("#is_on_leave").attr('checked', true)
+    $('#leave_status').prop('selectedIndex',1)
+
+  }
+  else{
+    $("#hr_manager").attr('checked', false)
+    $("#is_supervisor").attr('checked', false)
+    $("#line_manager").attr('checked', false)
+    $("#is_on_leave").attr('checked', false)
+    $('#leave_status').prop('selectedIndex',0)
+
+  }
+})
+
+
+
 
 $("#leave_action_form").on("submit", function (e) {
   e.preventDefault();
@@ -308,12 +333,18 @@ $("#leave_action_form").on("submit", function (e) {
 
   const department = $("#leave_department").val()
   const status = $('#leave_status').val()
+  
+  const date_range = $('#date_range').val()
+
   const start_date = $('#leave_date_start').val()
   const end_date = $('#leave_date_end').val()
   const on_leave = $('#is_on_leave').is(':checked')
-  const supervisor = $('#supervisor').is(':checked')
+  const awaiting_leave = $('#is_awaiting_leave').is(':checked')
+
+  const supervisor = $('#is_supervisor').is(':checked')
   const line_manager = $('#line_manager').is(':checked')
   const hr_manager = $('#hr_manager').is(':checked')
+  
 
 
   // console.log({ 'department': department, 'status': status, 'start_date': start_date, 'end_date': end_date, 'on_leave': on_leave, 'supervisor': supervisor, 'line_manager': line_manager, 'hr_manager': hr_manager })
@@ -324,7 +355,7 @@ $("#leave_action_form").on("submit", function (e) {
   $.ajax({
     type: 'GET',
     url: '/hr-table/leave/',
-    data: { 'department': department, 'status': status, 'start_date': start_date, 'end_date': end_date, 'on_leave': on_leave, 'supervisor': supervisor, 'line_manager': line_manager, 'hr_manager': hr_manager },
+    data: { 'department': department, 'status': status, 'start_date': start_date, 'end_date': end_date,'date_range':date_range, 'on_leave': on_leave, 'awaiting_leave':awaiting_leave,'supervisor': supervisor, 'line_manager': line_manager, 'hr_manager': hr_manager },
 
     beforeSend: function () {
       $("#leave_caption").text('sending yout request...').css('color', 'red').addClass('pulse')

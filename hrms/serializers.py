@@ -7,7 +7,7 @@ from applicant.serializers import ApplicantOfferLeterSerializers
 from .models import (Dependant, Documente, Education, Employee, Leave,
                      PreviousEployment, ProfessionalMembership, EmployeeExit, RequestChange)
 
-
+from datetime import datetime
 class AllEmployeeSerializer(serializers.ModelSerializer):
     employee_id = serializers.CharField(read_only=True)
     department_name = serializers.CharField(
@@ -150,16 +150,20 @@ class LeaveSerializer(serializers.ModelSerializer):
 
     policy = serializers.CharField(source='policy.name')
     policy_id = serializers.CharField(source='policy.pk')
+    # awaiting_leave = serializers.SerializerMethodField()
 
     class Meta:
         model = Leave
         fields = [
             'id', 'url', 'employee_id', 'group', 'policy', 'policy_id', 'created_at',
             'start', 'end', 'status', 'phone', 'resuming_date', 'file',
-            'supervisor', 'line_manager', 'hr_manager', 'from_leave', 'employee',
+            'supervisor', 'line_manager', 'hr_manager', 'from_leave','awaiting_leave', 'employee',
             'employee__name', 'department', 'leavedays'
 
         ]
+
+   
+        
         # fields = '__all__'
 
 

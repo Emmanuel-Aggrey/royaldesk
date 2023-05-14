@@ -30,7 +30,7 @@ EMPLOYEE_STATUS = (('active', 'ACTIVE'), ('terminated',
                    'TERMINATED'), ('resigned', 'RESIGNED'), ('dismised', 'DISMISED'), ('management', 'FOR MANAGEMENT'))
 
 STATUS = (('approved', 'APPROVED'), ('unapproved',
-          'UNAPPROVED'), ('pending', 'PENDING'), ('done', 'DONE'),)
+          'UNAPPROVED'), ('pending', 'PENDING'), ('awaiting', 'AWAITING'), ('done', 'DONE'),)
 
 MARRITAL_STATUS = (('married', 'MARRIED'), ('not_married', 'NOT MARRIED'),
                    ('divorced', 'Divorced'), ('widow', 'WIDOW'), ('widower', 'WIDOWER'),)
@@ -106,7 +106,6 @@ class Employee(BaseModel, models.Model):
     mobile = models.CharField(max_length=15)
     email = models.EmailField(max_length=125, null=False, blank=True)
     dob = models.DateField(help_text="Date Of Birth")
-    # age = models.PositiveIntegerField(blank=True, null=True)
     date_employed = models.DateField(help_text="Date Of Employment", null=True)
     address = models.CharField(max_length=100, help_text="Residential Address")
     languages = models.CharField(max_length=200, null=True)
@@ -246,7 +245,6 @@ def save_profile(sender, instance, **kwargs):
         employee_id = initials.replace(' ', '')
         instance.employee_id = employee_id
         instance.anviz_id = employee_id
-        # instance.age = age_calendar(instance.dob)
 
         # print('age_calendar',age_calendar(instance.dob))
 
@@ -262,7 +260,6 @@ def save_profile(sender, instance, **kwargs):
 
         # print('employee_id not set')
 
-        # instance.age = age_calendar(instance.dob)
 
         # instance.save()
 
@@ -427,6 +424,7 @@ class Leave(BaseModel, models.Model):
     line_manager = models.BooleanField('hod', default=False)
     hr_manager = models.BooleanField(default=False)
     on_leave = models.BooleanField(default=False)
+    
     from_leave = models.BooleanField(default=False)
     # using this because sqlite doesn't support calculations with datefieds
     leavedays = models.IntegerField(default=0, editable=True)
@@ -436,11 +434,23 @@ class Leave(BaseModel, models.Model):
         default=dict, null=True, blank=True)
     hr_manager_approval = models.JSONField(default=dict, null=True, blank=True)
 
+
     def __str__(self):
         return self.employee.full_name
 
     def get_absolute_url(self):
         return reverse("hrms:leave_application_detail", kwargs={"employee": self.employee.employee_id, "leave_id": self.pk})
+    
+    #want to check if employee can start leave
+    def awaiting_leave(self):
+        
+        today =timezone.now().date()
+        status  = self.status 
+        
+        if self.start > today and status =='approved':
+            return True
+        else:
+            return False
     # @property
     # def leave_days(self):
 
@@ -489,7 +499,9 @@ def update_leave_status(sender, instance, **kwargs):
         instance.start, instance.end)  # save the leave days
 
     if instance.line_manager == True and instance.hr_manager == True:
-        instance.status = 'approved'
+        today = timezone.now().date()
+        if instance.start ==today:
+            instance.status = 'approved'
 
         # instance.on_leave = True
         # instance.save()

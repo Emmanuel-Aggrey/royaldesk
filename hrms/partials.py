@@ -119,6 +119,15 @@ twenty_one_days = [
 ]
 
 
+def awaiting_leave(start_date,status):
+            
+    today =datetime.now().date()
+    
+    if start_date > today and status =='approved':
+        return True
+    else:
+        return False
+
 # birthdays = []
 # for day, month in twenty_one_days:
 #     birthdays += Person.objects.filter(

@@ -489,7 +489,7 @@ const leave_table = () => {
 
           desig = response.data.filter(function (item) {
             // console.log(depart,item)
-            return item.from_leave === false && item.hr_manager === true
+            return item.from_leave === false && item.status === 'approved' && item.awaiting_leave ===false
           })
           // console.log(desig)
         }
@@ -500,6 +500,16 @@ const leave_table = () => {
             return item.status === 'pending'
           })
         }
+
+        // approved but not on leave
+        else if (depart == 'approved_leave') {
+          // console.log(depart,desig)
+          desig = response.data.filter(function (item) {
+
+            return item.status === 'approved' && item.awaiting_leave ===true
+          })
+        }
+        
 
         desig.forEach(element => {
           // console.log(element)
@@ -977,14 +987,15 @@ const leave_status = (leave_status, from_leave) => {
   }
 }
 
-
+{/* <option value="pending">APPROVALS</option>  */}
 
 
 const leave_filter = () => {
   $("#leave_filter").append(`
 <option value="all">ALL</option>
-   <option value="pending">APPROVALS</option> 
-        <option value="on_leave">ON LEAVE</option>
+  <option value="pending">PENDING</option> 
+  <option value="approved_leave">APPROVED LEAVE</option>
+  <option value="on_leave">ON LEAVE</option>
 `)
 }
 

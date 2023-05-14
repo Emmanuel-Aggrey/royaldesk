@@ -305,18 +305,30 @@
     <input class="dob" type="text" name="date_end" id="leave_date_end" required autocomplete="off"
       placeholder="Date">
 
+      <label for="">Date type</label>
+      <select class="dropdown" name="date_range" id="date_range" required>
+        <option value="start">START</option>
+        <option value="end">END</option>
+        <option value="resuming_date">RESUME</option>
+        <option value="created_at__date">CREATED ON</option>
+      </select>
+
     <label for="">Status</label>
-    <select class="dropdown" name="status" id="leave_status">
+    <select class="dropdown" name="status" id="leave_status" required>
       <option value="pending">PENDING</option>
       <option value="approved">APPROVED</option>
       <option value="unapproved">UNAPPROVED</option>
     </select>
+
+  
     
     <h5 class="font-weight-bold mt-4">Approvals</h5>
-    <label for="on_leave">From Leave</label>
+    <label for="on_leave">On Leave</label>
     <input class="mr-4" type="checkbox" name="on_leave" id="is_on_leave">
+    <label for="awaiting_leave">Awaiting Leave</label>
+    <input class="mr-4" type="checkbox" name="awaiting_leave" id="is_awaiting_leave">
     <label for="supervisor">Supervisor</label>
-    <input class="mr-4" type="checkbox" name="supervisor" id="supervisor">
+    <input class="mr-4" type="checkbox" name="supervisor" id="is_supervisor">
     <label for="line_manager">Line Manager</label>
     <input class="mr-4" type="checkbox" name="line_manager" id="line_manager">
     <label for="hr_manager">HR Manager</label>
@@ -906,6 +918,8 @@
                 <hr>
                 <select name="filter_leave" id="filter_leave">
                   <option value="on_leave">ON LEAVE</option>
+                  <option value="approved_leave">APPROVED LEAVE</option>
+
                   <option value="applied_for_leave">APPLIED FOR LEAVE</option>
                 </select>
 

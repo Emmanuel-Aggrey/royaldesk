@@ -41,7 +41,7 @@ def country_stats(request):
     status = request.GET.get('status')
     country = request.GET.get('country')
 
-    print(status, country)
+    # print(status, country)
 
     employee = Employee.employees.filter(country=country, status=status).values(
         'first_name', 'last_name', 'other_name', 'status')
@@ -92,13 +92,11 @@ def employment_rate(request):
 
     # print('quarter ',quarter,start_date,end_date,status)
 
-  
-
     if quarter:
 
         employment_rate = employment_rate.filter(
             date_employed__quarter=int(quarter), status=status)
-        
+
         print(employment_rate)
 
     if start_date:
@@ -118,12 +116,11 @@ def employement_status(request):
     status = request.GET.get('status')
 
     employment_rate = Employee.employees.select_related('department').values(
-        'department__name', 'first_name','status', 'last_name', 'other_name', 'date_employed','date_departure')
-
-  
+        'department__name', 'first_name', 'status', 'last_name', 'other_name', 'date_employed', 'date_departure')
 
     if status == 'not_active' and department == 'all':
-        employment_rate = employment_rate.filter(Q(date_employed__year=year)&~Q(status='active'))
+        employment_rate = employment_rate.filter(
+            Q(date_employed__year=year) & ~Q(status='active'))
 
     elif department == 'all':
 
@@ -147,14 +144,13 @@ def employees_age(request):
     age_to = int(request.GET.get('age_to'))
     status = request.GET.get('status')
 
-    print(age_to,age_from,status)
+    print(age_to, age_from, status)
 
-    employees = Employee.employees.annotate(age=year-F('dob__year')).filter(age__range=[age_from,age_to],status=status)\
+    employees = Employee.employees.annotate(age=year-F('dob__year')).filter(age__range=[age_from, age_to], status=status)\
         .values(
-        'department__name', 'first_name', 'last_name', 'other_name', 'status','age','dob')
+        'department__name', 'first_name', 'last_name', 'other_name', 'status', 'age', 'dob')
 
-    return Response(data=employees,status=200)
-
+    return Response(data=employees, status=200)
 
 
 @api_view(['GET'])
@@ -163,41 +159,36 @@ def turn_over_rate(request):
     start_date = request.GET.get('date_from')
     end_date = request.GET.get('date_to')
 
- 
     # Count the number of active and inactive employees within the date range
     # active_employees = Employee.objects.filter(
     # Q(status='active') & Q(date_employed__gte=start_date) & Q(date_employed__lte=end_date)
     # ).count()
 
+    active_employees = Employee.objects.filter(
+        date_departure__isnull=True, status='active').count()
 
-    active_employees = Employee.objects.filter(date_departure__isnull=True,status='active').count()
-
-
-    inactive_employees = Employee.objects.filter(~Q(status='active')&Q(date_departure__isnull=False, date_departure__range=(start_date, end_date))).count()
-
+    inactive_employees = Employee.objects.filter(~Q(status='active') & Q(
+        date_departure__isnull=False, date_departure__range=(start_date, end_date))).count()
 
     # inactive_employees = Employee.objects.filter(
     # ~Q(status='active') & Q(employee_exit__data__date_departure__gte=start_date) & Q(employee_exit__data__date_departure__lte=end_date)
     # ).count()
 
-    print('active_employees',active_employees,'inactive_employees',inactive_employees)
+    print('active_employees', active_employees,
+          'inactive_employees', inactive_employees)
 
     # Calculate the turnover rate as a percentage
     turnover_rate = (
-    inactive_employees / (active_employees + inactive_employees)
-    )    * 100
+        inactive_employees / (active_employees + inactive_employees)
+    ) * 100
     turnover_rate_percentage = "{:.2f} ".format(turnover_rate)
 
-    print('turnover_rate_percentage',turnover_rate_percentage)
+    print('turnover_rate_percentage', turnover_rate_percentage)
 
+    turn_over_rate = {'date_from': start_date,
+                      'date_to': end_date, 'rate': turnover_rate_percentage}
 
-  
-
-    turn_over_rate = {'date_from':start_date,'date_to':end_date,'rate':turnover_rate_percentage}
-    
-
-    return Response(data=turn_over_rate,status=200)
-
+    return Response(data=turn_over_rate, status=200)
 
 
 
@@ -207,23 +198,68 @@ def leave(request):
     status = request.GET.get('status')
     start_date = request.GET.get('start_date')
     end_date = request.GET.get('end_date')
-    on_leave = request.GET.get('on_leave').capitalize()
-    supervisor = request.GET.get('supervisor').capitalize()
-    line_manager = request.GET.get('line_manager').capitalize()
-    hr_manager = request.GET.get('hr_manager').capitalize()
+    on_leave = request.GET.get('on_leave') == 'true'
+    supervisor = request.GET.get('supervisor') == 'true'
+    line_manager = request.GET.get('line_manager') == 'true'
+    hr_manager = request.GET.get('hr_manager') == 'true'
+    awaiting_leave = request.GET.get('awaiting_leave') == 'true'
+    date_range = request.GET.get('date_range')
 
 
-    leave = Leave.objects.select_related('employee')
-    if department=='all':
+    print('supervisor ',supervisor , type(supervisor))
 
-        leave =leave.filter(status=status,on_leave=on_leave,supervisor=supervisor,line_manager=line_manager,hr_manager=hr_manager,start__range=[start_date,end_date])
-    else:
-        leave =leave.filter(status=status,on_leave=on_leave,supervisor=supervisor,line_manager=line_manager,hr_manager=hr_manager,start__range=[start_date,end_date],employee__department=department)
+    # Validate the input data
+    if not start_date:
+        raise ValueError('start_date is required')
 
+    if not end_date:
+        raise ValueError('end_date is required')
+    
 
-    serializer = LeaveSerializer(leave,many=True)
+    # Get the leave records
+    
+    leave_records = Leave.objects.select_related('employee')
+    # Filter the leave records
 
-    print(serializer.data)
+    # if date_range == 'start':
+    #     leave_records = leave_records.filter(start__range=[start_date, end_date])
 
+    # elif date_range == 'end':
+    #     leave_records = leave_records.filter(end__range=[start_date, end_date])
 
-    return Response(data=serializer.data,status=200)
+    # elif date_range == 'resuming_date':
+    #     leave_records = leave_records.filter(resuming_date__range=[start_date, end_date])
+
+    # elif date_range == 'created_at':
+    #     leave_records = leave_records.filter(created_at__date__range=[start_date, end_date])
+
+    if date_range and date_range in ['start', 'end', 'resuming_date', 'created_at__date']:
+        print(date_range)
+        leave_records = leave_records.filter(**{f'{date_range}__range': [start_date, end_date]})
+
+    if department != 'all':
+        leave_records = leave_records.filter(employee__department__id=department)
+
+    if status:
+        leave_records = leave_records.filter(status__in=[status])
+
+    if on_leave:
+        leave_records = leave_records.filter(on_leave=on_leave)
+
+    if supervisor:
+        leave_records = leave_records.filter(supervisor=supervisor)
+
+    if line_manager:
+        leave_records = leave_records.filter(line_manager=line_manager)
+
+    if hr_manager:
+        leave_records = leave_records.filter(hr_manager=hr_manager)
+
+    if awaiting_leave:
+        today = datetime.now().date()
+        leave_records = leave_records.filter(status='approved', start__gt=today)
+
+    # Serialize the leave records
+    serializer = LeaveSerializer(leave_records, many=True)
+
+    return Response(data=serializer.data, status=200)

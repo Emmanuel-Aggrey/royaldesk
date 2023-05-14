@@ -114,7 +114,7 @@ def hr_reports(request, data_value=None):
         'leave_employees__employee__first_name', 'leave_employees__employee__last_name', 'leave_employees__end')
 
     emp_on_leave = qs.filter(leave_employees__from_leave=False).values('leave_employees__employee__employee_id', 'leave_employees__from_leave', 'leave_employees__hr_manager', 'leave_employees__line_manager',
-                                                                       'leave_employees__employee__first_name', 'leave_employees__employee__last_name', 'leave_employees__pk', 'leave_employees__resuming_date', 'leave_employees__status')
+                                                                       'leave_employees__employee__first_name', 'leave_employees__employee__last_name', 'leave_employees__pk', 'leave_employees__resuming_date','leave_employees__start', 'leave_employees__status')
 
     emp_from_leave_recent = qs.filter(leave_employees__from_leave=True, leave_employees__hr_manager=True).values(
         'leave_employees__employee__first_name', 'leave_employees__employee__last_name', 'leave_employees__end').reverse()[:5]

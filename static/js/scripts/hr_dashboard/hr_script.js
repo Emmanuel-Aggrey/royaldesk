@@ -293,6 +293,21 @@ const emp_on_leave = () => {
     url: '/hr-reports/emp_on_leave/',
     type: 'GET',
     success: function (data) {
+      // console.log(data.leave_employees__start)
+
+
+      // leave_employees__start
+
+      // console.log(data)
+
+
+    for (let item in data) {
+      if (data.hasOwnProperty(item)) {
+        let result = awaitingLeave(data[item].leave_employees__start, item.leave_employees__status);
+        data[item]['awaiting_leave'] = result.awaiting_leave;
+      }
+    }
+
 
      const count_on_leave=  data.filter(emp_on_leave=>emp_on_leave.leave_employees__hr_manager===true)
 
@@ -301,6 +316,13 @@ const emp_on_leave = () => {
       let desig = {}
 
       desig = data.filter(function (item) {
+          // console.log(item.leave_employees__start)
+
+          // let result = awaitingLeave(item.leave_employees__start, item.leave_employees__status);
+            // console.log(item)
+
+      
+
         return item.leave_employees__hr_manager===true ;
 
       })
@@ -314,7 +336,7 @@ const emp_on_leave = () => {
         <tr>
                             <td>
                               <p class="mb-1 text-dark font-weight-medium">${element.leave_employees__employee__first_name} ${element.leave_employees__employee__last_name}</p>
-                              <p class="mt-3 text-muted">Reporting Date : ${element.leave_employees__resuming_date}</p>
+                              <p class="mt-3 text-muted">Reporting Date : ${element.leave_employees__resuming_date} ${element.awaiting_leave}</p>
                               </td>
                             <td class="text-primary font-weight-medium">
                               <div onclick="backfromleave(${element.leave_employees__pk})" class="btn btn-primary" title="back from leave"> 
@@ -341,7 +363,7 @@ const emp_on_leave = () => {
           // console.log(leave)
           desig = data.filter(function (item) {
               // console.log('on_leave',item)
-            return item.leave_employees__hr_manager===true;
+            return item.leave_employees__hr_manager===true && item.awaiting_leave===false;
           })
         }
 
@@ -351,10 +373,24 @@ const emp_on_leave = () => {
           
           desig = data.filter(function (item) {
             // console.log('applied',item)
+            return item.leave_employees__hr_manager===true && item.awaiting_leave===true;
+
+          })
+        }
+
+        if(leave=='approved_leave'){
+          // console.log(leave)
+
+          
+          desig = data.filter(function (item) {
+            // console.log('applied',item)
             return item.leave_employees__hr_manager===false;
 
           })
         }
+
+
+        
 
         console.log('desig',desig)
 
@@ -1776,3 +1812,17 @@ const employee_animate_counter=(total)=>{
             }
         }
 }
+
+
+
+
+function awaitingLeave(startDate, status) {
+  let today = new Date().toISOString().slice(0, 10);
+
+  if (startDate > today && status === 'approved') {
+    return {'awaiting_leave': true};
+  } else {
+    return {'awaiting_leave': false};
+  }
+}
+
