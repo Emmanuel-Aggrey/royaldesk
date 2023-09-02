@@ -7,10 +7,62 @@ import random
 import time
 import string
 
+import json
+import requests
+
+
+
+
+def format_amount_display(amount):
+    return f".{amount}" if len(str(amount)) == 2 else str(amount)
+
+import random
+
+def generate_payment_data(amount):
+    amount_in_kobo = amount * 100
+    ref = str(random.randint(1, 1000000000))
+    return {"amount": amount_in_kobo, "ref": ref}
+
+def paystack_init(amount, email, url=config('INIT_URL')):
+    """
+    Initialize payment on Paystack.
+
+    :param amount: Amount to be paid.
+    :param email: Email of the payer.
+    :param url: URL for the Paystack initialization (default from config).
+    :return: Data part from the Paystack response.
+    """
+    payload = {
+        "amount": amount*100,
+        "email": email
+    }
+
+    print('payload ',payload)
+    headers = {
+        'Content-Type': 'application/json',
+        'Authorization': f'Bearer {config("PAYSTACK_SECRET_KEY")}',
+    }
+
+    response = requests.post(url, headers=headers, json=payload)
+
+    if response.status_code == 200:
+        response_data = response.json()
+        return response_data['data']
+    else:
+        raise Exception(f"Failed to initialize payment: {response.text}")
+
+# # Example usage
+# try:
+#     amount = 5000  # Replace with actual amount
+#     email = "user@example.com"  # Replace with actual email
+#     data = paystack_init(amount, email)
+#     print(data)
+# except Exception as e:
+#     print("An error occurred:", str(e))
+
 
 
 # print(random.randint(10**12, 10**13 - 1))
-
 
 
 # def create_transaction_id():
@@ -29,12 +81,11 @@ import string
 #     # str(random.randint(10**12, 10**13 - 1))
 
 
-
-
 def create_transaction_id():
     """GENERATE UNIQUE 12 DIGITS TRANSACTION ID"""
     digits = string.digits
     return ''.join(random.choices(digits, k=12))
+
 
 transaction_id = create_transaction_id()
 
@@ -43,11 +94,11 @@ def floatToMinor(amount):
     '''CREATE THETELLER AMOUNT'''
     if not amount:
         return "0".zfill(12)
-    
+
     roundit = round(amount, 2)
     multiplyby100 = str(int(roundit * 100))
     minor = multiplyby100.zfill(12)
-    
+
     return minor
 
 
@@ -55,9 +106,10 @@ headers = {
     'Authorization': config('THETELLER_Authorization'),
     'Content-Type': 'application/json',
     # 'Cookie': 'XSRF-TOKEN=eyJpdiI6ImgrVjcrc0h3Sll0aGVDYklTcGpSNHc9PSIsInZhbHVlIjoiWElLUWNZU0FIRkdubUMxYitjR21iTVwvYXJ5eW1IYm5Ec0Z2MzVjTHV0MUNFbU5sNkNMWEVmWEZOZ05nTGdSMFMiLCJtYWMiOiIyZWFiOGFlYjk1MzNiZTBkN2Q2MmFlYjNhM2U3ZDYzOWIzZDgwZDBlY2U5MDczYTJmZDZjZjY3NGQ3OTg2MmIyIn0%3D; theteller_checkout_session=eyJpdiI6Ikl0blp6c1AzXC84XC92TWdLS2psYXpQQT09IiwidmFsdWUiOiJvbk5ieGJJWmJLM0ZxeVl4dHFpVVAwSVZzYUQzXC9YZmFyZXd6Sm1EYW9XOEdqWXZuWnZGWjdERTlYNDE1enUrcCIsIm1hYyI6IjI2YWQ5OGY4OGFmZDE5Njk5ZDU3ZWVlMTk0MWVmNjMzZGUxYjMzZmJmMzkzYjhhZDhkZWQ4MGY4ZDE4M2VhN2EifQ%3D%3D'
-    }
+}
 
-def make_payment(email,amount,transaction_id=create_transaction_id()):
+
+def make_payment(email, amount, transaction_id=create_transaction_id()):
     '''MAKE PAYMANT WITH THETELLER'''
 
     url = config('THETELLER_ENDPOINT')
@@ -70,8 +122,7 @@ def make_payment(email,amount,transaction_id=create_transaction_id()):
         "redirect_url": config('THETELLER_MY_REDIRENT_URL'),
         "email": email,
     })
-  
-    
+
     # response = requests.request("POST", url, headers=headers, data=payload)
 
 # Make sure the connection is available before sending the request
@@ -82,9 +133,8 @@ def make_payment(email,amount,transaction_id=create_transaction_id()):
         result = response.json()
         # data = result.update({'transaction_id':transaction_id})
 
-        result.update({'transaction_id': transaction_id})           
+        result.update({'transaction_id': transaction_id})
         # data = result
-
 
         return result
     except requests.exceptions.RequestException as e:
@@ -92,9 +142,6 @@ def make_payment(email,amount,transaction_id=create_transaction_id()):
 
         return 'no connection try again'
     # handle the error as appropriate
-
-
-    
 
     # data = {
     #     'checkout_url':result.get('checkout_url'),
@@ -104,18 +151,14 @@ def make_payment(email,amount,transaction_id=create_transaction_id()):
     # }
 
 
-
-    
-
-
 # from HRMSPROJECT.the_teller_api import make_payment
 
 def verify_transaction(transaction_id):
 
-
     try:
         # response = requests.request("POST", url, headers=headers, data=payload)
-        response = requests.get(f'https://test.theteller.net/v1.1/users/transactions/{transaction_id}/status',headers=headers,verify=False)
+        response = requests.get(
+            f'https://test.theteller.net/v1.1/users/transactions/{transaction_id}/status', headers=headers, verify=False)
 
         response.raise_for_status()  # raise an exception for 4xx or 5xx status codes
 
@@ -127,12 +170,4 @@ def verify_transaction(transaction_id):
 
         return 'no connection try again'
 
-
-    
-
     # from HRMSPROJECT.the_teller_api import make_payment
-
-
-
-
-

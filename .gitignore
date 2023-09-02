@@ -9,7 +9,8 @@ db.sqlite3
 .env
 env
 .env
-
+venv
+/venv
 /mediabackup
 /dbbackup
 *guid.txt

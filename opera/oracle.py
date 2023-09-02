@@ -75,7 +75,7 @@ connection = oracledb.connect(user="opera", password="opera",
                               dsn="192.168.1.13/opera", events=True)
 
 
-sub = connection.subscribe(callback=callback, timeout=1800,
+sub = connection.subscribe(callback=callback, timeout=9600,
                            qos=oracledb.SUBSCR_QOS_ROWIDS)
 print("Subscription:", sub)
 print("--> Connection:", sub.connection)

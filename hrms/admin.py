@@ -58,11 +58,16 @@ class DepartmentAdmin(ImportExportModelAdmin,admin.ModelAdmin):
     list_editable = ['anviz_department']
     search_fields = ['name']
     inlines = [
-        DesignationInline,IssueInline
+        # DesignationInline,IssueInline
     ]
 
 
 admin.site.register(Department, DepartmentAdmin)
+
+
+@admin.register(Designation)
+class DependantInline(ImportExportModelAdmin,admin.ModelAdmin):
+    model = Designation
 
 
 class DependantInline(admin.TabularInline):

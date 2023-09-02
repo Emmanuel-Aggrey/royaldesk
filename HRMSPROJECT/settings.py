@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'hrms',
     'helpdesk',
     'applicant',
+    'conference',
 
     # CAPS PC MENU AND OPERA
     'menu',
@@ -67,6 +68,7 @@ INSTALLED_APPS = [
     'ckeditor',
     'corsheaders',
     'import_export',
+    # 'crum',
 
 
     'django_celery_results',
@@ -100,6 +102,9 @@ MIDDLEWARE = [
     'auditlog.middleware.AuditlogMiddleware',
 
 ]
+
+
+# MIDDLEWARE += ('crum.CurrentRequestUserMiddleware',)
 
 ROOT_URLCONF = 'HRMSPROJECT.urls'
 

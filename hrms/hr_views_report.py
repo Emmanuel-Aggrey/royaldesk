@@ -216,24 +216,13 @@ def leave(request):
         raise ValueError('end_date is required')
     
 
-    # Get the leave records
     
     leave_records = Leave.objects.select_related('employee')
     # Filter the leave records
 
-    # if date_range == 'start':
-    #     leave_records = leave_records.filter(start__range=[start_date, end_date])
 
-    # elif date_range == 'end':
-    #     leave_records = leave_records.filter(end__range=[start_date, end_date])
-
-    # elif date_range == 'resuming_date':
-    #     leave_records = leave_records.filter(resuming_date__range=[start_date, end_date])
-
-    # elif date_range == 'created_at':
-    #     leave_records = leave_records.filter(created_at__date__range=[start_date, end_date])
-
-    if date_range and date_range in ['start', 'end', 'resuming_date', 'created_at__date']:
+    date_type = ['start', 'end', 'resuming_date', 'created_at__date']
+    if date_range and date_range in date_type:
         print(date_range)
         leave_records = leave_records.filter(**{f'{date_range}__range': [start_date, end_date]})
 

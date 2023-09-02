@@ -8,7 +8,7 @@ from rest_framework.response import Response
 import pandas
 from HRMSPROJECT.sql_server import conn2
 from HRMSPROJECT.connections import ms_db
-from HRMSPROJECT.the_teller_api import make_payment, verify_transaction
+from HRMSPROJECT.the_teller_api import make_payment, verify_transaction,paystack_init,format_amount_display
 import json
 CAPS_CONNECTION = True
 
@@ -116,7 +116,12 @@ def check(request,check):
                 amont1 = row_dict.get('SubTotal')
                 amont  if amont else amont1
 
+                print(amont,amont1)
+
                 data = make_payment('aggrey.en@gmail.com',2)
+                print("amont",amont)
+                # amount = format_amount_display(20)
+                # data = paystack_init(20*100,"aggrey.en@gmail.com")
 
 
 
@@ -186,17 +191,19 @@ def excel_menu(request):
 
 
 @api_view(['GET',])
-def verify_check(request,check):
+def verify_excel_check(request,check):
+    print(check)
     df = pandas.read_csv('menu/CHECKS.csv')
 
 
-    values = {}
     result = None
    # Convert CheckNumber column to string data type
     df['CheckNumber'] = df['CheckNumber'].astype(str)
 
     # Filter dataframe by CheckNumber
     filtered_df = df.loc[df['CheckNumber'] == check]
+
+    print(filtered_df)
 
     if not filtered_df.empty:
         amount = filtered_df['Payment'].iloc[0]
